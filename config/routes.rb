@@ -3,5 +3,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
   root 'application#angular'
   
+  devise_for :users, defaults: { format: 'json' }
+  
   get '*path' => 'application#angular'
 end
