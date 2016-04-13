@@ -14,3 +14,20 @@
  *= require_tree .
  *= require_self
  */
+
+.page-header {
+    padding: 0;
+    margin-top: 0;
+}
+
+.team, .player {
+    margin-bottom: 5px;
+}
+
+.create-team, .create-player {
+    margin-top: 20px;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}

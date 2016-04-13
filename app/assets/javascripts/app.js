@@ -1,4 +1,4 @@
-angular.module('hockeyPool', ['ui.router', 'templates', 'Devise'])
+angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies'])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
     
     $stateProvider
@@ -16,8 +16,8 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise'])
         templateUrl: 'auth/_login.html',
         controller: 'AuthCtrl',
         controllerAs: 'authCtrl',
-        onEnter: ['$state', 'Auth', function($state, Auth) {
-            if (Auth.isAuthenticated()) {
+        onEnter: ['$state', '$cookies', function($state, $cookies) {
+            if ($cookies.get('user')) {
                 $state.go('root.entries');
             }
         }]
@@ -27,8 +27,43 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise'])
         templateUrl: 'auth/_register.html',
         controller: 'AuthCtrl',
         controllerAs: 'authCtrl',
-        onEnter: ['$state', 'Auth', function($state, Auth) {
-            if (Auth.isAuthenticated()) {
+        onEnter: ['$state', '$cookies', function($state, $cookies) {
+            if ($cookies.get('user')) {
+                $state.go('root.entries');
+            }
+        }]
+    })
+    .state('root.teams', {
+        url: 'nhlteams',
+        templateUrl: 'teams/_index.html',
+        resolve: {
+            teams: ['Teams', function(Teams) {
+                return Teams.getAll();
+            }]
+        },
+        controller: 'TeamsCtrl',
+        controllerAs: 'teamsCtrl',
+        onEnter: ['$state', '$cookies', function($state, $cookies) {
+            if (!$cookies.get('user')) {
+                $state.go('root.entries');
+            }
+        }]
+    })
+    .state('root.players', {
+        url: 'nhlplayers/:teamId',
+        templateUrl: 'players/_index.html',
+        resolve: {
+            team: ['$stateParams', 'Teams', function($stateParams, Teams) {
+                return Teams.get($stateParams.teamId);
+            }],
+            players: ['$stateParams', 'Players', function($stateParams, Players) {
+                return Players.getAll($stateParams.teamId);
+            }]
+        },
+        controller: 'PlayersCtrl',
+        controllerAs: 'playersCtrl',
+        onEnter: ['$state', '$cookies', function($state, $cookies) {
+            if (!$cookies.get('user')) {
                 $state.go('root.entries');
             }
         }]
