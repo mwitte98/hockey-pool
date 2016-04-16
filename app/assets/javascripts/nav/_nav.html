@@ -7,14 +7,15 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" ui-sref="root.entries">NHL Playoff Pool</a>
+            <a class="navbar-brand" ui-sref="root.homepage">NHL Playoff Pool</a>
         </div>
         
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a ui-sref="root.entries">Entries</a></li>
-                <li><a ui-sref="root.entries">Individual Player Stats</a></li>
-                <li ng-show="navCtrl.user"><a ui-sref="root.teams">Admin - Teams</a></li>
+                <li><a ui-sref="root.homepage">Entries</a></li>
+                <li><a ui-sref="root.playerstats">Individual Player Stats</a></li>
+                <li ng-show="navCtrl.user"><a ui-sref="root.admin.teams">Admin - Teams</a></li>
+                <li ng-show="navCtrl.user"><a ui-sref="root.admin.entries">Admin - Entries</a></li>
                 <li ng-show="navCtrl.user"><a ng-click="navCtrl.logout()">Logout</a></li>
             </ul>
         </div>

@@ -20,11 +20,11 @@
     margin-top: 0;
 }
 
-.team, .player {
+.team, .player, .entry {
     margin-bottom: 5px;
 }
 
-.create-team, .create-player {
+.create-team, .create-player, .create-entry {
     margin-top: 20px;
 }
 

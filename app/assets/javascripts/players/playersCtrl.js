@@ -1,8 +1,8 @@
 angular.module('hockeyPool')
-.controller('PlayersCtrl', ['Players', 'team', 'players', '$state', function(Players, team, players, $state) {
+.controller('PlayersCtrl', ['Players', 'team', function(Players, team) {
     var vm = this;
     vm.team = team;
-    vm.players = players;
+    vm.players = team.players;
     vm.isCreateForm = false;
     vm.isEditForm = [];
     for (var i = 0; i < vm.players.length; i++) {

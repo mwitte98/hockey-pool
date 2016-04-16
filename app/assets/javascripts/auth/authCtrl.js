@@ -4,7 +4,7 @@ angular.module('hockeyPool')
     
     vm.login = function() {
         Auth.login(vm.user).then(function() {
-            $state.go('root.entries');
+            $state.go('root.homepage');
         });
     };
     
@@ -13,7 +13,7 @@ angular.module('hockeyPool')
             console.log('Password and confirm password not equal');
         }
         Auth.register(vm.user).then(function() {
-            $state.go('root.entries');
+            $state.go('root.homepage');
         });
     };
 }]);

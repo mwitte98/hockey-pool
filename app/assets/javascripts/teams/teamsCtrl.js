@@ -1,5 +1,5 @@
 angular.module('hockeyPool')
-.controller('TeamsCtrl', ['Teams', 'teams', '$state', function(Teams, teams, $state) {
+.controller('TeamsCtrl', ['Teams', 'teams', function(Teams, teams) {
     var vm = this;
     vm.teams = teams;
     vm.isCreateForm = false;

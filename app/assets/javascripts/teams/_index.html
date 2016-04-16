@@ -4,7 +4,7 @@
 
 <div class="team" ng-repeat="team in teamsCtrl.teams">
     <div ng-hide="teamsCtrl.isEditForm[$index]">
-        <a ui-sref="root.players({teamId: team.id})">{{team.name}} ({{team.abbr}})</a>
+        <a ui-sref="root.admin.players({teamId: team.id})">{{team.name}} ({{team.abbr}})</a>
         <button ng-click="teamsCtrl.isEditForm[$index] = true;" class="btn btn-xs btn-info">Edit</button>
         <button ng-click="teamsCtrl.deleteTeam(team.id)" class="btn btn-xs btn-danger">Delete</button>
     </div>

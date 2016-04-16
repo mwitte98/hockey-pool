@@ -7,9 +7,13 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies'])
         url: '/',
         templateUrl: 'index.html'
     })
-    .state('root.entries', {
+    .state('root.homepage', {
         url: '',
-        templateUrl: 'entries/_entries.html'
+        templateUrl: 'homepage/_index.html'
+    })
+    .state('root.playerstats', {
+        url: 'playerstats',
+        templateUrl: 'playerstats/_index.html'
     })
     .state('root.login', {
         url: 'login',
@@ -18,7 +22,7 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies'])
         controllerAs: 'authCtrl',
         onEnter: ['$state', '$cookies', function($state, $cookies) {
             if ($cookies.get('user')) {
-                $state.go('root.entries');
+                $state.go('root.homepage');
             }
         }]
     })
@@ -29,12 +33,22 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies'])
         controllerAs: 'authCtrl',
         onEnter: ['$state', '$cookies', function($state, $cookies) {
             if ($cookies.get('user')) {
-                $state.go('root.entries');
+                $state.go('root.homepage');
             }
         }]
     })
-    .state('root.teams', {
-        url: 'nhlteams',
+    .state('root.admin', {
+        abstract: true,
+        url: 'admin/',
+        template: '<ui-view></ui-view>',
+        onEnter: ['$state', '$cookies', function($state, $cookies) {
+            if (!$cookies.get('user')) {
+                $state.go('root.homepage');
+            }
+        }]
+    })
+    .state('root.admin.teams', {
+        url: 'teams',
         templateUrl: 'teams/_index.html',
         resolve: {
             teams: ['Teams', function(Teams) {
@@ -42,31 +56,32 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies'])
             }]
         },
         controller: 'TeamsCtrl',
-        controllerAs: 'teamsCtrl',
-        onEnter: ['$state', '$cookies', function($state, $cookies) {
-            if (!$cookies.get('user')) {
-                $state.go('root.entries');
-            }
-        }]
+        controllerAs: 'teamsCtrl'
     })
-    .state('root.players', {
-        url: 'nhlplayers/:teamId',
+    .state('root.admin.players', {
+        url: 'players/:teamId',
         templateUrl: 'players/_index.html',
         resolve: {
             team: ['$stateParams', 'Teams', function($stateParams, Teams) {
                 return Teams.get($stateParams.teamId);
-            }],
-            players: ['$stateParams', 'Players', function($stateParams, Players) {
-                return Players.getAll($stateParams.teamId);
             }]
         },
         controller: 'PlayersCtrl',
-        controllerAs: 'playersCtrl',
-        onEnter: ['$state', '$cookies', function($state, $cookies) {
-            if (!$cookies.get('user')) {
-                $state.go('root.entries');
-            }
-        }]
+        controllerAs: 'playersCtrl'
+    })
+    .state('root.admin.entries', {
+        url: 'entries',
+        templateUrl: 'entries/_index.html',
+        resolve: {
+            teams: ['Teams', function(Teams) {
+                return Teams.getAll();
+            }],
+            entries: ['Entries', function(Entries) {
+                return Entries.getAll();
+            }]
+        },
+        controller: 'EntriesCtrl',
+        controllerAs: 'entriesCtrl'
     });
     
     $urlRouterProvider.otherwise('/');
