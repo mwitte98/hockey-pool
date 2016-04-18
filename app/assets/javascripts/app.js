@@ -1,4 +1,4 @@
-angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies'])
+angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies', 'ngAnimate', 'ui.bootstrap'])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
     
     $stateProvider
@@ -9,7 +9,14 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies'])
     })
     .state('root.homepage', {
         url: '',
-        templateUrl: 'homepage/_index.html'
+        templateUrl: 'homepage/_index.html',
+        resolve: {
+            entries: ['Entries', function(Entries) {
+                return Entries.getAll();
+            }]
+        },
+        controller: 'HomepageCtrl',
+        controllerAs: 'homeCtrl'
     })
     .state('root.playerstats', {
         url: 'playerstats',

@@ -31,3 +31,30 @@
 .form-control {
     margin-bottom: 10px;
 }
+
+.heading {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0 15px;
+}
+
+.panel-group .panel {
+    border-radius: 0;
+}
+
+.panel-group .panel + .panel {
+    margin-top: 0;
+}
+
+.panel-body {
+    cursor: pointer;
+    padding: 0 15px;
+}
+
+.container {
+    padding: 0;
+}
+
+.container button {
+    margin-bottom: 20px;
+}
