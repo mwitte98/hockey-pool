@@ -1,5 +1,5 @@
 class EntriesController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, only: [:create, :update, :destroy]
 
   def index
     respond_with Entry.all

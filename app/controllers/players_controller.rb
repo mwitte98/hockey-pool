@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, only: [:create, :update, :destroy]
 
   def index
     respond_with Player.where(team_id: params[:team_id])
