@@ -47,8 +47,8 @@ angular.module('hockeyPool')
         }
         /* CHANGE THESE NUMBERS BEFORE PUSHING */
         if (vm.numPositions.Center !== 4 || 
-            vm.numPositions.Winger !== 5 || 
-            vm.numPositions.Defenseman !== 5 || 
+            vm.numPositions.Winger !== 4 || 
+            vm.numPositions.Defenseman !== 6 || 
             vm.numPositions.Goalie !== 2) {
                 console.log('Number of positions is invalid');
                 console.log(vm.numPositions);
