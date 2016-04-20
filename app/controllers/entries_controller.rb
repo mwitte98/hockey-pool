@@ -27,6 +27,11 @@ class EntriesController < ApplicationController
     respond_with entry.delete
   end
   
+  def update_player_stats
+    UpdateJob.new.async.perform()
+    respond_with ''
+  end
+  
   private
     def entry_params
       params.require(:entry).permit(:name)

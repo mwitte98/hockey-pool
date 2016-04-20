@@ -11,5 +11,7 @@ Rails.application.routes.draw do
   
   devise_for :users, defaults: { format: 'json' }
   
+  match '/update_player_stats', to: 'entries#update_player_stats', via: 'get', defaults: { format: 'json' }
+  
   get '*path' => 'application#angular'
 end

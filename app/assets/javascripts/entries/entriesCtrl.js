@@ -132,4 +132,8 @@ angular.module('hockeyPool')
             }
         });
     };
+    
+    vm.update_player_stats = function() {
+        Entries.update_player_stats();
+    };
 }]);

@@ -11,6 +11,9 @@ gem 'angular-rails-templates'
 gem 'responders', '~> 2.1.1'
 gem 'angular_rails_csrf'
 gem 'devise', '~> 3.5.6'
+gem 'sucker_punch', '~> 1.6.0'
+gem 'mechanize', '~> 2.7.4'
+gem 'nokogiri', '~> 1.6.7.1'
 
 group :development do
   gem 'spring'

@@ -19,6 +19,21 @@ angular.module('hockeyPool')
             entry.pointsD = 0;
             entry.pointsG = 0;
             entry.totalGoals = 0;
+            
+            entry.players.forEach(function(player) {
+                player.points = (player.goals * 2) + player.assists + player.gwg + (player.shg * 3) + (player.wins * 2) + player.otl + (player.shutouts * 4);
+                entry.points += player.points;
+                entry.totalGoals += player.goals;
+                if (player.position === 'Center') {
+                    entry.pointsC += player.points;
+                } else if (player.position === 'Winger') {
+                    entry.pointsW += player.points;
+                } else if (player.position === 'Defenseman') {
+                    entry.pointsD += player.points;
+                } else {
+                    entry.pointsG += player.points;
+                }
+            });
         });
     }
     

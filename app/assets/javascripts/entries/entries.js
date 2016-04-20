@@ -6,7 +6,8 @@ angular.module('hockeyPool')
         getAll: getAll,
         create: create,
         update: update,
-        destroy: destroy
+        destroy: destroy,
+        update_player_stats: update_player_stats
     };
     
     // entries#show
@@ -44,6 +45,14 @@ angular.module('hockeyPool')
     // entries#destroy
     function destroy(entryId) {
         return $http.delete('/entries/' + entryId)
+        .then(function(res) {
+            return res.data;
+        });
+    }
+    
+    // entries#update_player_stats
+    function update_player_stats() {
+        return $http.get('/update_player_stats')
         .then(function(res) {
             return res.data;
         });
