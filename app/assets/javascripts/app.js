@@ -20,7 +20,14 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies', '
     })
     .state('root.playerstats', {
         url: 'playerstats',
-        templateUrl: 'playerstats/_index.html'
+        templateUrl: 'playerstats/_index.html',
+        resolve: {
+            teams: ['Teams', function(Teams) {
+                return Teams.getAll();
+            }]
+        },
+        controller: 'PlayerStatsCtrl',
+        controllerAs: 'statsCtrl'
     })
     .state('root.login', {
         url: 'login',

@@ -62,3 +62,7 @@
 .bold {
     font-weight: bold;
 }
+
+.player-stats-wrapper h4 {
+    text-align: center;
+}
