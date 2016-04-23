@@ -26,6 +26,6 @@ class PlayersController < ApplicationController
   
   private
     def player_params
-      params.require(:player).permit(:first_name, :last_name, :position, :goals, :assists, :gwg, :shg, :wins, :otl, :shutouts, :nhlID, :hockeydbID)
+      params.require(:player).permit(:first_name, :last_name, :position, :goals, :assists, :gwg, :shg, :wins, :otl, :shutouts, :nhlID, :points)
     end
 end

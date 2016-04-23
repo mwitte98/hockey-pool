@@ -3,26 +3,30 @@ class UpdateJob
 
   def perform
     agent = Mechanize.new
+    agent.get('http://www.nhl.com/stats/rest/grouped/goalies/season/goaliesummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=3%20and%20playerPositionCode=%22G%22')
+    goalieJson = JSON.parse agent.page.body
+    goalieData = goalieJson['data']
+    
     teams = Team.all
     teams.each do |team|
-      agent.get('http://nhlwc.cdnak.neulion.com/fs1/nhl/league/playerstatsline/20152016/3/' + team.abbr + '/iphone/playerstatsline.json')
+      agent.get('http://www.nhl.com/stats/rest/grouped/skaters/season/skatersummary?cayenneExp=seasonId%3D20152016%20and%20gameTypeId%3D3%20and%20teamId%3D' + team.nhlID.to_s)
       teamJson = JSON.parse agent.page.body
-      skaterData = teamJson['skaterData']
-      goalieData = teamJson['goalieData']
+      data = teamJson['data']
+      
       team.players.each do |player|
         if player.position == 'Goalie'
           goalieData.each do |goalie|
-            if player.nhlID == goalie['id']
-              goalieStats = goalie['data'].split(',')
-              player.update(wins: goalieStats[4], otl: goalieStats[6], shutouts: goalieStats[12])
+            if player.nhlID == goalie['playerId']
+              points = (goalie['goals'] * 2) + goalie['assists'] + (goalie['wins'] * 2) + goalie['otLosses'] + (goalie['shutouts'] * 4)
+              player.update(goals: goalie['goals'], assists: goalie['assists'], wins: goalie['wins'], otl: goalie['otLosses'], shutouts: goalie['shutouts'], points: points)
               break
             end
           end
         else
-          skaterData.each do |skater|
-            if player.nhlID == skater['id']
-              skaterStats = skater['data'].split(',')
-              player.update(goals: skaterStats[4], assists: skaterStats[5], gwg: skaterStats[13], shg: skaterStats[12])
+          data.each do |skater|
+            if player.nhlID == skater['playerId']
+              points = (skater['goals'] * 2) + player.assists + player.gwg + (player.shg * 3)
+              player.update(goals: skater['goals'], assists: skater['assists'], gwg: skater['gameWinningGoals'], shg: skater['shGoals'], points: points)
               break
             end
           end

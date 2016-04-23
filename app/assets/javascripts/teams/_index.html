@@ -4,7 +4,7 @@
 
 <div class="team" ng-repeat="team in teamsCtrl.teams">
     <div ng-if="!teamsCtrl.isEditForm[$index]">
-        <a ui-sref="root.admin.players({teamId: team.id})">{{team.name}} ({{team.abbr}})</a>
+        <a ui-sref="root.admin.players({teamId: team.id})">{{team.name}}</a>
         <button ng-click="teamsCtrl.isEditForm[$index] = true;" class="btn btn-xs btn-info">Edit</button>
         <button ng-click="teamsCtrl.deleteTeam(team.id)" class="btn btn-xs btn-danger">Delete</button>
     </div>
@@ -15,9 +15,9 @@
                 <div class="col-sm-4">
                     <input type="text" class="form-control" id="name" ng-model="team.name">
                 </div>
-                <label for="abbr" class="col-sm-1 control-label">Abbr</label>
+                <label for="nhlID" class="col-sm-1 control-label">NHL ID</label>
                 <div class="col-sm-2">
-                    <input type="text" class="form-control" id="abbr" ng-model="team.abbr">
+                    <input type="number" class="form-control" id="nhlID" ng-model="team.nhlID">
                 </div>
                 <div class="form-actions">
                     <input type="submit" class="btn btn-info" value="Update">
@@ -38,9 +38,9 @@
             <div class="col-sm-4">
                 <input type="text" class="form-control" id="name" placeholder="Name" ng-model="teamsCtrl.name">
             </div>
-            <label for="abbr" class="col-sm-1 control-label">Abbr</label>
+            <label for="nhlID" class="col-sm-1 control-label">NHL ID</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="abbr" placeholder="Abbr" ng-model="teamsCtrl.abbr">
+                <input type="number" class="form-control" id="nhlID" ng-model="teamsCtrl.nhlID">
             </div>
             <div class="form-actions">
                 <input type="submit" class="btn btn-info" value="Create">

@@ -13,9 +13,7 @@ angular.module('hockeyPool')
         if (!vm.firstName || vm.firstName === '' || 
             !vm.lastName || vm.lastName === '' || 
             !vm.position || vm.position === '' || 
-            !vm.nhlId || vm.nhlId === '' || 
-            (vm.position === 'Goalie' && (!vm.hockeydbId || vm.hockeydbId === ''))) { return; }
-        if (!vm.hockeydbId) { vm.hockeydbId = 0; }
+            !vm.nhlId || vm.nhlId === '') { return; }
         Players.create(vm.team.id, {
             first_name: vm.firstName,
             last_name: vm.lastName,
@@ -28,7 +26,7 @@ angular.module('hockeyPool')
             otl: 0,
             shutouts: 0,
             nhlID: vm.nhlId,
-            hockeydbID: vm.hockeydbId
+            points: 0
         })
         .then(function(player) {
             vm.players.push(player);
@@ -38,7 +36,6 @@ angular.module('hockeyPool')
         vm.lastName = '';
         vm.position = '';
         vm.nhlId = '';
-        vm.hockeydbId = '';
     };
     
     vm.updatePlayer = function(player, index) {
@@ -52,8 +49,7 @@ angular.module('hockeyPool')
             player.wins === '' ||
             player.otl === '' ||
             player.shutouts === '' || 
-            player.nhlID === '' || 
-            (player.position === 'Goalie' && player.hockeydbID === '')) { return; }
+            player.nhlID === '') { return; }
         Players.update(player.id, {
             first_name: player.first_name,
             last_name: player.last_name,
@@ -66,7 +62,7 @@ angular.module('hockeyPool')
             otl: player.otl,
             shutouts: player.shutouts,
             nhlID: player.nhlID,
-            hockeydbID: player.hockeydbID
+            points: (player.goals * 2) + player.assists + player.gwg + (player.shg * 3) + (player.wins * 2) + player.otl + (player.shutouts * 4)
         })
         .then(function(team) {
             vm.isEditForm[index] = false;

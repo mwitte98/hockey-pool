@@ -21,7 +21,6 @@ angular.module('hockeyPool')
             entry.totalGoals = 0;
             
             entry.players.forEach(function(player) {
-                player.points = (player.goals * 2) + player.assists + player.gwg + (player.shg * 3) + (player.wins * 2) + player.otl + (player.shutouts * 4);
                 entry.points += player.points;
                 entry.totalGoals += player.goals;
                 if (player.position === 'Center') {

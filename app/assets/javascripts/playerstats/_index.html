@@ -20,7 +20,7 @@
             <td>{{player.points}}</td>
         </tr>
     </table>
-    <table class="table" ng-if="team.hasGoalie">
+    <table class="table" ng-if="team.goalies.length">
         <tr>
             <th>Name</th>
             <th>Pos</th>
@@ -31,7 +31,7 @@
             <th>SO</th>
             <th>Pts</th>
         </tr>
-        <tr ng-repeat="player in team.players" ng-if="player.position === 'Goalie'">
+        <tr ng-repeat="player in team.goalies" ng-if="player.position === 'Goalie'">
             <td>{{player.first_name}} {{player.last_name}}</td>
             <td>{{player.position}}</td>
             <td>{{player.goals}}</td>
