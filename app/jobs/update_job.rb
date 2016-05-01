@@ -25,7 +25,7 @@ class UpdateJob
         else
           data.each do |skater|
             if player.nhlID == skater['playerId']
-              points = (skater['goals'] * 2) + player.assists + player.gwg + (player.shg * 3)
+              points = (skater['goals'] * 2) + skater['assists'] + skater['gameWinningGoals'] + (skater['shGoals'] * 3)
               player.update(goals: skater['goals'], assists: skater['assists'], gwg: skater['gameWinningGoals'], shg: skater['shGoals'], points: points)
               break
             end
