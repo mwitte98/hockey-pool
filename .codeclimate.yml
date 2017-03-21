@@ -26,10 +26,10 @@ ratings:
   - Gemfile
   - Gemfile.lock
   - Rakefile
-  - "**.erb"
-  - "**.rb"
-  - "**.css"
-  - "**.js"
+  - '**.erb'
+  - '**.rb'
+  - '**.css'
+  - '**.js'
 exclude_paths:
 - 'bin/**/*'
 - 'client/**/*'
