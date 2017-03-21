@@ -7,13 +7,21 @@
 # Ignore bundler config.
 /.bundle
 
-# Ignore the default SQLite database.
-/db/*.sqlite3
-/db/*.sqlite3-journal
-
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore environment variables
+.env
+
+# Ignore node modules
+/client/node_modules/*
+
+# Ignore dist folder
+/client/dist/*
+
+# Ignore coverage
+/coverage/*
 
 /vendor/assets/bower_components
