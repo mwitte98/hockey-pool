@@ -1,0 +1,9 @@
+IrresponsibleModule:
+  enabled: false
+TooManyStatements:
+  max_statements: 20
+UtilityFunction:
+  enabled: false
+
+exclude_paths:
+  - db/

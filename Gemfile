@@ -1,29 +1,28 @@
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.4.0'
+gem 'rails', '5.0.2'
 
-gem 'rails', '4.2.6'
-gem 'pg'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'jbuilder', '~> 2.0'
-gem 'bower'
-gem 'angular-rails-templates'
-gem 'responders', '~> 2.1.1'
-gem 'angular_rails_csrf'
-gem 'devise', '~> 3.5.6'
-gem 'sucker_punch', '~> 1.6.0'
-gem 'mechanize', '~> 2.7.4'
-gem 'nokogiri', '~> 1.6.7.1'
+gem 'angular-rails-templates', '~> 1.0.2'
+gem 'bower', '~> 0.0.5'
+gem 'devise', '~> 4.2.1'
+gem 'jbuilder', '~> 2.6.3'
+gem 'mechanize', '~> 2.7.5'
+gem 'nokogiri', '~> 1.7.1'
+gem 'pg', '~> 0.20.0'
+gem 'puma', '~> 3.8.2'
+gem 'rack-cors', '~> 0.4.0'
+gem 'responders', '~> 2.3.0'
+gem 'sass-rails', '~> 5.0.6'
+gem 'sucker_punch', '~> 2.0.2'
+gem 'uglifier', '~> 3.1.8'
 
-group :development do
-  gem 'spring'
-end
-
-group :doc do
-  gem 'sdoc', '~> 0.4.1', require: false
+group :test do
+  gem 'codeclimate-test-reporter', '~> 1.0.6'
+  gem 'minitest-reporters', '~> 1.1.14'
+  gem 'shoulda', git: 'https://github.com/thoughtbot/shoulda.git', branch: 'master'
+  gem 'simplecov', '~> 0.13.0'
 end
 
 group :production do
   gem 'rails_12factor', '0.0.3'
 end
-
