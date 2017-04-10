@@ -1,0 +1,11 @@
+<md-toolbar color="primary">
+  <a class="logo" routerLink="/">NHL Playoff Pool</a>
+  <span style="flex: 1 1 auto"></span>
+  <div class="links">
+    <a routerLink="/">Entries</a>
+    <a routerLink="/playerstats">Player Stats</a>
+    <a *showAuthed="true" routerLink="/admin/teams">Admin - Teams</a>
+    <a *showAuthed="true" routerLink="/admin/entries">Admin - Entries</a>
+    <a *showAuthed="true" (click)="logout()">Logout</a>
+  </div>
+</md-toolbar>

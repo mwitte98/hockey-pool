@@ -1,0 +1,23 @@
+.logo {
+  margin-left: 5%;
+}
+
+.links {
+  margin-right: 5%;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 23.5px 10px;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.links a {
+  font-size: 14px;
+  margin-left: 5px;
+}
