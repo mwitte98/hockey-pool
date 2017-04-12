@@ -3,45 +3,58 @@ class UpdateJob
 
   def perform
     agent = Mechanize.new
-    agent.get('http://www.nhl.com/stats/rest/grouped/goalies/season/goaliesummary?cayenneExp=seasonId=20152016%20and%20gameTypeId=3%20and%20playerPositionCode=%22G%22')
-    goalie_json = JSON.parse agent.page.body
-    goalie_data = goalie_json['data']
+    goalies_data = get_data(agent, 'http://www.nhl.com/stats/rest/grouped/goalies/goalie_basic/season/goaliesummary?cayenneExp=seasonId=20162017%20and%20gameTypeId=3')
+    skaters_data = get_data(agent, 'http://www.nhl.com/stats/rest/grouped/skaters/basic/season/skatersummary?cayenneExp=seasonId=20162017%20and%20gameTypeId=3')
 
-    teams = Team.all
+    teams = Team.includes(:players).all
     teams.each do |team|
-      agent.get('http://www.nhl.com/stats/rest/grouped/skaters/season/skatersummary?cayenneExp=' \
-      'seasonId%3D20152016%20and%20gameTypeId%3D3%20and%20teamId%3D' + team.nhlID.to_s)
-      team_json = JSON.parse agent.page.body
-      data = team_json['data']
-
       team.players.each do |player|
-        nhl_id = player.nhlID
+        abbr = team.abbr
         if player.position == 'Goalie'
-          goalie_data.each do |goalie|
-            next unless nhl_id == goalie['playerId']
-            goals = goalie['goals']
-            assists = goalie['assists']
-            wins = goalie['wins']
-            otl = goalie['otLosses']
-            shutouts = goalie['shutouts']
-            points = (goals * 2) + assists + (wins * 2) + otl + (shutouts * 4)
-            player.update(goals: goals, assists: assists, wins: wins,
-                          otl: otl, shutouts: shutouts, points: points)
-            break
-          end
+          goalie_data = find_player player, abbr, goalies_data
+          update_goalie player, goalie_data if goalie_data
         else
-          data.each do |skater|
-            next unless nhl_id == skater['playerId']
-            goals = skater['goals']
-            assists = skater['assists']
-            gwg = skater['gameWinningGoals']
-            shg = skater['shGoals']
-            points = (goals * 2) + assists + gwg + (shg * 3)
-            player.update(goals: goals, assists: assists, gwg: gwg, shg: shg, points: points)
-            break
-          end
+          skater_data = find_player player, abbr, skaters_data
+          update_skater player, skater_data if skater_data
         end
       end
     end
+  end
+
+  private
+
+  def get_data(agent, url)
+    agent.get(url)
+    JSON.parse(agent.page.body)['data']
+  end
+
+  def find_player(player, abbr, players_data)
+    players_data.find do |data|
+      data['playerLastName'] == player.last_name &&
+        data['playerFirstName'] == player.first_name &&
+        data['playerTeamsPlayedFor'] == abbr
+    end
+  end
+
+  def update_goalie(player, player_data)
+    goals = player_data['goals']
+    assists = player_data['assists']
+    wins = player_data['wins']
+    otl = player_data['otLosses']
+    shutouts = player_data['shutouts']
+    points = (goals * 2) + assists + (wins * 2) + otl + (shutouts * 4)
+    player.update(goals: goals, assists: assists, wins: wins,
+                  otl: otl, shutouts: shutouts, points: points)
+  end
+
+  def update_skater(player, player_data)
+    goals = player_data['goals']
+    assists = player_data['assists']
+    gwg = player_data['gameWinningGoals']
+    shg = player_data['shGoals']
+    otg = player_data['otGoals']
+    points = (goals * 2) + assists + gwg + (shg * 3) + (otg * 2)
+    player.update(goals: goals, assists: assists, gwg: gwg,
+                  shg: shg, otg: otg, points: points)
   end
 end

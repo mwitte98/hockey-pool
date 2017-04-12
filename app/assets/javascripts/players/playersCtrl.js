@@ -12,8 +12,7 @@ angular.module('hockeyPool')
     vm.createPlayer = function() {
         if (!vm.firstName || vm.firstName === '' || 
             !vm.lastName || vm.lastName === '' || 
-            !vm.position || vm.position === '' || 
-            !vm.nhlId || vm.nhlId === '') { return; }
+            !vm.position || vm.position === '') { return; }
         Players.create(vm.team.id, {
             first_name: vm.firstName,
             last_name: vm.lastName,
@@ -25,7 +24,7 @@ angular.module('hockeyPool')
             wins: 0,
             otl: 0,
             shutouts: 0,
-            nhlID: vm.nhlId,
+            otg: 0,
             points: 0
         })
         .then(function(player) {
@@ -35,7 +34,6 @@ angular.module('hockeyPool')
         vm.firstName = '';
         vm.lastName = '';
         vm.position = '';
-        vm.nhlId = '';
     };
     
     vm.updatePlayer = function(player, index) {
@@ -46,10 +44,10 @@ angular.module('hockeyPool')
             player.assists === '' ||
             player.gwg === '' ||
             player.shg === '' ||
+            player.otg === '' ||
             player.wins === '' ||
             player.otl === '' ||
-            player.shutouts === '' || 
-            player.nhlID === '') { return; }
+            player.shutouts === '') { return; }
         Players.update(player.id, {
             first_name: player.first_name,
             last_name: player.last_name,
@@ -58,11 +56,11 @@ angular.module('hockeyPool')
             assists: player.assists,
             gwg: player.gwg,
             shg: player.shg,
+            otg: player.otg,
             wins: player.wins,
             otl: player.otl,
             shutouts: player.shutouts,
-            nhlID: player.nhlID,
-            points: (player.goals * 2) + player.assists + player.gwg + (player.shg * 3) + (player.wins * 2) + player.otl + (player.shutouts * 4)
+            points: (player.goals * 2) + player.assists + player.gwg + (player.shg * 3) + (player.otg * 2) + (player.wins * 2) + player.otl + (player.shutouts * 4)
         })
         .then(function(team) {
             vm.isEditForm[index] = false;

@@ -8,15 +8,17 @@
             <th>A</th>
             <th>GWG</th>
             <th>SHG</th>
+            <th>OTG</th>
             <th>Pts</th>
         </tr>
         <tr ng-repeat="player in team.players" ng-if="player.position !== 'Goalie'">
             <td>{{player.first_name}} {{player.last_name}}</td>
-            <td>{{player.position}}</td>
+            <td>{{player.position | limitTo: 1}}</td>
             <td>{{player.goals}}</td>
             <td>{{player.assists}}</td>
             <td>{{player.gwg}}</td>
             <td>{{player.shg}}</td>
+            <td>{{player.otg}}</td>
             <td>{{player.points}}</td>
         </tr>
     </table>
@@ -33,7 +35,7 @@
         </tr>
         <tr ng-repeat="player in team.goalies" ng-if="player.position === 'Goalie'">
             <td>{{player.first_name}} {{player.last_name}}</td>
-            <td>{{player.position}}</td>
+            <td>{{player.position | limitTo: 1}}</td>
             <td>{{player.goals}}</td>
             <td>{{player.assists}}</td>
             <td>{{player.wins}}</td>
