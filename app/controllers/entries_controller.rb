@@ -2,7 +2,7 @@ class EntriesController < ApplicationController
   before_action :authenticate_user!, only: [:create, :update, :destroy]
 
   def index
-    render json: Entry.all
+    render json: Entry.includes(players: [:team]).all
   end
 
   def create

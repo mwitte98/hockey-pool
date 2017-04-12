@@ -9,24 +9,24 @@ angular.module('hockeyPool')
     }
     
     vm.createTeam = function() {
-        if (!vm.name || vm.name === '' || !vm.nhlID || vm.nhlID === '') { return; }
+        if (!vm.name || vm.name === '' || !vm.abbr || vm.abbr === '') { return; }
         Teams.create({
             name: vm.name,
-            nhlID: vm.nhlID
+            abbr: vm.abbr
         })
         .then(function(team) {
             vm.teams.push(team);
             vm.isCreateForm = false;
         });
         vm.name = '';
-        vm.nhlID = '';
+        vm.abbr = '';
     };
     
     vm.updateTeam = function(team, index) {
-        if (!team.name || team.name === '' || !team.nhlID || team.nhlID === '') { return; }
+        if (!team.name || team.name === '' || !team.abbr || team.abbr === '') { return; }
         Teams.update(team.id, {
             name: team.name,
-            nhlID: team.nhlID
+            abbr: team.abbr
         })
         .then(function(team) {
             vm.isEditForm[index] = false;

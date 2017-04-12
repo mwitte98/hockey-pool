@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422012439) do
+ActiveRecord::Schema.define(version: 20170412121659) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,10 +24,9 @@ ActiveRecord::Schema.define(version: 20160422012439) do
   create_table "entries_players", id: false, force: :cascade do |t|
     t.integer "entry_id"
     t.integer "player_id"
+    t.index ["entry_id"], name: "index_entries_players_on_entry_id", using: :btree
+    t.index ["player_id"], name: "index_entries_players_on_player_id", using: :btree
   end
-
-  add_index "entries_players", ["entry_id"], name: "index_entries_players_on_entry_id", using: :btree
-  add_index "entries_players", ["player_id"], name: "index_entries_players_on_player_id", using: :btree
 
   create_table "players", force: :cascade do |t|
     t.integer  "team_id"
@@ -41,20 +39,19 @@ ActiveRecord::Schema.define(version: 20160422012439) do
     t.integer  "shg"
     t.integer  "wins"
     t.integer  "shutouts"
-    t.integer  "nhlID"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "otl"
     t.integer  "points"
+    t.integer  "otg"
+    t.index ["team_id"], name: "index_players_on_team_id", using: :btree
   end
-
-  add_index "players", ["team_id"], name: "index_players_on_team_id", using: :btree
 
   create_table "teams", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "nhlID"
+    t.string   "abbr"
   end
 
   create_table "users", force: :cascade do |t|
@@ -70,9 +67,8 @@ ActiveRecord::Schema.define(version: 20160422012439) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

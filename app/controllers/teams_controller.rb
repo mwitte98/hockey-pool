@@ -2,7 +2,7 @@ class TeamsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :update, :destroy]
 
   def index
-    render json: Team.all
+    render json: Team.includes(:players).all
   end
 
   def create
@@ -25,6 +25,6 @@ class TeamsController < ApplicationController
   private
 
   def team_params
-    params.require(:team).permit(:name, :nhlID)
+    params.require(:team).permit(:name, :abbr)
   end
 end
