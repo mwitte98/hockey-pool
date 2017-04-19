@@ -63,6 +63,15 @@
     font-weight: bold;
 }
 
-.player-stats-wrapper h4 {
+.team-name {
     text-align: center;
+}
+
+.masonry {
+    display: -ms-flexbox;
+	-ms-flex-direction: row;
+	-ms-flex-wrap: wrap;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
