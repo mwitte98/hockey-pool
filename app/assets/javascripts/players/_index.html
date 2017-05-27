@@ -1,0 +1,113 @@
+<div class="page-header">
+    <h1>{{playersCtrl.team.name}} Players</h1>
+</div>
+
+<div class="player" ng-repeat="player in playersCtrl.players">
+    <div ng-hide="playersCtrl.isEditForm[$index]">
+        {{player.first_name}} {{player.last_name}} ({{player.position}})
+        <button ng-click="playersCtrl.isEditForm[$index] = true;" class="btn btn-xs btn-info">Edit</button>
+        <button ng-click="playersCtrl.deletePlayer(player.id)" class="btn btn-xs btn-danger">Delete</button>
+    </div>
+    <div ng-show="playersCtrl.isEditForm[$index]">
+        <form class="form-horizontal" ng-submit="playersCtrl.updatePlayer(player, $index)">
+            <div class="row">
+                <label for="firstName" class="col-sm-1 control-label">First</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="firstName" ng-model="player.first_name">
+                </div>
+                <label for="lastName" class="col-sm-1 control-label">Last</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="lastName" ng-model="player.last_name">
+                </div>
+                <label for="position" class="col-sm-1 control-label">Position</label>
+                <div class="col-sm-3">
+                    <select class="form-control" id="position" ng-model="player.position">
+                        <option>Center</option>
+                        <option>Winger</option>
+                        <option>Defenseman</option>
+                        <option>Goalie</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label for="goals" class="col-sm-1 control-label">G</label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control" id="goals" ng-model="player.goals">
+                </div>
+                <label for="assists" class="col-sm-1 control-label">A</label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control" id="assists" ng-model="player.assists">
+                </div>
+                <label for="gwg" class="col-sm-1 control-label">GWG</label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control" id="gwg" ng-model="player.gwg">
+                </div>
+                <label for="shg" class="col-sm-1 control-label">SHG</label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control" id="shg" ng-model="player.shg">
+                </div>
+            </div>
+            <div class="row">
+                <label for="otg" class="col-sm-1 control-label">OTG</label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control" id="otg" ng-model="player.otg">
+                </div>
+                <div ng-show="player.position === 'Goalie'">
+                    <label for="wins" class="col-sm-1 control-label">Wins</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="wins" ng-model="player.wins">
+                    </div>
+                    <label for="otl" class="col-sm-1 control-label">OTL</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="otl" ng-model="player.otl">
+                    </div>
+                    <label for="shutouts" class="col-sm-1 control-label">SO</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" id="shutouts" ng-model="player.shutouts">
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <input type="submit" class="btn btn-info" value="Update">
+                <a ng-click="playersCtrl.isEditForm[$index] = false;" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="create-player">
+    <div ng-hide="playersCtrl.isCreateForm">
+        <button ng-click="playersCtrl.isCreateForm = true;" class="btn btn-info">Create Player</button>
+    </div>
+    <div ng-show="playersCtrl.isCreateForm">
+        <form class="form-horizontal" ng-submit="playersCtrl.createPlayer()">
+            <div class="row">
+                <label for="firstName" class="col-sm-1 control-label">First</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="playersCtrl.firstName">
+                </div>
+            </div>
+            <div class="row">
+                <label for="lastName" class="col-sm-1 control-label">Last</label>
+                <div class="col-sm-3">
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="playersCtrl.lastName">
+                </div>
+            </div>
+            <div class="row">
+                <label for="position" class="col-sm-1 control-label">Position</label>
+                <div class="col-sm-3">
+                    <select class="form-control" id="position" ng-model="playersCtrl.position">
+                        <option>Center</option>
+                        <option>Winger</option>
+                        <option>Defenseman</option>
+                        <option>Goalie</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-actions">
+                <input type="submit" class="btn btn-info" value="Create">
+                <a ng-click="playersCtrl.isCreateForm = false;" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
