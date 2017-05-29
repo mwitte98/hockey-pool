@@ -3,14 +3,19 @@ angular.module('hockeyPool')
     var vm = this;
     vm.isOpen = [];
     vm.showingAll = false;
-    
+    vm.showingEliminated = false;
+
     vm.showAll = function(show) {
         for (var j = 0; j < entries.length; j++) {
             vm.isOpen[j] = show;
         }
         vm.showingAll = show;
     };
-    
+
+    vm.showEliminated = function(show) {
+        vm.showingEliminated = show;
+    };
+
     function calculatePoints() {
         entries.forEach(function(entry) {
             entry.points = 0;
@@ -19,7 +24,7 @@ angular.module('hockeyPool')
             entry.pointsD = 0;
             entry.pointsG = 0;
             entry.totalGoals = 0;
-            
+
             entry.players.forEach(function(player) {
                 entry.points += player.points;
                 entry.totalGoals += player.goals;
@@ -35,7 +40,7 @@ angular.module('hockeyPool')
             });
         });
     }
-    
+
     function sortEntries() {
         entries.sort(function(a, b) {
             if (b.points - a.points === 0) {
@@ -74,7 +79,7 @@ angular.module('hockeyPool')
                 return b.points - a.points;
             }
         });
-        
+
         for(var i = 0; i < entries.length; i++) {
             if (i === 0) {
                 entries[i].rank = 1;
@@ -84,9 +89,9 @@ angular.module('hockeyPool')
                 entries[i].rank = i + 1;
                 continue;
             }
-            if (entries[i].points === entries[i-1].points && 
-                entries[i].pointsC === entries[i-1].pointsC && 
-                entries[i].pointsW === entries[i-1].pointsW && 
+            if (entries[i].points === entries[i-1].points &&
+                entries[i].pointsC === entries[i-1].pointsC &&
+                entries[i].pointsW === entries[i-1].pointsW &&
                 entries[i].pointsD === entries[i-1].pointsD &&
                 entries[i].pointsG === entries[i-1].pointsG &&
                 entries[i].totalGoals === entries[i-1].totalGoals) {
@@ -96,13 +101,13 @@ angular.module('hockeyPool')
             }
         }
     }
-    
+
     function init() {
         vm.showAll(false);
         calculatePoints();
         sortEntries();
         vm.entries = entries;
     }
-    
+
     init();
 }]);

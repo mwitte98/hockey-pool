@@ -47,7 +47,8 @@ angular.module('hockeyPool')
 
         Teams.update(team.id, {
             name: team.name,
-            abbr: team.abbr
+            abbr: team.abbr,
+            is_eliminated: team.is_eliminated
         })
         .then(function(team) {
             vm.isEditForm[index] = false;

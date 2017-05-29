@@ -1,6 +1,6 @@
 <div class="masonry">
     <div class="col-xs-12 col-md-6" ng-repeat="team in statsCtrl.teams">
-        <h4 class="team-name">{{team.name}}</h4>
+        <h4 class="team-name" ng-style="team.is_eliminated && {color: 'red'}">{{team.name}}</h4>
         <table class="table">
             <tr>
                 <th>Name</th>

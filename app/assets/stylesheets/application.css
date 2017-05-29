@@ -59,6 +59,10 @@
     margin-bottom: 20px;
 }
 
+.show-all-btn button {
+    margin-left: 20px;
+}
+
 .bold {
     font-weight: bold;
 }

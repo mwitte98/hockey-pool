@@ -1,6 +1,8 @@
 <div class="container show-all-btn">
     <button ng-if="!homeCtrl.showingAll" ng-click="homeCtrl.showAll(true)" class="btn btn-info pull-right">Show Players for All Entries</button>
     <button ng-if="homeCtrl.showingAll" ng-click="homeCtrl.showAll(false)" class="btn btn-info pull-right">Hide Players for All Entries</button>
+    <button ng-if="!homeCtrl.showingEliminated" ng-click="homeCtrl.showEliminated(true)" class="btn btn-info pull-right">Show Eliminated Players</button>
+    <button ng-if="homeCtrl.showingEliminated" ng-click="homeCtrl.showEliminated(false)" class="btn btn-info pull-right">Hide Eliminated Players</button>
 </div>
 <div class="row heading">
     <div class="col-xs-3">
@@ -62,8 +64,8 @@
         </uib-accordion-heading>
         <div class="container">
             <div ng-repeat="player in entry.players">
-                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                    <div class="row" style="font-weight: bold">
+                <div ng-if="!player.team.is_eliminated || homeCtrl.showingEliminated" class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                    <div class="row" style="font-weight: bold" ng-style="player.team.is_eliminated && {color: 'red'}">
                         {{player.team.name}}
                     </div>
                     <div class="row">
