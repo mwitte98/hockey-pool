@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :update, :destroy]
+  before_action :signed_in?, only: [:create, :update, :destroy]
 
   def index
     render json: Team.includes(:players).all

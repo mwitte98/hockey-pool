@@ -4,9 +4,12 @@ angular.module('hockeyPool')
     vm.teams = teams;
     vm.entries = entries;
     vm.isCreateForm = false;
+    vm.createFormErrors = [];
     vm.isEditForm = [];
+    vm.editFormErrors = [];
     for (var i = 0; i < vm.entries.length; i++) {
         vm.isEditForm[i] = false;
+        vm.editFormErrors.push([]);
     }
     vm.playersSelected = [];
     for (var j = 0; j < vm.teams.length; j++) {
@@ -18,7 +21,7 @@ angular.module('hockeyPool')
         'Defenseman': 0,
         'Goalie': 0
     };
-    
+
     $scope.$watchCollection(angular.bind(this, function() {
         return this.playersSelected;
     }), function() {
@@ -32,29 +35,27 @@ angular.module('hockeyPool')
             if (player) { vm.numPositions[player.position] += 1; }
         });
     });
-    
+
     vm.createEntry = function() {
+        vm.createFormErrors = [];
         if (!vm.name || vm.name === '') {
-            console.log('Invalid name');
-            return;
+            vm.createFormErrors.push('Invalid entry name');
         }
         for (var a = 0; a < vm.teams.length; a++) {
             if (vm.playersSelected[a] === '') {
-                console.log('Player ' + a + ' is invalid');
-                console.log(vm.playersSelected[a]);
-                return;
+                vm.createFormErrors.push(vm.teams[a].name + ' does not have a valid player selected');
             }
         }
 
-        if (vm.numPositions.Center < 4 || 
-            vm.numPositions.Winger < 4 || 
-            vm.numPositions.Defenseman < 5 || 
+        if (vm.numPositions.Center < 4 ||
+            vm.numPositions.Winger < 4 ||
+            vm.numPositions.Defenseman < 5 ||
             vm.numPositions.Goalie !== 2) {
-                console.log('Number of positions is invalid');
-                console.log(vm.numPositions);
-                return;
+                vm.createFormErrors.push('Invalid number of players at each position');
             }
-        
+
+        if (vm.createFormErrors.length > 0) return;
+
         Entries.create({
             name: vm.name,
             player1: vm.playersSelected[0].id,
@@ -83,20 +84,36 @@ angular.module('hockeyPool')
             }
         });
     };
-    
+
     vm.updateEntry = function(entry, index) {
+        vm.editFormErrors[index] = [];
         if (!entry.name || entry.name === '') {
-            console.log('Invalid name');
-            return;
+            vm.editFormErrors[index].push('Invalid entry name');
         }
         for (var a = 0; a < vm.teams.length; a++) {
             if (entry.players[a] === '') {
-                console.log('Player ' + a + ' is invalid');
-                console.log(entr.players[a]);
-                return;
+                vm.editFormErrors[index].push(vm.teams[a].name + ' does not have a valid player selected');
             }
         }
-        
+
+        numPositions = {
+            'Center': 0,
+            'Winger': 0,
+            'Defenseman': 0,
+            'Goalie': 0
+        };
+        entry.players.forEach(function(player) {
+            if (player) { numPositions[player.position] += 1; }
+        });
+        if (numPositions.Center < 4 ||
+            numPositions.Winger < 4 ||
+            numPositions.Defenseman < 5 ||
+            numPositions.Goalie !== 2) {
+                vm.editFormErrors[index].push('Invalid number of players at each position');
+            }
+
+        if (vm.editFormErrors[index].length > 0) return;
+
         Entries.update(entry.id, {
             name: entry.name,
             player1: entry.players[0].id,
@@ -120,7 +137,7 @@ angular.module('hockeyPool')
             vm.isEditForm[index] = false;
         });
     };
-    
+
     vm.deleteEntry = function(entryId) {
         Entries.destroy(entryId)
         .then(function(entry) {
@@ -132,7 +149,7 @@ angular.module('hockeyPool')
             }
         });
     };
-    
+
     vm.update_player_stats = function() {
         Entries.update_player_stats();
     };

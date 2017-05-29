@@ -4,15 +4,27 @@ angular.module('hockeyPool')
     vm.team = team;
     vm.players = team.players;
     vm.isCreateForm = false;
+    vm.createFormErrors = [];
     vm.isEditForm = [];
+    vm.editFormErrors = [];
     for (var i = 0; i < vm.players.length; i++) {
         vm.isEditForm[i] = false;
+        vm.editFormErrors.push([]);
     }
-    
+
     vm.createPlayer = function() {
-        if (!vm.firstName || vm.firstName === '' || 
-            !vm.lastName || vm.lastName === '' || 
-            !vm.position || vm.position === '') { return; }
+        vm.createFormErrors = [];
+        if (!vm.firstName || vm.firstName === '') {
+            vm.createFormErrors.push('Invalid first name');
+        }
+        if (!vm.lastName || vm.lastName === '') {
+            vm.createFormErrors.push('Invalid last name');
+        }
+        if (!vm.position || vm.position === '') {
+            vm.createFormErrors.push('Invalid position');
+        }
+        if (vm.createFormErrors.length > 0) return;
+
         Players.create(vm.team.id, {
             first_name: vm.firstName,
             last_name: vm.lastName,
@@ -35,19 +47,31 @@ angular.module('hockeyPool')
         vm.lastName = '';
         vm.position = '';
     };
-    
+
     vm.updatePlayer = function(player, index) {
-        if (player.first_name === '' || 
-            player.last_name === '' || 
-            player.position === '' ||
-            player.goals === '' ||
-            player.assists === '' ||
-            player.gwg === '' ||
-            player.shg === '' ||
-            player.otg === '' ||
-            player.wins === '' ||
-            player.otl === '' ||
-            player.shutouts === '') { return; }
+        vm.editFormErrors[index] = [];
+        if (player.first_name === '') {
+            vm.editFormErrors[index].push('Invalid first name');
+        }
+        if (player.last_name === '') {
+            vm.editFormErrors[index].push('Invalid last name');
+        }
+        if (player.position === '') {
+            vm.editFormErrors[index].push('Invalid position');
+        }
+        if (player.goals === null || player.goals === '' ||
+            player.assists === null || player.assists === '' ||
+            player.gwg === null || player.gwg === '' ||
+            player.shg === null || player.shg === '' ||
+            player.otg === null || player.otg === '' ||
+            player.wins === null || player.wins === '' ||
+            player.otl === null || player.otl === '' ||
+            player.shutouts === null || player.shutouts === '') {
+                vm.editFormErrors[index].push('Invalid stat');
+            }
+
+        if (vm.editFormErrors[index].length > 0) return;
+
         Players.update(player.id, {
             first_name: player.first_name,
             last_name: player.last_name,
@@ -66,7 +90,7 @@ angular.module('hockeyPool')
             vm.isEditForm[index] = false;
         });
     };
-    
+
     vm.deletePlayer = function(playerId) {
         Players.destroy(playerId)
         .then(function(player) {

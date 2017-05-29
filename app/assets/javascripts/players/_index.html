@@ -67,6 +67,9 @@
                     </div>
                 </div>
             </div>
+            <div ng-repeat="error in playersCtrl.editFormErrors[$index]">
+                {{error}}
+            </div>
             <div class="form-actions">
                 <input type="submit" class="btn btn-info" value="Update">
                 <a ng-click="playersCtrl.isEditForm[$index] = false;" class="btn btn-danger">Cancel</a>
@@ -103,6 +106,9 @@
                         <option>Goalie</option>
                     </select>
                 </div>
+            </div>
+            <div ng-repeat="error in playersCtrl.createFormErrors">
+                {{error}}
             </div>
             <div class="form-actions">
                 <input type="submit" class="btn btn-info" value="Create">

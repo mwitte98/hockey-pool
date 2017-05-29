@@ -1,29 +1,16 @@
 angular.module('hockeyPool')
-.controller('NavCtrl', ['$scope', 'Auth', '$cookies', function($scope, Auth, $cookies) {
+.controller('NavCtrl', ['$scope', '$state', 'Auth', function($scope, $state, Auth) {
     var vm = this;
-    vm.signedIn = Auth.isAuthenticated;
+
+    Auth.signedIn().then(function(data) {
+        vm.signedIn = data.logged_in;
+        vm.user = vm.signedIn ? data.user : null;
+    });
+
     vm.logout = function() {
-        $cookies.remove('user');
+        Auth.logout().then(function() {
+            $state.go('root.homepage');
+        });
         vm.user = null;
     };
-    
-    var user = $cookies.get('user');
-    if (user) {
-        vm.user = user;
-    }
-    
-    $scope.$on('devise:new-registration', function(e, user) {
-        $cookies.putObject('user', user);
-        vm.user = user;
-    });
-    
-    $scope.$on('devise:login', function(e, user) {
-        $cookies.putObject('user', user);
-        vm.user = user;
-    });
-    
-    $scope.$on('devise:logout', function(e, user) {
-        $cookies.remove('user');
-        vm.user = null;
-    });
 }]);

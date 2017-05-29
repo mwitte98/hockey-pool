@@ -1,6 +1,6 @@
 angular.module('hockeyPool')
 .factory('Entries', ['$http', function($http){
-    
+
     return {
         get: get,
         getAll: getAll,
@@ -9,50 +9,50 @@ angular.module('hockeyPool')
         destroy: destroy,
         update_player_stats: update_player_stats
     };
-    
+
     // entries#show
     function get(id) {
-        return $http.get('/entries/' + id)
+        return $http.get('/api/entries/' + id)
         .then(function(res) {
             return res.data;
         });
     }
-    
+
     // entries#index
     function getAll() {
-        return $http.get('/entries')
+        return $http.get('/api/entries')
         .then(function(res) {
             return res.data;
         });
     }
-    
+
     // entries#create
     function create(entry) {
-        return $http.post('/entries', entry)
+        return $http.post('/api/entries', entry)
         .then(function(res) {
             return res.data;
         });
     }
-    
+
     // entries#update
     function update(entryId, entry) {
-        return $http.put('/entries/' + entryId, entry)
+        return $http.put('/api/entries/' + entryId, entry)
         .then(function(res) {
             return res.data;
         });
     }
-    
+
     // entries#destroy
     function destroy(entryId) {
-        return $http.delete('/entries/' + entryId)
+        return $http.delete('/api/entries/' + entryId)
         .then(function(res) {
             return res.data;
         });
     }
-    
+
     // entries#update_player_stats
     function update_player_stats() {
-        return $http.get('/update_player_stats')
+        return $http.get('/api/update_player_stats')
         .then(function(res) {
             return res.data;
         });

@@ -26,6 +26,9 @@
                     {{entry.players[$index].position}}
                 </label>
             </div>
+            <div ng-repeat="error in entriesCtrl.editFormErrors[$index]">
+                {{error}}
+            </div>
             <div class="col-sm-offset-3 form-actions">
                 <input type="submit" class="btn btn-info" value="Update">
                 <a ng-click="entriesCtrl.isEditForm[$index] = false;" class="btn btn-danger">Cancel</a>
@@ -60,6 +63,9 @@
                 <label class="col-sm-1 control-label" style="font-weight: 400;">
                     {{entriesCtrl.playersSelected[$index].position}}
                 </label>
+            </div>
+            <div ng-repeat="error in entriesCtrl.createFormErrors">
+                {{error}}
             </div>
             <div class="row">
                 <div class="col-sm-offset-3 form-actions">
