@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 gem 'rails', '5.1.1'
 
-gem 'bcrypt', '~> 3.1', '>= 3.1.11'
+gem 'bcrypt', '~> 3.1.11'
 gem 'mechanize', '~> 2.7.5'
 gem 'newrelic_rpm', '~> 4.2.0'
 gem 'nokogiri', '~> 1.7.2'

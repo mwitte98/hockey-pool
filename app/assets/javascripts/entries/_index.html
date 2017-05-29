@@ -1,0 +1,78 @@
+<div class="page-header">
+    <h1>Entries</h1>
+    <button class="btn btn-info pull-right" ng-click="entriesCtrl.update_player_stats()">Update Player Stats</button>
+</div>
+
+<div class="entry" ng-repeat="entry in entriesCtrl.entries">
+    <div ng-hide="entriesCtrl.isEditForm[$index]">
+        {{entry.name}}
+        <button ng-click="entriesCtrl.isEditForm[$index] = true;" class="btn btn-xs btn-info">Edit</button>
+        <button ng-click="entriesCtrl.deleteEntry(entry.id)" class="btn btn-xs btn-danger">Delete</button>
+    </div>
+    <div ng-show="entriesCtrl.isEditForm[$index]">
+        <form class="form-horizontal" ng-submit="entriesCtrl.updateEntry(entry, $index)">
+            <div class="row">
+                <label for="name" class="col-sm-1 control-label">Name</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="name" placeholder="Name" ng-model="entry.name">
+                </div>
+            </div>
+            <div class="row" ng-repeat="team in entriesCtrl.teams">
+                <label class="col-sm-3 control-label">{{team.name}}</label>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="entry.players[$index]" ng-options="player.first_name + ' ' + player.last_name for player in team.players track by player.id"></select>
+                </div>
+                <label class="col-sm-1 control-label" style="font-weight: 400;">
+                    {{entry.players[$index].position}}
+                </label>
+            </div>
+            <div ng-repeat="error in entriesCtrl.editFormErrors[$index]">
+                {{error}}
+            </div>
+            <div class="col-sm-offset-3 form-actions">
+                <input type="submit" class="btn btn-info" value="Update">
+                <a ng-click="entriesCtrl.isEditForm[$index] = false;" class="btn btn-danger">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="create-entry">
+    <div ng-hide="entriesCtrl.isCreateForm">
+        <button ng-click="entriesCtrl.isCreateForm = true;" class="btn btn-info">Create Entry</button>
+    </div>
+    <div ng-show="entriesCtrl.isCreateForm">
+        <form class="form-horizontal" ng-submit="entriesCtrl.createEntry()">
+            <div class="row">
+                <label for="name" class="col-sm-1 control-label">Name</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="name" placeholder="Name" ng-model="entriesCtrl.name">
+                </div>
+            </div>
+            <div class="row">
+                Centers: {{entriesCtrl.numPositions['Center']}}
+                Wingers: {{entriesCtrl.numPositions['Winger']}}
+                Defensemen: {{entriesCtrl.numPositions['Defenseman']}}
+                Goalies: {{entriesCtrl.numPositions['Goalie']}}
+            </div>
+            <div class="row" ng-repeat="team in entriesCtrl.teams">
+                <label class="col-sm-3 control-label">{{team.name}}</label>
+                <div class="col-sm-3">
+                    <select class="form-control" ng-model="entriesCtrl.playersSelected[$index]" ng-options="player.first_name + ' ' + player.last_name for player in team.players"></select>
+                </div>
+                <label class="col-sm-1 control-label" style="font-weight: 400;">
+                    {{entriesCtrl.playersSelected[$index].position}}
+                </label>
+            </div>
+            <div ng-repeat="error in entriesCtrl.createFormErrors">
+                {{error}}
+            </div>
+            <div class="row">
+                <div class="col-sm-offset-3 form-actions">
+                    <input type="submit" class="btn btn-info" value="Create">
+                    <a ng-click="entriesCtrl.isCreateForm = false;" class="btn btn-danger">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

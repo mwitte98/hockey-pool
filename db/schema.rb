@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20170412121659) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "entries", force: :cascade do |t|
-    t.string   "name"
+  create_table "entries", id: :serial, force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -24,42 +24,42 @@ ActiveRecord::Schema.define(version: 20170412121659) do
   create_table "entries_players", id: false, force: :cascade do |t|
     t.integer "entry_id"
     t.integer "player_id"
-    t.index ["entry_id"], name: "index_entries_players_on_entry_id", using: :btree
-    t.index ["player_id"], name: "index_entries_players_on_player_id", using: :btree
+    t.index ["entry_id"], name: "index_entries_players_on_entry_id"
+    t.index ["player_id"], name: "index_entries_players_on_player_id"
   end
 
-  create_table "players", force: :cascade do |t|
-    t.integer  "team_id"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "position"
-    t.integer  "goals"
-    t.integer  "assists"
-    t.integer  "gwg"
-    t.integer  "shg"
-    t.integer  "wins"
-    t.integer  "shutouts"
+  create_table "players", id: :serial, force: :cascade do |t|
+    t.integer "team_id"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "position"
+    t.integer "goals"
+    t.integer "assists"
+    t.integer "gwg"
+    t.integer "shg"
+    t.integer "wins"
+    t.integer "shutouts"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "otl"
-    t.integer  "points"
-    t.integer  "otg"
-    t.index ["team_id"], name: "index_players_on_team_id", using: :btree
+    t.integer "otl"
+    t.integer "points"
+    t.integer "otg"
+    t.index ["team_id"], name: "index_players_on_team_id"
   end
 
-  create_table "teams", force: :cascade do |t|
-    t.string   "name"
+  create_table "teams", id: :serial, force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "abbr"
+    t.string "abbr"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "email"
-    t.string   "password_digest"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end
