@@ -2,7 +2,7 @@ class TeamsController < ApplicationController
   before_action :signed_in?, only: [:create, :update, :destroy]
 
   def index
-    render json: Team.includes(:players).all
+    render json: Team.includes(:players).all.order(:is_eliminated, :id)
   end
 
   def create
@@ -25,6 +25,6 @@ class TeamsController < ApplicationController
   private
 
   def team_params
-    params.require(:team).permit(:name, :abbr)
+    params.require(:team).permit(:name, :abbr, :is_eliminated)
   end
 end
