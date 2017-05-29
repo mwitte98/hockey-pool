@@ -35,7 +35,7 @@ angular.module('hockeyPool')
 
     // teams#update
     function update(teamId, team) {
-        return $http.put('/api/teams/' + teamId, team)
+        return $http.put('/api/teams/' + teamId, { team: team })
         .then(function(res) {
             return res.data;
         });
