@@ -12,12 +12,17 @@
         <div class="row">
             <form class="form-horizontal" ng-submit="teamsCtrl.updateTeam(team, $index)">
                 <label for="name" class="col-sm-1 control-label">Name</label>
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <input type="text" class="form-control" id="name" ng-model="team.name">
                 </div>
                 <label for="abbr" class="col-sm-1 control-label">Abbr</label>
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="abbr" ng-model="team.abbr">
+                </div>
+                <div class="col-sm-2" style="margin-top: 5px;">
+                    <label>
+                        Eliminated<input type="checkbox" style="margin: 5px 0 0 10px;" ng-model="team.is_eliminated">
+                    </label>
                 </div>
                 <div ng-repeat="error in teamsCtrl.editFormErrors[$index]">
                     {{error}}
