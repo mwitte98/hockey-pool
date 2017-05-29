@@ -1,6 +1,6 @@
-angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies', 'ngAnimate', 'ui.bootstrap'])
+angular.module('hockeyPool', ['ui.router', 'templates', 'ngAnimate', 'ui.bootstrap'])
 .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
-    
+
     $stateProvider
     .state('root', {
         abstract: true,
@@ -34,10 +34,12 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies', '
         templateUrl: 'auth/_login.html',
         controller: 'AuthCtrl',
         controllerAs: 'authCtrl',
-        onEnter: ['$state', '$cookies', function($state, $cookies) {
-            if ($cookies.get('user')) {
-                $state.go('root.homepage');
-            }
+        onEnter: ['$state', 'Auth', function($state, Auth) {
+            Auth.signedIn().then(function(data) {
+                if (data.logged_in) {
+                    $state.go('root.homepage');
+                }
+            });
         }]
     })
     .state('root.register', {
@@ -45,20 +47,24 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies', '
         templateUrl: 'auth/_register.html',
         controller: 'AuthCtrl',
         controllerAs: 'authCtrl',
-        onEnter: ['$state', '$cookies', function($state, $cookies) {
-            if ($cookies.get('user')) {
-                $state.go('root.homepage');
-            }
+        onEnter: ['$state', 'Auth', function($state, Auth) {
+            Auth.signedIn().then(function(data) {
+                if (data.logged_in) {
+                    $state.go('root.homepage');
+                }
+            });
         }]
     })
     .state('root.admin', {
         abstract: true,
         url: 'admin/',
         template: '<ui-view></ui-view>',
-        onEnter: ['$state', '$cookies', function($state, $cookies) {
-            if (!$cookies.get('user')) {
-                $state.go('root.homepage');
-            }
+        onEnter: ['$state', 'Auth', function($state, Auth) {
+            Auth.signedIn().then(function(data) {
+                if (!data.logged_in) {
+                    $state.go('root.homepage');
+                }
+            });
         }]
     })
     .state('root.admin.teams', {
@@ -97,8 +103,8 @@ angular.module('hockeyPool', ['ui.router', 'templates', 'Devise', 'ngCookies', '
         controller: 'EntriesCtrl',
         controllerAs: 'entriesCtrl'
     });
-    
+
     $urlRouterProvider.otherwise('/');
-    
+
     $locationProvider.html5Mode(true);
 }]);

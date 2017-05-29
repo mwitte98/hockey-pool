@@ -1,8 +1,6 @@
 //= require angular
 //= require angular-ui-router
 //= require angular-rails-templates
-//= require AngularDevise
-//= require angular-cookies
 //= require angular-bootstrap
 //= require angular-animate
 //= require jquery/dist/jquery

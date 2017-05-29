@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20170412121659) do
   enable_extension "plpgsql"
 
   create_table "entries", force: :cascade do |t|
-    t.string   "name"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -24,51 +24,42 @@ ActiveRecord::Schema.define(version: 20170412121659) do
   create_table "entries_players", id: false, force: :cascade do |t|
     t.integer "entry_id"
     t.integer "player_id"
-    t.index ["entry_id"], name: "index_entries_players_on_entry_id", using: :btree
-    t.index ["player_id"], name: "index_entries_players_on_player_id", using: :btree
+    t.index ["entry_id"], name: "index_entries_players_on_entry_id"
+    t.index ["player_id"], name: "index_entries_players_on_player_id"
   end
 
   create_table "players", force: :cascade do |t|
-    t.integer  "team_id"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "position"
-    t.integer  "goals"
-    t.integer  "assists"
-    t.integer  "gwg"
-    t.integer  "shg"
-    t.integer  "wins"
-    t.integer  "shutouts"
+    t.integer "team_id"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "position"
+    t.integer "goals"
+    t.integer "assists"
+    t.integer "gwg"
+    t.integer "shg"
+    t.integer "wins"
+    t.integer "shutouts"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "otl"
-    t.integer  "points"
-    t.integer  "otg"
-    t.index ["team_id"], name: "index_players_on_team_id", using: :btree
+    t.integer "otl"
+    t.integer "points"
+    t.integer "otg"
+    t.index ["team_id"], name: "index_players_on_team_id"
   end
 
   create_table "teams", force: :cascade do |t|
-    t.string   "name"
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "abbr"
+    t.string "abbr"
   end
 
-  create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
 end

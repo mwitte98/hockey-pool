@@ -75,3 +75,7 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 }
+
+a:hover {
+  cursor: pointer;
+}

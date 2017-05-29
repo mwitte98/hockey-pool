@@ -19,6 +19,9 @@
                 <div class="col-sm-2">
                     <input type="text" class="form-control" id="abbr" ng-model="team.abbr">
                 </div>
+                <div ng-repeat="error in teamsCtrl.editFormErrors[$index]">
+                    {{error}}
+                </div>
                 <div class="form-actions">
                     <input type="submit" class="btn btn-info" value="Update">
                     <a ng-click="teamsCtrl.isEditForm[$index] = false;" class="btn btn-danger">Cancel</a>
@@ -41,6 +44,9 @@
             <label for="abbr" class="col-sm-1 control-label">Abbr</label>
             <div class="col-sm-2">
                 <input type="text" class="form-control" id="abbr" placeholder="Abbr" ng-model="teamsCtrl.abbr">
+            </div>
+            <div ng-repeat="error in teamsCtrl.createFormErrors">
+                {{error}}
             </div>
             <div class="form-actions">
                 <input type="submit" class="btn btn-info" value="Create">
