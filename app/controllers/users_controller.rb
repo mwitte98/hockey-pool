@@ -6,8 +6,6 @@ class UsersController < ApplicationController
     if user.save
       session[:user_id] = user.id
       render json: { logged_in: true, user: user }
-    elsif user.errors['email']&.include?('has already been taken')
-      render json: { errors: user.errors.full_messages }, status: :conflict # 409
     else
       render json: { errors: user.errors.full_messages }, status: :bad_request # 400
     end
