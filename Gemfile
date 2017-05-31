@@ -19,7 +19,7 @@ gem 'uglifier', '~> 3.2.0'
 group :development do
   gem 'debase', '~> 0.2.2.beta10'
   gem 'reek', '~> 4.6.2'
-  gem 'rubocop', '~> 0.49.0'
+  gem 'rubocop', '~> 0.49.1'
   gem 'ruby-debug-ide', '~> 0.6.0'
 end
 

@@ -19,8 +19,9 @@ class AuthController < ApplicationController
   end
 
   def signed_in
-    if session[:user_id]
-      user = User.find(session[:user_id])
+    user_id = session[:user_id]
+    if user_id
+      user = User.find(user_id)
       render json: { logged_in: true, user: user }
     else
       reset_session

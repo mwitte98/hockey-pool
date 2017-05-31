@@ -27,16 +27,18 @@ angular.module('hockeyPool')
     }
 
     // entries#create
-    function create(entry) {
-        return $http.post('/api/entries', entry)
+    function create(name, playerIds) {
+        var payload = { entry: { name: name }, player_ids: playerIds }
+        return $http.post('/api/entries', payload)
         .then(function(res) {
             return res.data;
         });
     }
 
     // entries#update
-    function update(entryId, entry) {
-        return $http.put('/api/entries/' + entryId, entry)
+    function update(entryId, name, playerIds) {
+        var payload = { entry: { name: name }, player_ids: playerIds }
+        return $http.put('/api/entries/' + entryId, payload)
         .then(function(res) {
             return res.data;
         });
