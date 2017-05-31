@@ -7,5 +7,12 @@ TooManyStatements:
 UtilityFunction:
   enabled: false
 
+FeatureEnvy:
+  exclude:
+    - "EntriesController#index"
+NilCheck:
+  exclude:
+    - "AuthController#login"
+
 exclude_paths:
   - db/

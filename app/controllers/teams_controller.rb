@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-  before_action :signed_in?, only: [:create, :update, :destroy]
+  before_action :signed_in?, only: %i[create update destroy]
 
   def index
     render json: Team.includes(:players).all.order(:is_eliminated, :id)

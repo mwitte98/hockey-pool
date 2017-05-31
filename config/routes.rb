@@ -11,11 +11,11 @@ Rails.application.routes.draw do
 
     match '/user' => 'users#create', via: [:post]
 
-    resources :teams, only: [:index, :create, :show, :update, :destroy] do
-      resources :players, shallow: true, only: [:index, :create, :show, :update, :destroy]
+    resources :teams, only: %i[index create show update destroy] do
+      resources :players, shallow: true, only: %i[index create show update destroy]
     end
 
-    resources :entries, only: [:index, :create, :show, :update, :destroy]
+    resources :entries, only: %i[index create show update destroy]
 
     match '/update_player_stats', to: 'entries#update_player_stats', via: 'get'
   end
