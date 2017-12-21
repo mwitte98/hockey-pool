@@ -16,7 +16,8 @@
       "tsconfig": "tsconfig.app.json",
       "prefix": "app",
       "styles": [
-        "bootstrap.min.css",
+        "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "styles.css"
       ],
       "scripts": [],
@@ -30,9 +31,6 @@
   "lint": [
     {
       "project": "src/tsconfig.app.json"
-    },
-    {
-      "project": "src/tsconfig.spec.json"
     }
   ],
   "defaults": {

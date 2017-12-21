@@ -9,14 +9,14 @@ import { Errors } from '../models';
 })
 
 export class DisplayErrorsComponent {
-  formattedErrors: Array<string> = [];
+  formattedErrors: string[] = [];
 
   @Input()
   set errors(errorList: Errors) {
     this.formattedErrors = errorList.errors;
   }
 
-  get errorList(): Array<string> {
+  get errorList(): string[] {
     return this.formattedErrors;
   }
 }

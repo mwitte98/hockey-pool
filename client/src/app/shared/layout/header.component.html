@@ -1,11 +1,25 @@
-<md-toolbar color="primary">
-  <a class="logo" routerLink="/">NHL Playoff Pool</a>
-  <span style="flex: 1 1 auto"></span>
-  <div class="links">
-    <a routerLink="/">Entries</a>
-    <a routerLink="/playerstats">Player Stats</a>
-    <a *showAuthed="true" routerLink="/admin/teams">Admin - Teams</a>
-    <a *showAuthed="true" routerLink="/admin/entries">Admin - Entries</a>
-    <a *showAuthed="true" (click)="logout()">Logout</a>
+<nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button"
+              class="navbar-toggle"
+              (click)="isCollapsed = !isCollapsed">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/">NHL Playoff Pool</a>
+    </div>
+
+    <div class="navbar-collapse" [@navCollapseState]="isCollapsed">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a (click)="isCollapsed = true" routerLink="/">Entries</a></li>
+        <li><a (click)="isCollapsed = true" routerLink="/playerstats">Player Stats</a></li>
+        <li *showAuthed="true"><a (click)="isCollapsed = true" routerLink="/admin/teams">Admin - Teams</a></li>
+        <li *showAuthed="true"><a (click)="isCollapsed = true" routerLink="/admin/entries">Admin - Entries</a></li>
+        <li *showAuthed="true"><a (click)="logout()">Logout</a></li>
+      </ul>
+    </div>
   </div>
-</md-toolbar>
+</nav>

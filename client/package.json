@@ -3,36 +3,38 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
-    "lint": "ng lint"
+    "lint": "ng lint --type-check"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "4.0.0",
-    "@angular/common": "4.0.0",
-    "@angular/compiler": "4.0.0",
-    "@angular/core": "4.0.0",
-    "@angular/forms": "4.0.0",
-    "@angular/http": "4.0.0",
-    "@angular/material": "git+https://github.com/angular/material2-builds.git",
-    "@angular/platform-browser": "4.0.0",
-    "@angular/platform-browser-dynamic": "4.0.0",
-    "@angular/router": "4.0.0",
-    "core-js": "2.4.1",
+    "@angular/animations": "4.3.6",
+    "@angular/cdk": "github:angular/cdk-builds",
+    "@angular/common": "4.3.6",
+    "@angular/compiler": "4.3.6",
+    "@angular/core": "4.3.6",
+    "@angular/forms": "4.3.6",
+    "@angular/http": "4.3.6",
+    "@angular/material": "github:angular/material2-builds",
+    "@angular/platform-browser": "4.3.6",
+    "@angular/platform-browser-dynamic": "4.3.6",
+    "@angular/router": "4.3.6",
+    "bootstrap": "3.3.7",
+    "core-js": "2.5.0",
     "hammerjs": "2.0.8",
-    "ng2-bootstrap": "1.6.1",
-    "rxjs": "5.2.0",
-    "zone.js": "0.8.5"
+    "rxjs": "5.4.3",
+    "web-animations-js": "2.3.1",
+    "zone.js": "0.8.17"
   },
   "devDependencies": {
-    "@angular/cli": "1.0.0",
-    "@angular/compiler-cli": "4.0.0",
-    "@types/node": "7.0.10",
-    "codelyzer": "2.0.1",
-    "ts-node": "3.0.2",
-    "tslint": "4.5.1",
-    "typescript": "2.2.2"
+    "@angular/cli": "1.3.2",
+    "@angular/compiler-cli": "4.3.6",
+    "@types/node": "8.0.25",
+    "codelyzer": "3.1.2",
+    "ts-node": "3.3.0",
+    "tslint": "5.7.0",
+    "tslint-language-service": "0.9.6",
+    "typescript": "2.4.2"
   }
 }

@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
+import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
@@ -25,6 +27,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([]);
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
+    HttpModule,
     AuthModule,
     HomeModule,
     rootRouting,

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Errors, UserService } from '../shared';
@@ -23,13 +23,13 @@ export class AuthComponent implements OnInit {
     private userService: UserService
   ) {
     this.authForm = this.fb.group({
-      'email': ['', Validators.required],
-      'password': ['', Validators.required]
+      email: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.route.url.subscribe(data => {
+    this.route.url.subscribe((data) => {
       this.authType = data[data.length - 1].path;
       this.authTypeCapital = this.authType.charAt(0).toUpperCase() + this.authType.slice(1);
       if (this.authType === 'register') {
@@ -40,13 +40,14 @@ export class AuthComponent implements OnInit {
 
   submitForm() {
     const credentials = this.authForm.value;
-    if (this.authType === 'register' && credentials['password'] !== credentials['password_confirmation']) {
+    if (this.authType === 'register' &&
+        credentials.password !== credentials.password_confirmation) {
       this.error_message = 'Passwords do not match';
     } else {
       this.userService.auth(this.authType, credentials)
         .subscribe(
-          data => this.router.navigateByUrl('/'),
-          errors => {
+          () => this.router.navigateByUrl('/'),
+          (errors: Errors) => {
             this.errors = errors;
           }
         );

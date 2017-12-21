@@ -9,8 +9,9 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-!/log/.keep
-/tmp
+/tmp/*
+.DS_Store
+npm-debug.log
 
 # Ignore environment variables
 .env
@@ -23,5 +24,3 @@
 
 # Ignore coverage
 /coverage/*
-
-/vendor/assets/bower_components

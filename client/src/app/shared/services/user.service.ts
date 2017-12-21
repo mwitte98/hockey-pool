@@ -5,15 +5,15 @@ import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/operator/map';
 
 import { ApiService } from './api.service';
-import { Errors, User } from '../models';
+import { User } from '../models';
 
 @Injectable()
 export class UserService {
   private currentUserSubject = new BehaviorSubject<User>(new User());
-  public currentUser = this.currentUserSubject.asObservable().distinctUntilChanged();
+  currentUser = this.currentUserSubject.asObservable().distinctUntilChanged();
 
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
-  public isAuthenticated = this.isAuthenticatedSubject.asObservable();
+  isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
   constructor(
     private apiService: ApiService
@@ -23,7 +23,7 @@ export class UserService {
     this.apiService.get('/auth/signed_in')
       .subscribe(
         (data: User) => this.setUser(data),
-        (errors: Errors) => this.removeUser()
+        () => this.removeUser()
       );
   }
 
@@ -37,9 +37,9 @@ export class UserService {
     this.isAuthenticatedSubject.next(false);
   }
 
-  auth(type: string, credentials: Object): Observable<User> {
+  auth(type: string, credentials: any): Observable<User> {
     let route: string;
-    let params: Object;
+    let params: any;
     if (type === 'register') {
       route = '/user';
       params = { user: credentials };
@@ -48,7 +48,7 @@ export class UserService {
       params = credentials;
     }
     return this.apiService.post(route, params)
-      .map(data => {
+      .map((data: { logged_in: boolean, user: User }) => {
         this.setUser(data.user);
         return data.user;
       });

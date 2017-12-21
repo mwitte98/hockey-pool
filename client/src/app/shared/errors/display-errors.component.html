@@ -1,5 +1,3 @@
-<md-list *ngIf="errorList">
-  <md-list-item color="warn" *ngFor="let error of errorList">
-    {{ error }}
-  </md-list-item>
-</md-list>
+<p *ngFor="let error of errorList">
+  {{ error }}
+</p>
