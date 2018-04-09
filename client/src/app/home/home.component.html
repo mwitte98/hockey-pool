@@ -1,86 +1,129 @@
-<md-spinner *ngIf="loading"></md-spinner>
+<mat-spinner *ngIf="loading"></mat-spinner>
 <div *ngIf="!loading">
-  <div class="container slide-toggle-container">
-    <md-slide-toggle class="pull-right"
-                     [color]="'primary'"
-                     [(ngModel)]="showingAllEntries"
-                     (change)="toggleAllPanels()">
+  <div class="slide-toggle-container">
+    <mat-slide-toggle
+      color="primary"
+      [(ngModel)]="showingAllEntries"
+      (change)="toggleAllPanels()">
       Show Players for All Entries
-    </md-slide-toggle>
-    <md-slide-toggle class="pull-right"
-                     [color]="'primary'"
-                     [(ngModel)]="showingEliminatedTeams">
+    </mat-slide-toggle>
+    <mat-slide-toggle
+      color="primary"
+      [(ngModel)]="showingEliminatedTeams">
       Show Eliminated Players
-    </md-slide-toggle>
+    </mat-slide-toggle>
   </div>
-  <div class="container homepage-table-heading">
-    <div class="col-xs-3">
-        Entry Name
-    </div>
-    <div class="col-xs-9">
-      <div class="col-xs-2">
-        <span class="visible-md-block visible-lg-block">Points</span>
-        <span class="visible-xs-block visible-sm-block">Pts</span>
-      </div>
-      <div class="col-xs-2">
-        <span class="visible-md-block visible-lg-block">Points-C</span>
-        <span class="visible-xs-block visible-sm-block">Pts-C</span>
-      </div>
-      <div class="col-xs-2">
-        <span class="visible-md-block visible-lg-block">Points-W</span>
-        <span class="visible-xs-block visible-sm-block">Pts-W</span>
-      </div>
-      <div class="col-xs-2">
-        <span class="visible-md-block visible-lg-block">Points-D</span>
-        <span class="visible-xs-block visible-sm-block">Pts-D</span>
-      </div>
-      <div class="col-xs-2">
-        <span class="visible-md-block visible-lg-block">Points-G</span>
-        <span class="visible-xs-block visible-sm-block">Pts-G</span>
-      </div>
-      <div class="col-xs-2">
-        Total Goals
-      </div>
-    </div>
-  </div>
-  <div class="expandable-row" *ngFor="let entry of entries; let i=index">
-    <div class="expandable-row-header" (click)="isPanelOpen[i] = !isPanelOpen[i]">
-      <div class="col-xs-3">
-        <span *ngIf="entry.tiebreaker === 'Tied'">T</span>{{ entry.rank }}. {{ entry.name }}
-      </div>
-      <div class="col-xs-9">
-        <div class="col-xs-2" [style.font-weight]="!entry.tiebreaker ? 'bold' : ''">
+
+  <div class="table-container mat-elevation-z2">
+    <mat-table #table [dataSource]="tableData">
+      <ng-container matColumnDef="name">
+        <mat-header-cell fxFlex="25%" *matHeaderCellDef>Entry Name</mat-header-cell>
+        <mat-cell fxFlex="25%" *matCellDef="let entry">
+          <span *ngIf="entry.tiebreaker === 'Tied'">T</span>{{ entry.rank }}. {{ entry.name }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="points">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points</span>
+          <span fxHide="true" fxShow.xs>Pts</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker ? '' : 'bold-text'"
+          *matCellDef="let entry">
           {{ entry.points }}
-        </div>
-        <div class="col-xs-2" [style.font-weight]="entry.tiebreaker === 'C' ? 'bold' : ''">
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pointsC">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points-C</span>
+          <span fxHide="true" fxShow.xs>Pts-C</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'C' ? 'bold-text' : ''"
+          *matCellDef="let entry">
           {{ entry.pointsC }}
-        </div>
-        <div class="col-xs-2" [style.font-weight]="entry.tiebreaker === 'W' ? 'bold' : ''">
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pointsW">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points-W</span>
+          <span fxHide="true" fxShow.xs>Pts-W</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'W' ? 'bold-text' : ''"
+          *matCellDef="let entry">
           {{ entry.pointsW }}
-        </div>
-        <div class="col-xs-2" [style.font-weight]="entry.tiebreaker === 'D' ? 'bold' : ''">
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pointsD">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points-D</span>
+          <span fxHide="true" fxShow.xs>Pts-D</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'D' ? 'bold-text' : ''"
+          *matCellDef="let entry">
           {{ entry.pointsD }}
-        </div>
-        <div class="col-xs-2" [style.font-weight]="entry.tiebreaker === 'G' ? 'bold' : ''">
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pointsG">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points-G</span>
+          <span fxHide="true" fxShow.xs>Pts-G</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'G' ? 'bold-text' : ''"
+          *matCellDef="let entry">
           {{ entry.pointsG }}
-        </div>
-        <div class="col-xs-2" [style.font-weight]="entry.tiebreaker === 'Goals' ? 'bold' : ''">
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalGoals">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Total Goals</span>
+          <span fxHide="true" fxShow.xs>Ttl G's</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'Goals' ? 'bold-text' : ''"
+          *matCellDef="let entry">
           {{ entry.totalGoals }}
-        </div>
-      </div>
-    </div>
-    <div class="expandable-row-content"
-         [@bodyExpansion]="isPanelOpen[i]">
-      <div class="container">
-        <div *ngFor="let player of entry.players">
-          <div *ngIf="!player.team.is_eliminated || showingEliminatedTeams" class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-            <div class="team-name" [style.color]="player.team.is_eliminated ? 'red' : ''">
-              {{ player.team.name }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="playerDetails">
+        <mat-cell *matCellDef="let entry">
+          <div fxLayout="row wrap">
+            <div *ngFor="let player of entry.players">
+              <div class="team-player-wrapper" *ngIf="!player.team.is_eliminated || showingEliminatedTeams">
+                <div class="team-name" [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
+                  <b>{{ player.team.name }}</b>
+                </div>
+                <div fxLayout="row">
+                  <div class="player-name" [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
+                    {{ player.first_name }} {{ player.last_name }} ({{ player.position | slice:0:1 }})
+                  </div>
+                  <div class="badge">{{ player.points }}</div>
+                </div>
+              </div>
             </div>
-            {{ player.first_name }} {{ player.last_name }} ({{ player.position | slice:0:1 }}) <span class="badge">{{ player.points }}</span>
           </div>
-        </div>
-      </div>
-    </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row ngClass.xs="xs-row" *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row
+        *matRowDef="let entry; columns: columnsToDisplay;"
+        matRipple
+        class="entry-row"
+        ngClass.xs="xs-row"
+        [class.expanded]="expandedEntries.indexOf(entry.name) > -1"
+        (click)="toggleExpansion(entry.name)">
+      </mat-row>
+      <mat-row
+        *matRowDef="let entry; columns: ['playerDetails']; when: isExpansionDetailRow;"
+        class="expansion-row"
+        ngClass.xs="xs-row"
+        [@detailExpand]="expandedEntries.indexOf(entry.name) > -1 ? 'expanded' : 'collapsed'">
+      </mat-row>
+    </mat-table>
   </div>
 </div>

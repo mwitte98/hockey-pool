@@ -4,12 +4,12 @@ import { CanActivate } from '@angular/router';
 import { UserService } from './user.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class NoAuthGuard implements CanActivate {
   constructor(
     private userService: UserService
   ) {}
 
   canActivate(): boolean {
-    return this.userService.getCurrentUser() != null;
+    return this.userService.getCurrentUser() == null;
   }
 }

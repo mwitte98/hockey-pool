@@ -1,22 +1,11 @@
 import { Component, Input } from '@angular/core';
 
-import { Errors } from '../models';
-
 @Component({
   selector: 'display-errors',
   templateUrl: './display-errors.component.html',
-  styleUrls: ['./display-errors.component.css']
+  styleUrls: ['./display-errors.component.scss']
 })
 
 export class DisplayErrorsComponent {
-  formattedErrors: string[] = [];
-
-  @Input()
-  set errors(errorList: Errors) {
-    this.formattedErrors = errorList.errors;
-  }
-
-  get errorList(): string[] {
-    return this.formattedErrors;
-  }
+  @Input() errors: string[];
 }

@@ -5,7 +5,6 @@
   "rules": {
     "align": [
       true,
-      "arguments",
       "elements",
       "members",
       "parameters",
@@ -75,7 +74,8 @@
     "ordered-imports": [
       true,
       {
-        "import-sources-order": "any",
+        "grouped-imports": true,
+        "import-sources-order": "case-insensitive",
         "named-imports-order": "case-insensitive"
       }
     ],
@@ -84,7 +84,7 @@
     "radix": true,
     "semicolon": [true, "always"],
     "space-before-function-paren": [true, "never"],
-    "trailing-comma": [{ "multiline": "never", "singleline": "never" }],
+    "trailing-comma": [true, { "multiline": "never", "singleline": "never" }],
     "triple-equals": [true, "allow-null-check"],
     "typedef-whitespace": [
       true,
@@ -96,7 +96,6 @@
         "variable-declaration": "nospace"
       }
     ],
-    "typeof-compare": true,
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [
@@ -111,7 +110,12 @@
       "check-typecast"
     ],
 
-    "angular-whitespace": [true, "check-interpolation", "check-pipe"],
+    "angular-whitespace": [
+      true,
+      "check-interpolation",
+      "check-pipe",
+      "check-semicolon"
+    ],
     "banana-in-box": true,
     "templates-no-negated-async": true,
     "directive-selector": [true, "attribute", "", "camelCase"],
@@ -119,18 +123,18 @@
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
+    "use-view-encapsulation": true,
     "no-attribute-parameter-decorator": true,
     "no-input-rename": true,
     "no-output-rename": true,
+    "no-output-on-prefix": true,
     "no-forward-ref": true,
     "use-life-cycle-interface": true,
+    "contextual-life-cycle": true,
     "use-pipe-transform-interface": true,
     "pipe-naming": [true, "camelCase", "sg"],
-    "component-class-suffix": [true, "Component"],
-    "directive-class-suffix": [true, "Directive"],
-    "templates-use-public": true,
-    "no-access-missing-member": true,
-    "invoke-injectable": true,
-    "template-to-ng-template": true
+    "component-class-suffix": true,
+    "directive-class-suffix": true,
+    "pipe-impure": true
   }
 }

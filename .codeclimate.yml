@@ -11,8 +11,7 @@ engines:
     config:
       languages:
       - ruby
-  eslint:
-    enabled: true
+      - typescript
   fixme:
     enabled: true
   reek:
@@ -26,7 +25,7 @@ ratings:
   - Gemfile.lock
   - Rakefile
   - '**.rb'
-  - '**.css'
+  - '**.scss'
   - '**.ts'
 exclude_paths:
 - 'bin/**/*'

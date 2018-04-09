@@ -2,7 +2,7 @@ machine:
   node:
     version: 6.10.0
   ruby:
-    version: 2.4.1
+    version: 2.4.3
 
 test:
   pre:

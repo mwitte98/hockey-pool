@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
+
+import { Entry } from '../types/interfaces';
 
 import { ApiService } from './api.service';
-import { Entry } from '../models';
 
 @Injectable()
 export class EntriesService {
@@ -12,7 +12,6 @@ export class EntriesService {
   ) {}
 
   get(): Observable<Entry[]> {
-    return this.apiService.get('/entries')
-      .map((data: Entry[]) => data);
+    return this.apiService.get('/entries');
   }
 }

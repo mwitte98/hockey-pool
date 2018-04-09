@@ -1,9 +1,0 @@
-a:hover {
-  cursor: pointer;
-}
-
-@media (max-width: 767px) {
-  .navbar-collapse {
-    overflow: hidden;
-  }
-}

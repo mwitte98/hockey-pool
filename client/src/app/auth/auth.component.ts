@@ -1,18 +1,19 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { Errors, UserService } from '../shared';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
   selector: 'auth-page',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit {
   authType: string;
   authTypeCapital: string;
-  errors: Errors = new Errors();
+  errors: string[] = [];
   error_message: string = null;
   authForm: FormGroup;
 
@@ -44,13 +45,11 @@ export class AuthComponent implements OnInit {
         credentials.password !== credentials.password_confirmation) {
       this.error_message = 'Passwords do not match';
     } else {
-      this.userService.auth(this.authType, credentials)
-        .subscribe(
-          () => this.router.navigateByUrl('/'),
-          (errors: Errors) => {
-            this.errors = errors;
-          }
-        );
+      this.userService.auth(this.authType, credentials).subscribe(() => {
+        this.router.navigateByUrl('/');
+      }, (error: HttpErrorResponse) => {
+        this.errors = error.error.errors;
+      });
     }
   }
 }
