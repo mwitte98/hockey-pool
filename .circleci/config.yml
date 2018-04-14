@@ -89,8 +89,6 @@ jobs:
   upload-coverage:
     <<: *defaults
     working_directory: ~/hockey-pool
-    environment:
-      - CC_TEST_REPORTER_ID: $CODECLIMATE_REPO_TOKEN
     steps:
       - attach_workspace:
           at: ~/hockey-pool/tmp
@@ -98,7 +96,7 @@ jobs:
           name: Upload coverage results to Code Climate
           command: |
             ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
-            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json --id $CODECLIMATE_REPO_TOKEN
 workflows:
   version: 2
 
