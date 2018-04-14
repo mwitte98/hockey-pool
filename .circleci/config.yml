@@ -42,10 +42,9 @@ jobs:
             - hockey-pool-backend-{{ checksum "Gemfile.lock" }}
             - hockey-pool-backend-
       - run:
-          name: Setup dependencies
+          name: Install gems
           command: |
             bundle check || bundle install
-            bundle exec rake db:create db:migrate
       - save_cache:
           key: hockey-pool-backend-{{ checksum "Gemfile.lock" }}
           paths:
@@ -53,6 +52,7 @@ jobs:
       - run:
           name: Run backend tests
           command: |
+            bundle exec rake db:schema:load --trace
             bundle exec rake
             ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/.resultset.json
       - persist_to_workspace:
