@@ -10,6 +10,7 @@ defaults: &defaults
         PGHOST: 127.0.0.1
         PGUSER: hockey-pool
         RAILS_ENV: test
+    - image: circleci/postgres:10.3-alpine
       environment:
         POSTGRES_USER: hockey-pool
         POSTGRES_DB: db/hockey_pool_test_db

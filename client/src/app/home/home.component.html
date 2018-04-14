@@ -90,7 +90,7 @@
       </ng-container>
 
       <ng-container matColumnDef="playerDetails">
-        <mat-cell *matCellDef="let entry">
+        <mat-cell class="player-details" *matCellDef="let entry">
           <div fxLayout="row wrap">
             <div *ngFor="let player of entry.players">
               <div class="team-player-wrapper" *ngIf="!player.team.is_eliminated || showingEliminatedTeams">

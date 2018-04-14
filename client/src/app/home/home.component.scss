@@ -1,8 +1,12 @@
+$white: #fff;
+$gray: #eee;
+$blue: #3f51b5;
+
 .slide-toggle-container {
-  margin: 16px 16px 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  margin: 16px 16px 0;
 }
 
 mat-slide-toggle {
@@ -19,17 +23,17 @@ mat-slide-toggle {
 }
 
 .table-container {
-  margin: 0 16px 16px;
   display: flex;
   flex-direction: column;
+  margin: 0 16px 16px;
 }
 
 .entry-row {
-  position: relative;
   cursor: pointer;
+  position: relative;
 
   &:hover {
-    background: #eee;
+    background: $gray;
   }
 
   &.expanded {
@@ -41,7 +45,8 @@ mat-slide-toggle {
   overflow: hidden;
 }
 
-.mat-header-row, .mat-row {
+.mat-header-row,
+.mat-row {
   padding-right: 16px;
 
   &.xs-row {
@@ -49,15 +54,16 @@ mat-slide-toggle {
   }
 }
 
-.mat-header-cell, .mat-cell {
+.mat-header-cell,
+.mat-cell {
   padding-right: 8px;
 }
 
-.mat-column-playerDetails {
+.player-details {
   padding-bottom: 16px;
 }
 
-.xs-row > .mat-column-playerDetails {
+.xs-row > .player-details {
   padding-bottom: 8px;
 }
 
@@ -70,8 +76,8 @@ mat-slide-toggle {
 }
 
 .badge {
-  background-color: #3f51b5;
-  color: #fff;
+  background-color: $blue;
   border-radius: 10px;
+  color: $white;
   padding: 2px 5px;
 }
