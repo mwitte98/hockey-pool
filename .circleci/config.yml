@@ -1,8 +1,5 @@
 version: 2
 defaults: &defaults
-  branches:
-    ignore:
-      - master
   working_directory: ~/hockey-pool
   docker:
     - image: circleci/ruby:2.5.1-node
@@ -106,7 +103,10 @@ workflows:
 
   commit:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore: master
       - backend-tests:
           requires:
             - build
