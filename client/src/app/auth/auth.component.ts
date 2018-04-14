@@ -22,14 +22,14 @@ export class AuthComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private userService: UserService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.authForm = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
-  }
 
-  ngOnInit(): void {
     this.route.url.subscribe((data) => {
       this.authType = data[data.length - 1].path;
       this.authTypeCapital = this.authType.charAt(0).toUpperCase() + this.authType.slice(1);

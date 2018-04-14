@@ -106,8 +106,7 @@
       "check-operator",
       "check-preblock",
       "check-separator",
-      "check-type",
-      "check-typecast"
+      "check-type"
     ],
 
     "angular-whitespace": [

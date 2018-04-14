@@ -1,0 +1,119 @@
+version: 2
+defaults: &defaults
+  branches:
+    ignore:
+      - master
+  working_directory: ~/hockey-pool
+  docker:
+    - image: circleci/ruby:2.5.1-node
+      environment:
+        BUNDLE_JOBS: 3
+        BUNDLE_RETRY: 3
+        BUNDLE_PATH: vendor/bundle
+        PGHOST: 127.0.0.1
+        PGUSER: hockey-pool
+        RAILS_ENV: test
+      environment:
+        POSTGRES_USER: hockey-pool
+        POSTGRES_DB: db/hockey_pool_test_db
+        POSTGRES_PASSWORD: ""
+jobs:
+  build:
+    <<: *defaults
+    working_directory: ~/hockey-pool
+    steps:
+      - run:
+          name:  Download cc-test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
+  backend-tests:
+    <<: *defaults
+    working_directory: ~/hockey-pool
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/hockey-pool/tmp
+      - restore_cache:
+          keys:
+            - hockey-pool-backend-{{ checksum "Gemfile.lock" }}
+            - hockey-pool-backend-
+      - run:
+          name: Setup dependencies
+          command: |
+            bundle check || bundle install
+            bundle exec rake db:create db:migrate
+      - save_cache:
+          key: hockey-pool-backend-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Run backend tests
+          command: |
+            bundle exec rake
+            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/.resultset.json
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - codeclimate.backend.json
+  frontend-tests:
+    <<: *defaults
+    working_directory: ~/hockey-pool/client
+    steps:
+      - checkout:
+          path: ~/hockey-pool
+      - attach_workspace:
+          at: ~/hockey-pool/client/tmp
+      - restore_cache:
+          keys:
+            - hockey-pool-frontend-{{ checksum "package.json" }}
+            - hockey-pool-frontend-
+      - run: npm install
+      - save_cache:
+          key: hockey-pool-frontend-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run lint
+      - run:
+          name: Run frontend tests
+          command: |
+            npm test
+            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - codeclimate.frontend.json
+  upload-coverage:
+    <<: *defaults
+    working_directory: ~/hockey-pool
+    environment:
+      - CC_TEST_REPORTER_ID: $CODECLIMATE_REPO_TOKEN
+    steps:
+      - attach_workspace:
+          at: ~/hockey-pool/tmp
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - build
+      - backend-tests:
+          requires:
+            - build
+      - frontend-tests:
+          requires:
+             - build
+      - upload-coverage:
+          requires:
+             - backend-tests
+             - frontend-tests
