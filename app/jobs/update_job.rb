@@ -3,8 +3,8 @@ class UpdateJob
 
   def perform
     agent = Mechanize.new
-    goalies_data = get_data(agent, 'http://www.nhl.com/stats/rest/grouped/goalies/goalie_basic/season/goaliesummary?cayenneExp=seasonId=20162017%20and%20gameTypeId=3')
-    skaters_data = get_data(agent, 'http://www.nhl.com/stats/rest/grouped/skaters/basic/season/skatersummary?cayenneExp=seasonId=20162017%20and%20gameTypeId=3')
+    goalies_data = get_data(agent, 'http://www.nhl.com/stats/rest/goalies?reportType=goalie_basic&reportName=goaliesummary&cayenneExp=seasonId=20172018%20and%20gameTypeId=3')
+    skaters_data = get_data(agent, 'http://www.nhl.com/stats/rest/skaters?reportType=basic&reportName=skatersummary&cayenneExp=seasonId=20172018%20and%20gameTypeId=3')
 
     teams = Team.includes(:players).all
     teams.each do |team|
