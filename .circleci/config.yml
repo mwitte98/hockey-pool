@@ -106,11 +106,15 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/hockey-pool/client/dist
-      - run: git add --force client/dist/
-      - run: git commit --amend -m "Auto Commit $CIRCLE_SHA1"
-      - run: git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com:hockeyplayoffpool-test.git HEAD:refs/heads/master
-      - run: heroku run rake db:migrate --app hockeyplayoffpool-test
+          at: ~/hockey-pool/client
+      - run:
+          name: Deploy to Heroku
+          command: |
+            git config --global user.email "mcw9612@rit.edu"
+            git config --global user.name "Matthew Witte"
+            git add --force client/dist/
+            git commit --amend -m "Auto Commit $CIRCLE_SHA1"
+            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com:hockeyplayoffpool-test.git HEAD:refs/heads/master
 workflows:
   version: 2
 
