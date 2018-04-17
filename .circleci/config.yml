@@ -12,9 +12,9 @@ jobs:
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
             chmod +x ./tmp/cc-test-reporter
       - persist_to_workspace:
-          root: tmp
+          root: ./
           paths:
-            - cc-test-reporter
+            - tmp/cc-test-reporter
   backend:
     docker:
       - image: circleci/ruby:2.5.1-node
@@ -34,7 +34,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/hockey-pool/tmp
+          at: ~/hockey-pool
       - restore_cache:
           keys:
             - hockey-pool-backend-{{ checksum "Gemfile.lock" }}
@@ -54,9 +54,9 @@ jobs:
             bundle exec rake
             ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/.resultset.json
       - persist_to_workspace:
-          root: tmp
+          root: ./
           paths:
-            - codeclimate.backend.json
+            - tmp/codeclimate.backend.json
   frontend:
     docker:
       - image: circleci/ruby:2.5.1-node
@@ -65,7 +65,7 @@ jobs:
       - checkout:
           path: ~/hockey-pool
       - attach_workspace:
-          at: ~/hockey-pool/client/tmp
+          at: ~/hockey-pool/client
       - restore_cache:
           keys:
             - hockey-pool-frontend-{{ checksum "package.json" }}
@@ -93,8 +93,7 @@ jobs:
     working_directory: ~/hockey-pool
     steps:
       - attach_workspace:
-          at: ~/hockey-pool/tmp
-      - run: ls -la tmp/
+          at: ~/hockey-pool
       - run:
           name: Upload coverage results to Code Climate
           command: |
