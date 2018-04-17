@@ -11,6 +11,7 @@
   "scripts": {
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
+    "build-prod": "ng build -prod",
     "lint": "sass-lint -v --max-warnings 0 && ng lint --type-check",
     "lint-fix": "ng lint --type-check --fix",
     "lint-watch": "npm-watch lint",
