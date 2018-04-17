@@ -1,18 +1,9 @@
 version: 2
-defaults: &defaults
-  working_directory: ~/hockey-pool
-  docker:
-    - image: circleci/ruby:2.5.1-node
-      environment:
-        BUNDLE_JOBS: 3
-        BUNDLE_RETRY: 3
-        BUNDLE_PATH: vendor/bundle
-        PGHOST: 127.0.0.1
-        PGUSER: hockey-pool
-        RAILS_ENV: test
 jobs:
   setup:
-    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: ~/hockey-pool
     steps:
       - run:
           name:  Download cc-test-reporter
@@ -25,13 +16,21 @@ jobs:
           paths:
             - cc-test-reporter
   backend:
-    <<: *defaults
     docker:
+      - image: circleci/ruby:2.5.1-node
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          PGUSER: hockey-pool
+          RAILS_ENV: test
       - image: circleci/postgres:10.3-alpine
         environment:
           POSTGRES_USER: hockey-pool
           POSTGRES_DB: db/hockey_pool_test_db
           POSTGRES_PASSWORD: ""
+    working_directory: ~/hockey-pool
     steps:
       - checkout
       - attach_workspace:
@@ -59,7 +58,8 @@ jobs:
           paths:
             - codeclimate.backend.json
   frontend:
-    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.5.1-node
     working_directory: ~/hockey-pool/client
     steps:
       - checkout:
@@ -88,7 +88,9 @@ jobs:
             - dist/*
             - tmp/codeclimate.frontend.json
   upload-coverage:
-    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: ~/hockey-pool
     steps:
       - attach_workspace:
           at: ~/hockey-pool/tmp
@@ -98,7 +100,9 @@ jobs:
             ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json --id $CODECLIMATE_REPO_TOKEN
   deploy:
-    <<: *defaults
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: ~/hockey-pool
     steps:
       - checkout
       - attach_workspace:
