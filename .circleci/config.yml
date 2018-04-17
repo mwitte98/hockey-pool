@@ -94,6 +94,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/hockey-pool/tmp
+      - run: ls -la tmp/
       - run:
           name: Upload coverage results to Code Climate
           command: |
