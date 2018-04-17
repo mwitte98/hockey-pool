@@ -114,7 +114,7 @@ jobs:
             git config --global user.name "Matthew Witte"
             git add --force client/dist/
             git commit --amend -m "Auto Commit $CIRCLE_SHA1"
-            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com:hockeyplayoffpool-test.git HEAD:refs/heads/master
+            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/hockeyplayoffpool-test.git HEAD:refs/heads/master
 workflows:
   version: 2
 
