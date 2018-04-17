@@ -121,10 +121,10 @@ workflows:
               ignore: master
       - backend:
           requires:
-            - build
+            - setup
       - frontend:
           requires:
-            - build
+            - setup
       - upload-coverage:
           requires:
             - backend
