@@ -1,4 +1,4 @@
-class EntryToPlayer < ActiveRecord::Migration
+class EntryToPlayer < ActiveRecord::Migration[4.2]
   def change
     create_table :players do |t|
       t.belongs_to :team, index: true
@@ -16,13 +16,13 @@ class EntryToPlayer < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    
+
     create_table :entries do |t|
       t.string :name
 
       t.timestamps null: false
     end
-    
+
     create_table :entries_players, id: false do |t|
       t.belongs_to :entry, index: true
       t.belongs_to :player, index: true
