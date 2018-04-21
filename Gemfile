@@ -14,7 +14,7 @@ gem 'sucker_punch', '2.0.4'
 group :development do
   gem 'debase', '0.2.2'
   gem 'reek', '4.8.1'
-  gem 'rubocop', '0.54.0'
+  gem 'rubocop', '0.55.0'
   gem 'ruby-debug-ide', '0.6.1'
 end
 
