@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
-import { Entry } from '../types/interfaces';
+import { ApiResponse } from '../types/interfaces';
 
 import { ApiService } from './api.service';
 
@@ -11,7 +11,7 @@ export class EntriesService {
     private apiService: ApiService
   ) {}
 
-  get(): Observable<Entry[]> {
+  get(): Observable<ApiResponse> {
     return this.apiService.get('/entries');
   }
 }

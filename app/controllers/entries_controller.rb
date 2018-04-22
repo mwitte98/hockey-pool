@@ -2,14 +2,10 @@ class EntriesController < ApplicationController
   before_action :signed_in?, only: %i[create update destroy]
 
   def index
-    entries = Entry.includes(players: [:team]).all.as_json
-    entries.each do |entry|
-      entry['players'].sort_by! do |player|
-        team = player['team']
-        [team['is_eliminated'] ? 1 : 0, team['id']]
-      end
-    end
-    render json: entries
+    entries = Entry.includes(:players).all.as_json
+    players = Player.all.as_json
+    teams = Team.all.order(:is_eliminated, :id).as_json
+    render json: { entries: entries, players: players, teams: teams }
   end
 
   def create

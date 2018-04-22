@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 
 import { EntriesService } from '../shared/services/entries.service';
-import { Entry, Player } from '../shared/types/interfaces';
+import { ApiResponse, Entry, Player } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './home.component.html',
@@ -31,9 +31,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
 
-    this.entriesService.get().subscribe((data: Entry[]) => {
-      this.entries = data;
+    this.entriesService.get().subscribe((response: ApiResponse) => {
       this.expandedEntries = [];
+      this.combineApiResponseData(response);
       this.calculatePoints();
       this.sortEntries();
       this.prepareTableData();
@@ -62,6 +62,22 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  combineApiResponseData(response: ApiResponse): void {
+    const players = response.players;
+    players.forEach((p) => p.team = response.teams.find((t) => t.id === p.team_id));
+    response.entries.forEach((entry: Entry) => {
+      entry.players = [];
+      entry.player_ids.forEach((pId) => entry.players.push(players.find((p) => p.id === pId)));
+      entry.players.sort((a, b) => {
+        if (a.team.is_eliminated === b.team.is_eliminated) {
+          return a.team_id - b.team_id;
+        }
+        return a.team.is_eliminated ? 1 : -1;
+      });
+    });
+    this.entries = response.entries;
+  }
+
   prepareTableData(): void {
     this.tableData = [];
     this.entries.forEach((entry: Entry) => {
@@ -75,17 +91,17 @@ export class HomeComponent implements OnInit {
       entry.points = entry.pointsC = entry.pointsW =
         entry.pointsD = entry.pointsG = entry.totalGoals = 0;
       entry.players.forEach((player: Player) => {
-          entry.points += player.points;
-          entry.totalGoals += player.goals;
-          if (player.position === 'Center') {
-              entry.pointsC += player.points;
-          } else if (player.position === 'Winger') {
-              entry.pointsW += player.points;
-          } else if (player.position === 'Defenseman') {
-              entry.pointsD += player.points;
-          } else {
-              entry.pointsG += player.points;
-          }
+        entry.points += player.points;
+        entry.totalGoals += player.goals;
+        if (player.position === 'Center') {
+            entry.pointsC += player.points;
+        } else if (player.position === 'Winger') {
+            entry.pointsW += player.points;
+        } else if (player.position === 'Defenseman') {
+            entry.pointsD += player.points;
+        } else {
+            entry.pointsG += player.points;
+        }
       });
     });
   }

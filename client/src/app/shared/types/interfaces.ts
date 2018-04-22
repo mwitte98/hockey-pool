@@ -1,6 +1,13 @@
+export interface ApiResponse {
+  entries: Entry[];
+  players: Player[];
+  teams: Team[];
+}
+
 export interface Entry {
   id: number;
   name: string;
+  player_ids: number[];
   players: Player[];
   points: number;
   pointsC: number;
