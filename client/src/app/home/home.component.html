@@ -14,8 +14,8 @@
     </mat-slide-toggle>
   </div>
 
-  <div class="table-container mat-elevation-z2">
-    <mat-table #table [dataSource]="tableData">
+  <div class="table-container">
+    <mat-table [dataSource]="tableData">
       <ng-container matColumnDef="name">
         <mat-header-cell fxFlex="25%" *matHeaderCellDef>Entry Name</mat-header-cell>
         <mat-cell fxFlex="25%" *matCellDef="let entry">
@@ -111,7 +111,7 @@
 
       <mat-header-row ngClass.xs="xs-row" *matHeaderRowDef="columnsToDisplay"></mat-header-row>
       <mat-row
-        *matRowDef="let entry; columns: columnsToDisplay;"
+        *matRowDef="let entry; columns: columnsToDisplay"
         matRipple
         class="entry-row"
         ngClass.xs="xs-row"

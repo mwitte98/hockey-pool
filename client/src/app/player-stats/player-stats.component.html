@@ -1,0 +1,81 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+<div *ngIf="!loading" class="player-stats-wrapper">
+  <div *ngFor="let team of teams; trackBy: team?.id" class="team-wrapper" ngClass.xs="xs-row">
+    <h4>{{ team.name }}</h4>
+    <mat-table [dataSource]="team.players">
+      <ng-container matColumnDef="name">
+        <mat-header-cell class="fx-flex" ngClass.gt-xs="fx-flex-158" ngClass.xs="fx-flex-96" *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell class="fx-flex" ngClass.gt-xs="fx-flex-158" ngClass.xs="fx-flex-96" *matCellDef="let player">{{ player.first_name }} {{ player.last_name }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="position">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>Pos</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.position | slice:0:1 }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="goals">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>G</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.goals }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="assists">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>A</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.assists }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="gwg">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>GWG</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.gwg }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="shg">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>SHG</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.shg }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="otg">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>OTG</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.otg }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="points">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>Pts</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.points }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row ngClass.xs="xs-row" *matHeaderRowDef="playerColumnsToDisplay"></mat-header-row>
+      <mat-row ngClass.xs="xs-row" *matRowDef="let player; columns: playerColumnsToDisplay"></mat-row>
+    </mat-table>
+
+    <mat-table [dataSource]="team.goalies" *ngIf="team.goalies.length > 0">
+      <ng-container matColumnDef="name">
+        <mat-header-cell class="fx-flex" ngClass.gt-xs="fx-flex-158" ngClass.xs="fx-flex-96" *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell class="fx-flex" ngClass.gt-xs="fx-flex-158" ngClass.xs="fx-flex-96" *matCellDef="let player">{{ player.first_name }} {{ player.last_name }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="position">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>Pos</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.position | slice:0:1 }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="goals">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>G</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.goals }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="assists">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>A</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.assists }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="wins">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>Wins</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.wins }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="otl">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>OTL</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.otl }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="shutouts">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>SO</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.shutouts }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="points">
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>Pts</mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.points }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row ngClass.xs="xs-row" *matHeaderRowDef="goalieColumnsToDisplay"></mat-header-row>
+      <mat-row ngClass.xs="xs-row" *matRowDef="let player; columns: goalieColumnsToDisplay"></mat-row>
+    </mat-table>
+  </div>
+</div>

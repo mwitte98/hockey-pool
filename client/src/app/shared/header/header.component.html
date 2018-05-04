@@ -1,8 +1,8 @@
 <mat-toolbar color="primary" class="mat-elevation-z4">
   <a class="nav-logo" routerLink="/">NHL Playoff Pool</a>
   <div class="right-align"></div>
-  <a mat-button *ngIf="currentPage !== ''" routerLink="/">Entries</a>
-  <a mat-button *ngIf="currentPage !== 'playerstats'" routerLink="/playerstats">Player Stats</a>
+  <a mat-button *ngIf="currentPage !== '/'" routerLink="/">Entries</a>
+  <a mat-button *ngIf="currentPage !== '/player-stats'" routerLink="/player-stats">Player Stats</a>
   <div *showAuthed="true" fxShow="false" fxShow.gt-xs>
     <a mat-button routerLink="/admin/teams">Admin - Teams</a>
     <a mat-button routerLink="/admin/entries">Admin - Entries</a>

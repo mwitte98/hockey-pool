@@ -43,6 +43,8 @@ export interface Team {
   name: string;
   abbr: string;
   is_eliminated: boolean;
+  players: Player[];
+  goalies: Player[];
 }
 
 export interface User {

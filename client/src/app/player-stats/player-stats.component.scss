@@ -1,0 +1,76 @@
+.player-stats-wrapper {
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.team-wrapper {
+  margin: 16px 16px 0;
+
+  &.xs-row {
+    margin: 16px 0 0;
+  }
+}
+
+h4 {
+  font: 400 15px/24px Roboto, 'Helvetica Neue', sans-serif;
+  margin: 8px 0;
+  text-align: center;
+}
+
+.mat-header-row,
+.mat-row {
+  padding-left: 16px;
+  padding-right: 8px;
+
+  &.xs-row {
+    padding-left: 8px;
+    padding-right: 0;
+  }
+}
+
+.mat-header-cell,
+.mat-cell {
+  padding-right: 8px;
+}
+
+.fx-flex {
+  box-sizing: border-box;
+  flex: 1 1 100%;
+}
+
+.fx-flex-21 {
+  max-width: 21px;
+  min-width: 21px;
+}
+
+.fx-flex-24 {
+  max-width: 24px;
+  min-width: 24px;
+}
+
+.fx-flex-27 {
+  max-width: 27px;
+  min-width: 27px;
+}
+
+.fx-flex-30 {
+  max-width: 30px;
+  min-width: 30px;
+}
+
+.fx-flex-38 {
+  max-width: 38px;
+  min-width: 38px;
+}
+
+.fx-flex-96 {
+  max-width: 96px;
+  min-width: 96px;
+}
+
+.fx-flex-158 {
+  max-width: 158px;
+  min-width: 158px;
+}

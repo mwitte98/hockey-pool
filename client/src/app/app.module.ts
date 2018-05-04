@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
+import { PlayerStatsComponent } from './player-stats/player-stats.component';
 import { ShowAuthedDirective } from './shared/directives/show-authed.directive';
 import { DisplayErrorsComponent } from './shared/errors/display-errors.component';
 import { HeaderComponent } from './shared/header/header.component';
@@ -22,6 +23,7 @@ import { ApiService } from './shared/services/api.service';
 import { AuthGuard } from './shared/services/auth-guard.service';
 import { EntriesService } from './shared/services/entries.service';
 import { NoAuthGuard } from './shared/services/no-auth-guard.service';
+import { TeamsService } from './shared/services/teams.service';
 import { UserService } from './shared/services/user.service';
 
 @NgModule({
@@ -31,6 +33,7 @@ import { UserService } from './shared/services/user.service';
     DisplayErrorsComponent,
     HeaderComponent,
     HomeComponent,
+    PlayerStatsComponent,
     ShowAuthedDirective
   ],
   imports: [
@@ -56,6 +59,7 @@ import { UserService } from './shared/services/user.service';
     AuthGuard,
     EntriesService,
     NoAuthGuard,
+    TeamsService,
     UserService
   ],
   bootstrap: [AppComponent]
