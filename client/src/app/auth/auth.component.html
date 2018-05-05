@@ -4,25 +4,25 @@
   <form [formGroup]="authForm" (ngSubmit)="submitForm()">
     <mat-card-content>
       <br>
-      <mat-input-container>
+      <mat-form-field>
         <input
           matInput
           formControlName="email"
           placeholder="Email"
           type="email" />
-      </mat-input-container>
+      </mat-form-field>
       <br>
-      <mat-input-container dividerColor="{{ error_message ? 'warn' : 'primary' }}">
+      <mat-form-field color="{{ error_message ? 'warn' : 'primary' }}">
         <input
           matInput
           formControlName="password"
           placeholder="Password"
           type="password" />
         <mat-hint *ngIf="error_message" [ngStyle]="{'color': '#f44336'}">{{ error_message }}</mat-hint>
-      </mat-input-container>
+      </mat-form-field>
       <br>
-      <mat-input-container
-        dividerColor="{{ error_message ? 'warn' : 'primary' }}"
+      <mat-form-field
+        color="{{ error_message ? 'warn' : 'primary' }}"
         *ngIf="authType === 'register'">
         <input
           matInput
@@ -30,7 +30,7 @@
           placeholder="Confirm Password"
           type="password" />
         <mat-hint *ngIf="error_message" [ngStyle]="{'color': '#f44336'}">{{ error_message }}</mat-hint>
-      </mat-input-container>
+      </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit">{{ authTypeCapital }}</button>

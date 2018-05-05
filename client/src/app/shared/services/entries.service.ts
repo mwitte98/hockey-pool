@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { ApiResponse } from '../types/interfaces';
 
 import { ApiService } from './api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class EntriesService {
   constructor(
     private apiService: ApiService

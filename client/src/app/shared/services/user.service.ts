@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs/Rx';
 
 import { User } from '../types/interfaces';
 
 import { ApiService } from './api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UserService {
   private currentUserSubject = new BehaviorSubject<User>(null);
   currentUser = this.currentUserSubject.asObservable();

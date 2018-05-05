@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 import { Team } from '../types/interfaces';
 
 import { ApiService } from './api.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TeamsService {
   constructor(
     private apiService: ApiService
