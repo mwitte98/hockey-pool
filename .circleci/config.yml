@@ -1,0 +1,161 @@
+version: 2
+jobs:
+  setup:
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: ~/hockey-pool
+    steps:
+      - run:
+          name:  Download cc-test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - tmp/cc-test-reporter
+  backend:
+    docker:
+      - image: circleci/ruby:2.5.1-node
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          PGUSER: hockey-pool
+          RAILS_ENV: test
+      - image: circleci/postgres:10.3-alpine
+        environment:
+          POSTGRES_USER: hockey-pool
+          POSTGRES_DB: db/hockey_pool_test_db
+          POSTGRES_PASSWORD: ""
+    working_directory: ~/hockey-pool
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/hockey-pool
+      - restore_cache:
+          keys:
+            - hockey-pool-backend-{{ checksum "Gemfile.lock" }}
+            - hockey-pool-backend-
+      - run:
+          name: Install gems
+          command: |
+            bundle check || bundle install
+      - save_cache:
+          key: hockey-pool-backend-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Run backend tests
+          command: |
+            bundle exec rake db:schema:load --trace
+            bundle exec rake
+            ./tmp/cc-test-reporter format-coverage -t simplecov -o tmp/codeclimate.backend.json coverage/.resultset.json
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - tmp/codeclimate.backend.json
+  frontend:
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: ~/hockey-pool/client
+    steps:
+      - checkout:
+          path: ~/hockey-pool
+      - attach_workspace:
+          at: ~/hockey-pool/client
+      - restore_cache:
+          keys:
+            - hockey-pool-frontend-{{ checksum "package.json" }}
+            - hockey-pool-frontend-
+      - run: npm install
+      - save_cache:
+          key: hockey-pool-frontend-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run: npm run lint
+      - run:
+          name: Run frontend tests
+          command: |
+            npm test
+            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
+      - run: npm run build-prod
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - dist/*
+            - tmp/codeclimate.frontend.json
+  upload-coverage:
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: ~/hockey-pool
+    steps:
+      - attach_workspace:
+          at: ~/hockey-pool
+      - run:
+          name: Upload coverage results to Code Climate
+          command: |
+            ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
+            ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json --id $CODECLIMATE_REPO_TOKEN
+  deploy-test:
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: ~/hockey-pool
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/hockey-pool/client
+      - run:
+          name: Deploy to Heroku
+          command: |
+            git config --global user.email "mcw9612@rit.edu"
+            git config --global user.name "Matthew Witte"
+            git add --force client/dist/
+            git commit --amend -m "Auto Commit $CIRCLE_SHA1"
+            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/hockeyplayoffpool-test.git HEAD:refs/heads/master
+  deploy-prod:
+    docker:
+      - image: circleci/ruby:2.5.1-node
+    working_directory: ~/hockey-pool
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/hockey-pool/client
+      - run:
+          name: Deploy to Heroku
+          command: |
+            git config --global user.email "mcw9612@rit.edu"
+            git config --global user.name "Matthew Witte"
+            git add --force client/dist/
+            git commit --amend -m "Auto Commit $CIRCLE_SHA1"
+            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/hockeyplayoffpool.git HEAD:refs/heads/master
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      - setup
+      - backend:
+          requires:
+            - setup
+      - frontend:
+          requires:
+            - setup
+      - upload-coverage:
+          requires:
+            - backend
+            - frontend
+      - deploy-test:
+          requires:
+            - upload-coverage
+          filters:
+            branches:
+              ignore: master
+      - deploy-prod:
+          requires:
+            - upload-coverage
+          filters:
+            branches:
+              only: master

@@ -6,19 +6,7 @@ class UpdateJob
     goalies_data = get_data(agent, 'http://www.nhl.com/stats/rest/goalies?reportType=goalie_basic&reportName=goaliesummary&cayenneExp=seasonId=20172018%20and%20gameTypeId=3')
     skaters_data = get_data(agent, 'http://www.nhl.com/stats/rest/skaters?reportType=basic&reportName=skatersummary&cayenneExp=seasonId=20172018%20and%20gameTypeId=3')
 
-    teams = Team.includes(:players).all
-    teams.each do |team|
-      team.players.each do |player|
-        abbr = team.abbr
-        if player.position == 'Goalie'
-          goalie_data = find_player player, abbr, goalies_data
-          update_goalie player, goalie_data if goalie_data
-        else
-          skater_data = find_player player, abbr, skaters_data
-          update_skater player, skater_data if skater_data
-        end
-      end
-    end
+    update_players goalies_data, skaters_data
   end
 
   private
@@ -26,6 +14,19 @@ class UpdateJob
   def get_data(agent, url)
     agent.get(url)
     JSON.parse(agent.page.body)['data']
+  end
+
+  def update_players(goalies_data, skaters_data)
+    teams = Team.includes(:players).all
+    teams.each do |team|
+      team.players.each do |player|
+        if player.position == 'Goalie'
+          update_goalie player, team, goalies_data
+        else
+          update_skater player, team, skaters_data
+        end
+      end
+    end
   end
 
   def find_player(player, abbr, players_data)
@@ -36,7 +37,17 @@ class UpdateJob
     end
   end
 
-  def update_goalie(player, player_data)
+  def update_goalie(player, team, goalies_data)
+    goalie_data = find_player player, team.abbr, goalies_data
+    update_goalie_in_db player, goalie_data if goalie_data
+  end
+
+  def update_skater(player, team, skaters_data)
+    skater_data = find_player player, team.abbr, skaters_data
+    update_skater_in_db player, skater_data if skater_data
+  end
+
+  def update_goalie_in_db(player, player_data)
     goals = player_data['goals'] || player.goals
     assists = player_data['assists'] || player.assists
     wins = player_data['wins'] || player.wins
@@ -47,7 +58,7 @@ class UpdateJob
                   otl: otl, shutouts: shutouts, points: points)
   end
 
-  def update_skater(player, player_data)
+  def update_skater_in_db(player, player_data)
     goals = player_data['goals'] || player.goals
     assists = player_data['assists'] || player.assists
     gwg = player_data['gameWinningGoals'] || player.gwg

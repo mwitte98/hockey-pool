@@ -11,9 +11,7 @@ engines:
     config:
       languages:
       - ruby
-      - javascript
-  eslint:
-    enabled: true
+      - typescript
   fixme:
     enabled: true
   reek:
@@ -26,13 +24,14 @@ ratings:
   - Gemfile
   - Gemfile.lock
   - Rakefile
-  - '**.erb'
   - '**.rb'
-  - '**.css'
-  - '**.js'
+  - '**.scss'
+  - '**.ts'
 exclude_paths:
 - 'bin/**/*'
-- 'client/**/*'
+- 'client/coverage/**/*'
+- 'client/dist/**/*'
+- 'client/node_modules/**/*'
 - 'coverage/**/*'
 - 'db/**/*'
 - 'tmp/**/*'

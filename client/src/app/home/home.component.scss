@@ -1,0 +1,91 @@
+$white: #fff;
+$gray: #eee;
+$blue: #3f51b5;
+
+.slide-toggle-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  margin: 16px 16px 0;
+}
+
+mat-slide-toggle {
+  margin-bottom: 16px;
+  margin-left: 20px;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 16px 16px;
+
+  &.xs-row {
+    margin: 0;
+  }
+}
+
+.entry-row {
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    background: $gray;
+  }
+
+  &.expanded {
+    border-bottom-color: transparent;
+  }
+}
+
+.expansion-row {
+  overflow: hidden;
+}
+
+.mat-header-row,
+.mat-row {
+  padding-left: 16px;
+  padding-right: 8px;
+
+  &.xs-row {
+    padding-left: 8px;
+    padding-right: 0;
+  }
+}
+
+.mat-header-cell,
+.mat-cell {
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+.player-details {
+  padding-bottom: 16px;
+  padding-top: 8px;
+}
+
+.xs-row > .player-details {
+  padding-bottom: 8px;
+}
+
+.team-player-wrapper {
+  width: 200px;
+}
+
+.player-name {
+  padding: 2px 4px 2px 0;
+}
+
+.badge {
+  background-color: $blue;
+  border-radius: 10px;
+  color: $white;
+  padding: 2px 5px;
+}

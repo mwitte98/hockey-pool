@@ -2,7 +2,8 @@ class TeamsController < ApplicationController
   before_action :signed_in?, only: %i[create update destroy]
 
   def index
-    render json: Team.includes(:players).all.order(:is_eliminated, :id)
+    teams = Team.includes(:players).all.order(:is_eliminated, :id)
+    render json: teams.as_json(include: { players: { except: %i[team_id created_at updated_at] } })
   end
 
   def create

@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <a class="nav-logo" routerLink="/">NHL Playoff Pool</a>
+  <div class="right-align"></div>
+  <a mat-button *ngIf="currentPage !== '/'" routerLink="/">Entries</a>
+  <a mat-button *ngIf="currentPage !== '/player-stats'" routerLink="/player-stats">Player Stats</a>
+  <div *showAuthed="true" fxShow="false" fxShow.gt-xs>
+    <a mat-button routerLink="/admin/teams">Admin - Teams</a>
+    <a mat-button routerLink="/admin/entries">Admin - Entries</a>
+    <a mat-button (click)="logout()">Logout</a>
+  </div>
+  <button *showAuthed="true" mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-xs>
+    Admin
+  </button>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <a mat-menu-item routerLink="/admin/teams">Admin - Teams</a>
+  <a mat-menu-item routerLink="/admin/entries">Admin - Entries</a>
+  <a mat-menu-item (click)="logout()">Logout</a>
+</mat-menu>

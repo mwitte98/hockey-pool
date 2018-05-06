@@ -1,0 +1,129 @@
+<mat-spinner *ngIf="loading"></mat-spinner>
+<div *ngIf="!loading">
+  <div class="slide-toggle-container">
+    <mat-slide-toggle
+      color="primary"
+      [(ngModel)]="showingAllEntries"
+      (change)="toggleAllPanels()">
+      Show Players for All Entries
+    </mat-slide-toggle>
+    <mat-slide-toggle
+      color="primary"
+      [(ngModel)]="showingEliminatedTeams">
+      Show Eliminated Players
+    </mat-slide-toggle>
+  </div>
+
+  <div class="table-container" ngClass.xs="xs-row">
+    <mat-table [dataSource]="tableData">
+      <ng-container matColumnDef="name">
+        <mat-header-cell fxFlex="25%" *matHeaderCellDef>Entry Name</mat-header-cell>
+        <mat-cell fxFlex="25%" *matCellDef="let entry">
+          <span *ngIf="entry.tiebreaker === 'Tied'">T</span>{{ entry.rank }}. {{ entry.name }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="points">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points</span>
+          <span fxHide="true" fxShow.xs>Pts</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker ? '' : 'bold-text'"
+          *matCellDef="let entry">
+          {{ entry.points }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pointsC">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points-C</span>
+          <span fxHide="true" fxShow.xs>Pts-C</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'C' ? 'bold-text' : ''"
+          *matCellDef="let entry">
+          {{ entry.pointsC }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pointsW">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points-W</span>
+          <span fxHide="true" fxShow.xs>Pts-W</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'W' ? 'bold-text' : ''"
+          *matCellDef="let entry">
+          {{ entry.pointsW }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pointsD">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points-D</span>
+          <span fxHide="true" fxShow.xs>Pts-D</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'D' ? 'bold-text' : ''"
+          *matCellDef="let entry">
+          {{ entry.pointsD }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="pointsG">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Points-G</span>
+          <span fxHide="true" fxShow.xs>Pts-G</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'G' ? 'bold-text' : ''"
+          *matCellDef="let entry">
+          {{ entry.pointsG }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="totalGoals">
+        <mat-header-cell *matHeaderCellDef>
+          <span fxShow="true" fxHide.xs>Total Goals</span>
+          <span fxHide="true" fxShow.xs>Ttl G's</span>
+        </mat-header-cell>
+        <mat-cell
+          [ngClass]="entry.tiebreaker === 'Goals' ? 'bold-text' : ''"
+          *matCellDef="let entry">
+          {{ entry.totalGoals }}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="playerDetails">
+        <mat-cell class="player-details" *matCellDef="let entry">
+          <div fxLayout="row wrap">
+            <div *ngFor="let player of entry.players; trackBy: player?.id">
+              <div class="team-player-wrapper" *ngIf="!player.team.is_eliminated || showingEliminatedTeams">
+                <div class="team-name" [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
+                  <b>{{ player.team.name }}</b>
+                </div>
+                <div fxLayout="row">
+                  <div class="player-name" [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
+                    {{ player.first_name }} {{ player.last_name }} ({{ player.position | slice:0:1 }})
+                  </div>
+                  <div class="badge">{{ player.points }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row ngClass.xs="xs-row" *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+      <mat-row
+        *matRowDef="let entry; columns: columnsToDisplay"
+        matRipple
+        class="entry-row"
+        ngClass.xs="xs-row"
+        [class.expanded]="expandedEntries.indexOf(entry.name) > -1"
+        (click)="toggleExpansion(entry.name)">
+      </mat-row>
+      <mat-row
+        *matRowDef="let entry; columns: ['playerDetails']; when: isExpansionDetailRow;"
+        class="expansion-row"
+        ngClass.xs="xs-row"
+        [@detailExpand]="expandedEntries.indexOf(entry.name) > -1 ? 'expanded' : 'collapsed'">
+      </mat-row>
+    </mat-table>
+  </div>
+</div>
