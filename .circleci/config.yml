@@ -81,7 +81,6 @@ jobs:
           command: |
             npm test
             ./tmp/cc-test-reporter format-coverage --add-prefix client/ -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
-            cat tmp/codeclimate.frontend.json
       - run: npm run build-prod
       - persist_to_workspace:
           root: ./
