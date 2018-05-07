@@ -80,6 +80,7 @@ jobs:
           name: Run frontend tests
           command: |
             npm test
+            cat coverage/lcov.info
             ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
       - run: npm run build-prod
       - persist_to_workspace:
