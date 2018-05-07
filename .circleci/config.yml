@@ -80,7 +80,8 @@ jobs:
           name: Run frontend tests
           command: |
             npm test
-            ./tmp/cc-test-reporter format-coverage -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
+            ./tmp/cc-test-reporter format-coverage --add-prefix client/ -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
+            cat tmp/codeclimate.frontend.json
       - run: npm run build-prod
       - persist_to_workspace:
           root: ./
@@ -97,10 +98,7 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            cat tmp/codeclimate.backend.json
-            cat tmp/codeclimate.frontend.json
             ./tmp/cc-test-reporter sum-coverage tmp/codeclimate.*.json -p 2 -o tmp/codeclimate.total.json
-            cat tmp/codeclimate.total.json
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json --id $CODECLIMATE_REPO_TOKEN
   deploy-test:
     docker:
