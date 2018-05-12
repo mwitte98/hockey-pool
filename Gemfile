@@ -20,6 +20,6 @@ end
 
 group :test do
   gem 'minitest-reporters', '1.2.0'
-  gem 'shoulda', git: 'https://github.com/thoughtbot/shoulda.git', branch: 'master'
+  gem 'shoulda', '3.5.0'
   gem 'simplecov', '0.16.1'
 end
