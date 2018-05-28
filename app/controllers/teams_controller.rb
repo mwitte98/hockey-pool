@@ -2,8 +2,9 @@ class TeamsController < ApplicationController
   before_action :signed_in?, only: %i[create update destroy]
 
   def index
-    teams = Team.includes(:players).all.order(:is_eliminated, :id)
-    render json: teams.as_json(include: { players: { except: %i[team_id created_at updated_at] } })
+    teams = Team.includes(:players).all.order(:is_eliminated, :id).as_json(include: { players: { except: %i[team_id created_at updated_at] } })
+    teams = remove_finals_attrs teams
+    render json: teams
   end
 
   def create
@@ -27,5 +28,17 @@ class TeamsController < ApplicationController
 
   def team_params
     params.require(:team).permit(:name, :abbr, :is_eliminated)
+  end
+
+  def remove_finals_attrs(teams)
+    num_teams_remaining = teams.select { |team| team['is_eliminated'] == false }.length
+    teams.each do |team|
+      if team['is_eliminated'] || num_teams_remaining != 2
+        team['players'].each do |player|
+          player.except! 'finals_goals', 'finals_assists', 'finals_gwg', 'finals_shg', 'finals_otg',
+                         'finals_wins', 'finals_otl', 'finals_shutouts'
+        end
+      end
+    end
   end
 end

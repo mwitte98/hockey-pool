@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2017_05_29_053333) do
+ActiveRecord::Schema.define(version: 2018_05_13_000333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "entries", force: :cascade do |t|
+  create_table "entries", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2017_05_29_053333) do
     t.index ["player_id"], name: "index_entries_players_on_player_id"
   end
 
-  create_table "players", force: :cascade do |t|
+  create_table "players", id: :serial, force: :cascade do |t|
     t.integer "team_id"
     t.string "first_name"
     t.string "last_name"
@@ -44,10 +44,18 @@ ActiveRecord::Schema.define(version: 2017_05_29_053333) do
     t.integer "otl"
     t.integer "points"
     t.integer "otg"
+    t.integer "finals_goals", default: 0
+    t.integer "finals_assists", default: 0
+    t.integer "finals_gwg", default: 0
+    t.integer "finals_shg", default: 0
+    t.integer "finals_otg", default: 0
+    t.integer "finals_wins", default: 0
+    t.integer "finals_otl", default: 0
+    t.integer "finals_shutouts", default: 0
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
-  create_table "teams", force: :cascade do |t|
+  create_table "teams", id: :serial, force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -61,6 +69,21 @@ ActiveRecord::Schema.define(version: 2017_05_29_053333) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "youth_schools", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.integer "age"
+    t.string "quality"
+    t.string "potential"
+    t.string "talent"
+    t.json "ai"
+    t.integer "priority"
+    t.string "manager"
+    t.string "version"
+    t.boolean "draft"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

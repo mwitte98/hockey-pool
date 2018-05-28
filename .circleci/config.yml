@@ -147,15 +147,15 @@ workflows:
           requires:
             - backend
             - frontend
-      - deploy-test:
-          requires:
-            - upload-coverage
-          filters:
-            branches:
-              ignore: master
+      # - deploy-test:
+      #     requires:
+      #       - upload-coverage
+      #     filters:
+      #       branches:
+      #         ignore: master
       - deploy-prod:
           requires:
             - upload-coverage
-          filters:
-            branches:
-              only: master
+          # filters:
+          #   branches:
+          #     only: master
