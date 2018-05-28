@@ -75,7 +75,7 @@ jobs:
           key: hockey-pool-frontend-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run: npm run lint
+      # - run: npm run lint
       - run:
           name: Run frontend tests
           command: |
