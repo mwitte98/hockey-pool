@@ -9,8 +9,6 @@ class Player < ApplicationRecord
                    else
                      %i[created_at updated_at]
                    end
-    super(options.merge(
-      except: except_array
-    ))
+    super(options.merge(except: except_array))
   end
 end

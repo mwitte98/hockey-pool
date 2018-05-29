@@ -8,7 +8,7 @@ class UpdateJob
     response = JSON.parse(agent.page.body)
     response['dates'].each do |date|
       date['games'].each do |game|
-        is_finals = game['gamePk'].digits[7] == 4
+        is_finals = game['gamePk'].digits[2] == 4
         game['scoringPlays'].each do |scoring_play|
           scoring_team = teams.find { |team| team['name'] == scoring_play['team']['name'] }
           scoring_play['players'].each do |player|
