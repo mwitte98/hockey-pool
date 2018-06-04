@@ -1,79 +1,100 @@
 class UpdateJob
   include SuckerPunch::Job
 
+  def initialize
+    @is_finals = false
+  end
+
   def perform
-    teams = setup_teams
+    teams = UpdateJobHelper.setup_teams
     agent = Mechanize.new
-    agent.get('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2018-04-11&endDate=2018-07-01&hydrate=linescore,scoringplays,decisions,game(seriesSummary)')
-    response = JSON.parse(agent.page.body)
-    response['dates'].each do |date|
-      date['games'].each do |game|
-        is_finals = game['gamePk'].digits[2] == 4
-        game['scoringPlays'].each do |scoring_play|
-          scoring_team = teams.find { |team| team['name'] == scoring_play['team']['name'] }
-          scoring_play['players'].each do |player|
-            player_type = player['playerType']
-            next if player_type == 'Goalie'
-            scoring_player = scoring_team['players'].find { |p| p['name'] == player['player']['fullName'] }
-            next if scoring_player.nil?
-            if player_type == 'Scorer'
-              scoring_player['goals'] += 1
-              scoring_player['gwg'] += 1 if scoring_play['result']['gameWinningGoal']
-              scoring_player['shg'] += 1 if scoring_play['result']['strength']['code'] == 'SHG'
-              scoring_player['otg'] += 1 if scoring_play['about']['period'] > 3
-              if is_finals
-                scoring_player['finals_goals'] += 1
-                scoring_player['finals_gwg'] += 1 if scoring_play['result']['gameWinningGoal']
-                scoring_player['finals_shg'] += 1 if scoring_play['result']['strength']['code'] == 'SHG'
-                scoring_player['finals_otg'] += 1 if scoring_play['about']['period'] > 3
-              end
-            elsif player_type == 'Assist'
-              scoring_player['assists'] += 1
-              scoring_player['finals_assists'] += 1 if is_finals
-            end
-          end
-        end
-        next unless game['status']['detailedState'] == 'Final'
-        if game['teams']['away']['score'] > game['teams']['home']['score']
-          winning_team = teams.find { |team| team['name'] == game['teams']['away']['team']['name'] }
-          losing_team = teams.find { |team| team['name'] == game['teams']['home']['team']['name'] }
-        else
-          winning_team = teams.find { |team| team['name'] == game['teams']['home']['team']['name'] }
-          losing_team = teams.find { |team| team['name'] == game['teams']['away']['team']['name'] }
-        end
-        winner = winning_team['players'].find { |p| p['name'] == game['decisions']['winner']['fullName'] }
-        winner['wins'] += 1 unless winner.nil?
-        winner['finals_wins'] += 1 if !winner.nil? && is_finals
-        winner['shutouts'] += 1 if !winner.nil? && (game['teams']['away']['score'].zero? || game['teams']['home']['score'].zero?)
-        winner['finals_shutouts'] += 1 if !winner.nil? && (game['teams']['away']['score'].zero? || game['teams']['home']['score'].zero?) && is_finals
-        loser = losing_team['players'].find { |p| p['name'] == game['decisions']['loser']['fullName'] }
-        loser['otl'] += 1 if !loser.nil? && game['linescore']['periods'].count > 3
-        loser['finals_otl'] += 1 if !loser.nil? && game['linescore']['periods'].count > 3 && is_finals
-      end
-    end
-    teams.each do |team|
-      team['players'].each do |player|
-        player['points'] = (player['goals'] * 2) + player['assists'] + player['gwg'] + (player['shg'] * 3) + (player['otg'] * 2) + (player['wins'] * 2) + player['otl'] + (player['shutouts'] * 4) + (player['finals_goals'] * 2) + player['finals_assists'] + player['finals_gwg'] + (player['finals_shg'] * 3) + (player['finals_otg'] * 2) + (player['finals_wins'] * 2) + player['finals_otl'] + (player['finals_shutouts'] * 4)
-        Player.update(player['id'], player.except!('name'))
-      end
-    end
+    response = JSON.parse(agent.get('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2018-04-11&endDate=2018-07-01&hydrate=linescore,scoringplays,decisions,game(seriesSummary)').body)
+    response['dates'].each { |date| parse_date date, teams }
+    UpdateJobHelper.update_players teams
   end
 
   private
 
-  def setup_teams
-    teams = Team.includes(:players).all.as_json(
-      only: %i[id name],
-      include: { players: { only: %i[id first_name last_name] } }
-    )
-    stats = %w[goals assists gwg shg wins shutouts otl points otg finals_goals finals_assists
-               finals_gwg finals_shg finals_otg finals_wins finals_otl finals_shutouts]
-    teams.each do |team|
-      team['players'].each do |player|
-        player['name'] = "#{player['first_name']} #{player['last_name']}"
-        player.except! 'first_name', 'last_name'
-        stats.each { |stat| player[stat] = 0 }
-      end
+  def parse_date(date, teams)
+    date['games'].each do |game|
+      parse_game game, teams, false
+      parse_game game, teams, true if game['gamePk'].digits[2] == 4
     end
+  end
+
+  def parse_game(game, teams, is_finals)
+    @is_finals = is_finals
+    is_game_final = game['status']['detailedState'] == 'Final'
+    parse_scoring_plays game, teams
+    parse_goalie_stats game, teams if is_game_final
+  end
+
+  def parse_scoring_plays(game, teams)
+    game['scoringPlays'].each do |scoring_play|
+      scoring_team = teams.find { |team| team['name'] == scoring_play['team']['name'] }
+      parse_scoring_play_players scoring_play, scoring_team
+    end
+  end
+
+  def parse_scoring_play_players(scoring_play, scoring_team)
+    scoring_play['players'].each do |player|
+      scoring_player = find_player scoring_team, player['player']
+      next unless scoring_player
+      player_type = player['playerType']
+      update_offensive_stats scoring_player, scoring_play if player_type == 'Scorer'
+      update_stat scoring_player, 'assists' if player_type == 'Assist'
+    end
+  end
+
+  def update_offensive_stats(scoring_player, scoring_play)
+    update_stat scoring_player, 'goals'
+    update_stat scoring_player, 'gwg' if scoring_play['result']['gameWinningGoal']
+    update_shg_and_otg scoring_player, scoring_play
+  end
+
+  def update_shg_and_otg(scoring_player, scoring_play)
+    update_stat scoring_player, 'shg' if scoring_play['result']['strength']['code'] == 'SHG'
+    update_stat scoring_player, 'otg' if scoring_play['about']['period'] > 3
+  end
+
+  def parse_goalie_stats(game, teams)
+    home_team, home_score = find_team_and_score teams, 'home', game
+    away_team, away_score = find_team_and_score teams, 'away', game
+    if home_score > away_score
+      update_winning_goalie home_team, away_score, game
+      update_losing_goalie away_team, game
+    else
+      update_winning_goalie away_team, home_score, game
+      update_losing_goalie home_team, game
+    end
+  end
+
+  def update_winning_goalie(winning_team, opponent_score, game)
+    winner = find_player winning_team, game['decisions']['winner']
+    return unless winner
+    update_stat winner, 'wins'
+    update_stat winner, 'shutouts' if opponent_score.zero?
+  end
+
+  def update_losing_goalie(losing_team, game)
+    loser = find_player losing_team, game['decisions']['loser']
+    update_stat loser, 'otl' if loser && game['linescore']['periods'].count > 3
+  end
+
+  def find_team_and_score(teams, team_to_find, game)
+    game_teams = game['teams']
+    team_to_find_details = game_teams[team_to_find]
+    score = team_to_find_details['score']
+    team_found = teams.find { |team| team['name'] == team_to_find_details['team']['name'] }
+    [team_found, score]
+  end
+
+  def find_player(team, player_name)
+    team['players'].find { |player| player['name'] == player_name['fullName'] }
+  end
+
+  def update_stat(player, stat)
+    stat = 'finals_' + stat if @is_finals
+    player[stat] += 1
   end
 end

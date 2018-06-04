@@ -23,5 +23,7 @@ module HockeyPool
     # Serve the client/dist directory
     config.public_file_server.enabled = true
     paths['public'] = File.join 'client', 'dist'
+
+    config.autoload_paths << Rails.root.join('lib')
   end
 end
