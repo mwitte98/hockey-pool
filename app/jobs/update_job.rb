@@ -3,6 +3,7 @@ class UpdateJob
 
   def initialize
     @is_finals = false
+    @scoring_player = nil
   end
 
   def perform
@@ -38,23 +39,26 @@ class UpdateJob
 
   def parse_scoring_play_players(scoring_play, scoring_team)
     scoring_play['players'].each do |player|
-      scoring_player = find_player scoring_team, player['player']
-      next unless scoring_player
-      player_type = player['playerType']
-      update_offensive_stats scoring_player, scoring_play if player_type == 'Scorer'
-      update_stat scoring_player, 'assists' if player_type == 'Assist'
+      @scoring_player = find_player scoring_team, player['player']
+      update_player_stats player, scoring_play if @scoring_player
     end
   end
 
-  def update_offensive_stats(scoring_player, scoring_play)
-    update_stat scoring_player, 'goals'
-    update_stat scoring_player, 'gwg' if scoring_play['result']['gameWinningGoal']
-    update_shg_and_otg scoring_player, scoring_play
+  def update_player_stats(player, scoring_play)
+    player_type = player['playerType']
+    update_offensive_stats scoring_play if player_type == 'Scorer'
+    update_stat @scoring_player, 'assists' if player_type == 'Assist'
   end
 
-  def update_shg_and_otg(scoring_player, scoring_play)
-    update_stat scoring_player, 'shg' if scoring_play['result']['strength']['code'] == 'SHG'
-    update_stat scoring_player, 'otg' if scoring_play['about']['period'] > 3
+  def update_offensive_stats(scoring_play)
+    update_stat @scoring_player, 'goals'
+    update_stat @scoring_player, 'gwg' if scoring_play['result']['gameWinningGoal']
+    update_shg_and_otg scoring_play
+  end
+
+  def update_shg_and_otg(scoring_play)
+    update_stat @scoring_player, 'shg' if scoring_play['result']['strength']['code'] == 'SHG'
+    update_stat @scoring_player, 'otg' if scoring_play['about']['period'] > 3
   end
 
   def parse_goalie_stats(game, teams)

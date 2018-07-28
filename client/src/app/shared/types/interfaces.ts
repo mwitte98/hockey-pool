@@ -15,7 +15,7 @@ export interface Entry {
   pointsD: number;
   pointsG: number;
   totalGoals: number;
-  tiebreaker: 'C' | 'W' | 'D' | 'G' | 'Goals' | 'Tied';
+  tiebreaker: number;
   rank: number;
   isDetailRow: boolean;
 }
