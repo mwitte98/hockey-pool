@@ -68,11 +68,11 @@ jobs:
           at: ~/hockey-pool/client
       - restore_cache:
           keys:
-            - hockey-pool-frontend-{{ checksum "package.json" }}
+            - hockey-pool-frontend-{{ checksum "package-lock.json" }}
             - hockey-pool-frontend-
       - run: npm install
       - save_cache:
-          key: hockey-pool-frontend-{{ checksum "package.json" }}
+          key: hockey-pool-frontend-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
       - run: npm run lint
