@@ -3,7 +3,7 @@ class AuthController < ApplicationController
   before_action :signed_in?, only: :logout
 
   def login
-    user = User.find_by_email(params[:email].downcase)
+    user = find_user
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
       render json: { logged_in: true, user: user }
@@ -27,5 +27,11 @@ class AuthController < ApplicationController
       reset_session
       render json: { logged_in: false }, status: :unauthorized # 401
     end
+  end
+
+  private
+
+  def find_user
+    User.find_by_email(params[:email].downcase)
   end
 end

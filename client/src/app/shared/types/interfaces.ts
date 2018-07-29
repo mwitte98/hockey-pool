@@ -15,7 +15,7 @@ export interface Entry {
   pointsD: number;
   pointsG: number;
   totalGoals: number;
-  tiebreaker: 'C' | 'W' | 'D' | 'G' | 'Goals' | 'Tied';
+  tiebreaker: number;
   rank: number;
   isDetailRow: boolean;
 }
@@ -36,6 +36,14 @@ export interface Player {
   shutouts: number;
   otl: number;
   points: number;
+  finals_goals?: number;
+  finals_assists?: number;
+  finals_gwg?: number;
+  finals_shg?: number;
+  finals_otg?: number;
+  finals_wins?: number;
+  finals_shutouts?: number;
+  finals_otl?: number;
 }
 
 export interface Team {

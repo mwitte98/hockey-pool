@@ -19,7 +19,7 @@
       <ng-container matColumnDef="name">
         <mat-header-cell fxFlex="25%" *matHeaderCellDef>Entry Name</mat-header-cell>
         <mat-cell fxFlex="25%" *matCellDef="let entry">
-          <span *ngIf="entry.tiebreaker === 'Tied'">T</span>{{ entry.rank }}. {{ entry.name }}
+          <span *ngIf="entry.tiebreaker === 6">T</span>{{ entry.rank }}. {{ entry.name }}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="points">
@@ -28,7 +28,7 @@
           <span fxHide="true" fxShow.xs>Pts</span>
         </mat-header-cell>
         <mat-cell
-          [ngClass]="entry.tiebreaker ? '' : 'bold-text'"
+          [ngClass]="entry.tiebreaker === 0 ? 'bold-text' : ''"
           *matCellDef="let entry">
           {{ entry.points }}
         </mat-cell>
@@ -39,7 +39,7 @@
           <span fxHide="true" fxShow.xs>Pts-C</span>
         </mat-header-cell>
         <mat-cell
-          [ngClass]="entry.tiebreaker === 'C' ? 'bold-text' : ''"
+          [ngClass]="entry.tiebreaker === 1 ? 'bold-text' : ''"
           *matCellDef="let entry">
           {{ entry.pointsC }}
         </mat-cell>
@@ -50,7 +50,7 @@
           <span fxHide="true" fxShow.xs>Pts-W</span>
         </mat-header-cell>
         <mat-cell
-          [ngClass]="entry.tiebreaker === 'W' ? 'bold-text' : ''"
+          [ngClass]="entry.tiebreaker === 2 ? 'bold-text' : ''"
           *matCellDef="let entry">
           {{ entry.pointsW }}
         </mat-cell>
@@ -61,7 +61,7 @@
           <span fxHide="true" fxShow.xs>Pts-D</span>
         </mat-header-cell>
         <mat-cell
-          [ngClass]="entry.tiebreaker === 'D' ? 'bold-text' : ''"
+          [ngClass]="entry.tiebreaker === 3 ? 'bold-text' : ''"
           *matCellDef="let entry">
           {{ entry.pointsD }}
         </mat-cell>
@@ -72,7 +72,7 @@
           <span fxHide="true" fxShow.xs>Pts-G</span>
         </mat-header-cell>
         <mat-cell
-          [ngClass]="entry.tiebreaker === 'G' ? 'bold-text' : ''"
+          [ngClass]="entry.tiebreaker === 4 ? 'bold-text' : ''"
           *matCellDef="let entry">
           {{ entry.pointsG }}
         </mat-cell>
@@ -83,7 +83,7 @@
           <span fxHide="true" fxShow.xs>Ttl G's</span>
         </mat-header-cell>
         <mat-cell
-          [ngClass]="entry.tiebreaker === 'Goals' ? 'bold-text' : ''"
+          [ngClass]="entry.tiebreaker === 5 ? 'bold-text' : ''"
           *matCellDef="let entry">
           {{ entry.totalGoals }}
         </mat-cell>

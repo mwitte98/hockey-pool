@@ -4,6 +4,13 @@ require 'rails/test_help'
 require 'minitest/reporters'
 require 'simplecov'
 
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :minitest
+    with.library :rails
+  end
+end
+
 # Minitest output with color and progress bar
 Minitest::Reporters.use!(Minitest::Reporters::ProgressReporter.new, ENV, Minitest.backtrace_filter)
 

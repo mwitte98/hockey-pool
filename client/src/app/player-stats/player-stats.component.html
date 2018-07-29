@@ -15,24 +15,54 @@
         <mat-cell fxShow="true" fxHide.xs class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.position | slice:0:1 }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="goals">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>G</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.goals }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_goals == null">G</span>
+          <span *ngIf="team.players[0].finals_goals != null">G (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_goals == null">{{ player.goals }}</span>
+          <span *ngIf="player.finals_goals != null">{{ player.goals }} ({{ player.finals_goals }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="assists">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>A</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.assists }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_assists == null">A</span>
+          <span *ngIf="team.players[0].finals_assists != null">A (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_assists == null">{{ player.assists }}</span>
+          <span *ngIf="player.finals_assists != null">{{ player.assists }} ({{ player.finals_assists }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="gwg">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>GWG</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.gwg }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_gwg == null">GWG</span>
+          <span *ngIf="team.players[0].finals_gwg != null">GWG (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_gwg == null">{{ player.gwg }}</span>
+          <span *ngIf="player.finals_gwg != null">{{ player.gwg }} ({{ player.finals_gwg }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="shg">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>SHG</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.shg }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_shg == null">SHG</span>
+          <span *ngIf="team.players[0].finals_shg != null">SHG (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_shg == null">{{ player.shg }}</span>
+          <span *ngIf="player.finals_shg != null">{{ player.shg }} ({{ player.finals_shg }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="otg">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>OTG</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.otg }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_otg == null">OTG</span>
+          <span *ngIf="team.players[0].finals_otg != null">OTG (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_otg == null">{{ player.otg }}</span>
+          <span *ngIf="player.finals_otg != null">{{ player.otg }} ({{ player.finals_otg }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="points">
         <mat-header-cell class="fx-flex fx-flex-27" *matHeaderCellDef>Pts</mat-header-cell>
@@ -56,24 +86,54 @@
         <mat-cell fxShow="true" fxHide.xs class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.position | slice:0:1 }}</mat-cell>
       </ng-container>
       <ng-container matColumnDef="goals">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>G</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.goals }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_goals == null">G</span>
+          <span *ngIf="team.players[0].finals_goals != null">G (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_goals == null">{{ player.goals }}</span>
+          <span *ngIf="player.finals_goals != null">{{ player.goals }} ({{ player.finals_goals }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="assists">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>A</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.assists }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_assists == null">A</span>
+          <span *ngIf="team.players[0].finals_assists != null">A (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_assists == null">{{ player.assists }}</span>
+          <span *ngIf="player.finals_assists != null">{{ player.assists }} ({{ player.finals_assists }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="wins">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>Wins</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.wins }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_wins == null">Wins</span>
+          <span *ngIf="team.players[0].finals_wins != null">Wins (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_wins == null">{{ player.wins }}</span>
+          <span *ngIf="player.finals_wins != null">{{ player.wins }} ({{ player.finals_wins }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="otl">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>OTL</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.otl }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_otl == null">OTL</span>
+          <span *ngIf="team.players[0].finals_otl != null">OTL (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_otl == null">{{ player.otl }}</span>
+          <span *ngIf="player.finals_otl != null">{{ player.otl }} ({{ player.finals_otl }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="shutouts">
-        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>SO</mat-header-cell>
-        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">{{ player.shutouts }}</mat-cell>
+        <mat-header-cell class="fx-flex fx-flex-38" *matHeaderCellDef>
+          <span *ngIf="team.players[0].finals_shutouts == null">SO</span>
+          <span *ngIf="team.players[0].finals_shutouts != null">SO (x2)</span>
+        </mat-header-cell>
+        <mat-cell class="fx-flex fx-flex-38" *matCellDef="let player">
+          <span *ngIf="player.finals_shutouts == null">{{ player.shutouts }}</span>
+          <span *ngIf="player.finals_shutouts != null">{{ player.shutouts }} ({{ player.finals_shutouts }})</span>
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="points">
         <mat-header-cell class="fx-flex fx-flex-27" *matHeaderCellDef>Pts</mat-header-cell>

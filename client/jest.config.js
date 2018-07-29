@@ -3,5 +3,5 @@ module.exports = {
   roots: [
     'src'
   ],
-  setupTestFrameworkScriptFile: './src/setupJest.ts'
+  setupTestFrameworkScriptFile: './src/setup-jest.ts'
 }

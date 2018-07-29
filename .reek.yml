@@ -1,0 +1,18 @@
+detectors:
+  FeatureEnvy:
+    exclude:
+      - "EntriesController#index"
+  IrresponsibleModule:
+    enabled: false
+  NestedIterators:
+    max_allowed_nesting: 2
+  NilCheck:
+    exclude:
+      - "AuthController#login"
+  TooManyStatements:
+    max_statements: 20
+  UtilityFunction:
+    enabled: false
+
+exclude_paths:
+  - db/

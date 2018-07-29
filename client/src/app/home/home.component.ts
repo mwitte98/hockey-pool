@@ -88,8 +88,8 @@ export class HomeComponent implements OnInit {
 
   calculatePoints() {
     this.entries.forEach((entry: Entry) => {
-      entry.points = entry.pointsC = entry.pointsW =
-        entry.pointsD = entry.pointsG = entry.totalGoals = 0;
+      entry.points = entry.pointsC = entry.pointsW = entry.pointsD = entry.pointsG =
+        entry.totalGoals = entry.tiebreaker = 0;
       entry.players.forEach((player: Player) => {
         entry.points += player.points;
         entry.totalGoals += player.goals;
@@ -114,7 +114,7 @@ export class HomeComponent implements OnInit {
         entry.rank = 1;
         return;
       }
-      if (!entry.tiebreaker || entry.tiebreaker !== 'Tied') {
+      if (entry.tiebreaker < 6) {
         entry.rank = index + 1;
         return;
       }
@@ -138,61 +138,19 @@ export class HomeComponent implements OnInit {
   }
 
   compareEntries(a: Entry, b: Entry): number {
-    const pointsDiff = b.points - a.points;
-    if (pointsDiff !== 0) { return pointsDiff; }
-
-    this.setTiebreakerC(a);
-    this.setTiebreakerC(b);
-
-    const pointsDiffC = b.pointsC - a.pointsC;
-    if (pointsDiffC !== 0) { return pointsDiffC; }
-
-    this.setTiebreakerW(a);
-    this.setTiebreakerW(b);
-
-    const pointsDiffW = b.pointsW - a.pointsW;
-    if (pointsDiffW !== 0) { return pointsDiffW; }
-
-    this.setTiebreakerD(a);
-    this.setTiebreakerD(b);
-
-    const pointsDiffD = b.pointsD - a.pointsD;
-    if (pointsDiffD !== 0) { return pointsDiffD; }
-
-    this.setTiebreakerG(a);
-    this.setTiebreakerG(b);
-
-    const pointsDiffG = b.pointsG - a.pointsG;
-    if (pointsDiffG !== 0) { return pointsDiffG; }
-
-    this.setTiebreakerGoals(a);
-    this.setTiebreakerGoals(b);
-
-    if (b.totalGoals - a.totalGoals === 0) {
-        a.tiebreaker = 'Tied';
-        b.tiebreaker = 'Tied';
+    const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
+    let diff = 0;
+    for (let index = 0; index < tiebreakers.length; index++) {
+      const tiebreaker = tiebreakers[index];
+      diff = b[tiebreaker] - a[tiebreaker];
+      if (diff !== 0) { break; }
+      this.setTiebreaker(a, index + 1);
+      this.setTiebreaker(b, index + 1);
     }
-    return b.totalGoals - a.totalGoals;
+    return diff;
   }
 
-  setTiebreakerC(entry: Entry) {
-    if (entry.tiebreaker) { return; }
-    entry.tiebreaker = 'C';
-  }
-
-  setTiebreakerW(entry: Entry) {
-    if (entry.tiebreaker === 'C') { entry.tiebreaker = 'W'; }
-  }
-
-  setTiebreakerD(entry: Entry) {
-    if (entry.tiebreaker === 'C' || entry.tiebreaker === 'W') { entry.tiebreaker = 'D'; }
-  }
-
-  setTiebreakerG(entry: Entry) {
-    if (entry.tiebreaker !== 'Goals' && entry.tiebreaker !== 'Tied') { entry.tiebreaker = 'G'; }
-  }
-
-  setTiebreakerGoals(entry: Entry) {
-    if (entry.tiebreaker !== 'Tied') { entry.tiebreaker = 'Goals'; }
+  setTiebreaker(entry: Entry, newTiebreaker: number) {
+    if (entry.tiebreaker < newTiebreaker) { entry.tiebreaker = newTiebreaker; }
   }
 }
