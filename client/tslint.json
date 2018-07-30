@@ -146,7 +146,7 @@
     "directive-class-suffix": true,
     "pipe-impure": true,
     "i18n": [true, "check-id"],
-    "template-cyclomatic-complexity": false,
+    "template-cyclomatic-complexity": [true, 5],
     "template-conditional-complexity": [true, 4]
   }
 }
