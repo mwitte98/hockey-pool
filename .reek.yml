@@ -9,6 +9,8 @@ detectors:
   NilCheck:
     exclude:
       - "AuthController#login"
+  TooManyMethods:
+    max_methods: 20
   TooManyStatements:
     max_statements: 20
   UtilityFunction:
