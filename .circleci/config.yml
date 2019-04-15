@@ -17,7 +17,7 @@ jobs:
             - tmp/cc-test-reporter
   backend:
     docker:
-      - image: circleci/ruby:2.5.1-node
+      - image: circleci/ruby:2.6.2-node
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -42,6 +42,9 @@ jobs:
       - run:
           name: Install gems
           command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
             bundle check || bundle install
       - save_cache:
           key: hockey-pool-backend-{{ checksum "Gemfile.lock" }}

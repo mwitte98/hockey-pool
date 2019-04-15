@@ -22,6 +22,7 @@ plugins:
     enabled: false
   rubocop:
     enabled: true
+    channel: rubocop-0-67
 exclude_patterns:
 - 'bin/**/*'
 - 'client/coverage/**/*'
