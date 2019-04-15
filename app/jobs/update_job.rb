@@ -47,12 +47,14 @@ class UpdateJob
   def parse_scoring_play_players(scoring_play, scoring_team)
     scoring_play['players'].each do |player|
       @scoring_player = find_player scoring_team, player['player']
-      next unless @scoring_player
-
-      player_type = player['playerType']
-      update_offensive_stats scoring_play if player_type == 'Scorer'
-      update_stat @scoring_player, 'assists' if player_type == 'Assist'
+      update_player_stats player, scoring_play if @scoring_player
     end
+  end
+
+  def update_player_stats(player, scoring_play)
+    player_type = player['playerType']
+    update_offensive_stats scoring_play if player_type == 'Scorer'
+    update_stat @scoring_player, 'assists' if player_type == 'Assist'
   end
 
   def update_offensive_stats(scoring_play)
