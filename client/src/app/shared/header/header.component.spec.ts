@@ -4,7 +4,7 @@ describe('HeaderComponent', () => {
   let comp: HeaderComponent;
 
   beforeEach(() => {
-    comp = new HeaderComponent(<any>{}, <any>{}, <any>{}, <any>{});
+    comp = new HeaderComponent(<any>{}, <any>{}, <any>{});
   });
 
   it('component is created', () => {

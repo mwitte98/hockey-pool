@@ -3,12 +3,12 @@
   <div class="right-align"></div>
   <a mat-button *ngIf="currentPage !== '/'" routerLink="/">Entries</a>
   <a mat-button *ngIf="currentPage !== '/player-stats'" routerLink="/player-stats">Player Stats</a>
-  <div *showAuthed="true" fxShow="false" fxShow.gt-xs>
+  <div *showAuthed="true" fxShow="true" fxHide.xs>
     <a mat-button routerLink="/admin/teams">Admin - Teams</a>
     <a mat-button routerLink="/admin/entries">Admin - Entries</a>
     <a mat-button (click)="logout()">Logout</a>
   </div>
-  <button *showAuthed="true" mat-button [mat-menu-trigger-for]="menu" fxHide="false" fxHide.gt-xs>
+  <button *showAuthed="true" mat-button [mat-menu-trigger-for]="menu" fxHide="true" fxShow.xs>
     Admin
   </button>
 </mat-toolbar>

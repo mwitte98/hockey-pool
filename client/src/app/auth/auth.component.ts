@@ -46,7 +46,7 @@ export class AuthComponent implements OnInit {
       this.error_message = 'Passwords do not match';
     } else {
       this.userService.auth(this.authType, credentials).subscribe(() => {
-        this.router.navigateByUrl('/');
+        this.router.navigateByUrl('/').catch();
       }, (error: HttpErrorResponse) => {
         this.errors = error.error.errors;
       });
