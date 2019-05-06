@@ -4,7 +4,7 @@ describe('PlayerStatsComponent', () => {
   let comp: PlayerStatsComponent;
 
   beforeEach(() => {
-    comp = new PlayerStatsComponent();
+    comp = new PlayerStatsComponent(<any>{});
   });
 
   it('component is created', () => {

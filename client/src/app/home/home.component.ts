@@ -41,7 +41,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  isExpansionDetailRow(_, row): boolean {
+  isExpansionDetailRow(_: any, row: any): boolean {
     return row.isDetailRow;
   }
 
@@ -55,11 +55,7 @@ export class HomeComponent implements OnInit {
   }
 
   toggleAllPanels(): void {
-    if (this.showingAllEntries) {
-      this.expandedEntries = this.entries.map((entry) => entry.name);
-    } else {
-      this.expandedEntries = [];
-    }
+    this.expandedEntries = this.showingAllEntries ? this.entries.map((entry) => entry.name) : [];
   }
 
   combineApiResponseData(response: ApiResponse): void {
@@ -93,21 +89,29 @@ export class HomeComponent implements OnInit {
       entry.players.forEach((player: Player) => {
         entry.points += player.points;
         entry.totalGoals += player.goals;
-        if (player.position === 'Center') {
+        switch (player.position) {
+          case 'Center': {
             entry.pointsC += player.points;
-        } else if (player.position === 'Winger') {
+            break;
+          }
+          case 'Winger': {
             entry.pointsW += player.points;
-        } else if (player.position === 'Defenseman') {
+            break;
+          }
+          case 'Defenseman': {
             entry.pointsD += player.points;
-        } else {
+            break;
+          }
+          default: {
             entry.pointsG += player.points;
+          }
         }
       });
     });
   }
 
   sortEntries(): void {
-    this.entries.sort((a: Entry, b: Entry) => this.compareEntries(a, b) );
+    this.entries.sort((a: Entry, b: Entry) => this.compareEntries(a, b));
 
     this.entries.forEach((entry: Entry, index: number) => {
       if (index === 0) {
@@ -120,11 +124,7 @@ export class HomeComponent implements OnInit {
       }
 
       const prevEntry: Entry = this.entries[index - 1];
-      if (this.equals(entry, prevEntry)) {
-            entry.rank = prevEntry.rank;
-      } else {
-        entry.rank = index + 1;
-      }
+      entry.rank = this.equals(entry, prevEntry) ? prevEntry.rank : index + 1;
     });
   }
 

@@ -3,5 +3,7 @@ module.exports = {
   roots: [
     'src'
   ],
-  setupTestFrameworkScriptFile: './src/setup-jest.ts'
+  setupFilesAfterEnv: [
+    './src/setup-jest.ts'
+  ]
 }
