@@ -23,6 +23,7 @@ class UpdateJob
       @game = game
       is_finals = @game['gamePk'].digits[2] == 4
       parse_game false
+      @game = game
       parse_game true if is_finals
     end
   end
