@@ -251,6 +251,7 @@
     "template-use-track-by-function": true,
     "use-component-selector": false,
     "use-component-view-encapsulation": true,
+    "use-injectable-provided-in": true,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true
   }
