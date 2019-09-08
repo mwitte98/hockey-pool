@@ -2,7 +2,7 @@ version: 2
 jobs:
   setup:
     docker:
-      - image: circleci/ruby:2.6.2-node
+      - image: circleci/ruby:2.6.4-node
     working_directory: ~/hockey-pool
     steps:
       - run:
@@ -17,7 +17,7 @@ jobs:
             - tmp/cc-test-reporter
   backend:
     docker:
-      - image: circleci/ruby:2.6.2-node
+      - image: circleci/ruby:2.6.4-node
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -62,7 +62,7 @@ jobs:
             - tmp/codeclimate.backend.json
   frontend:
     docker:
-      - image: circleci/ruby:2.6.2-node
+      - image: circleci/ruby:2.6.4-node
     working_directory: ~/hockey-pool/client
     steps:
       - checkout:
@@ -74,10 +74,6 @@ jobs:
             - hockey-pool-frontend-{{ checksum "package-lock.json" }}
             - hockey-pool-frontend-
       - run: npm install
-      - save_cache:
-          key: hockey-pool-frontend-{{ checksum "package-lock.json" }}
-          paths:
-            - ./node_modules
       - run: npm run lint
       - run:
           name: Run frontend tests
@@ -85,6 +81,10 @@ jobs:
             npm test
             ./tmp/cc-test-reporter format-coverage --add-prefix client/ -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
       - run: npm run build-prod
+      - save_cache:
+          key: hockey-pool-frontend-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
       - persist_to_workspace:
           root: ./
           paths:
@@ -92,7 +92,7 @@ jobs:
             - tmp/codeclimate.frontend.json
   upload-coverage:
     docker:
-      - image: circleci/ruby:2.6.2-node
+      - image: circleci/ruby:2.6.4-node
     working_directory: ~/hockey-pool
     steps:
       - attach_workspace:
@@ -104,7 +104,7 @@ jobs:
             ./tmp/cc-test-reporter upload-coverage -i tmp/codeclimate.total.json --id $CODECLIMATE_REPO_TOKEN
   deploy-test:
     docker:
-      - image: circleci/ruby:2.6.2-node
+      - image: circleci/ruby:2.6.4-node
     working_directory: ~/hockey-pool
     steps:
       - checkout
@@ -120,7 +120,7 @@ jobs:
             git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/hockeyplayoffpool-test.git HEAD:refs/heads/master
   deploy-prod:
     docker:
-      - image: circleci/ruby:2.6.2-node
+      - image: circleci/ruby:2.6.4-node
     working_directory: ~/hockey-pool
     steps:
       - checkout
