@@ -25,5 +25,5 @@ end
 group :test do
   gem 'minitest-reporters', '1.4.2'
   gem 'shoulda', '4.0.0.rc1'
-  gem 'simplecov', '0.18.5'
+  gem 'simplecov', '0.17.1'
 end
