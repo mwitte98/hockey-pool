@@ -204,7 +204,10 @@
     "no-submodule-imports": [
       true,
       "@angular/common/http",
-      "rxjs/operators"
+      "@angular/material",
+      "@angular/platform-browser",
+      "rxjs/operators",
+      "zone.js"
     ],
     "no-switch-case-fall-through": true,
     "no-tautology-expression": true,
