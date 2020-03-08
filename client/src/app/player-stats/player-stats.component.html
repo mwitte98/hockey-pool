@@ -1,6 +1,6 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div *ngIf="!loading" class="player-stats-wrapper">
-  <div *ngFor="let team of teams; trackBy: team?.id" class="team-wrapper" ngClass.xs="xs-row">
+  <div *ngFor="let team of teams; trackBy: trackById" class="team-wrapper" ngClass.xs="xs-row">
     <h4 [ngClass]="team.is_eliminated ? 'strikethrough' : ''">{{ team.name }}</h4>
     <mat-table [dataSource]="team.players" *ngIf="team.players[0].finals_goals == null">
       <ng-container matColumnDef="name">

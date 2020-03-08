@@ -41,6 +41,10 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  trackById(_index: number, player: Player): number {
+    return player.id;
+  }
+
   isExpansionDetailRow(_: any, row: any): boolean {
     return row.isDetailRow;
   }
@@ -60,10 +64,10 @@ export class HomeComponent implements OnInit {
 
   combineApiResponseData(response: ApiResponse): void {
     const players = response.players;
-    players.forEach((p) => p.team = response.teams.find((t) => t.id === p.team_id));
-    response.entries.forEach((entry: Entry) => {
+    players.map((p) => p.team = response.teams.find((t) => t.id === p.team_id));
+    response.entries.map((entry: Entry) => {
       entry.players = [];
-      entry.player_ids.forEach((pId) => entry.players.push(players.find((p) => p.id === pId)));
+      entry.player_ids.map((pId) => entry.players.push(players.find((p) => p.id === pId)));
       entry.players.sort((a, b) => {
         if (a.team.is_eliminated === b.team.is_eliminated) {
           return a.team_id - b.team_id;
@@ -76,17 +80,17 @@ export class HomeComponent implements OnInit {
 
   prepareTableData(): void {
     this.tableData = [];
-    this.entries.forEach((entry: Entry) => {
+    this.entries.map((entry: Entry) => {
       this.tableData.push(entry);
       this.tableData.push({isDetailRow: true, ...entry});
     });
   }
 
-  calculatePoints() {
-    this.entries.forEach((entry: Entry) => {
+  calculatePoints(): void {
+    this.entries.map((entry: Entry) => {
       entry.points = entry.pointsC = entry.pointsW = entry.pointsD = entry.pointsG =
         entry.totalGoals = entry.tiebreaker = 0;
-      entry.players.forEach((player: Player) => {
+      entry.players.map((player: Player) => {
         entry.points += player.points;
         entry.totalGoals += player.goals;
         switch (player.position) {
@@ -113,7 +117,7 @@ export class HomeComponent implements OnInit {
   sortEntries(): void {
     this.entries.sort((a: Entry, b: Entry) => this.compareEntries(a, b));
 
-    this.entries.forEach((entry: Entry, index: number) => {
+    this.entries.map((entry: Entry, index: number) => {
       if (index === 0) {
         entry.rank = 1;
         return;
@@ -150,7 +154,7 @@ export class HomeComponent implements OnInit {
     return diff;
   }
 
-  setTiebreaker(entry: Entry, newTiebreaker: number) {
+  setTiebreaker(entry: Entry, newTiebreaker: number): void {
     if (entry.tiebreaker < newTiebreaker) { entry.tiebreaker = newTiebreaker; }
   }
 }

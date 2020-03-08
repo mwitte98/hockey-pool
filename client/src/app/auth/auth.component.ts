@@ -14,7 +14,7 @@ export class AuthComponent implements OnInit {
   authType: string;
   authTypeCapital: string;
   errors: string[] = [];
-  error_message: string = null;
+  errorMessage: string = null;
   authForm: FormGroup;
 
   constructor(
@@ -39,11 +39,11 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  submitForm() {
+  submitForm(): void {
     const credentials = this.authForm.value;
     if (this.authType === 'register' &&
         credentials.password !== credentials.password_confirmation) {
-      this.error_message = 'Passwords do not match';
+      this.errorMessage = 'Passwords do not match';
     } else {
       this.userService.auth(this.authType, credentials).subscribe(() => {
         this.router.navigateByUrl('/').catch();

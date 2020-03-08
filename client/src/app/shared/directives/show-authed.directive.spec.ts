@@ -4,7 +4,7 @@ describe('ShowAuthedDirective', () => {
   let directive: ShowAuthedDirective;
 
   beforeEach(() => {
-    directive = new ShowAuthedDirective(<any>{}, <any>{}, <any>{});
+    directive = new ShowAuthedDirective({} as any, {} as any, {} as any);
   });
 
   it('directive is created', () => {

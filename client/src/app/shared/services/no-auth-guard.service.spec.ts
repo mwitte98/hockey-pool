@@ -4,7 +4,7 @@ describe('NoAuthGuard', () => {
   let service: NoAuthGuard;
 
   beforeEach(() => {
-    service = new NoAuthGuard(<any>{});
+    service = new NoAuthGuard({} as any);
   });
 
   it('service is created', () => {

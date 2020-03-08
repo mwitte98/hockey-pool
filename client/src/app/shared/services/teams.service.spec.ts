@@ -4,7 +4,7 @@ describe('TeamsService', () => {
   let service: TeamsService;
 
   beforeEach(() => {
-    service = new TeamsService(<any>{});
+    service = new TeamsService({} as any);
   });
 
   it('service is created', () => {

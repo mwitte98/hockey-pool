@@ -4,7 +4,7 @@ describe('ApiService', () => {
   let service: ApiService;
 
   beforeEach(() => {
-    service = new ApiService(<any>{});
+    service = new ApiService({} as any);
   });
 
   it('service is created', () => {
