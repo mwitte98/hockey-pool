@@ -44,7 +44,7 @@ export class UserService {
       params = credentials;
     }
     return this.apiService.post(route, params).pipe(
-      map((data: { logged_in: boolean, user: User }) => {
+      map((data: { logged_in: boolean; user: User }) => {
         this.setUser(data.user);
         return data.user;
       }));

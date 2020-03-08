@@ -4,7 +4,7 @@ describe('EntriesService', () => {
   let service: EntriesService;
 
   beforeEach(() => {
-    service = new EntriesService(<any>{});
+    service = new EntriesService({} as any);
   });
 
   it('service is created', () => {

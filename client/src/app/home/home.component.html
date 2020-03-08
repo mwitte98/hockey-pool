@@ -92,7 +92,7 @@
       <ng-container matColumnDef="playerDetails">
         <mat-cell class="player-details" *matCellDef="let entry">
           <div fxLayout="row wrap">
-            <div *ngFor="let player of entry.players; trackBy: player?.id">
+            <div *ngFor="let player of entry.players; trackBy: trackById">
               <div class="team-player-wrapper" *ngIf="!player.team.is_eliminated || showingEliminatedTeams">
                 <div class="team-name" [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
                   <b>{{ player.team.name }}</b>

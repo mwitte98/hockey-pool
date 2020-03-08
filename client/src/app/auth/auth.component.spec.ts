@@ -4,7 +4,7 @@ describe('AuthComponent', () => {
   let comp: AuthComponent;
 
   beforeEach(() => {
-    comp = new AuthComponent(<any>{}, <any>{}, <any>{}, <any>{});
+    comp = new AuthComponent({} as any, {} as any, {} as any, {} as any);
   });
 
   it('component is created', () => {
