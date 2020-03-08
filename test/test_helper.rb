@@ -16,6 +16,7 @@ Minitest::Reporters.use!(Minitest::Reporters::ProgressReporter.new, ENV, Minites
 
 SimpleCov.start 'rails' do
   add_filter '.env'
+  # enable_coverage :branch
 end
 
 module ActiveSupport

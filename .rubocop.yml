@@ -8,9 +8,9 @@ AllCops:
     - 'db/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 100
 
 Metrics/AbcSize:
@@ -27,6 +27,15 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/MutableConstant:
   Enabled: false
