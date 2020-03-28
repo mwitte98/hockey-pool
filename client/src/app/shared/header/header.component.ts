@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
-import { ApiService } from '../services/api.service';
 import { UserService } from '../services/user.service';
+import { User } from '../types/interfaces';
 
 @Component({
   selector: 'layout-header',
@@ -12,10 +12,10 @@ import { UserService } from '../services/user.service';
 
 export class HeaderComponent implements OnInit {
   currentPage: string;
+  currentUser: User;
 
   constructor(
     private router: Router,
-    private apiService: ApiService,
     private userService: UserService
   ) {}
 
@@ -25,11 +25,14 @@ export class HeaderComponent implements OnInit {
         this.currentPage = this.router.routerState.snapshot.url;
       }
     });
+
+    this.userService.currentUser.subscribe((user: User) => {
+      this.currentUser = user;
+    });
   }
 
   logout(): void {
-    this.apiService.post('/auth/logout').subscribe();
-    this.userService.removeUser();
+    this.userService.logout();
     this.router.navigateByUrl('/').catch();
   }
 }

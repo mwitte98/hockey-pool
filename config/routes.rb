@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   scope '/api' do
     scope '/auth' do
       match '/login' => 'auth#login', via: [:post]
-      match '/logout' => 'auth#logout', via: [:post]
+      match '/logout' => 'auth#logout', via: [:delete]
       match '/signed_in' => 'auth#signed_in', via: [:get]
     end
 

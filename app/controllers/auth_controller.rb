@@ -6,7 +6,7 @@ class AuthController < ApplicationController
     user = find_user
     if user&.authenticate(params[:password])
       session[:user_id] = user.id
-      render json: { logged_in: true, user: user }
+      render json: user
     else
       message = 'Invalid Email/Password Combination'
       render json: { errors: [message] }, status: :unauthorized # 401
@@ -15,17 +15,17 @@ class AuthController < ApplicationController
 
   def logout
     reset_session
-    render json: { logged_in: false }
+    render json: {}, status: :no_content # 204
   end
 
   def signed_in
     user_id = session[:user_id]
     if user_id
       user = User.find(user_id)
-      render json: { logged_in: true, user: user }
+      render json: user
     else
       reset_session
-      render json: { logged_in: false }, status: :unauthorized # 401
+      render json: {}, status: :unauthorized # 401
     end
   end
 
