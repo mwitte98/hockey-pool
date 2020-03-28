@@ -4,18 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
-import { NoAuthGuard } from './shared/services/no-auth-guard.service';
 
 const appRoutes: Routes = [
   {
     path: 'login',
-    component: AuthComponent,
-    canActivate: [NoAuthGuard]
+    component: AuthComponent
   },
   {
     path: 'register',
-    component: AuthComponent,
-    canActivate: [NoAuthGuard]
+    component: AuthComponent
   },
   { path: 'player-stats', component: PlayerStatsComponent },
   { path: '', component: HomeComponent },

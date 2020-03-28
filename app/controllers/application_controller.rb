@@ -11,6 +11,6 @@ class ApplicationController < ActionController::API
   def not_signed_in?
     return unless session[:user_id]
 
-    render json: { logged_in: true }
+    render json: User.find(session[:user_id])
   end
 end

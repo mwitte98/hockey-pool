@@ -4,7 +4,7 @@ class RoutesTest < ActionController::TestCase
   should route(:get, '/').to('static#base')
 
   should route(:post, '/api/auth/login').to('auth#login')
-  should route(:post, '/api/auth/logout').to('auth#logout')
+  should route(:delete, '/api/auth/logout').to('auth#logout')
   should route(:get, '/api/auth/signed_in').to('auth#signed_in')
 
   should route(:post, '/api/user').to('users#create')
