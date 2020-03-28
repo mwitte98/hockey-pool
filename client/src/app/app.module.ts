@@ -19,7 +19,6 @@ import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
-import { ShowAuthedDirective } from './shared/directives/show-authed.directive';
 import { DisplayErrorsComponent } from './shared/errors/display-errors.component';
 import { HeaderComponent } from './shared/header/header.component';
 
@@ -30,8 +29,7 @@ import { HeaderComponent } from './shared/header/header.component';
     DisplayErrorsComponent,
     HeaderComponent,
     HomeComponent,
-    PlayerStatsComponent,
-    ShowAuthedDirective
+    PlayerStatsComponent
   ],
   imports: [
     BrowserAnimationsModule,
