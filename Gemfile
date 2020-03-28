@@ -11,7 +11,7 @@ gem 'bcrypt', '3.1.13'
 gem 'mechanize', '2.7.6'
 gem 'newrelic_rpm', '6.9.0.363'
 gem 'nokogiri', '1.10.9'
-gem 'pg', '1.2.2'
+gem 'pg', '1.2.3'
 gem 'puma', '4.3.3'
 gem 'sucker_punch', '2.1.2'
 
