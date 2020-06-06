@@ -8,10 +8,11 @@ AllCops:
     - 'db/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
+  NewCops: enable
   TargetRubyVersion: 2.7
 
 Layout/LineLength:
-  Max: 100
+  Max: 120
 
 Metrics/AbcSize:
   Max: 12
@@ -27,15 +28,6 @@ Style/Documentation:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
-
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
 
 Style/MutableConstant:
   Enabled: false
