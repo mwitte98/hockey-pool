@@ -129,6 +129,7 @@ export class AdminTeamsComponent implements OnInit {
 
   updateTeam(id: number): void {
     const team = this.teams.find((t) => t.id === id);
+    team.updateLoading = true;
     this.teamsService.update(team.id, team.form.getRawValue()).subscribe(() => {
       this.updateStatus(team, true);
     }, () => {
@@ -139,6 +140,7 @@ export class AdminTeamsComponent implements OnInit {
   updatePlayer(teamId: number, playerId: number): void {
     const team = this.teams.find((t) => t.id === teamId);
     const player = team.players.find((p) => p.id === playerId);
+    player.updateLoading = true;
     this.playersService.update(player.id, player.form.getRawValue()).subscribe(() => {
       this.updateStatus(player, true);
     }, () => {
