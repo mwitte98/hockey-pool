@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+
 export interface ApiResponse {
   entries: Entry[];
   players: Player[];
@@ -44,6 +46,10 @@ export interface Player {
   finals_wins?: number;
   finals_shutouts?: number;
   finals_otl?: number;
+  form?: FormGroup;
+  updateLoading?: boolean;
+  updateSuccess?: boolean;
+  updateFailure?: boolean;
 }
 
 export interface Team {
@@ -53,6 +59,10 @@ export interface Team {
   is_eliminated: boolean;
   players: Player[];
   goalies: Player[];
+  form?: FormGroup;
+  updateLoading?: boolean;
+  updateSuccess?: boolean;
+  updateFailure?: boolean;
 }
 
 export interface User {

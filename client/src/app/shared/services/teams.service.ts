@@ -16,4 +16,8 @@ export class TeamsService {
   get(): Observable<Team[]> {
     return this.apiService.get('/teams');
   }
+
+  update(id: number, team: Team): Observable<any> {
+    return this.apiService.put(`/teams/${id}`, team);
+  }
 }

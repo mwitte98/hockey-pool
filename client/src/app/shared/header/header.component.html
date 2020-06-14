@@ -4,8 +4,8 @@
   <a mat-button *ngIf="currentPage !== '/'" routerLink="/">Entries</a>
   <a mat-button *ngIf="currentPage !== '/player-stats'" routerLink="/player-stats">Player Stats</a>
   <div *ngIf="currentUser" fxShow="true" fxHide.xs>
-    <a mat-button routerLink="/admin/teams">Admin - Teams</a>
-    <a mat-button routerLink="/admin/entries">Admin - Entries</a>
+    <a mat-button *ngIf="currentPage !== '/admin/teams'" routerLink="/admin/teams">Admin - Teams</a>
+    <a mat-button *ngIf="currentPage !== '/admin/entries'" routerLink="/admin/entries">Admin - Entries</a>
     <a mat-button (click)="logout()">Logout</a>
   </div>
   <button *ngIf="currentUser" mat-button [mat-menu-trigger-for]="menu" fxHide="true" fxShow.xs>
@@ -13,7 +13,7 @@
   </button>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
-  <a mat-menu-item routerLink="/admin/teams">Admin - Teams</a>
-  <a mat-menu-item routerLink="/admin/entries">Admin - Entries</a>
+  <a mat-menu-item *ngIf="currentPage !== '/admin/teams'" routerLink="/admin/teams">Admin - Teams</a>
+  <a mat-menu-item *ngIf="currentPage !== '/admin/entries'" routerLink="/admin/entries">Admin - Entries</a>
   <a mat-menu-item (click)="logout()">Logout</a>
 </mat-menu>
