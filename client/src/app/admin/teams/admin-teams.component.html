@@ -1,0 +1,134 @@
+<div class="header">
+  <h1 class="mat-h1">Admin - Teams</h1>
+  <div class="right-align"></div>
+  <div>
+    <button mat-raised-button *ngIf="expandedEntries.length === 0" (click)="accordion.openAll()">Expand All</button>
+    <button mat-raised-button *ngIf="expandedEntries.length !== 0" (click)="accordion.closeAll()">Collapse All</button>
+  </div>
+</div>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<div class="accordion-container">
+  <mat-accordion multi [displayMode]="'flat'">
+    <mat-expansion-panel
+      (afterExpand)="afterExpand(team.name)"
+      (afterCollapse)="afterCollapse(team.name)"
+      class="expansion-panel"
+      *ngFor="let team of teams; trackBy: trackByTeamId">
+      <mat-expansion-panel-header [expandedHeight]="'48px'" class="expansion-panel-header">
+        <mat-panel-title>{{ team.name }}</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="expansion-panel-body">
+        <form [formGroup]="team.form" (ngSubmit)="updateTeam(team.id)">
+          <mat-form-field>
+            <mat-label>Team Name</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
+          <mat-form-field class="abbr-input">
+            <mat-label>Abbreviation</mat-label>
+            <input matInput formControlName="abbr" minlength="3" maxlength="3" oninput="let p=this.selectionStart; this.value=this.value.toUpperCase(); this.setSelectionRange(p, p);" />
+          </mat-form-field>
+          <mat-checkbox formControlName="isEliminated" color="primary">Eliminated</mat-checkbox>
+          <button mat-raised-button class="primary-button" color="primary" type="submit" [disabled]="!team.form.valid || team.updateLoading">Update</button>
+          <div class="form-submit-status">
+            <mat-spinner class="form-spinner" *ngIf="team.updateLoading" [diameter]="25"></mat-spinner>
+            <mat-icon class="check-icon" *ngIf="team.updateSuccess">check</mat-icon>
+            <mat-icon color="warn" *ngIf="team.updateFailure">clear</mat-icon>
+          </div>
+        </form>
+        <form [formGroup]="player.form" (ngSubmit)="updatePlayer(team.id, player.id)" *ngFor="let player of team.players; trackBy: trackByPlayerId">
+          <mat-form-field class="player-name-input">
+            <mat-label>First Name</mat-label>
+            <input matInput formControlName="firstName" />
+          </mat-form-field>
+          <mat-form-field class="player-name-input">
+            <mat-label>Last Name</mat-label>
+            <input matInput formControlName="lastName" />
+          </mat-form-field>
+          <mat-form-field class="position-input">
+            <mat-label>Position</mat-label>
+            <mat-select formControlName="position">
+              <mat-option value="Center">C</mat-option>
+              <mat-option value="Winger">W</mat-option>
+              <mat-option value="Defenseman">D</mat-option>
+              <mat-option value="Goalie">G</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="number-input">
+            <mat-label>Goals</mat-label>
+            <input matInput type="number" formControlName="goals" />
+          </mat-form-field>
+          <mat-form-field class="number-input">
+            <mat-label>Assists</mat-label>
+            <input matInput type="number" formControlName="assists" />
+          </mat-form-field>
+          <mat-form-field class="number-input" *ngIf="player.position !== 'Goalie'">
+            <mat-label>GWG</mat-label>
+            <input matInput type="number" formControlName="gwg" />
+          </mat-form-field>
+          <mat-form-field class="number-input" *ngIf="player.position !== 'Goalie'">
+            <mat-label>SHG</mat-label>
+            <input matInput type="number" formControlName="shg" />
+          </mat-form-field>
+          <mat-form-field class="number-input" *ngIf="player.position !== 'Goalie'">
+            <mat-label>OTG</mat-label>
+            <input matInput type="number" formControlName="otg" />
+          </mat-form-field>
+          <mat-form-field class="number-input" *ngIf="player.position === 'Goalie'">
+            <mat-label>Wins</mat-label>
+            <input matInput type="number" formControlName="wins" />
+          </mat-form-field>
+          <mat-form-field class="number-input" *ngIf="player.position === 'Goalie'">
+            <mat-label>OTL</mat-label>
+            <input matInput type="number" formControlName="otl" />
+          </mat-form-field>
+          <mat-form-field class="number-input" *ngIf="player.position === 'Goalie'">
+            <mat-label>SO</mat-label>
+            <input matInput type="number" formControlName="shutouts" />
+          </mat-form-field>
+          <mat-form-field class="finals-number-input" *ngIf="player.finals_goals != null">
+            <mat-label>G (x2)</mat-label>
+            <input matInput type="number" formControlName="finalsGoals" />
+          </mat-form-field>
+          <mat-form-field class="finals-number-input" *ngIf="player.finals_assists != null">
+            <mat-label>A (x2)</mat-label>
+            <input matInput type="number" formControlName="finalsAssists" />
+          </mat-form-field>
+          <mat-form-field class="finals-number-input" *ngIf="player.position !== 'Goalie' && player.finals_gwg != null">
+            <mat-label>GWG (x2)</mat-label>
+            <input matInput type="number" formControlName="finalsGwg" />
+          </mat-form-field>
+          <mat-form-field class="finals-number-input" *ngIf="player.position !== 'Goalie' && player.finals_shg != null">
+            <mat-label>SHG (x2)</mat-label>
+            <input matInput type="number" formControlName="finalsShg" />
+          </mat-form-field>
+          <mat-form-field class="finals-number-input" *ngIf="player.position !== 'Goalie' && player.finals_otg != null">
+            <mat-label>OTG (x2)</mat-label>
+            <input matInput type="number" formControlName="finalsOtg" />
+          </mat-form-field>
+          <mat-form-field class="finals-number-input" *ngIf="player.position === 'Goalie' && player.finals_wins != null">
+            <mat-label>Wins (x2)</mat-label>
+            <input matInput type="number" formControlName="finalsWins" />
+          </mat-form-field>
+          <mat-form-field class="finals-number-input" *ngIf="player.position === 'Goalie' && player.finals_otl != null">
+            <mat-label>OTL (x2)</mat-label>
+            <input matInput type="number" formControlName="finalsOtl" />
+          </mat-form-field>
+          <mat-form-field class="finals-number-input" *ngIf="player.position === 'Goalie' && player.finals_shutouts != null">
+            <mat-label>SO (x2)</mat-label>
+            <input matInput type="number" formControlName="finalsShutouts" />
+          </mat-form-field>
+          <mat-form-field class="number-input">
+            <mat-label>Points</mat-label>
+            <input matInput type="number" formControlName="points" />
+          </mat-form-field>
+          <button mat-raised-button class="primary-button" color="primary" type="submit" [disabled]="!player.form.valid || player.updateLoading">Update</button>
+          <div class="form-submit-status">
+            <mat-spinner class="form-spinner" *ngIf="player.updateLoading" [diameter]="25"></mat-spinner>
+            <mat-icon class="check-icon" *ngIf="player.updateSuccess">check</mat-icon>
+            <mat-icon color="warn" *ngIf="player.updateFailure">clear</mat-icon>
+          </div>
+        </form>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

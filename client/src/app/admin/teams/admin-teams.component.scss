@@ -1,0 +1,78 @@
+$gray: #eee;
+$gray-border: rgba(0, 0, 0, .12);
+$green: #008000;
+
+.header {
+  display: flex;
+  margin: 16px;
+}
+
+.accordion-container {
+  margin: 0 16px 16px;
+}
+
+.expansion-panel {
+  border-color: $gray-border;
+  border-radius: 0 !important; // sass-lint:disable-line no-important
+  border-style: solid;
+  border-width: 0 0 1px;
+  box-shadow: none;
+}
+
+.expansion-panel-header {
+  padding: 0 16px;
+
+  &:hover {
+    background: $gray !important; // sass-lint:disable-line no-important
+  }
+}
+
+.expansion-panel-body {
+  padding-top: 16px;
+}
+
+.mat-form-field {
+  padding-right: 16px;
+}
+
+.abbr-input {
+  width: 80px;
+}
+
+.mat-checkbox {
+  padding-right: 16px;
+}
+
+.player-name-input {
+  width: 100px;
+}
+
+.position-input {
+  width: 40px;
+}
+
+.number-input {
+  width: 35px;
+}
+
+.finals-number-input {
+  width: 50px;
+}
+
+.primary-button {
+  margin-bottom: 10px;
+  top: -5px;
+}
+
+.form-submit-status {
+  display: inline-flex;
+  padding-left: 10px;
+}
+
+.form-spinner {
+  display: inline-flex;
+}
+
+.check-icon {
+  color: $green;
+}

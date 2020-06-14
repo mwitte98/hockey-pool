@@ -203,6 +203,7 @@
     "no-string-throw": true,
     "no-submodule-imports": [
       true,
+      "@angular/cdk",
       "@angular/common/http",
       "@angular/material",
       "@angular/platform-browser",
@@ -433,7 +434,7 @@
     ],
     "template-cyclomatic-complexity": [
       true,
-      7
+      25
     ],
     "template-i18n": false,
     "template-mouse-events-have-key-events": true,
