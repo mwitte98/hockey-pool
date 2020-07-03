@@ -5,7 +5,6 @@ import { Component, Input } from '@angular/core';
   templateUrl: './display-errors.component.html',
   styleUrls: ['./display-errors.component.scss']
 })
-
 export class DisplayErrorsComponent {
   @Input() errors: string[];
 

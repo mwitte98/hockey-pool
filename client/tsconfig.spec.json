@@ -6,8 +6,5 @@
     "target": "es5",
     "baseUrl": ""
   },
-  "include": [
-    "**/*.spec.ts",
-    "**/*.d.ts"
-  ]
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

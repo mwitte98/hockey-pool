@@ -9,9 +9,7 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class PlayersService {
-  constructor(
-    private apiService: ApiService
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   update(id: number, player: Player): Observable<any> {
     return this.apiService.put(`/players/${id}`, player);

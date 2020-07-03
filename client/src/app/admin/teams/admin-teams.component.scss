@@ -1,5 +1,5 @@
 $gray: #eee;
-$gray-border: rgba(0, 0, 0, .12);
+$gray-border: rgba(0, 0, 0, 0.12);
 $green: #008000;
 
 .header {
@@ -13,7 +13,7 @@ $green: #008000;
 
 .expansion-panel {
   border-color: $gray-border;
-  border-radius: 0 !important; // sass-lint:disable-line no-important
+  border-radius: 0 !important;
   border-style: solid;
   border-width: 0 0 1px;
   box-shadow: none;
@@ -23,7 +23,7 @@ $green: #008000;
   padding: 0 16px;
 
   &:hover {
-    background: $gray !important; // sass-lint:disable-line no-important
+    background: $gray !important;
   }
 }
 

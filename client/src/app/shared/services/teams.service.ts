@@ -9,9 +9,7 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class TeamsService {
-  constructor(
-    private apiService: ApiService
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   get(): Observable<Team[]> {
     return this.apiService.get('/teams');

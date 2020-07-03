@@ -7,9 +7,7 @@ import { UserService } from './shared/services/user.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  constructor(
-    private userService: UserService
-  ) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.checkAuth();
