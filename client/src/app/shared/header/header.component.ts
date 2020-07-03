@@ -9,15 +9,11 @@ import { User } from '../types/interfaces';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-
 export class HeaderComponent implements OnInit {
   currentPage: string;
   currentUser: User;
 
-  constructor(
-    private router: Router,
-    private userService: UserService
-  ) {}
+  constructor(private router: Router, private userService: UserService) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {

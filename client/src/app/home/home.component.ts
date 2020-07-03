@@ -9,8 +9,8 @@ import { ApiResponse, Entry, Player } from '../shared/types/interfaces';
   styleUrls: ['./home.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', visibility: 'hidden'})),
-      state('expanded', style({height: '*', visibility: 'visible'})),
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*', visibility: 'visible' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
   ]
@@ -24,9 +24,7 @@ export class HomeComponent implements OnInit {
   showingAllEntries = false;
   showingEliminatedTeams = false;
 
-  constructor(
-    private entriesService: EntriesService
-  ) {}
+  constructor(private entriesService: EntriesService) {}
 
   ngOnInit(): void {
     this.loading = true;
@@ -64,7 +62,7 @@ export class HomeComponent implements OnInit {
 
   combineApiResponseData(response: ApiResponse): void {
     const players = response.players;
-    players.map((p) => p.team = response.teams.find((t) => t.id === p.team_id));
+    players.map((p) => (p.team = response.teams.find((t) => t.id === p.team_id)));
     response.entries.map((entry: Entry) => {
       entry.players = [];
       entry.player_ids.map((pId) => entry.players.push(players.find((p) => p.id === pId)));
@@ -82,14 +80,13 @@ export class HomeComponent implements OnInit {
     this.tableData = [];
     this.entries.map((entry: Entry) => {
       this.tableData.push(entry);
-      this.tableData.push({isDetailRow: true, ...entry});
+      this.tableData.push({ isDetailRow: true, ...entry });
     });
   }
 
   calculatePoints(): void {
     this.entries.map((entry: Entry) => {
-      entry.points = entry.pointsC = entry.pointsW = entry.pointsD = entry.pointsG =
-        entry.totalGoals = entry.tiebreaker = 0;
+      this.resetEntryPoints(entry);
       entry.players.map((player: Player) => {
         entry.points += player.points;
         entry.totalGoals += player.goals;
@@ -114,6 +111,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  resetEntryPoints(entry: Entry): void {
+    entry.points = 0;
+    entry.pointsC = 0;
+    entry.pointsW = 0;
+    entry.pointsD = 0;
+    entry.pointsG = 0;
+    entry.totalGoals = 0;
+    entry.tiebreaker = 0;
+  }
+
   sortEntries(): void {
     this.entries.sort((a: Entry, b: Entry) => this.compareEntries(a, b));
 
@@ -133,12 +140,14 @@ export class HomeComponent implements OnInit {
   }
 
   equals(a: Entry, b: Entry): boolean {
-    return a.points === b.points &&
+    return (
+      a.points === b.points &&
       a.pointsC === b.pointsC &&
       a.pointsW === b.pointsW &&
       a.pointsD === b.pointsD &&
       a.pointsG === b.pointsG &&
-      a.totalGoals === b.totalGoals;
+      a.totalGoals === b.totalGoals
+    );
   }
 
   compareEntries(a: Entry, b: Entry): number {
@@ -147,7 +156,9 @@ export class HomeComponent implements OnInit {
     for (let index = 0; index < tiebreakers.length; index++) {
       const tiebreaker = tiebreakers[index];
       diff = b[tiebreaker] - a[tiebreaker];
-      if (diff !== 0) { break; }
+      if (diff !== 0) {
+        break;
+      }
       this.setTiebreaker(a, index + 1);
       this.setTiebreaker(b, index + 1);
     }
@@ -155,6 +166,8 @@ export class HomeComponent implements OnInit {
   }
 
   setTiebreaker(entry: Entry, newTiebreaker: number): void {
-    if (entry.tiebreaker < newTiebreaker) { entry.tiebreaker = newTiebreaker; }
+    if (entry.tiebreaker < newTiebreaker) {
+      entry.tiebreaker = newTiebreaker;
+    }
   }
 }

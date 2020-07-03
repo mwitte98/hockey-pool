@@ -1,0 +1,5 @@
+.DS_Store
+.prettierignore
+coverage
+dist
+node_modules

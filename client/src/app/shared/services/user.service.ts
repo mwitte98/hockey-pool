@@ -14,18 +14,19 @@ export class UserService {
   currentUser = this.currentUserSubject.asObservable();
   authChecked = false;
 
-  constructor(
-    private apiService: ApiService
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   checkAuth(): void {
-    this.apiService.get('/auth/signed_in').subscribe((data: User) => {
-      this.authChecked = true;
-      this.setUser(data);
-    }, () => {
-      this.authChecked = true;
-      this.removeUser();
-    });
+    this.apiService.get('/auth/signed_in').subscribe(
+      (data: User) => {
+        this.authChecked = true;
+        this.setUser(data);
+      },
+      () => {
+        this.authChecked = true;
+        this.removeUser();
+      }
+    );
   }
 
   setUser(user: User): void {
@@ -50,15 +51,19 @@ export class UserService {
       map((user: User) => {
         this.setUser(user);
         return user;
-      }));
+      })
+    );
   }
 
   logout(): void {
-    this.apiService.delete('/auth/logout').subscribe(() => {
-      this.removeUser();
-    }, () => {
-      this.removeUser();
-    });
+    this.apiService.delete('/auth/logout').subscribe(
+      () => {
+        this.removeUser();
+      },
+      () => {
+        this.removeUser();
+      }
+    );
   }
 
   getCurrentUser(): User {

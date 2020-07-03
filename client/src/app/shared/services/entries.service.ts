@@ -9,9 +9,7 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class EntriesService {
-  constructor(
-    private apiService: ApiService
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   get(): Observable<ApiResponse> {
     return this.apiService.get('/entries');

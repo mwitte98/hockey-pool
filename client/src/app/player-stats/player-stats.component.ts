@@ -9,15 +9,20 @@ import { Team } from '../shared/types/interfaces';
 })
 export class PlayerStatsComponent implements OnInit {
   teams: Team[];
-  playerColumnsToDisplay =
-    ['name', 'position', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
-  goalieColumnsToDisplay =
-    ['name', 'position', 'goals', 'assists', 'wins', 'otl', 'shutouts', 'points'];
+  playerColumnsToDisplay = ['name', 'position', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
+  goalieColumnsToDisplay = [
+    'name',
+    'position',
+    'goals',
+    'assists',
+    'wins',
+    'otl',
+    'shutouts',
+    'points'
+  ];
   loading = false;
 
-  constructor(
-    private teamsService: TeamsService
-  ) {}
+  constructor(private teamsService: TeamsService) {}
 
   ngOnInit(): void {
     this.loading = true;

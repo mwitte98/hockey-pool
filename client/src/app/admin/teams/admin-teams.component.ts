@@ -54,9 +54,7 @@ export class AdminTeamsComponent implements OnInit {
   createTeamForm(team: Team): void {
     team.form = this.fb.group({
       name: [team.name, Validators.required],
-      abbr: [team.abbr, [Validators.required,
-                         Validators.minLength(3),
-                         Validators.maxLength(3)]],
+      abbr: [team.abbr, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
       isEliminated: [team.is_eliminated, Validators.required]
     });
   }
@@ -82,27 +80,26 @@ export class AdminTeamsComponent implements OnInit {
       finalsWins: [player.finals_wins, Validators.min(0)],
       finalsOtl: [player.finals_otl, Validators.min(0)],
       finalsShutouts: [player.finals_shutouts, Validators.min(0)],
-      points: [
-        {value: player.points, disabled: true},
-        [Validators.required, Validators.min(0)]]
+      points: [{ value: player.points, disabled: true }, [Validators.required, Validators.min(0)]]
     });
   }
 
   createPlayerFormSubscriber(player: Player): void {
-    player.form.valueChanges.pipe(
-      distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
-    ).subscribe((value: any) => {
-      const pointsHash: any = {
-        goals: 2, assists: 1, gwg: 1, shg: 3, otg: 2, wins: 2, otl: 1, shutouts: 4,
-        finalsGoals: 2, finalsAssists: 1, finalsGwg: 1, finalsShg: 3, finalsOtg: 2,
-        finalsWins: 2, finalsOtl: 1, finalsShutouts: 4
-      };
-      let totalPoints = 0;
-      for (const stat of Object.keys(pointsHash)) {
-        totalPoints += value[stat] * pointsHash[stat];
-      }
-      player.form.patchValue({points: totalPoints});
-    });
+    player.form.valueChanges
+      .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+      .subscribe((value: any) => {
+        // prettier-ignore
+        const pointsHash: any = {
+          goals: 2, assists: 1, gwg: 1, shg: 3, otg: 2, wins: 2, otl: 1, shutouts: 4,
+          finalsGoals: 2, finalsAssists: 1, finalsGwg: 1, finalsShg: 3, finalsOtg: 2,
+          finalsWins: 2, finalsOtl: 1, finalsShutouts: 4
+        };
+        let totalPoints = 0;
+        for (const stat of Object.keys(pointsHash)) {
+          totalPoints += value[stat] * pointsHash[stat];
+        }
+        player.form.patchValue({ points: totalPoints });
+      });
   }
 
   trackByTeamId(_index: number, team: Team): number {
@@ -130,22 +127,28 @@ export class AdminTeamsComponent implements OnInit {
   updateTeam(id: number): void {
     const team = this.teams.find((t) => t.id === id);
     team.updateLoading = true;
-    this.teamsService.update(team.id, team.form.getRawValue()).subscribe(() => {
-      this.updateStatus(team, true);
-    }, () => {
-      this.updateStatus(team, false);
-    });
+    this.teamsService.update(team.id, team.form.getRawValue()).subscribe(
+      () => {
+        this.updateStatus(team, true);
+      },
+      () => {
+        this.updateStatus(team, false);
+      }
+    );
   }
 
   updatePlayer(teamId: number, playerId: number): void {
     const team = this.teams.find((t) => t.id === teamId);
     const player = team.players.find((p) => p.id === playerId);
     player.updateLoading = true;
-    this.playersService.update(player.id, player.form.getRawValue()).subscribe(() => {
-      this.updateStatus(player, true);
-    }, () => {
-      this.updateStatus(player, false);
-    });
+    this.playersService.update(player.id, player.form.getRawValue()).subscribe(
+      () => {
+        this.updateStatus(player, true);
+      },
+      () => {
+        this.updateStatus(player, false);
+      }
+    );
   }
 
   updateStatus(updateObject: Team | Player, isSuccess: boolean): void {
