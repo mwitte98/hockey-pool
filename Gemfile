@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
 ruby '2.7.1'
 
-gem 'actionpack', '6.0.3.1'
-gem 'activemodel', '6.0.3.1'
-gem 'activerecord', '6.0.3.1'
-gem 'activesupport', '6.0.3.1'
-gem 'railties', '6.0.3.1'
+gem 'actionpack', '6.0.3.2'
+gem 'activemodel', '6.0.3.2'
+gem 'activerecord', '6.0.3.2'
+gem 'activesupport', '6.0.3.2'
+gem 'railties', '6.0.3.2'
 
 gem 'bcrypt', '3.1.13'
 gem 'mechanize', '2.7.6'
@@ -24,6 +24,6 @@ end
 
 group :test do
   gem 'minitest-reporters', '1.4.2'
-  gem 'shoulda', '4.0.0.rc2'
+  gem 'shoulda', '4.0.0'
   gem 'simplecov', '0.17.1'
 end
