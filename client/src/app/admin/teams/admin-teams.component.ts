@@ -7,6 +7,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 import { PlayersService } from '../../shared/services/players.service';
 import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
+import { UtilService } from '../../shared/services/util.service';
 import { Player, Team, User } from '../../shared/types/interfaces';
 
 @Component({
@@ -24,6 +25,7 @@ export class AdminTeamsComponent implements OnInit {
     private teamsService: TeamsService,
     private playersService: PlayersService,
     private userService: UserService,
+    private utilService: UtilService,
     private fb: FormBuilder
   ) {}
 
@@ -127,43 +129,15 @@ export class AdminTeamsComponent implements OnInit {
   updateTeam(id: number): void {
     const team = this.teams.find((t) => t.id === id);
     team.updateLoading = true;
-    this.teamsService.update(team.id, team.form.getRawValue()).subscribe(
-      () => {
-        this.updateStatus(team, true);
-      },
-      () => {
-        this.updateStatus(team, false);
-      }
-    );
+    const response = this.teamsService.update(team.id, team.form.getRawValue());
+    this.utilService.subscribeAndUpdateStatus(team, response);
   }
 
   updatePlayer(teamId: number, playerId: number): void {
     const team = this.teams.find((t) => t.id === teamId);
     const player = team.players.find((p) => p.id === playerId);
     player.updateLoading = true;
-    this.playersService.update(player.id, player.form.getRawValue()).subscribe(
-      () => {
-        this.updateStatus(player, true);
-      },
-      () => {
-        this.updateStatus(player, false);
-      }
-    );
-  }
-
-  updateStatus(updateObject: Team | Player, isSuccess: boolean): void {
-    updateObject.updateLoading = false;
-    if (isSuccess) {
-      updateObject.updateSuccess = true;
-    } else {
-      updateObject.updateFailure = true;
-    }
-    setTimeout(() => {
-      if (isSuccess) {
-        updateObject.updateSuccess = false;
-      } else {
-        updateObject.updateFailure = false;
-      }
-    }, 3000);
+    const response = this.playersService.update(player.id, player.form.getRawValue());
+    this.utilService.subscribeAndUpdateStatus(player, response);
   }
 }

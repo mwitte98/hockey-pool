@@ -1,12 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AdminEntriesComponent } from './admin/entries/admin-entries.component';
 import { AdminTeamsComponent } from './admin/teams/admin-teams.component';
 import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
 
 const appRoutes: Routes = [
+  {
+    path: 'admin/entries',
+    component: AdminEntriesComponent
+  },
   {
     path: 'admin/teams',
     component: AdminTeamsComponent

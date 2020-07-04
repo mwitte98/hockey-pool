@@ -10,16 +10,7 @@ import { Team } from '../shared/types/interfaces';
 export class PlayerStatsComponent implements OnInit {
   teams: Team[];
   playerColumnsToDisplay = ['name', 'position', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
-  goalieColumnsToDisplay = [
-    'name',
-    'position',
-    'goals',
-    'assists',
-    'wins',
-    'otl',
-    'shutouts',
-    'points'
-  ];
+  goalieColumnsToDisplay = ['name', 'position', 'goals', 'assists', 'wins', 'otl', 'shutouts', 'points'];
   loading = false;
 
   constructor(private teamsService: TeamsService) {}

@@ -2,6 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 
 import { EntriesService } from '../shared/services/entries.service';
+import { UtilService } from '../shared/services/util.service';
 import { ApiResponse, Entry, Player } from '../shared/types/interfaces';
 
 @Component({
@@ -24,14 +25,14 @@ export class HomeComponent implements OnInit {
   showingAllEntries = false;
   showingEliminatedTeams = false;
 
-  constructor(private entriesService: EntriesService) {}
+  constructor(private entriesService: EntriesService, private utilService: UtilService) {}
 
   ngOnInit(): void {
     this.loading = true;
 
     this.entriesService.get().subscribe((response: ApiResponse) => {
       this.expandedEntries = [];
-      this.combineApiResponseData(response);
+      this.entries = this.utilService.combineApiResponseData(response);
       this.calculatePoints();
       this.sortEntries();
       this.prepareTableData();
@@ -58,22 +59,6 @@ export class HomeComponent implements OnInit {
 
   toggleAllPanels(): void {
     this.expandedEntries = this.showingAllEntries ? this.entries.map((entry) => entry.name) : [];
-  }
-
-  combineApiResponseData(response: ApiResponse): void {
-    const players = response.players;
-    players.map((p) => (p.team = response.teams.find((t) => t.id === p.team_id)));
-    response.entries.map((entry: Entry) => {
-      entry.players = [];
-      entry.player_ids.map((pId) => entry.players.push(players.find((p) => p.id === pId)));
-      entry.players.sort((a, b) => {
-        if (a.team.is_eliminated === b.team.is_eliminated) {
-          return a.team_id - b.team_id;
-        }
-        return a.team.is_eliminated ? 1 : -1;
-      });
-    });
-    this.entries = response.entries;
   }
 
   prepareTableData(): void {

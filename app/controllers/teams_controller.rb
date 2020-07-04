@@ -19,7 +19,7 @@ class TeamsController < ApplicationController
 
   def update
     team = Team.find(params[:id])
-    render json: team.update_attributes(team_params)
+    render json: team.update(team_params)
   end
 
   def destroy
