@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AdminEntriesComponent } from './admin/entries/admin-entries.component';
 import { AdminTeamsComponent } from './admin/teams/admin-teams.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { HeaderComponent } from './shared/header/header.component';
 
 @NgModule({
   declarations: [
+    AdminEntriesComponent,
     AdminTeamsComponent,
     AppComponent,
     AuthComponent,

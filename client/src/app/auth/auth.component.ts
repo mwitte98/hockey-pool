@@ -40,10 +40,7 @@ export class AuthComponent implements OnInit {
             this.authType = data[data.length - 1].path;
             this.authTypeCapital = this.authType.charAt(0).toUpperCase() + this.authType.slice(1);
             if (this.authType === 'register') {
-              this.authForm.addControl(
-                'password_confirmation',
-                new FormControl('', Validators.required)
-              );
+              this.authForm.addControl('password_confirmation', new FormControl('', Validators.required));
             }
           });
         }
@@ -53,10 +50,7 @@ export class AuthComponent implements OnInit {
 
   submitForm(): void {
     const credentials = this.authForm.value;
-    if (
-      this.authType === 'register' &&
-      credentials.password !== credentials.password_confirmation
-    ) {
+    if (this.authType === 'register' && credentials.password !== credentials.password_confirmation) {
       this.errorMessage = 'Passwords do not match';
     } else {
       this.userService.auth(this.authType, credentials).subscribe(

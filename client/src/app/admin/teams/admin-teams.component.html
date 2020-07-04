@@ -49,11 +49,7 @@
             Update
           </button>
           <div class="form-submit-status">
-            <mat-spinner
-              class="form-spinner"
-              *ngIf="team.updateLoading"
-              [diameter]="25"
-            ></mat-spinner>
+            <mat-spinner class="form-spinner" *ngIf="team.updateLoading" [diameter]="25"></mat-spinner>
             <mat-icon class="check-icon" *ngIf="team.updateSuccess">check</mat-icon>
             <mat-icon color="warn" *ngIf="team.updateFailure">clear</mat-icon>
           </div>
@@ -120,24 +116,15 @@
             <mat-label>A (x2)</mat-label>
             <input matInput type="number" formControlName="finalsAssists" />
           </mat-form-field>
-          <mat-form-field
-            class="finals-number-input"
-            *ngIf="player.position !== 'Goalie' && player.finals_gwg != null"
-          >
+          <mat-form-field class="finals-number-input" *ngIf="player.position !== 'Goalie' && player.finals_gwg != null">
             <mat-label>GWG (x2)</mat-label>
             <input matInput type="number" formControlName="finalsGwg" />
           </mat-form-field>
-          <mat-form-field
-            class="finals-number-input"
-            *ngIf="player.position !== 'Goalie' && player.finals_shg != null"
-          >
+          <mat-form-field class="finals-number-input" *ngIf="player.position !== 'Goalie' && player.finals_shg != null">
             <mat-label>SHG (x2)</mat-label>
             <input matInput type="number" formControlName="finalsShg" />
           </mat-form-field>
-          <mat-form-field
-            class="finals-number-input"
-            *ngIf="player.position !== 'Goalie' && player.finals_otg != null"
-          >
+          <mat-form-field class="finals-number-input" *ngIf="player.position !== 'Goalie' && player.finals_otg != null">
             <mat-label>OTG (x2)</mat-label>
             <input matInput type="number" formControlName="finalsOtg" />
           </mat-form-field>
@@ -148,10 +135,7 @@
             <mat-label>Wins (x2)</mat-label>
             <input matInput type="number" formControlName="finalsWins" />
           </mat-form-field>
-          <mat-form-field
-            class="finals-number-input"
-            *ngIf="player.position === 'Goalie' && player.finals_otl != null"
-          >
+          <mat-form-field class="finals-number-input" *ngIf="player.position === 'Goalie' && player.finals_otl != null">
             <mat-label>OTL (x2)</mat-label>
             <input matInput type="number" formControlName="finalsOtl" />
           </mat-form-field>
@@ -176,11 +160,7 @@
             Update
           </button>
           <div class="form-submit-status">
-            <mat-spinner
-              class="form-spinner"
-              *ngIf="player.updateLoading"
-              [diameter]="25"
-            ></mat-spinner>
+            <mat-spinner class="form-spinner" *ngIf="player.updateLoading" [diameter]="25"></mat-spinner>
             <mat-icon class="check-icon" *ngIf="player.updateSuccess">check</mat-icon>
             <mat-icon color="warn" *ngIf="player.updateFailure">clear</mat-icon>
           </div>

@@ -4,7 +4,7 @@ describe('AdminTeamsComponent', () => {
   let comp: AdminTeamsComponent;
 
   beforeEach(() => {
-    comp = new AdminTeamsComponent({} as any, {} as any, {} as any, {} as any, {} as any);
+    comp = new AdminTeamsComponent({} as any, {} as any, {} as any, {} as any, {} as any, {} as any);
   });
 
   it('component is created', () => {

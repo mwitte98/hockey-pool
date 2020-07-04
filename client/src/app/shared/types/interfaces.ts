@@ -20,6 +20,10 @@ export interface Entry {
   tiebreaker: number;
   rank: number;
   isDetailRow: boolean;
+  form?: FormGroup;
+  updateLoading?: boolean;
+  updateSuccess?: boolean;
+  updateFailure?: boolean;
 }
 
 export interface Player {
@@ -63,6 +67,13 @@ export interface Team {
   updateLoading?: boolean;
   updateSuccess?: boolean;
   updateFailure?: boolean;
+}
+
+export interface UpdateEntryRequest {
+  entry: {
+    name: string;
+    player_ids: number[];
+  };
 }
 
 export interface User {

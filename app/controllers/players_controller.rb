@@ -17,7 +17,7 @@ class PlayersController < ApplicationController
 
   def update
     player = Player.find(params[:id])
-    render json: player.update_attributes(player_params)
+    render json: player.update(player_params)
   end
 
   def destroy
