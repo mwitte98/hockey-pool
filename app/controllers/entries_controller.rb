@@ -10,7 +10,6 @@ class EntriesController < ApplicationController
 
   def create
     entry = Entry.create(entry_params)
-    entry.player_ids = params[:player_ids]
     render json: entry
   end
 
