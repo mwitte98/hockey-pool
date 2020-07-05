@@ -26,6 +26,13 @@ export interface Entry {
   updateFailure?: boolean;
 }
 
+export interface EntryRequest {
+  entry: {
+    name: string;
+    player_ids: number[];
+  };
+}
+
 export interface Player {
   id: number;
   first_name: string;
@@ -67,13 +74,6 @@ export interface Team {
   updateLoading?: boolean;
   updateSuccess?: boolean;
   updateFailure?: boolean;
-}
-
-export interface UpdateEntryRequest {
-  entry: {
-    name: string;
-    player_ids: number[];
-  };
 }
 
 export interface User {

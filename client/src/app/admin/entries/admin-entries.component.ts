@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { EntriesService } from '../../shared/services/entries.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
-import { ApiResponse, Entry, Player, Team, UpdateEntryRequest, User } from '../../shared/types/interfaces';
+import { ApiResponse, Entry, EntryRequest, Player, Team, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-entries.component.html',
@@ -88,10 +88,14 @@ export class AdminEntriesComponent implements OnInit {
     });
   }
 
+  goToCreateEntry(): void {
+    this.router.navigateByUrl('/entry/new').catch();
+  }
+
   updateEntry(id: number): void {
     const entry = this.entries.find((e: Entry) => e.id === id);
     const formData = entry.form.getRawValue();
-    const request: UpdateEntryRequest = {
+    const request: EntryRequest = {
       entry: {
         name: formData['name'],
         player_ids: []
