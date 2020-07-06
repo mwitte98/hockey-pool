@@ -41,30 +41,34 @@ export class CreateEntryComponent implements OnInit {
         } else {
           this.teamsService.get().subscribe((teams: Team[]) => {
             this.teams = teams;
-            this.entryForm = this.fb.group(
-              { name: ['', Validators.required] },
-              {
-                validators: [
-                  this.positionsValidator('Center', 4, 5),
-                  this.positionsValidator('Winger', 4, 5),
-                  this.positionsValidator('Defenseman', 5, 6),
-                  this.positionsValidator('Goalie', 2, 2)
-                ]
-              }
-            );
-            this.teams.map((team: Team) => {
-              this.entryForm.addControl(team.name, new FormControl('', Validators.required));
-            });
-            this.entryForm.valueChanges
-              .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
-              .subscribe(() => {
-                this.setNumbersOfPositions();
-                this.entryForm.updateValueAndValidity();
-              });
+            this.createEntryForm();
           });
         }
       }
     });
+  }
+
+  createEntryForm(): void {
+    this.entryForm = this.fb.group(
+      { name: ['', Validators.required] },
+      {
+        validators: [
+          this.positionsValidator('Center', 4, 5),
+          this.positionsValidator('Winger', 4, 5),
+          this.positionsValidator('Defenseman', 5, 6),
+          this.positionsValidator('Goalie', 2, 2)
+        ]
+      }
+    );
+    this.teams.map((team: Team) => {
+      this.entryForm.addControl(team.name, new FormControl('', Validators.required));
+    });
+    this.entryForm.valueChanges
+      .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
+      .subscribe(() => {
+        this.setNumbersOfPositions();
+        this.entryForm.updateValueAndValidity();
+      });
   }
 
   positionsValidator = (position: string, min: number, max: number): ValidatorFn => {
