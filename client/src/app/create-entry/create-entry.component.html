@@ -10,6 +10,20 @@
           <input matInput formControlName="name" />
         </mat-form-field>
       </div>
+      <div class="positions">
+        <span class="position" [ngStyle]="{ color: entryForm.errors?.Center ? '#f44336' : '' }">
+          Centers: {{ numbersOfPositions['Center'] }}
+        </span>
+        <span class="position" [ngStyle]="{ color: entryForm.errors?.Winger ? '#f44336' : '' }">
+          Wingers: {{ numbersOfPositions['Winger'] }}
+        </span>
+        <span class="position" [ngStyle]="{ color: entryForm.errors?.Defenseman ? '#f44336' : '' }">
+          Defensemen: {{ numbersOfPositions['Defenseman'] }}
+        </span>
+        <span class="position" [ngStyle]="{ color: entryForm.errors?.Goalie ? '#f44336' : '' }">
+          Goalies: {{ numbersOfPositions['Goalie'] }}
+        </span>
+      </div>
       <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamId">
         <mat-label>{{ team.name }}</mat-label>
         <mat-select [formControlName]="team.name">
