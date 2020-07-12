@@ -29,21 +29,19 @@ export class AdminEntriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.currentUser.subscribe((user: User) => {
-      if (this.userService.authChecked) {
-        if (user == null) {
-          this.router.navigateByUrl('/').catch();
-        } else {
-          this.loading = true;
-          this.entriesService.get().subscribe((response: ApiResponse) => {
-            this.expandedEntries = [];
-            this.setTeamPlayers(response);
-            this.entries = this.utilService.combineApiResponseData(response);
-            this.entries.map((entry: Entry) => {
-              this.createEntryForm(entry);
-            });
-            this.loading = false;
+      if (user === null) {
+        this.router.navigateByUrl('/').catch();
+      } else if (user != null) {
+        this.loading = true;
+        this.entriesService.get().subscribe((response: ApiResponse) => {
+          this.expandedEntries = [];
+          this.setTeamPlayers(response);
+          this.entries = this.utilService.combineApiResponseData(response);
+          this.entries.map((entry: Entry) => {
+            this.createEntryForm(entry);
           });
-        }
+          this.loading = false;
+        });
       }
     });
   }

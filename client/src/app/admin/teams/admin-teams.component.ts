@@ -31,24 +31,22 @@ export class AdminTeamsComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.currentUser.subscribe((user: User) => {
-      if (this.userService.authChecked) {
-        if (user == null) {
-          this.router.navigateByUrl('/').catch();
-        } else {
-          this.loading = true;
-          this.teamsService.get().subscribe((teams: Team[]) => {
-            this.expandedEntries = [];
-            this.teams = teams;
-            this.teams.map((team: Team) => {
-              this.createTeamForm(team);
-              team.players.map((player: Player) => {
-                this.createPlayerForm(player);
-                this.createPlayerFormSubscriber(player);
-              });
+      if (user === null) {
+        this.router.navigateByUrl('/').catch();
+      } else if (user != null) {
+        this.loading = true;
+        this.teamsService.get().subscribe((teams: Team[]) => {
+          this.expandedEntries = [];
+          this.teams = teams;
+          this.teams.map((team: Team) => {
+            this.createTeamForm(team);
+            team.players.map((player: Player) => {
+              this.createPlayerForm(player);
+              this.createPlayerFormSubscriber(player);
             });
-            this.loading = false;
           });
-        }
+          this.loading = false;
+        });
       }
     });
   }
