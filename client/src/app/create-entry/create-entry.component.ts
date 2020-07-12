@@ -35,15 +35,13 @@ export class CreateEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.currentUser.subscribe((user: User) => {
-      if (this.userService.authChecked) {
-        if (user == null) {
-          this.router.navigateByUrl('/').catch();
-        } else {
-          this.teamsService.get().subscribe((teams: Team[]) => {
-            this.teams = teams;
-            this.createEntryForm();
-          });
-        }
+      if (user === null) {
+        this.router.navigateByUrl('/').catch();
+      } else if (user != null) {
+        this.teamsService.get().subscribe((teams: Team[]) => {
+          this.teams = teams;
+          this.createEntryForm();
+        });
       }
     });
   }

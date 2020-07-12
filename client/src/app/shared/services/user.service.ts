@@ -10,20 +10,17 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class UserService {
-  private currentUserSubject = new BehaviorSubject<User>(null);
+  private currentUserSubject = new BehaviorSubject<User>(undefined);
   currentUser = this.currentUserSubject.asObservable();
-  authChecked = false;
 
   constructor(private apiService: ApiService) {}
 
   checkAuth(): void {
     this.apiService.get('/auth/signed_in').subscribe(
       (data: User) => {
-        this.authChecked = true;
         this.setUser(data);
       },
       () => {
-        this.authChecked = true;
         this.removeUser();
       }
     );
