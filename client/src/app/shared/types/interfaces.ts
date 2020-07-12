@@ -67,6 +67,35 @@ export interface Player {
   updateFailure?: boolean;
 }
 
+export interface Setting {
+  id: number;
+  is_playoffs_started: boolean;
+  min_centers: number;
+  max_centers: number;
+  min_wingers: number;
+  max_wingers: number;
+  min_defensemen: number;
+  max_defensemen: number;
+  min_goalies: number;
+  max_goalies: number;
+  points_goals: number;
+  points_assists: number;
+  points_gwg: number;
+  points_shg: number;
+  points_otg: number;
+  points_wins: number;
+  points_otl: number;
+  points_shutouts: number;
+  points_finals_goals: number;
+  points_finals_assists: number;
+  points_finals_gwg: number;
+  points_finals_shg: number;
+  points_finals_otg: number;
+  points_finals_wins: number;
+  points_finals_otl: number;
+  points_finals_shutouts: number;
+}
+
 export interface Team {
   id: number;
   name: string;

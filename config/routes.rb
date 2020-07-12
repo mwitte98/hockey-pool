@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
     resources :entries, only: %i[index create show update destroy]
 
+    resources :settings, only: %i[index update]
+
     match '/update_player_stats', to: 'entries#update_player_stats', via: 'get'
   end
 

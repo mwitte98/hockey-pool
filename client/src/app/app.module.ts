@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AdminEntriesComponent } from './admin/entries/admin-entries.component';
+import { AdminSettingsComponent } from './admin/settings/admin-settings.component';
 import { AdminTeamsComponent } from './admin/teams/admin-teams.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import { HeaderComponent } from './shared/header/header.component';
 @NgModule({
   declarations: [
     AdminEntriesComponent,
+    AdminSettingsComponent,
     AdminTeamsComponent,
     AppComponent,
     AuthComponent,
