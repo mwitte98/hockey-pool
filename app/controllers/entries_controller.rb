@@ -2,7 +2,7 @@ class EntriesController < ApplicationController
   before_action :signed_in?, only: %i[create update destroy]
 
   def index
-    entries = Entry.includes(:players).all
+    entries = Entry.includes(:players).all.order(:id)
     teams = Team.all.order(:is_eliminated, :id)
     players = Player.all.as_json(only: %i[id team_id first_name last_name position goals points])
     render json: { entries: entries, players: players, teams: teams }
@@ -37,6 +37,6 @@ class EntriesController < ApplicationController
   private
 
   def entry_params
-    params.require(:entry).permit(:name, player_ids: [])
+    params.require(:entry).permit(:name, :contestant_name, :email, player_ids: [])
   end
 end

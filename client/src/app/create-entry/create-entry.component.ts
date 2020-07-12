@@ -50,7 +50,11 @@ export class CreateEntryComponent implements OnInit {
 
   createEntryForm(): void {
     this.entryForm = this.fb.group(
-      { name: ['', Validators.required] },
+      {
+        name: ['', Validators.required],
+        contestantName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]]
+      },
       {
         validators: [
           this.positionsValidator('Center', 4, 5),
@@ -98,7 +102,7 @@ export class CreateEntryComponent implements OnInit {
     };
     const formData = this.entryForm.getRawValue();
     for (const formField of Object.keys(formData)) {
-      if (formField !== 'name') {
+      if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
         const team = this.teams.find((t) => t.name === formField);
         const player = team.players.find((p) => p.id === formData[formField]);
         if (player) {
@@ -114,11 +118,13 @@ export class CreateEntryComponent implements OnInit {
     const request: EntryRequest = {
       entry: {
         name: formData['name'],
+        contestant_name: formData['contestantName'],
+        email: formData['email'],
         player_ids: []
       }
     };
     for (const formField of Object.keys(formData)) {
-      if (formField !== 'name') {
+      if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
         request.entry.player_ids.push(formData[formField]);
       }
     }
