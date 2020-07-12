@@ -9,6 +9,8 @@ export interface ApiResponse {
 export interface Entry {
   id: number;
   name: string;
+  contestant_name: string;
+  email: string;
   player_ids: number[];
   players: Player[];
   points: number;
@@ -29,6 +31,8 @@ export interface Entry {
 export interface EntryRequest {
   entry: {
     name: string;
+    contestant_name: string;
+    email: string;
     player_ids: number[];
   };
 }

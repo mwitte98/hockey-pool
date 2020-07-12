@@ -30,6 +30,14 @@
               <mat-label>Entry Name</mat-label>
               <input matInput formControlName="name" />
             </mat-form-field>
+            <mat-form-field>
+              <mat-label>Contestant Name</mat-label>
+              <input matInput formControlName="contestantName" />
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" />
+            </mat-form-field>
           </div>
           <mat-form-field *ngFor="let player of entry.players; trackBy: trackByPlayerId">
             <mat-label>{{ player.team.name }}</mat-label>

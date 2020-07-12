@@ -81,7 +81,9 @@ export class AdminEntriesComponent implements OnInit {
 
   createEntryForm(entry: Entry): void {
     entry.form = this.fb.group({
-      name: [entry.name, Validators.required]
+      name: [entry.name, Validators.required],
+      contestantName: [entry.contestant_name, Validators.required],
+      email: [entry.email, [Validators.required, Validators.email]]
     });
     entry.players.map((player: Player) => {
       entry.form.addControl(player.team.name, new FormControl(player.id, Validators.required));
@@ -98,11 +100,13 @@ export class AdminEntriesComponent implements OnInit {
     const request: EntryRequest = {
       entry: {
         name: formData['name'],
+        contestant_name: formData['contestantName'],
+        email: formData['email'],
         player_ids: []
       }
     };
     for (const formField of Object.keys(formData)) {
-      if (formField !== 'name') {
+      if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
         request.entry.player_ids.push(formData[formField]);
       }
     }
