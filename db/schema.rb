@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_12_015144) do
+ActiveRecord::Schema.define(version: 2020_07_12_171958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,36 @@ ActiveRecord::Schema.define(version: 2020_07_12_015144) do
     t.integer "finals_otl", default: 0
     t.integer "finals_shutouts", default: 0
     t.index ["team_id"], name: "index_players_on_team_id"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.boolean "is_playoffs_started"
+    t.integer "min_centers"
+    t.integer "max_centers"
+    t.integer "min_wingers"
+    t.integer "max_wingers"
+    t.integer "min_defensemen"
+    t.integer "max_defensemen"
+    t.integer "min_goalies"
+    t.integer "max_goalies"
+    t.integer "points_goals"
+    t.integer "points_assists"
+    t.integer "points_gwg"
+    t.integer "points_shg"
+    t.integer "points_otg"
+    t.integer "points_wins"
+    t.integer "points_otl"
+    t.integer "points_shutouts"
+    t.integer "points_finals_goals"
+    t.integer "points_finals_assists"
+    t.integer "points_finals_gwg"
+    t.integer "points_finals_shg"
+    t.integer "points_finals_otg"
+    t.integer "points_finals_wins"
+    t.integer "points_finals_otl"
+    t.integer "points_finals_shutouts"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|

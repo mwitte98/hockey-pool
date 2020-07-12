@@ -1,0 +1,35 @@
+$green: #008000;
+
+.mat-card {
+  margin: 50px auto;
+  padding-bottom: 8px;
+  text-align: center;
+  width: 90%;
+}
+
+.mat-card-actions {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.settings-section-header {
+  padding: 8px 0;
+}
+
+.mat-form-field {
+  padding-right: 16px;
+  width: 50px;
+}
+
+.form-submit-status {
+  padding-top: 8px;
+  height: 28px;
+}
+
+.form-spinner {
+  display: inline-flex;
+}
+
+.check-icon {
+  color: $green;
+}
