@@ -4,7 +4,7 @@ describe('AppComponent', () => {
   let comp: AppComponent;
 
   beforeEach(() => {
-    comp = new AppComponent({} as any);
+    comp = new AppComponent({} as any, {} as any);
   });
 
   it('component is created', () => {

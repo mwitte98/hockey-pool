@@ -4,7 +4,8 @@ class EntriesController < ApplicationController
   def index
     entries = Entry.includes(:players).all.order(:id)
     teams = Team.all.order(:is_eliminated, :id)
-    players = Player.all.as_json(only: %i[id team_id first_name last_name position goals points])
+    players = Player.all.as_json(only: %i[id team_id first_name last_name position goals points],
+                                 setting: Setting.first)
     render json: { entries: entries, players: players, teams: teams }
   end
 

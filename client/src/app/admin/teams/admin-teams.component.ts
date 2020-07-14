@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { PlayersService } from '../../shared/services/players.service';
+import { SettingsService } from '../../shared/services/settings.service';
 import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
@@ -24,6 +25,7 @@ export class AdminTeamsComponent implements OnInit {
     private router: Router,
     private teamsService: TeamsService,
     private playersService: PlayersService,
+    private settingsService: SettingsService,
     private userService: UserService,
     private utilService: UtilService,
     private fb: FormBuilder
@@ -88,15 +90,13 @@ export class AdminTeamsComponent implements OnInit {
     player.form.valueChanges
       .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
       .subscribe((value: any) => {
-        // prettier-ignore
-        const pointsHash: any = {
-          goals: 2, assists: 1, gwg: 1, shg: 3, otg: 2, wins: 2, otl: 1, shutouts: 4,
-          finalsGoals: 2, finalsAssists: 1, finalsGwg: 1, finalsShg: 3, finalsOtg: 2,
-          finalsWins: 2, finalsOtl: 1, finalsShutouts: 4
-        };
         let totalPoints = 0;
-        for (const stat of Object.keys(pointsHash)) {
-          totalPoints += value[stat] * pointsHash[stat];
+        for (const formKey of Object.keys(value)) {
+          const formValue = value[formKey];
+          if (typeof formValue === 'number') {
+            const formKeySnakeCase = formKey.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+            totalPoints += formValue * this.settingsService.setting[`points_${formKeySnakeCase}`];
+          }
         }
         player.form.patchValue({ points: totalPoints });
       });
