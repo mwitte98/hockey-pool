@@ -20,7 +20,7 @@ plugins:
         typescript:
           mass_threshold: 75
         ruby:
-          mass_threshold: 15
+          mass_threshold: 20
     exclude_paths:
       - '**/*.spec.ts'
   fixme:

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { SettingsService } from './shared/services/settings.service';
 import { UserService } from './shared/services/user.service';
 
 @Component({
@@ -7,9 +8,11 @@ import { UserService } from './shared/services/user.service';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor(private settingsService: SettingsService, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.checkAuth();
+    this.settingsService.get().subscribe(() => {
+      this.userService.checkAuth();
+    });
   }
 }

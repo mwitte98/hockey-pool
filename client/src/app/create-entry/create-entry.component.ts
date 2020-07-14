@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { EntriesService } from '../shared/services/entries.service';
+import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
 import { EntryRequest, Player, Team, User } from '../shared/types/interfaces';
@@ -29,6 +30,7 @@ export class CreateEntryComponent implements OnInit {
     private router: Router,
     private entriesService: EntriesService,
     private teamsService: TeamsService,
+    private settingsService: SettingsService,
     private userService: UserService,
     private fb: FormBuilder
   ) {}
@@ -47,6 +49,7 @@ export class CreateEntryComponent implements OnInit {
   }
 
   createEntryForm(): void {
+    const setting = this.settingsService.setting;
     this.entryForm = this.fb.group(
       {
         name: ['', Validators.required],
@@ -55,10 +58,10 @@ export class CreateEntryComponent implements OnInit {
       },
       {
         validators: [
-          this.positionsValidator('Center', 4, 5),
-          this.positionsValidator('Winger', 4, 5),
-          this.positionsValidator('Defenseman', 5, 6),
-          this.positionsValidator('Goalie', 2, 2)
+          this.positionsValidator('Center', setting.min_centers, setting.max_centers),
+          this.positionsValidator('Winger', setting.min_wingers, setting.max_wingers),
+          this.positionsValidator('Defenseman', setting.min_defensemen, setting.max_defensemen),
+          this.positionsValidator('Goalie', setting.min_goalies, setting.max_goalies)
         ]
       }
     );

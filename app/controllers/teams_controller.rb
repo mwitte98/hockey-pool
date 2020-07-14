@@ -3,7 +3,7 @@ class TeamsController < ApplicationController
 
   def index
     teams = Team.includes(:players).all.order(:is_eliminated, :id).as_json(
-      include: { players: { except: %i[team_id created_at updated_at] } }
+      include: { players: { except: %i[team_id created_at updated_at] } }, setting: Setting.first
     )
     teams = remove_finals_attrs teams
     render json: teams
