@@ -9,7 +9,7 @@ gem 'railties', '6.0.3.2'
 
 gem 'bcrypt', '3.1.13'
 gem 'mechanize', '2.7.6'
-gem 'newrelic_rpm', '6.11.0.365'
+gem 'newrelic_rpm', '6.12.0.367'
 gem 'nokogiri', '1.10.10'
 gem 'pg', '1.2.3'
 gem 'puma', '4.3.5'
