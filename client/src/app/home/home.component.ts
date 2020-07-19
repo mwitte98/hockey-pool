@@ -1,9 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { EntriesService } from '../shared/services/entries.service';
+import { SettingsService } from '../shared/services/settings.service';
+import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
-import { ApiResponse, Entry, Player } from '../shared/types/interfaces';
+import { ApiResponse, Entry, Player, User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './home.component.html',
@@ -25,18 +28,31 @@ export class HomeComponent implements OnInit {
   showingAllEntries = false;
   showingEliminatedTeams = false;
 
-  constructor(private entriesService: EntriesService, private utilService: UtilService) {}
+  constructor(
+    private router: Router,
+    private entriesService: EntriesService,
+    private settingsService: SettingsService,
+    private userService: UserService,
+    private utilService: UtilService
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
 
-    this.entriesService.get().subscribe((response: ApiResponse) => {
-      this.expandedEntries = [];
-      this.entries = this.utilService.combineApiResponseData(response);
-      this.calculatePoints();
-      this.sortEntries();
-      this.prepareTableData();
-      this.loading = false;
+    this.userService.currentUser.subscribe((user: User) => {
+      if (user !== undefined && !this.settingsService.setting.is_playoffs_started) {
+        this.router.navigateByUrl('/entry/new').catch();
+        this.loading = false;
+      } else if (user !== undefined) {
+        this.entriesService.get().subscribe((response: ApiResponse) => {
+          this.expandedEntries = [];
+          this.entries = this.utilService.combineApiResponseData(response);
+          this.calculatePoints();
+          this.sortEntries();
+          this.prepareTableData();
+          this.loading = false;
+        });
+      }
     });
   }
 
