@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
+import { SettingsService } from '../services/settings.service';
 import { UserService } from '../services/user.service';
 import { User } from '../types/interfaces';
 
@@ -13,7 +14,7 @@ export class HeaderComponent implements OnInit {
   currentPage: string;
   currentUser: User;
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, public settingsService: SettingsService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {

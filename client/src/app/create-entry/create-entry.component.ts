@@ -37,9 +37,9 @@ export class CreateEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.currentUser.subscribe((user: User) => {
-      if (user === null) {
+      if (user === null && this.settingsService.setting.is_playoffs_started) {
         this.router.navigateByUrl('/').catch();
-      } else if (user != null) {
+      } else if (user != null || (user === null && !this.settingsService.setting.is_playoffs_started)) {
         this.teamsService.get().subscribe((teams: Team[]) => {
           this.teams = teams;
           this.createEntryForm();

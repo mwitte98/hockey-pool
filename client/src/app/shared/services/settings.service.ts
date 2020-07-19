@@ -24,9 +24,11 @@ export class SettingsService {
   }
 
   update(updatedSetting: Setting): Observable<Setting> {
-    return this.apiService.put(`/settings/${this.setting.id}`, updatedSetting).pipe(
+    const settingId = this.setting.id;
+    return this.apiService.put(`/settings/${settingId}`, updatedSetting).pipe(
       map(() => {
         this.setting = updatedSetting;
+        this.setting.id = settingId;
         return updatedSetting;
       })
     );
