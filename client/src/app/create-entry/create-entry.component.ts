@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { distinctUntilChanged } from 'rxjs/operators';
 
@@ -9,6 +10,8 @@ import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
 import { EntryRequest, Player, Team, User } from '../shared/types/interfaces';
+
+import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 
 @Component({
   templateUrl: './create-entry.component.html',
@@ -27,6 +30,7 @@ export class CreateEntryComponent implements OnInit {
   };
 
   constructor(
+    private dialog: MatDialog,
     private router: Router,
     private entriesService: EntriesService,
     private teamsService: TeamsService,
@@ -137,5 +141,11 @@ export class CreateEntryComponent implements OnInit {
         this.errors = error.error.errors;
       }
     );
+  }
+
+  seeRules(): void {
+    this.dialog.open(SeeRulesDialogComponent, {
+      autoFocus: false
+    });
   }
 }

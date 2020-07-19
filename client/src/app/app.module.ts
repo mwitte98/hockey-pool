@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { CreateEntryComponent } from './create-entry/create-entry.component';
+import { SeeRulesDialogComponent } from './create-entry/see-rules-dialog.component';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material.module';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
@@ -30,7 +31,8 @@ import { HeaderComponent } from './shared/header/header.component';
     DisplayErrorsComponent,
     HeaderComponent,
     HomeComponent,
-    PlayerStatsComponent
+    PlayerStatsComponent,
+    SeeRulesDialogComponent
   ],
   imports: [
     BrowserAnimationsModule,

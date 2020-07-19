@@ -1,6 +1,7 @@
 <mat-spinner *ngIf="!entryForm"></mat-spinner>
 <mat-card *ngIf="entryForm">
   <mat-card-title>Create Entry</mat-card-title>
+  <button mat-raised-button class="see-rules-button" (click)="seeRules()">See rules</button>
   <display-errors [errors]="errors"></display-errors>
   <form [formGroup]="entryForm" (ngSubmit)="submitForm()">
     <mat-card-content>
