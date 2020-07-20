@@ -21,7 +21,7 @@
     "lint-watch": "npm-watch lint",
     "test": "jest --coverage",
     "test-watch": "jest --coverage --watchAll",
-    "test-ci": "jest --coverage --runInBand"
+    "test-ci": "jest --coverage --maxWorkers=2"
   },
   "private": true,
   "dependencies": {
