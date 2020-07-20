@@ -3,8 +3,8 @@
   <ul>
     <li>Entries must be submitted by Saturday, August 1st 12pm ET</li>
     <li>After the entry submission deadline, if a player misses a game for any reason, they cannot be substituted</li>
-    <li>Unlimited number of entries</li>
     <li>Entry fee: $20 per entry</li>
+    <li>Unlimited number of entries</li>
     <li>Payment can be sent through Venmo or mailed to Al Kurek (details will be provided by email)</li>
     <li>
       Payouts: 25% to 1st place, 15% to 2nd place, and remaining 60% will be determined based on the number of entries
@@ -24,19 +24,19 @@
       <li>6 wingers</li>
       <li>8 defensemen</li>
       <li>3 goalies</li>
-      <li>1 flex center/winger/defenseman</li>
+      <li>1 flex center OR winger OR defenseman</li>
     </ul>
     <br />
     <li>Scoring:</li>
     <ul>
-      <li>Goal: 2 points</li>
-      <li>Assist: 1 point</li>
-      <li>Game Winning Goal: 1 point</li>
-      <li>Overtime Goal: 2 points</li>
-      <li>Short Handed Goal: 3 points</li>
-      <li>Goalie Win: 2 points</li>
-      <li>Goalie Overtime Loss: 1 point</li>
-      <li>Goalie Shutout: 4 points</li>
+      <li>Goal: {{ settingsService.setting.points_goals }} points</li>
+      <li>Assist: {{ settingsService.setting.points_assists }} point</li>
+      <li>Game Winning Goal: {{ settingsService.setting.points_gwg }} point</li>
+      <li>Overtime Goal: {{ settingsService.setting.points_otg }} points</li>
+      <li>Short Handed Goal: {{ settingsService.setting.points_shg }} points</li>
+      <li>Goalie Win: {{ settingsService.setting.points_wins }} points</li>
+      <li>Goalie Overtime Loss: {{ settingsService.setting.points_otl }} point</li>
+      <li>Goalie Shutout: {{ settingsService.setting.points_shutouts }} points</li>
     </ul>
     <li>Points in the Stanley Cup Final are doubled</li>
     <li>Points are updated on this website in real time every 10 minutes</li>

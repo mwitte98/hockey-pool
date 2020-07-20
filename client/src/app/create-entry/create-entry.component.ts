@@ -1,16 +1,25 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
-import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { EntryRequest, Player, Team, User } from '../shared/types/interfaces';
+import { ApiResponse, Entry, Player, Team, User } from '../shared/types/interfaces';
 
+import { DuplicateEntryDialogComponent } from './duplicate-entry-dialog.component';
+import { EntrySubmittedDialogComponent } from './entry-submitted-dialog.component';
 import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 
 @Component({
@@ -20,6 +29,7 @@ import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 export class CreateEntryComponent implements OnInit {
   loading = false;
   teams: Team[];
+  entries: Entry[];
   errors: string[] = [];
   entryForm: FormGroup;
   numbersOfPositions = {
@@ -33,7 +43,6 @@ export class CreateEntryComponent implements OnInit {
     private dialog: MatDialog,
     private router: Router,
     private entriesService: EntriesService,
-    private teamsService: TeamsService,
     private settingsService: SettingsService,
     private userService: UserService,
     private fb: FormBuilder
@@ -44,8 +53,14 @@ export class CreateEntryComponent implements OnInit {
       if (user === null && this.settingsService.setting.is_playoffs_started) {
         this.router.navigateByUrl('/').catch();
       } else if (user != null || (user === null && !this.settingsService.setting.is_playoffs_started)) {
-        this.teamsService.get().subscribe((teams: Team[]) => {
-          this.teams = teams;
+        this.entriesService.get().subscribe((response: ApiResponse) => {
+          this.entries = response.entries;
+          response.teams.map((team: Team) => {
+            team.players = response.players
+              .filter((player: Player) => team.id === player.team_id)
+              .sort((a, b) => (a.last_name > b.last_name ? 1 : -1));
+          });
+          this.teams = response.teams;
           this.createEntryForm();
         });
       }
@@ -118,27 +133,64 @@ export class CreateEntryComponent implements OnInit {
     this.numbersOfPositions = numbersOfPositions;
   }
 
-  submitForm(): void {
+  submitForm(fgd: FormGroupDirective): void {
+    this.loading = true;
+    const request = this.createEntryRequest();
+    request.player_ids.sort();
+    const requestPlayerIds = request.player_ids;
+    const duplicateEntry = this.entries.find((e) => {
+      e.player_ids.sort();
+      return e.player_ids.every((id, i) => id === requestPlayerIds[i]);
+    });
+    if (duplicateEntry != null) {
+      const duplicateEntryDialog = this.dialog.open(DuplicateEntryDialogComponent, {
+        autoFocus: false,
+        disableClose: true
+      });
+      duplicateEntryDialog.afterClosed().subscribe((buttonClicked: string) => {
+        if (buttonClicked === 'submit') {
+          this.createEntry(request, fgd);
+        } else {
+          this.loading = false;
+        }
+      });
+    } else {
+      this.createEntry(request, fgd);
+    }
+  }
+
+  createEntryRequest(): Entry {
     const formData = this.entryForm.getRawValue();
-    const request: EntryRequest = {
-      entry: {
-        name: formData['name'],
-        contestant_name: formData['contestantName'],
-        email: formData['email'],
-        player_ids: []
-      }
+    const request: Entry = {
+      name: formData['name'],
+      contestant_name: formData['contestantName'],
+      email: formData['email'],
+      player_ids: []
     };
     for (const formField of Object.keys(formData)) {
       if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
-        request.entry.player_ids.push(formData[formField]);
+        request.player_ids.push(formData[formField]);
       }
     }
+    return request;
+  }
+
+  createEntry(request: Entry, fgd: FormGroupDirective): void {
     this.entriesService.create(request).subscribe(
       () => {
-        this.router.navigateByUrl('/admin/entries').catch();
+        const entrySubmittedDialog = this.dialog.open(EntrySubmittedDialogComponent, {
+          autoFocus: false
+        });
+        entrySubmittedDialog.afterClosed().subscribe(() => {
+          this.entries.push(request);
+          this.entryForm.reset();
+          fgd.resetForm();
+        });
+        this.loading = false;
       },
       (error: HttpErrorResponse) => {
         this.errors = error.error.errors;
+        this.loading = false;
       }
     );
   }

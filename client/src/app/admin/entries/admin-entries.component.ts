@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { EntriesService } from '../../shared/services/entries.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
-import { ApiResponse, Entry, EntryRequest, Player, Team, User } from '../../shared/types/interfaces';
+import { ApiResponse, Entry, Player, Team, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-entries.component.html',
@@ -95,17 +95,15 @@ export class AdminEntriesComponent implements OnInit {
   updateEntry(id: number): void {
     const entry = this.entries.find((e: Entry) => e.id === id);
     const formData = entry.form.getRawValue();
-    const request: EntryRequest = {
-      entry: {
-        name: formData['name'],
-        contestant_name: formData['contestantName'],
-        email: formData['email'],
-        player_ids: []
-      }
+    const request: Entry = {
+      name: formData['name'],
+      contestant_name: formData['contestantName'],
+      email: formData['email'],
+      player_ids: []
     };
     for (const formField of Object.keys(formData)) {
       if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
-        request.entry.player_ids.push(formData[formField]);
+        request.player_ids.push(formData[formField]);
       }
     }
     entry.updateLoading = true;
