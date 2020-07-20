@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ApiResponse, EntryRequest } from '../types/interfaces';
+import { ApiResponse, Entry } from '../types/interfaces';
 
 import { ApiService } from './api.service';
 
@@ -15,11 +15,11 @@ export class EntriesService {
     return this.apiService.get('/entries');
   }
 
-  create(request: EntryRequest): Observable<any> {
+  create(request: Entry): Observable<any> {
     return this.apiService.post('/entries', request);
   }
 
-  update(id: number, request: EntryRequest): Observable<any> {
+  update(id: number, request: Entry): Observable<any> {
     return this.apiService.put(`/entries/${id}`, request);
   }
 }

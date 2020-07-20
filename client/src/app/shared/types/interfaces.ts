@@ -7,34 +7,25 @@ export interface ApiResponse {
 }
 
 export interface Entry {
-  id: number;
+  id?: number;
   name: string;
   contestant_name: string;
   email: string;
   player_ids: number[];
-  players: Player[];
-  points: number;
-  pointsC: number;
-  pointsW: number;
-  pointsD: number;
-  pointsG: number;
-  totalGoals: number;
-  tiebreaker: number;
-  rank: number;
-  isDetailRow: boolean;
+  players?: Player[];
+  points?: number;
+  pointsC?: number;
+  pointsW?: number;
+  pointsD?: number;
+  pointsG?: number;
+  totalGoals?: number;
+  tiebreaker?: number;
+  rank?: number;
+  isDetailRow?: boolean;
   form?: FormGroup;
   updateLoading?: boolean;
   updateSuccess?: boolean;
   updateFailure?: boolean;
-}
-
-export interface EntryRequest {
-  entry: {
-    name: string;
-    contestant_name: string;
-    email: string;
-    player_ids: number[];
-  };
 }
 
 export interface Player {

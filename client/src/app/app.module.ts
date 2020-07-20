@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthComponent } from './auth/auth.component';
 import { CreateEntryComponent } from './create-entry/create-entry.component';
+import { DuplicateEntryDialogComponent } from './create-entry/duplicate-entry-dialog.component';
+import { EntrySubmittedDialogComponent } from './create-entry/entry-submitted-dialog.component';
 import { SeeRulesDialogComponent } from './create-entry/see-rules-dialog.component';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material.module';
@@ -29,6 +31,8 @@ import { HeaderComponent } from './shared/header/header.component';
     AuthComponent,
     CreateEntryComponent,
     DisplayErrorsComponent,
+    DuplicateEntryDialogComponent,
+    EntrySubmittedDialogComponent,
     HeaderComponent,
     HomeComponent,
     PlayerStatsComponent,

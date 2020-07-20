@@ -4,7 +4,7 @@ describe('SeeRulesDialogComponent', () => {
   let comp: SeeRulesDialogComponent;
 
   beforeEach(() => {
-    comp = new SeeRulesDialogComponent();
+    comp = new SeeRulesDialogComponent({} as any);
   });
 
   it('component is created', () => {

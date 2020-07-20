@@ -221,7 +221,12 @@
     "static-this": true,
     "strict-boolean-expressions": [true, "allow-null-union", "allow-number", "allow-string", "allow-undefined-union"],
     "strict-string-expressions": true,
-    "strict-comparisons": true,
+    "strict-comparisons": [
+      true,
+      {
+        "allow-string-order-comparison": true
+      }
+    ],
     "strict-type-predicates": false,
     "switch-default": true,
     "switch-final-break": true,
