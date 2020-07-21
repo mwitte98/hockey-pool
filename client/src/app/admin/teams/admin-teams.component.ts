@@ -57,7 +57,11 @@ export class AdminTeamsComponent implements OnInit {
     team.form = this.fb.group({
       name: [team.name, Validators.required],
       abbr: [team.abbr, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
-      isEliminated: [team.is_eliminated, Validators.required]
+      is_eliminated: [team.is_eliminated, Validators.required],
+      made_playoffs: [team.made_playoffs, Validators.required],
+      conference: [team.conference, Validators.required],
+      rank: [team.rank, [Validators.required, Validators.min(1)]],
+      nhl_id: [team.nhl_id, [Validators.required, Validators.min(1)]]
     });
   }
 

@@ -39,7 +39,7 @@ export class UserService {
     let params: any;
     if (type === 'register') {
       route = '/user';
-      params = { user: credentials };
+      params = credentials;
     } else {
       route = '/auth/login';
       params = credentials;

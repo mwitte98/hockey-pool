@@ -92,6 +92,10 @@ export interface Team {
   name: string;
   abbr: string;
   is_eliminated: boolean;
+  made_playoffs: boolean;
+  conference: string;
+  rank: number;
+  nhl_id: number;
   players: Player[];
   goalies: Player[];
   form?: FormGroup;
