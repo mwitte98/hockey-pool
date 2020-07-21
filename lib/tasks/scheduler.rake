@@ -4,3 +4,9 @@ task update_information: :environment do
   UpdateJob.new.perform
   puts 'done.'
 end
+
+task seed_teams_players: :environment do
+  puts 'Updating teams and players...'
+  SeedTeamsPlayersJob.new.perform
+  puts 'done.'
+end

@@ -60,7 +60,7 @@ export class CreateEntryComponent implements OnInit {
               .filter((player: Player) => team.id === player.team_id)
               .sort((a, b) => (a.last_name > b.last_name ? 1 : -1));
           });
-          this.teams = response.teams;
+          this.teams = response.teams.filter((team: Team) => team.made_playoffs);
           this.createEntryForm();
         });
       }

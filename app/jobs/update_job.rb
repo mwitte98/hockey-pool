@@ -11,7 +11,7 @@ class UpdateJob
   def perform
     @teams = UpdateJobHelper.setup_teams
     agent = Mechanize.new
-    response = JSON.parse(agent.get('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2019-04-10&endDate=2019-07-01&hydrate=linescore,scoringplays,decisions,game(seriesSummary)').body)
+    response = JSON.parse(agent.get('https://statsapi.web.nhl.com/api/v1/schedule?startDate=2020-08-01&endDate=2020-10-15&hydrate=linescore,scoringplays,decisions,game(seriesSummary)').body)
     response['dates'].each { |date| parse_date date }
     UpdateJobHelper.update_players @teams
   end

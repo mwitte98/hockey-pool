@@ -2,7 +2,7 @@ class TeamsController < ApplicationController
   before_action :signed_in?, only: %i[create update destroy]
 
   def index
-    teams = Team.includes(:players).all.order(:is_eliminated, :id).as_json(
+    teams = Team.includes(:players).all.order(:is_eliminated, :conference, :rank).as_json(
       include: { players: { except: %i[team_id created_at updated_at] } }, setting: Setting.first
     )
     teams = remove_finals_attrs teams
@@ -29,7 +29,7 @@ class TeamsController < ApplicationController
   private
 
   def team_params
-    params.require(:team).permit(:name, :abbr, :is_eliminated)
+    params.permit(:name, :abbr, :is_eliminated, :made_playoffs, :conference, :rank, :nhl_id)
   end
 
   def remove_finals_attrs(teams)

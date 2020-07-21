@@ -36,7 +36,7 @@ export class PlayerStatsComponent implements OnInit {
             team.goalies = team.players.filter((p) => p.position === 'Goalie');
             team.players = team.players.filter((p) => p.position !== 'Goalie');
           });
-          this.teams = teams;
+          this.teams = teams.filter((team: Team) => team.made_playoffs);
           this.loading = false;
         });
       }
