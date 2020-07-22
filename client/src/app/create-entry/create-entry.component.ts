@@ -186,6 +186,7 @@ export class CreateEntryComponent implements OnInit {
           this.entryForm.reset();
           fgd.resetForm();
         });
+        this.errors = [];
         this.loading = false;
       },
       (error: HttpErrorResponse) => {
