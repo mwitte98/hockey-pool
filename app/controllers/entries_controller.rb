@@ -1,5 +1,5 @@
 class EntriesController < ApplicationController
-  before_action :signed_in?, only: %i[create update destroy]
+  before_action :signed_in?, only: %i[update destroy]
 
   def index
     entries = Entry.includes(:players).all.order(:id)
