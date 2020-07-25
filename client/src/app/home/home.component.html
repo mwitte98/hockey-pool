@@ -81,7 +81,7 @@
                 class="team-player-wrapper"
                 *ngIf="player.team.made_playoffs && (!player.team.is_eliminated || showingEliminatedTeams)"
               >
-                <img class="team-logo" [src]="player.team.logoUrl" />
+                <img class="team-logo" [alt]="player.team.name + ' logo'" [src]="player.team.logoUrl" />
                 <div fxLayout="row">
                   <div class="player-name" [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
                     {{ player.first_name }} {{ player.last_name }} ({{ player.position | slice: 0:1 }})
