@@ -140,7 +140,7 @@ export class CreateEntryComponent implements OnInit {
     const requestPlayerIds = request.player_ids;
     const duplicateEntry = this.entries.find((e) => {
       e.player_ids.sort();
-      return e.player_ids.every((id, i) => id === requestPlayerIds[i]);
+      return requestPlayerIds.every((id, i) => id === e.player_ids[i]);
     });
     if (duplicateEntry != null) {
       const duplicateEntryDialog = this.dialog.open(DuplicateEntryDialogComponent, {

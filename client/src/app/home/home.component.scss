@@ -76,7 +76,13 @@ $blue: #3f51b5;
 }
 
 .team-player-wrapper {
-  width: 200px;
+  display: flex;
+  width: 240px;
+  padding: 1px 0;
+}
+
+.team-logo {
+  height: 20px;
 }
 
 .player-name {
