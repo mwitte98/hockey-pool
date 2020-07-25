@@ -98,6 +98,7 @@ export interface Team {
   nhl_id: number;
   players: Player[];
   goalies: Player[];
+  logoUrl?: string;
   form?: FormGroup;
   updateLoading?: boolean;
   updateSuccess?: boolean;

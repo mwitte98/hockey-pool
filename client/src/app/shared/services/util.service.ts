@@ -13,6 +13,9 @@ export class UtilService {
     response.entries.map((entry: Entry) => {
       entry.players = [];
       entry.player_ids.map((pId) => entry.players.push(players.find((p) => p.id === pId)));
+      entry.players.map((player: Player) => {
+        player.team.logoUrl = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${player.team.nhl_id}.svg`;
+      });
       entry.players.sort((a, b) => {
         if (a.team.is_eliminated === b.team.is_eliminated) {
           return a.team_id - b.team_id;
