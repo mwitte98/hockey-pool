@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "browserslist": [
-    ">0.01% in US"
+    ">=0%"
   ],
   "watch": {
     "lint": {
