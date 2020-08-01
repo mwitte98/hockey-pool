@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 
 import { EntriesService } from '../../shared/services/entries.service';
@@ -13,11 +12,9 @@ import { ApiResponse, Entry, Player, Team, User } from '../../shared/types/inter
   styleUrls: ['./admin-entries.component.scss']
 })
 export class AdminEntriesComponent implements OnInit {
-  @ViewChild(MatAccordion) accordion: MatAccordion;
   entries: Entry[];
   teams: Team[];
   loading = false;
-  expandedEntries: string[] = [];
 
   constructor(
     private router: Router,
@@ -34,7 +31,6 @@ export class AdminEntriesComponent implements OnInit {
       } else if (user != null) {
         this.loading = true;
         this.entriesService.get().subscribe((response: ApiResponse) => {
-          this.expandedEntries = [];
           this.setTeamPlayers(response);
           this.entries = this.utilService.combineApiResponseData(response);
           this.entries.map((entry: Entry) => {
@@ -52,20 +48,6 @@ export class AdminEntriesComponent implements OnInit {
 
   trackByPlayerId(_index: number, player: Player): number {
     return player.id;
-  }
-
-  afterExpand(entryName: string): void {
-    const index = this.expandedEntries.indexOf(entryName);
-    if (index === -1) {
-      this.expandedEntries.push(entryName);
-    }
-  }
-
-  afterCollapse(entryName: string): void {
-    const index = this.expandedEntries.indexOf(entryName);
-    if (index !== -1) {
-      this.expandedEntries.splice(index, 1);
-    }
   }
 
   setTeamPlayers(response: ApiResponse): void {

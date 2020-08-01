@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { distinctUntilChanged } from 'rxjs/operators';
 
@@ -16,10 +15,8 @@ import { Player, Team, User } from '../../shared/types/interfaces';
   styleUrls: ['./admin-teams.component.scss']
 })
 export class AdminTeamsComponent implements OnInit {
-  @ViewChild(MatAccordion) accordion: MatAccordion;
   teams: Team[];
   loading = false;
-  expandedEntries: string[] = [];
 
   constructor(
     private router: Router,
@@ -38,7 +35,6 @@ export class AdminTeamsComponent implements OnInit {
       } else if (user != null) {
         this.loading = true;
         this.teamsService.get().subscribe((teams: Team[]) => {
-          this.expandedEntries = [];
           this.teams = teams;
           this.teams.map((team: Team) => {
             this.createTeamForm(team);
@@ -112,20 +108,6 @@ export class AdminTeamsComponent implements OnInit {
 
   trackByPlayerId(_index: number, player: Player): number {
     return player.id;
-  }
-
-  afterExpand(teamName: string): void {
-    const index = this.expandedEntries.indexOf(teamName);
-    if (index === -1) {
-      this.expandedEntries.push(teamName);
-    }
-  }
-
-  afterCollapse(teamName: string): void {
-    const index = this.expandedEntries.indexOf(teamName);
-    if (index !== -1) {
-      this.expandedEntries.splice(index, 1);
-    }
   }
 
   updateTeam(id: number): void {
