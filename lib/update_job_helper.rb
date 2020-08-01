@@ -27,7 +27,7 @@ module UpdateJobHelper
     end
 
     def remove_name(player)
-      player.except!('name')
+      player.except!('name', 'points')
     end
   end
 end
