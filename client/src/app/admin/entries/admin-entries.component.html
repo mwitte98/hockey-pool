@@ -3,69 +3,60 @@
   <div class="right-align"></div>
   <div>
     <button mat-raised-button class="create-entry-button" (click)="goToCreateEntry()">Create Entry</button>
-    <button mat-raised-button *ngIf="expandedEntries.length === 0" (click)="accordion.openAll()">
-      Expand All
-    </button>
-    <button mat-raised-button *ngIf="expandedEntries.length !== 0" (click)="accordion.closeAll()">
-      Collapse All
-    </button>
   </div>
 </div>
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div class="accordion-container">
   <mat-accordion multi [displayMode]="'flat'">
-    <mat-expansion-panel
-      (afterExpand)="afterExpand(entry.name)"
-      (afterCollapse)="afterCollapse(entry.name)"
-      class="expansion-panel"
-      *ngFor="let entry of entries; trackBy: trackByEntryId"
-    >
+    <mat-expansion-panel class="expansion-panel" *ngFor="let entry of entries; trackBy: trackByEntryId">
       <mat-expansion-panel-header [expandedHeight]="'48px'" class="expansion-panel-header">
         <mat-panel-title>{{ entry.name }}</mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="expansion-panel-body">
-        <form [formGroup]="entry.form" (ngSubmit)="updateEntry(entry.id)">
-          <div>
-            <mat-form-field>
-              <mat-label>Entry Name</mat-label>
-              <input matInput formControlName="name" />
+      <ng-template matExpansionPanelContent>
+        <div class="expansion-panel-body">
+          <form [formGroup]="entry.form" (ngSubmit)="updateEntry(entry.id)">
+            <div>
+              <mat-form-field>
+                <mat-label>Entry Name</mat-label>
+                <input matInput formControlName="name" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Contestant Name</mat-label>
+                <input matInput formControlName="contestantName" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" />
+              </mat-form-field>
+            </div>
+            <mat-form-field *ngFor="let player of entry.players; trackBy: trackByPlayerId">
+              <mat-label>{{ player.team.name }}</mat-label>
+              <mat-select [formControlName]="player.team.name">
+                <mat-option
+                  [value]="teamPlayer.id"
+                  *ngFor="let teamPlayer of player.team.players; trackBy: trackByPlayerId"
+                >
+                  {{ teamPlayer.first_name }} {{ teamPlayer.last_name }} ({{ teamPlayer.position | slice: 0:1 }})
+                </mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field>
-              <mat-label>Contestant Name</mat-label>
-              <input matInput formControlName="contestantName" />
-            </mat-form-field>
-            <mat-form-field>
-              <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email" />
-            </mat-form-field>
-          </div>
-          <mat-form-field *ngFor="let player of entry.players; trackBy: trackByPlayerId">
-            <mat-label>{{ player.team.name }}</mat-label>
-            <mat-select [formControlName]="player.team.name">
-              <mat-option
-                [value]="teamPlayer.id"
-                *ngFor="let teamPlayer of player.team.players; trackBy: trackByPlayerId"
-              >
-                {{ teamPlayer.first_name }} {{ teamPlayer.last_name }} ({{ teamPlayer.position | slice: 0:1 }})
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <button
-            mat-raised-button
-            class="primary-button"
-            color="primary"
-            type="submit"
-            [disabled]="!entry.form.valid || entry.updateLoading"
-          >
-            Update
-          </button>
-          <div class="form-submit-status">
-            <mat-spinner class="form-spinner" *ngIf="entry.updateLoading" [diameter]="25"></mat-spinner>
-            <mat-icon class="check-icon" *ngIf="entry.updateSuccess">check</mat-icon>
-            <mat-icon color="warn" *ngIf="entry.updateFailure">clear</mat-icon>
-          </div>
-        </form>
-      </div>
+            <button
+              mat-raised-button
+              class="primary-button"
+              color="primary"
+              type="submit"
+              [disabled]="!entry.form.valid || entry.updateLoading"
+            >
+              Update
+            </button>
+            <div class="form-submit-status">
+              <mat-spinner class="form-spinner" *ngIf="entry.updateLoading" [diameter]="25"></mat-spinner>
+              <mat-icon class="check-icon" *ngIf="entry.updateSuccess">check</mat-icon>
+              <mat-icon color="warn" *ngIf="entry.updateFailure">clear</mat-icon>
+            </div>
+          </form>
+        </div>
+      </ng-template>
     </mat-expansion-panel>
   </mat-accordion>
 </div>
