@@ -1,0 +1,65 @@
+<div class="table-wrapper">
+  <mat-table
+    matSort
+    matSortActive="points"
+    matSortDirection="desc"
+    matSortStart="desc"
+    (matSortChange)="sortChange($event)"
+    [dataSource]="dataSource"
+  >
+    <ng-container matColumnDef="name">
+      <mat-header-cell
+        class="fx-flex"
+        ngClass.gt-xs="fx-flex-158"
+        ngClass.xs="fx-flex-95"
+        mat-sort-header
+        start="asc"
+        *matHeaderCellDef
+      >
+        Name
+      </mat-header-cell>
+      <mat-cell class="fx-flex" ngClass.gt-xs="fx-flex-158" ngClass.xs="fx-flex-95" *matCellDef="let player">
+        <span fxShow="true" fxHide.xs [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
+          {{ player.first_name }} {{ player.last_name }}
+        </span>
+        <span fxHide="true" fxShow.xs [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
+          {{ player.first_name }} {{ player.last_name }} ({{ player.team.abbr }} - {{ player.position | slice: 0:1 }})
+        </span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="team">
+      <mat-header-cell fxShow="true" fxHide.xs class="fx-flex fx-flex-38" mat-sort-header start="asc" *matHeaderCellDef>
+        Team
+      </mat-header-cell>
+      <mat-cell
+        fxShow="true"
+        fxHide.xs
+        class="fx-flex fx-flex-38"
+        [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''"
+        *matCellDef="let player"
+      >
+        {{ player.team.abbr }}
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="position">
+      <mat-header-cell fxShow="true" fxHide.xs class="fx-flex fx-flex-38" mat-sort-header start="asc" *matHeaderCellDef>
+        Pos
+      </mat-header-cell>
+      <mat-cell fxShow="true" fxHide.xs class="fx-flex fx-flex-38" *matCellDef="let player">
+        {{ player.position | slice: 0:1 }}
+      </mat-cell>
+    </ng-container>
+    <stat-column
+      *ngFor="let col of playerStatColumns; trackBy: trackBy"
+      [data]="col"
+      [teamsRemaining]="teamsRemaining"
+    ></stat-column>
+    <ng-container matColumnDef="points">
+      <mat-header-cell class="fx-flex fx-flex-37" mat-sort-header *matHeaderCellDef>Pts</mat-header-cell>
+      <mat-cell class="fx-flex fx-flex-37" *matCellDef="let player">{{ player.points }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row ngClass.xs="xs-row" *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+    <mat-row ngClass.xs="xs-row" *matRowDef="let player; columns: columnsToDisplay"></mat-row>
+  </mat-table>
+</div>

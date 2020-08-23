@@ -3,9 +3,9 @@ class EntriesController < ApplicationController
 
   def index
     entries = Entry.includes(:players).all.order(:id)
-    teams = Team.all.order(:is_eliminated, :conference, :rank)
-    players = Player.all.as_json(only: %i[id team_id first_name last_name position goals points],
-                                 setting: Setting.first)
+    teams = Team.where(made_playoffs: true).order(:is_eliminated, :conference, :rank)
+    players = Player.all.as_json(setting: Setting.first)
+    players = filter_players_and_attrs teams, players
     render json: { entries: entries, players: players, teams: teams }
   end
 
@@ -39,5 +39,27 @@ class EntriesController < ApplicationController
 
   def entry_params
     params.permit(:name, :contestant_name, :email, player_ids: [])
+  end
+
+  def filter_players_and_attrs(teams, players)
+    remaining_teams = get_teams_remaining teams
+    players.select do |player|
+      team = teams.find { |t| t.id == player['team_id'] }
+      if team.nil?
+        false
+      else
+        remove_attrs player if team['is_eliminated'] || remaining_teams.length != 2
+        true
+      end
+    end
+  end
+
+  def get_teams_remaining(teams)
+    teams.select { |team| team['is_eliminated'] == false }.map(&:id)
+  end
+
+  def remove_attrs(player)
+    player.except! 'finals_goals', 'finals_assists', 'finals_gwg', 'finals_shg', 'finals_otg',
+                   'finals_wins', 'finals_otl', 'finals_shutouts'
   end
 end

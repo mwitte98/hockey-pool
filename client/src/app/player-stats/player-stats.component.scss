@@ -1,3 +1,16 @@
+.slide-toggle-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 16px 16px 0;
+  width: 100%;
+}
+
+.mat-slide-toggle {
+  margin-bottom: 16px;
+  margin-left: 20px;
+}
+
 .player-stats-wrapper {
   box-sizing: border-box;
   display: flex;
@@ -5,62 +18,6 @@
   justify-content: center;
 }
 
-.team-wrapper {
-  margin: 16px 16px 0;
-
-  &.xs-row {
-    margin: 16px 0 0;
-  }
-}
-
-h4 {
-  font: 400 15px/24px Roboto, 'Helvetica Neue', sans-serif;
-  margin: 8px 0;
-  text-align: center;
-}
-
-.strikethrough {
-  text-decoration: line-through;
-}
-
-.mat-header-row,
-.mat-row {
-  padding-left: 16px;
-  padding-right: 8px;
-
-  &.xs-row {
-    padding-left: 8px;
-    padding-right: 0;
-  }
-}
-
-.mat-header-cell,
-.mat-cell {
-  padding-left: 0;
-  padding-right: 8px;
-}
-
-.fx-flex {
-  box-sizing: border-box;
-  flex: 1 1 100%;
-}
-
-.fx-flex-27 {
-  max-width: 27px;
-  min-width: 27px;
-}
-
-.fx-flex-38 {
-  max-width: 38px;
-  min-width: 38px;
-}
-
-.fx-flex-95 {
-  max-width: 95px;
-  min-width: 95px;
-}
-
-.fx-flex-158 {
-  max-width: 158px;
-  min-width: 158px;
+.mat-tab-group {
+  padding-top: 16px;
 }

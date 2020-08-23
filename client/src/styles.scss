@@ -7,3 +7,37 @@ body {
 .right-align {
   flex-grow: 1;
 }
+
+.strikethrough {
+  text-decoration: line-through;
+}
+
+.fx-flex {
+  box-sizing: border-box;
+  flex: 1 1 100%;
+}
+
+.fx-flex-38 {
+  min-width: 38px;
+}
+
+.mat-tab-body-wrapper {
+  overflow: visible !important;
+}
+
+.mat-tab-body-active {
+  overflow: visible !important;
+}
+
+.mat-tab-body-content {
+  overflow: visible !important;
+}
+
+.mat-sort-header-button {
+  margin: 0;
+  text-align: left;
+}
+
+.mat-sort-header-arrow {
+  margin: 0 !important;
+}

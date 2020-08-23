@@ -58,6 +58,21 @@ export interface Player {
   updateFailure?: boolean;
 }
 
+export interface PlayerStatColumn {
+  stat: string;
+  header: string;
+  colWidth: number;
+  textWidth: number;
+  finalsColWidthGtXs: number;
+  finalsTextWidthGtXs: number;
+}
+
+export interface PlayerStatTiebreaker {
+  attr: string;
+  sortDirection: string;
+  nestedAttr?: string;
+}
+
 export interface Setting {
   id: number;
   is_playoffs_started: boolean;

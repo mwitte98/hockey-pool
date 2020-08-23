@@ -11,7 +11,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
@@ -28,7 +30,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatSortModule,
     MatTableModule,
+    MatTabsModule,
     MatToolbarModule
   ],
   exports: [
@@ -44,7 +48,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSlideToggleModule,
+    MatSortModule,
     MatTableModule,
+    MatTabsModule,
     MatToolbarModule
   ]
 })

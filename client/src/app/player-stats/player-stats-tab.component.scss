@@ -1,0 +1,28 @@
+.mat-header-row,
+.mat-row {
+  padding-left: 16px;
+  padding-right: 8px;
+
+  &.xs-row {
+    padding-left: 8px;
+    padding-right: 0;
+  }
+}
+
+.mat-header-cell,
+.mat-cell {
+  padding-left: 0;
+  padding-right: 8px;
+}
+
+.fx-flex-37 {
+  min-width: 37px;
+}
+
+.fx-flex-95 {
+  min-width: 95px;
+}
+
+.fx-flex-158 {
+  min-width: 158px;
+}
