@@ -19,6 +19,8 @@ plugins:
       languages:
         typescript:
           mass_threshold: 75
+          filters:
+          - "(ClassProperty _ (key (Identifier skaterStatColumns)) ___)"
         ruby:
           mass_threshold: 20
     exclude_paths:

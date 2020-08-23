@@ -18,7 +18,9 @@ import { EntrySubmittedDialogComponent } from './create-entry/entry-submitted-di
 import { SeeRulesDialogComponent } from './create-entry/see-rules-dialog.component';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material.module';
+import { PlayerStatsTabComponent } from './player-stats/player-stats-tab.component';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
+import { StatColumnComponent } from './player-stats/stat-column.component';
 import { DisplayErrorsComponent } from './shared/errors/display-errors.component';
 import { HeaderComponent } from './shared/header/header.component';
 
@@ -36,7 +38,9 @@ import { HeaderComponent } from './shared/header/header.component';
     HeaderComponent,
     HomeComponent,
     PlayerStatsComponent,
-    SeeRulesDialogComponent
+    PlayerStatsTabComponent,
+    SeeRulesDialogComponent,
+    StatColumnComponent
   ],
   imports: [
     BrowserAnimationsModule,

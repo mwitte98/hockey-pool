@@ -1,26 +1,72 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
-import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { Team, User } from '../shared/types/interfaces';
+import { ApiResponse, Player, PlayerStatColumn, PlayerStatTiebreaker, Team, User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './player-stats.component.html',
   styleUrls: ['./player-stats.component.scss']
 })
 export class PlayerStatsComponent implements OnInit {
-  teams: Team[];
-  playerColumnsToDisplay = ['name', 'position', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
-  goalieColumnsToDisplay = ['name', 'position', 'goals', 'assists', 'wins', 'otl', 'shutouts', 'points'];
   loading = false;
+  originalSkaters: Player[] = [];
+  originalGoalies: Player[] = [];
+  shownSkaters: Player[] = [];
+  shownGoalies: Player[] = [];
+  selectedPlayers: Set<number>;
+  teamsRemaining = 0;
+  showingEliminatedPlayers = false;
+  showingSelectedPlayers = true;
+  showingPlayersWithPoints = true;
+
+  skaterColumnsToDisplay = ['name', 'team', 'position', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
+  goalieColumnsToDisplay = ['name', 'team', 'position', 'goals', 'assists', 'wins', 'otl', 'shutouts', 'points'];
+  skaterTiebreakers: PlayerStatTiebreaker[] = [
+    { attr: 'points', sortDirection: 'desc' },
+    { attr: 'goals', sortDirection: 'desc' },
+    { attr: 'assists', sortDirection: 'desc' },
+    { attr: 'gwg', sortDirection: 'desc' },
+    { attr: 'shg', sortDirection: 'desc' },
+    { attr: 'otg', sortDirection: 'desc' },
+    { attr: 'team', sortDirection: 'asc', nestedAttr: 'abbr' },
+    { attr: 'last_name', sortDirection: 'asc' },
+    { attr: 'first_name', sortDirection: 'asc' },
+    { attr: 'position', sortDirection: 'asc' }
+  ];
+  goalieTiebreakers: PlayerStatTiebreaker[] = [
+    { attr: 'points', sortDirection: 'desc' },
+    { attr: 'wins', sortDirection: 'desc' },
+    { attr: 'shutouts', sortDirection: 'desc' },
+    { attr: 'otl', sortDirection: 'desc' },
+    { attr: 'assists', sortDirection: 'desc' },
+    { attr: 'goals', sortDirection: 'desc' },
+    { attr: 'team', sortDirection: 'asc', nestedAttr: 'abbr' },
+    { attr: 'last_name', sortDirection: 'asc' },
+    { attr: 'first_name', sortDirection: 'asc' }
+  ];
+  skaterStatColumns: PlayerStatColumn[] = [
+    { stat: 'goals', header: 'G', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
+    { stat: 'assists', header: 'A', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
+    { stat: 'gwg', header: 'GWG', colWidth: 48, textWidth: 30, finalsColWidthGtXs: 66, finalsTextWidthGtXs: 53 },
+    { stat: 'shg', header: 'SHG', colWidth: 44, textWidth: 26, finalsColWidthGtXs: 62, finalsTextWidthGtXs: 49 },
+    { stat: 'otg', header: 'OTG', colWidth: 44, textWidth: 26, finalsColWidthGtXs: 62, finalsTextWidthGtXs: 49 }
+  ];
+  goalieStatColumns: PlayerStatColumn[] = [
+    { stat: 'goals', header: 'G', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
+    { stat: 'assists', header: 'A', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
+    { stat: 'wins', header: 'Wins', colWidth: 48, textWidth: 28, finalsColWidthGtXs: 66, finalsTextWidthGtXs: 53 },
+    { stat: 'otl', header: 'OTL', colWidth: 44, textWidth: 24, finalsColWidthGtXs: 62, finalsTextWidthGtXs: 49 },
+    { stat: 'shutouts', header: 'SO', colWidth: 44, textWidth: 20, finalsColWidthGtXs: 62, finalsTextWidthGtXs: 42 }
+  ];
 
   constructor(
     private router: Router,
     private settingsService: SettingsService,
     private userService: UserService,
-    private teamsService: TeamsService
+    private entriesService: EntriesService
   ) {}
 
   ngOnInit(): void {
@@ -31,12 +77,22 @@ export class PlayerStatsComponent implements OnInit {
         this.router.navigateByUrl('/entry/new').catch();
         this.loading = false;
       } else if (user !== undefined) {
-        this.teamsService.get().subscribe((teams: Team[]) => {
-          teams.map((team: Team) => {
-            team.goalies = team.players.filter((p) => p.position === 'Goalie');
-            team.players = team.players.filter((p) => p.position !== 'Goalie');
+        this.entriesService.get().subscribe((response: ApiResponse) => {
+          const players = response.players.map((player: Player) => {
+            const team = response.teams.find((t) => t.id === player.team_id);
+            player.team = { abbr: team.abbr, is_eliminated: team.is_eliminated } as any;
+            return player;
           });
-          this.teams = teams.filter((team: Team) => team.made_playoffs);
+          this.originalSkaters = players.filter((p) => p.position !== 'Goalie');
+          this.originalGoalies = players.filter((p) => p.position === 'Goalie');
+          this.teamsRemaining = response.teams.filter((t) => !t.is_eliminated).length;
+          this.selectedPlayers = new Set(
+            [].concat.apply(
+              [],
+              response.entries.map((entry) => entry.player_ids)
+            )
+          );
+          this.updateShownPlayers();
           this.loading = false;
         });
       }
@@ -45,5 +101,17 @@ export class PlayerStatsComponent implements OnInit {
 
   trackById(_index: number, team: Team): number {
     return team.id;
+  }
+
+  updateShownPlayers(): void {
+    this.shownSkaters = this.applyFilters(this.originalSkaters);
+    this.shownGoalies = this.applyFilters(this.originalGoalies);
+  }
+
+  applyFilters(originalPlayers: Player[]): Player[] {
+    return originalPlayers
+      .filter((p) => !this.showingSelectedPlayers || this.selectedPlayers.has(p.id))
+      .filter((p) => this.showingEliminatedPlayers || !p.team.is_eliminated)
+      .filter((p) => !this.showingPlayersWithPoints || p.points > 0);
   }
 }
