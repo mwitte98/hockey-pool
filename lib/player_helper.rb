@@ -5,7 +5,7 @@ module PlayerHelper
                  finals_gwg finals_shg finals_otg finals_wins finals_otl finals_shutouts]
       total_points = 0
       stats.each do |stat|
-        total_points += player[stat] * setting['points_' + stat] unless player[stat].nil?
+        total_points += player[stat] * setting["points_#{stat}"] unless player[stat].nil?
       end
       total_points
     end

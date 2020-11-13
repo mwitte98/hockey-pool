@@ -72,7 +72,7 @@ class UpdateJob
     return [@game['teams'], 'score'] if @game.key? 'decisions'
 
     agent = Mechanize.new
-    response = JSON.parse(agent.get('https://statsapi.web.nhl.com' + @game['link']).body)
+    response = JSON.parse(agent.get("https://statsapi.web.nhl.com#{@game['link']}").body)
     @game = response['liveData']
     [@game['linescore']['teams'], 'goals']
   end
@@ -118,7 +118,7 @@ class UpdateJob
   end
 
   def update_stat(player, stat)
-    stat = 'finals_' + stat if @is_finals
+    stat = "finals_#{stat}" if @is_finals
     player[stat] += 1
   end
 end
