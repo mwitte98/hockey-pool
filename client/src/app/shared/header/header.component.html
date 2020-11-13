@@ -9,9 +9,7 @@
   >
     Player Stats
   </a>
-  <button *ngIf="currentUser" mat-button [mat-menu-trigger-for]="menu">
-    Admin
-  </button>
+  <button *ngIf="currentUser" mat-button [mat-menu-trigger-for]="menu">Admin</button>
 </mat-toolbar>
 <mat-menu #menu="matMenu">
   <a mat-menu-item routerLink="/admin/teams">Teams</a>

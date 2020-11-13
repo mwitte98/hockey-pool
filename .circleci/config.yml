@@ -25,11 +25,12 @@ jobs:
           PGHOST: 127.0.0.1
           PGUSER: hockey-pool
           RAILS_ENV: test
-      - image: circleci/postgres:10.3-alpine
+      - image: circleci/postgres:12.4
         environment:
           POSTGRES_USER: hockey-pool
           POSTGRES_DB: db/hockey_pool_test_db
           POSTGRES_PASSWORD: ""
+          POSTGRES_HOST_AUTH_METHOD: trust
     working_directory: ~/hockey-pool
     steps:
       - checkout

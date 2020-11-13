@@ -1,24 +1,24 @@
 source 'https://rubygems.org'
 ruby '2.7.1'
 
-gem 'actionpack', '6.0.3.2'
-gem 'activemodel', '6.0.3.2'
-gem 'activerecord', '6.0.3.2'
-gem 'activesupport', '6.0.3.2'
-gem 'railties', '6.0.3.2'
+gem 'actionpack', '6.0.3.4'
+gem 'activemodel', '6.0.3.4'
+gem 'activerecord', '6.0.3.4'
+gem 'activesupport', '6.0.3.4'
+gem 'railties', '6.0.3.4'
 
-gem 'bcrypt', '3.1.13'
+gem 'bcrypt', '3.1.16'
 gem 'mechanize', '2.7.6'
-gem 'newrelic_rpm', '6.12.0.367'
+gem 'newrelic_rpm', '6.13.1'
 gem 'nokogiri', '1.10.10'
 gem 'pg', '1.2.3'
-gem 'puma', '4.3.5'
+gem 'puma', '5.0.4'
 gem 'sucker_punch', '2.1.2'
 
 group :development do
   gem 'debase', '0.2.4.1'
-  gem 'reek', '6.0.1'
-  gem 'rubocop', '0.86.0'
+  gem 'reek', '6.0.2'
+  gem 'rubocop', '0.92.0'
   gem 'ruby-debug-ide', '0.7.2'
 end
 
