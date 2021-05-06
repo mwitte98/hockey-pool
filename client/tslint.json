@@ -148,6 +148,7 @@
       "@angular/common/http",
       "@angular/material",
       "@angular/platform-browser",
+      "jest-preset-angular",
       "rxjs/operators",
       "zone.js"
     ],
