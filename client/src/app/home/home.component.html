@@ -77,7 +77,8 @@
             <div *ngFor="let player of entry.players; trackBy: trackById">
               <div
                 class="team-player-wrapper"
-                *ngIf="player.team.made_playoffs && (!player.team.is_eliminated || showingEliminatedTeams)"
+                [ngClass]="{ hidden: player.team.is_eliminated && !showingEliminatedTeams }"
+                *ngIf="player.team.made_playoffs"
               >
                 <img class="team-logo" [alt]="player.team.name + ' logo'" [src]="player.team.logoUrl" />
                 <div fxLayout="row">
