@@ -9,11 +9,34 @@ import { ApiResponse, Entry, Player, Team } from '../shared/types/interfaces';
 })
 export class BestEntryService {
   private bestEntry: Entry;
+  private bestEntryName = 'BEST POSSIBLE ENTRY';
 
   constructor(private settingsService: SettingsService, private utilService: UtilService) {}
 
   determineBestEntry(response: ApiResponse): Entry {
-    const bestPlayers = response.teams
+    const bestPlayers = this.bestPlayers(response);
+    this.calculateBestEntryBranch(bestPlayers, 0, {
+      name: this.bestEntryName,
+      bestEntry: true,
+      players: [],
+      player_ids: [],
+      numCenters: 0,
+      numWingers: 0,
+      numDefensemen: 0,
+      numGoalies: 0,
+      points: 0,
+      pointsC: 0,
+      pointsW: 0,
+      pointsD: 0,
+      pointsG: 0,
+      totalGoals: 0
+    });
+    this.utilService.sortPlayersByTeam(this.bestEntry);
+    return this.bestEntry;
+  }
+
+  bestPlayers(response: ApiResponse): Player[][] {
+    return response.teams
       .map((team: Team) => {
         const players = response.players.filter((player: Player) => team.id === player.team_id);
         return [
@@ -36,42 +59,9 @@ export class BestEntryService {
         ].sort((a, b) => b.points - a.points);
       })
       .sort((a, b) => b[0].points - a[0].points);
-    this.combos(bestPlayers, 0, {
-      name: 'BEST POSSIBLE ENTRY',
-      bestEntry: true,
-      players: [],
-      player_ids: [],
-      numCenters: 0,
-      numWingers: 0,
-      numDefensemen: 0,
-      numGoalies: 0,
-      points: 0,
-      pointsC: 0,
-      pointsW: 0,
-      pointsD: 0,
-      pointsG: 0,
-      totalGoals: 0
-    });
-    this.utilService.sortPlayersByTeam(this.bestEntry);
-    return this.bestEntry;
   }
 
-  sortBestEntryPlayers(): void {
-    this.bestEntry.players.sort((a: Player, b: Player) => {
-      const teamA = a.team;
-      const teamB = b.team;
-      if (teamA.is_eliminated !== teamB.is_eliminated) {
-        return teamA.is_eliminated ? 1 : -1;
-      }
-      const conferenceDiff = teamA.conference.localeCompare(teamB.conference);
-      if (conferenceDiff !== 0) {
-        return conferenceDiff;
-      }
-      return teamA.rank - teamB.rank;
-    });
-  }
-
-  combos(list: Player[][], n: number, current: Entry): void {
+  calculateBestEntryBranch(list: Player[][], n: number, current: Entry): void {
     if (
       this.maxPointsBelowBest(list, n, current) ||
       this.abovePositionMax(current) ||
@@ -83,45 +73,10 @@ export class BestEntryService {
     if (n === list.length) {
       this.updateBestEntry(current);
     } else if (n < list.length) {
-      list[n].map((item: Player) => {
-        const next: Entry = {
-          name: 'BEST POSSIBLE ENTRY',
-          bestEntry: true,
-          players: [...current.players, item],
-          player_ids: [...current.player_ids, item.id],
-          points: current.points + item.points,
-          numCenters: current.numCenters,
-          numWingers: current.numWingers,
-          numDefensemen: current.numDefensemen,
-          numGoalies: current.numGoalies,
-          pointsC: current.pointsC,
-          pointsW: current.pointsW,
-          pointsD: current.pointsD,
-          pointsG: current.pointsG,
-          totalGoals: current.totalGoals + item.goals
-        };
-        switch (item.position) {
-          case 'Center': {
-            next.numCenters += 1;
-            next.pointsC += item.points;
-            break;
-          }
-          case 'Winger': {
-            next.numWingers += 1;
-            next.pointsW += item.points;
-            break;
-          }
-          case 'Defenseman': {
-            next.numDefensemen += 1;
-            next.pointsD += item.points;
-            break;
-          }
-          default: {
-            next.numGoalies += 1;
-            next.pointsG += item.points;
-          }
-        }
-        this.combos(list, n + 1, next);
+      list[n].map((nextPlayer: Player) => {
+        const next = this.createNextEntry(current, nextPlayer);
+        this.updateNextPositionStats(next, nextPlayer);
+        this.calculateBestEntryBranch(list, n + 1, next);
       });
     }
   }
@@ -182,5 +137,48 @@ export class BestEntryService {
       }
     }
     return diff;
+  }
+
+  createNextEntry(current: Entry, nextPlayer: Player): Entry {
+    return {
+      name: this.bestEntryName,
+      bestEntry: true,
+      players: [...current.players, nextPlayer],
+      player_ids: [...current.player_ids, nextPlayer.id],
+      points: current.points + nextPlayer.points,
+      numCenters: current.numCenters,
+      numWingers: current.numWingers,
+      numDefensemen: current.numDefensemen,
+      numGoalies: current.numGoalies,
+      pointsC: current.pointsC,
+      pointsW: current.pointsW,
+      pointsD: current.pointsD,
+      pointsG: current.pointsG,
+      totalGoals: current.totalGoals + nextPlayer.goals
+    };
+  }
+
+  updateNextPositionStats(next: Entry, nextPlayer: Player): void {
+    switch (nextPlayer.position) {
+      case 'Center': {
+        next.numCenters += 1;
+        next.pointsC += nextPlayer.points;
+        break;
+      }
+      case 'Winger': {
+        next.numWingers += 1;
+        next.pointsW += nextPlayer.points;
+        break;
+      }
+      case 'Defenseman': {
+        next.numDefensemen += 1;
+        next.pointsD += nextPlayer.points;
+        break;
+      }
+      default: {
+        next.numGoalies += 1;
+        next.pointsG += nextPlayer.points;
+      }
+    }
   }
 }
