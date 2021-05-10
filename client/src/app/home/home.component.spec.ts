@@ -4,7 +4,7 @@ describe('HomeComponent', () => {
   let comp: HomeComponent;
 
   beforeEach(() => {
-    comp = new HomeComponent({} as any, {} as any, {} as any, {} as any, {} as any);
+    comp = new HomeComponent({} as any, {} as any, {} as any, {} as any, {} as any, {} as any);
   });
 
   it('component is created', () => {

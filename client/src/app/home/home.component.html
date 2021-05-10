@@ -12,8 +12,11 @@
       <ng-container matColumnDef="name">
         <mat-header-cell fxFlex="25%" *matHeaderCellDef>Entry Name</mat-header-cell>
         <mat-cell fxFlex="25%" *matCellDef="let entry">
-          <span *ngIf="entry.tiebreaker === 6">T</span>
-          {{ entry.rank }}. {{ entry.name }}
+          <div>
+            <span *ngIf="entry.tiebreaker === 6">T</span>
+            <span *ngIf="!entry.bestEntry">{{ entry.rank }}.</span>
+            {{ entry.name }}
+          </div>
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="points">
@@ -99,6 +102,7 @@
         matRipple
         class="entry-row"
         ngClass.xs="xs-row"
+        [class.best-entry]="entry.bestEntry"
         [class.expanded]="expandedEntries.indexOf(entry.name) > -1"
         (click)="toggleExpansion(entry.name)"
       ></mat-row>
