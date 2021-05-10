@@ -9,10 +9,15 @@ export interface ApiResponse {
 export interface Entry {
   id?: number;
   name: string;
-  contestant_name: string;
-  email: string;
+  contestant_name?: string;
+  email?: string;
   player_ids: number[];
   players?: Player[];
+  bestEntry?: boolean;
+  numCenters?: number;
+  numWingers?: number;
+  numDefensemen?: number;
+  numGoalies?: number;
   points?: number;
   pointsC?: number;
   pointsW?: number;

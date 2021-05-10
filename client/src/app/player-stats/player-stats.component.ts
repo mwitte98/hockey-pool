@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { UserService } from '../shared/services/user.service';
-import { ApiResponse, Player, PlayerStatColumn, PlayerStatTiebreaker, Team, User } from '../shared/types/interfaces';
+import { UtilService } from '../shared/services/util.service';
+import { ApiResponse, Player, PlayerStatColumn, Team, User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './player-stats.component.html',
@@ -24,29 +25,6 @@ export class PlayerStatsComponent implements OnInit {
 
   skaterColumnsToDisplay = ['name', 'team', 'position', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
   goalieColumnsToDisplay = ['name', 'team', 'position', 'goals', 'assists', 'wins', 'otl', 'shutouts', 'points'];
-  skaterTiebreakers: PlayerStatTiebreaker[] = [
-    { attr: 'points', sortDirection: 'desc' },
-    { attr: 'goals', sortDirection: 'desc' },
-    { attr: 'assists', sortDirection: 'desc' },
-    { attr: 'gwg', sortDirection: 'desc' },
-    { attr: 'shg', sortDirection: 'desc' },
-    { attr: 'otg', sortDirection: 'desc' },
-    { attr: 'team', sortDirection: 'asc', nestedAttr: 'abbr' },
-    { attr: 'last_name', sortDirection: 'asc' },
-    { attr: 'first_name', sortDirection: 'asc' },
-    { attr: 'position', sortDirection: 'asc' }
-  ];
-  goalieTiebreakers: PlayerStatTiebreaker[] = [
-    { attr: 'points', sortDirection: 'desc' },
-    { attr: 'wins', sortDirection: 'desc' },
-    { attr: 'shutouts', sortDirection: 'desc' },
-    { attr: 'otl', sortDirection: 'desc' },
-    { attr: 'assists', sortDirection: 'desc' },
-    { attr: 'goals', sortDirection: 'desc' },
-    { attr: 'team', sortDirection: 'asc', nestedAttr: 'abbr' },
-    { attr: 'last_name', sortDirection: 'asc' },
-    { attr: 'first_name', sortDirection: 'asc' }
-  ];
   skaterStatColumns: PlayerStatColumn[] = [
     { stat: 'goals', header: 'G', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
     { stat: 'assists', header: 'A', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
@@ -65,6 +43,7 @@ export class PlayerStatsComponent implements OnInit {
   constructor(
     private router: Router,
     private settingsService: SettingsService,
+    public utilService: UtilService,
     private userService: UserService,
     private entriesService: EntriesService
   ) {}

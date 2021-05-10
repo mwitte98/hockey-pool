@@ -17,7 +17,7 @@
         [players]="shownSkaters"
         [teamsRemaining]="teamsRemaining"
         [columnsToDisplay]="skaterColumnsToDisplay"
-        [tiebreakers]="skaterTiebreakers"
+        [tiebreakers]="utilService.skaterTiebreakers"
         [playerStatColumns]="skaterStatColumns"
       ></player-stats-tab>
     </mat-tab>
@@ -26,7 +26,7 @@
         [players]="shownGoalies"
         [teamsRemaining]="teamsRemaining"
         [columnsToDisplay]="goalieColumnsToDisplay"
-        [tiebreakers]="goalieTiebreakers"
+        [tiebreakers]="utilService.goalieTiebreakers"
         [playerStatColumns]="goalieStatColumns"
       ></player-stats-tab>
     </mat-tab>

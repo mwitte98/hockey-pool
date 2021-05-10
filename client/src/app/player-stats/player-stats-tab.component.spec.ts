@@ -4,7 +4,7 @@ describe('PlayerStatsTabComponent', () => {
   let comp: PlayerStatsTabComponent;
 
   beforeEach(() => {
-    comp = new PlayerStatsTabComponent();
+    comp = new PlayerStatsTabComponent({} as any);
   });
 
   it('component is created', () => {

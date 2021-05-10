@@ -8,6 +8,8 @@ import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
 import { ApiResponse, Entry, Player, User } from '../shared/types/interfaces';
 
+import { BestEntryService } from './best-entry.service';
+
 @Component({
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -33,7 +35,8 @@ export class HomeComponent implements OnInit {
     private entriesService: EntriesService,
     private settingsService: SettingsService,
     private userService: UserService,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private bestEntryService: BestEntryService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +52,10 @@ export class HomeComponent implements OnInit {
           this.entries = this.utilService.combineApiResponseData(response);
           this.calculatePoints();
           this.sortEntries();
+          const bestEntry = this.bestEntryService.determineBestEntry(response);
+          if (bestEntry != null) {
+            this.entries.unshift(bestEntry);
+          }
           this.prepareTableData();
           this.loading = false;
         });
