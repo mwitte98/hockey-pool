@@ -13,7 +13,6 @@ export class BestEntryService {
   constructor(private settingsService: SettingsService, private utilService: UtilService) {}
 
   determineBestEntry(response: ApiResponse): Entry {
-    const start = Date.now();
     const bestPlayers = response.teams
       .map((team: Team) => {
         const players = response.players.filter((player: Player) => team.id === player.team_id);
@@ -53,9 +52,6 @@ export class BestEntryService {
       pointsG: 0,
       totalGoals: 0
     });
-    // console.log(this.bestEntry); // tslint:disable-line
-    const end = Date.now();
-    console.log(end - start); // tslint:disable-line
     this.utilService.sortPlayersByTeam(this.bestEntry);
     return this.bestEntry;
   }
