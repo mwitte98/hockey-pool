@@ -15,7 +15,7 @@ export class BestEntryService {
 
   determineBestEntry(response: ApiResponse): Entry {
     const bestPlayers = this.bestPlayers(response);
-    if (bestPlayers[bestPlayers.length - 1][0].points <= 0) {
+    if (bestPlayers.length === 0 || bestPlayers[bestPlayers.length - 1][0].points <= 0) {
       return null;
     }
 
