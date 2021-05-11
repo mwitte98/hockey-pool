@@ -7,14 +7,14 @@ class SeedTeamsPlayersJob
     rosters = JSON.parse(agent.get('http://statsapi.web.nhl.com/api/v1/teams?expand=team.roster').body)
     standings['records'].each do |record|
       record['teamRecords'].each do |team_record|
-        update_teams_players rosters, record, team_record
+        update_teams_players rosters, team_record
       end
     end
   end
 
   private
 
-  def update_teams_players(rosters, record, team_record)
+  def update_teams_players(rosters, team_record)
     team_record_team = team_record['team']
     team_roster = find_roster rosters, team_record_team
     qualified = team_record['conferenceRank'].to_i <= 12
