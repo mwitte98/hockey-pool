@@ -20,7 +20,7 @@ class SeedTeamsPlayersJob
     qualified = team_record['conferenceRank'].to_i <= 12
     team = Team.create(
       name: team_record_team['name'], abbr: team_roster['abbreviation'], nhl_id: team_record_team['id'],
-      conference: record['conference']['name'], rank: team_record['conferenceRank'].to_i,
+      conference: team_roster['conference']['name'], rank: team_record['conferenceRank'].to_i,
       is_eliminated: !qualified, made_playoffs: qualified
     )
     create_players team, team_roster
