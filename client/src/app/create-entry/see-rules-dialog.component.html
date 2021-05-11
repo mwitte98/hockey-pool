@@ -1,29 +1,22 @@
 <h2 mat-dialog-title>Rules</h2>
 <mat-dialog-content class="mat-typography">
   <ul>
-    <li>Entries must be submitted by Saturday, August 1st 12pm ET</li>
+    <li>Entries must be submitted by Saturday, May 15th 7pm ET</li>
     <li>After the entry submission deadline, if a player misses a game for any reason, they cannot be substituted</li>
     <li>Entry fee: $20 per entry</li>
     <li>Unlimited number of entries</li>
-    <li>Payment can be sent through Venmo or mailed to Al Kurek (details will be provided by email)</li>
+    <li>Payment can be sent through Venmo or in person to Al Kurek</li>
     <li>
       Payouts: 25% to 1st place, 15% to 2nd place, and remaining 60% will be determined based on the number of entries
     </li>
     <br />
-    <li>
-      <b>NEW:</b>
-      Entries will consist of 24 players; 1 from each team
-    </li>
-    <li>
-      <b>NEW:</b>
-      Player stats from the qualifying round and round robin games are included
-    </li>
-    <li>24 players will be broken down into the following positions:</li>
+    <li>Entries will consist of 16 players; 1 from each team</li>
+    <li>16 players will be broken down into the following positions:</li>
     <ul>
-      <li>6 centers</li>
-      <li>6 wingers</li>
-      <li>8 defensemen</li>
-      <li>3 goalies</li>
+      <li>{{ settingsService.setting.min_centers }} centers</li>
+      <li>{{ settingsService.setting.min_wingers }} wingers</li>
+      <li>{{ settingsService.setting.min_defensemen }} defensemen</li>
+      <li>{{ settingsService.setting.min_goalies }} goalies</li>
       <li>1 flex center OR winger OR defenseman</li>
     </ul>
     <br />

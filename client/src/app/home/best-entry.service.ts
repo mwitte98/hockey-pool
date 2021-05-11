@@ -15,6 +15,10 @@ export class BestEntryService {
 
   determineBestEntry(response: ApiResponse): Entry {
     const bestPlayers = this.bestPlayers(response);
+    if (bestPlayers[bestPlayers.length - 1][0].points <= 0) {
+      return null;
+    }
+
     this.calculateBestEntryBranch(bestPlayers, 0, {
       name: this.bestEntryName,
       bestEntry: true,
@@ -31,7 +35,9 @@ export class BestEntryService {
       pointsG: 0,
       totalGoals: 0
     });
-    this.utilService.sortPlayersByTeam(this.bestEntry);
+    if (this.bestEntry != null) {
+      this.utilService.sortPlayersByTeam(this.bestEntry);
+    }
     return this.bestEntry;
   }
 
