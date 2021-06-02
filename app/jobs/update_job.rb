@@ -39,7 +39,10 @@ class UpdateJob
   end
 
   def parse_scoring_plays
-    @game['scoringPlays'].each do |scoring_play|
+    scoring_plays = @game['scoringPlays']
+    return unless scoring_plays
+
+    scoring_plays.each do |scoring_play|
       next if scoring_play['about']['periodType'] == 'SHOOTOUT'
 
       scoring_team = @teams.find { |team| team['name'] == scoring_play['team']['name'] }
