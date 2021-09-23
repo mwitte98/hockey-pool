@@ -49,7 +49,7 @@
     "codelyzer": "6.0.2",
     "jest": "27.1.0",
     "jest-preset-angular": "9.0.7",
-    "prettier": "2.3.2",
+    "prettier": "2.4.1",
     "prettylint": "1.0.0",
     "stylelint": "13.13.1",
     "stylelint-config-prettier": "8.0.2",

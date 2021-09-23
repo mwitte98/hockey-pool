@@ -34,8 +34,7 @@
               <mat-select [formControlName]="player.team.name">
                 <mat-option
                   [value]="teamPlayer.id"
-                  *ngFor="let teamPlayer of player.team.players; trackBy: trackByPlayerId"
-                >
+                  *ngFor="let teamPlayer of player.team.players; trackBy: trackByPlayerId">
                   {{ teamPlayer.first_name }} {{ teamPlayer.last_name }} ({{ teamPlayer.position | slice: 0:1 }})
                 </mat-option>
               </mat-select>
@@ -45,8 +44,7 @@
               class="primary-button"
               color="primary"
               type="submit"
-              [disabled]="!entry.form.valid || entry.updateLoading"
-            >
+              [disabled]="!entry.form.valid || entry.updateLoading">
               Update
             </button>
             <div class="form-submit-status">

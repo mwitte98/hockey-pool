@@ -81,8 +81,7 @@
               <div
                 class="team-player-wrapper"
                 [ngClass]="{ hidden: player.team.is_eliminated && !showingEliminatedTeams }"
-                *ngIf="player.team.made_playoffs"
-              >
+                *ngIf="player.team.made_playoffs">
                 <img class="team-logo" [alt]="player.team.name + ' logo'" [src]="player.team.logoUrl" />
                 <div fxLayout="row">
                   <div class="player-name" [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
@@ -104,14 +103,12 @@
         ngClass.xs="xs-row"
         [class.best-entry]="entry.bestEntry"
         [class.expanded]="expandedEntries.indexOf(entry.name) > -1"
-        (click)="toggleExpansion(entry.name)"
-      ></mat-row>
+        (click)="toggleExpansion(entry.name)"></mat-row>
       <mat-row
         *matRowDef="let entry; columns: ['playerDetails']; when: isExpansionDetailRow"
         class="expansion-row"
         ngClass.xs="xs-row"
-        [@detailExpand]="expandedEntries.indexOf(entry.name) > -1 ? 'expanded' : 'collapsed'"
-      ></mat-row>
+        [@detailExpand]="expandedEntries.indexOf(entry.name) > -1 ? 'expanded' : 'collapsed'"></mat-row>
     </mat-table>
   </div>
 </div>
