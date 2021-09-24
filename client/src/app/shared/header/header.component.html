@@ -5,8 +5,7 @@
   <a
     mat-button
     *ngIf="currentPage !== '/player-stats' && settingsService.setting?.is_playoffs_started"
-    routerLink="/player-stats"
-  >
+    routerLink="/player-stats">
     Player Stats
   </a>
   <button *ngIf="currentUser" mat-button [mat-menu-trigger-for]="menu">Admin</button>

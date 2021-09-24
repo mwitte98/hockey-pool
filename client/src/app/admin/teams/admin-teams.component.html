@@ -22,8 +22,7 @@
                 formControlName="abbr"
                 minlength="3"
                 maxlength="3"
-                oninput="let p=this.selectionStart; this.value=this.value.toUpperCase(); this.setSelectionRange(p, p);"
-              />
+                oninput="let p=this.selectionStart; this.value=this.value.toUpperCase(); this.setSelectionRange(p, p);" />
             </mat-form-field>
             <mat-checkbox formControlName="is_eliminated" color="primary">Eliminated</mat-checkbox>
             <mat-checkbox formControlName="made_playoffs" color="primary">Made Playoffs</mat-checkbox>
@@ -47,8 +46,7 @@
               class="primary-button"
               color="primary"
               type="submit"
-              [disabled]="!team.form.valid || team.updateLoading"
-            >
+              [disabled]="!team.form.valid || team.updateLoading">
               Update
             </button>
             <div class="form-submit-status">
@@ -60,8 +58,7 @@
           <form
             [formGroup]="player.form"
             (ngSubmit)="updatePlayer(team.id, player.id)"
-            *ngFor="let player of team.players; trackBy: trackByPlayerId"
-          >
+            *ngFor="let player of team.players; trackBy: trackByPlayerId">
             <mat-form-field class="player-name-input">
               <mat-label>First Name</mat-label>
               <input matInput formControlName="firstName" />
@@ -121,43 +118,37 @@
             </mat-form-field>
             <mat-form-field
               class="finals-number-input"
-              *ngIf="player.position !== 'Goalie' && player.finals_gwg != null"
-            >
+              *ngIf="player.position !== 'Goalie' && player.finals_gwg != null">
               <mat-label>GWG (x2)</mat-label>
               <input matInput type="number" formControlName="finalsGwg" />
             </mat-form-field>
             <mat-form-field
               class="finals-number-input"
-              *ngIf="player.position !== 'Goalie' && player.finals_shg != null"
-            >
+              *ngIf="player.position !== 'Goalie' && player.finals_shg != null">
               <mat-label>SHG (x2)</mat-label>
               <input matInput type="number" formControlName="finalsShg" />
             </mat-form-field>
             <mat-form-field
               class="finals-number-input"
-              *ngIf="player.position !== 'Goalie' && player.finals_otg != null"
-            >
+              *ngIf="player.position !== 'Goalie' && player.finals_otg != null">
               <mat-label>OTG (x2)</mat-label>
               <input matInput type="number" formControlName="finalsOtg" />
             </mat-form-field>
             <mat-form-field
               class="finals-number-input"
-              *ngIf="player.position === 'Goalie' && player.finals_wins != null"
-            >
+              *ngIf="player.position === 'Goalie' && player.finals_wins != null">
               <mat-label>Wins (x2)</mat-label>
               <input matInput type="number" formControlName="finalsWins" />
             </mat-form-field>
             <mat-form-field
               class="finals-number-input"
-              *ngIf="player.position === 'Goalie' && player.finals_otl != null"
-            >
+              *ngIf="player.position === 'Goalie' && player.finals_otl != null">
               <mat-label>OTL (x2)</mat-label>
               <input matInput type="number" formControlName="finalsOtl" />
             </mat-form-field>
             <mat-form-field
               class="finals-number-input"
-              *ngIf="player.position === 'Goalie' && player.finals_shutouts != null"
-            >
+              *ngIf="player.position === 'Goalie' && player.finals_shutouts != null">
               <mat-label>SO (x2)</mat-label>
               <input matInput type="number" formControlName="finalsShutouts" />
             </mat-form-field>
@@ -170,8 +161,7 @@
               class="primary-button"
               color="primary"
               type="submit"
-              [disabled]="!player.form.valid || player.updateLoading"
-            >
+              [disabled]="!player.form.valid || player.updateLoading">
               Update
             </button>
             <div class="form-submit-status">

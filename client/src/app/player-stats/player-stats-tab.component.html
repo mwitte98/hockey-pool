@@ -5,8 +5,7 @@
     matSortDirection="desc"
     matSortStart="desc"
     (matSortChange)="sortChange($event)"
-    [dataSource]="dataSource"
-  >
+    [dataSource]="dataSource">
     <ng-container matColumnDef="name">
       <mat-header-cell
         class="fx-flex"
@@ -14,8 +13,7 @@
         ngClass.xs="fx-flex-95"
         mat-sort-header
         start="asc"
-        *matHeaderCellDef
-      >
+        *matHeaderCellDef>
         Name
       </mat-header-cell>
       <mat-cell class="fx-flex" ngClass.gt-xs="fx-flex-158" ngClass.xs="fx-flex-95" *matCellDef="let player">
@@ -36,8 +34,7 @@
         fxHide.xs
         class="fx-flex fx-flex-38"
         [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''"
-        *matCellDef="let player"
-      >
+        *matCellDef="let player">
         {{ player.team.abbr }}
       </mat-cell>
     </ng-container>
@@ -52,8 +49,7 @@
     <stat-column
       *ngFor="let col of playerStatColumns; trackBy: trackBy"
       [data]="col"
-      [teamsRemaining]="teamsRemaining"
-    ></stat-column>
+      [teamsRemaining]="teamsRemaining"></stat-column>
     <ng-container matColumnDef="points">
       <mat-header-cell class="fx-flex fx-flex-37" mat-sort-header *matHeaderCellDef>Pts</mat-header-cell>
       <mat-cell class="fx-flex fx-flex-37" *matCellDef="let player">{{ player.points }}</mat-cell>
