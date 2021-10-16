@@ -14,7 +14,7 @@
  * Learn more in https://angular.io/guide/browser-support
  */
 
-/***************************************************************************************************
+/**
  * BROWSER POLYFILLS
  */
 
@@ -46,11 +46,11 @@
  */
 // (window as any).__Zone_enable_cross_context_check = true;
 
-/***************************************************************************************************
- * Zone JS is required by default for Angular itself.
+/**
+ * Zone JS is required by default for Angular itself (it's included with Angular CLI).
  */
-import 'zone.js'; // Included with Angular CLI.
+import 'zone.js';
 
-/***************************************************************************************************
+/**
  * APPLICATION IMPORTS
  */

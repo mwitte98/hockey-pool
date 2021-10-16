@@ -33,9 +33,9 @@ export class AdminEntriesComponent implements OnInit {
         this.entriesService.get().subscribe((response: ApiResponse) => {
           this.setTeamPlayers(response);
           this.entries = this.utilService.combineApiResponseData(response);
-          this.entries.map((entry: Entry) => {
+          for (const entry of this.entries) {
             this.createEntryForm(entry);
-          });
+          }
           this.loading = false;
         });
       }
@@ -51,11 +51,11 @@ export class AdminEntriesComponent implements OnInit {
   }
 
   setTeamPlayers(response: ApiResponse): void {
-    response.teams.map((team: Team) => {
-      team.players = response.players.filter((p: Player) => {
-        return p.team_id === team.id;
+    for (const team of response.teams) {
+      team.players = response.players.filter((player: Player) => {
+        return player.team_id === team.id;
       });
-    });
+    }
     this.teams = response.teams;
   }
 
@@ -65,9 +65,9 @@ export class AdminEntriesComponent implements OnInit {
       contestantName: [entry.contestant_name, Validators.required],
       email: [entry.email, [Validators.required, Validators.email]]
     });
-    entry.players.map((player: Player) => {
+    for (const player of entry.players) {
       entry.form.addControl(player.team.name, new FormControl(player.id, Validators.required));
-    });
+    }
   }
 
   goToCreateEntry(): void {
@@ -78,9 +78,9 @@ export class AdminEntriesComponent implements OnInit {
     const entry = this.entries.find((e: Entry) => e.id === id);
     const formData = entry.form.getRawValue();
     const request: Entry = {
-      name: formData['name'],
-      contestant_name: formData['contestantName'],
-      email: formData['email'],
+      name: formData.name,
+      contestant_name: formData.contestantName,
+      email: formData.email,
       player_ids: []
     };
     for (const formField of Object.keys(formData)) {

@@ -43,15 +43,15 @@ import { HeaderComponent } from './shared/header/header.component';
     StatColumnComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserAnimationsModule,
     BrowserModule,
     CommonModule,
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule,
     MaterialModule,
-    AppRoutingModule
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

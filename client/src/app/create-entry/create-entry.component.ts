@@ -33,10 +33,10 @@ export class CreateEntryComponent implements OnInit {
   errors: string[] = [];
   entryForm: FormGroup;
   numbersOfPositions = {
-    Center: 0,
-    Winger: 0,
-    Defenseman: 0,
-    Goalie: 0
+    center: 0,
+    winger: 0,
+    defenseman: 0,
+    goalie: 0
   };
 
   constructor(
@@ -55,11 +55,11 @@ export class CreateEntryComponent implements OnInit {
       } else if (user != null || (user === null && !this.settingsService.setting.is_playoffs_started)) {
         this.entriesService.get().subscribe((response: ApiResponse) => {
           this.entries = response.entries;
-          response.teams.map((team: Team) => {
+          for (const team of response.teams) {
             team.players = response.players
               .filter((player: Player) => team.id === player.team_id)
               .sort((a, b) => (a.last_name > b.last_name ? 1 : -1));
-          });
+          }
           this.teams = response.teams.filter((team: Team) => team.made_playoffs);
           this.createEntryForm();
         });
@@ -68,7 +68,7 @@ export class CreateEntryComponent implements OnInit {
   }
 
   createEntryForm(): void {
-    const setting = this.settingsService.setting;
+    const { setting } = this.settingsService;
     this.entryForm = this.fb.group(
       {
         name: ['', Validators.required],
@@ -77,16 +77,16 @@ export class CreateEntryComponent implements OnInit {
       },
       {
         validators: [
-          this.positionsValidator('Center', setting.min_centers, setting.max_centers),
-          this.positionsValidator('Winger', setting.min_wingers, setting.max_wingers),
-          this.positionsValidator('Defenseman', setting.min_defensemen, setting.max_defensemen),
-          this.positionsValidator('Goalie', setting.min_goalies, setting.max_goalies)
+          this.positionsValidator('center', setting.min_centers, setting.max_centers),
+          this.positionsValidator('winger', setting.min_wingers, setting.max_wingers),
+          this.positionsValidator('defenseman', setting.min_defensemen, setting.max_defensemen),
+          this.positionsValidator('goalie', setting.min_goalies, setting.max_goalies)
         ]
       }
     );
-    this.teams.map((team: Team) => {
+    for (const team of this.teams) {
       this.entryForm.addControl(team.name, new FormControl('', Validators.required));
-    });
+    }
     this.entryForm.valueChanges
       .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
       .subscribe(() => {
@@ -115,10 +115,10 @@ export class CreateEntryComponent implements OnInit {
 
   setNumbersOfPositions(): void {
     const numbersOfPositions = {
-      Center: 0,
-      Winger: 0,
-      Defenseman: 0,
-      Goalie: 0
+      center: 0,
+      winger: 0,
+      defenseman: 0,
+      goalie: 0
     };
     const formData = this.entryForm.getRawValue();
     for (const formField of Object.keys(formData)) {
@@ -126,7 +126,7 @@ export class CreateEntryComponent implements OnInit {
         const team = this.teams.find((t) => t.name === formField);
         const player = team.players.find((p) => p.id === formData[formField]);
         if (player) {
-          numbersOfPositions[player.position]++;
+          numbersOfPositions[player.position.toLowerCase()] += 1;
         }
       }
     }
@@ -136,13 +136,15 @@ export class CreateEntryComponent implements OnInit {
   submitForm(fgd: FormGroupDirective): void {
     this.loading = true;
     const request = this.createEntryRequest();
-    request.player_ids.sort();
+    request.player_ids.sort((a, b) => a - b);
     const requestPlayerIds = request.player_ids;
     const duplicateEntry = this.entries.find((e) => {
-      e.player_ids.sort();
+      e.player_ids.sort((a, b) => a - b);
       return requestPlayerIds.every((id, i) => id === e.player_ids[i]);
     });
-    if (duplicateEntry != null) {
+    if (duplicateEntry == null) {
+      this.createEntry(request, fgd);
+    } else {
       const duplicateEntryDialog = this.dialog.open(DuplicateEntryDialogComponent, {
         autoFocus: false,
         disableClose: true
@@ -154,17 +156,15 @@ export class CreateEntryComponent implements OnInit {
           this.loading = false;
         }
       });
-    } else {
-      this.createEntry(request, fgd);
     }
   }
 
   createEntryRequest(): Entry {
     const formData = this.entryForm.getRawValue();
     const request: Entry = {
-      name: formData['name'],
-      contestant_name: formData['contestantName'],
-      email: formData['email'],
+      name: formData.name,
+      contestant_name: formData.contestantName,
+      email: formData.email,
       player_ids: []
     };
     for (const formField of Object.keys(formData)) {
@@ -176,8 +176,8 @@ export class CreateEntryComponent implements OnInit {
   }
 
   createEntry(request: Entry, fgd: FormGroupDirective): void {
-    this.entriesService.create(request).subscribe(
-      () => {
+    this.entriesService.create(request).subscribe({
+      next: () => {
         const entrySubmittedDialog = this.dialog.open(EntrySubmittedDialogComponent, {
           autoFocus: false
         });
@@ -189,11 +189,11 @@ export class CreateEntryComponent implements OnInit {
         this.errors = [];
         this.loading = false;
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         this.errors = error.error.errors;
         this.loading = false;
       }
-    );
+    });
   }
 
   seeRules(): void {

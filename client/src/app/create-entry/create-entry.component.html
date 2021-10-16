@@ -21,17 +21,17 @@
       </div>
       <div>Number of each position selected:</div>
       <div class="positions">
-        <span class="position" [ngStyle]="{ color: entryForm.errors?.Center ? '#f44336' : '' }">
-          Centers: {{ numbersOfPositions['Center'] }}
+        <span class="position" [ngStyle]="{ color: entryForm.errors?.center ? '#f44336' : '' }">
+          Centers: {{ numbersOfPositions.center }}
         </span>
-        <span class="position" [ngStyle]="{ color: entryForm.errors?.Winger ? '#f44336' : '' }">
-          Wingers: {{ numbersOfPositions['Winger'] }}
+        <span class="position" [ngStyle]="{ color: entryForm.errors?.winger ? '#f44336' : '' }">
+          Wingers: {{ numbersOfPositions.winger }}
         </span>
-        <span class="position" [ngStyle]="{ color: entryForm.errors?.Defenseman ? '#f44336' : '' }">
-          Defensemen: {{ numbersOfPositions['Defenseman'] }}
+        <span class="position" [ngStyle]="{ color: entryForm.errors?.defenseman ? '#f44336' : '' }">
+          Defensemen: {{ numbersOfPositions.defenseman }}
         </span>
-        <span class="position" [ngStyle]="{ color: entryForm.errors?.Goalie ? '#f44336' : '' }">
-          Goalies: {{ numbersOfPositions['Goalie'] }}
+        <span class="position" [ngStyle]="{ color: entryForm.errors?.goalie ? '#f44336' : '' }">
+          Goalies: {{ numbersOfPositions.goalie }}
         </span>
       </div>
       <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamId">
