@@ -80,22 +80,25 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  isExpanded(entry: Entry): boolean {
+    return this.expandedEntries.includes(entry.name);
+  }
+
   toggleAllPanels(): void {
     this.expandedEntries = this.showingAllEntries ? this.entries.map((entry) => entry.name) : [];
   }
 
   prepareTableData(): void {
     this.tableData = [];
-    this.entries.map((entry: Entry) => {
-      this.tableData.push(entry);
-      this.tableData.push({ isDetailRow: true, ...entry });
-    });
+    for (const entry of this.entries) {
+      this.tableData.push(entry, { isDetailRow: true, ...entry });
+    }
   }
 
   calculatePoints(): void {
-    this.entries.map((entry: Entry) => {
+    for (const entry of this.entries) {
       this.resetEntryPoints(entry);
-      entry.players.map((player: Player) => {
+      for (const player of entry.players) {
         entry.points += player.points;
         entry.totalGoals += player.goals;
         switch (player.position) {
@@ -115,8 +118,8 @@ export class HomeComponent implements OnInit {
             entry.pointsG += player.points;
           }
         }
-      });
-    });
+      }
+    }
   }
 
   resetEntryPoints(entry: Entry): void {
@@ -132,19 +135,19 @@ export class HomeComponent implements OnInit {
   sortEntries(): void {
     this.entries.sort((a: Entry, b: Entry) => this.compareEntries(a, b));
 
-    this.entries.map((entry: Entry, index: number) => {
+    for (const [index, entry] of this.entries.entries()) {
       if (index === 0) {
         entry.rank = 1;
-        return;
+        continue;
       }
       if (entry.tiebreaker < 6) {
         entry.rank = index + 1;
-        return;
+        continue;
       }
 
       const prevEntry: Entry = this.entries[index - 1];
       entry.rank = this.equals(entry, prevEntry) ? prevEntry.rank : index + 1;
-    });
+    }
   }
 
   equals(a: Entry, b: Entry): boolean {
@@ -161,8 +164,7 @@ export class HomeComponent implements OnInit {
   compareEntries(a: Entry, b: Entry): number {
     const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
     let diff = 0;
-    for (let index = 0; index < tiebreakers.length; index++) {
-      const tiebreaker = tiebreakers[index];
+    for (const [index, tiebreaker] of tiebreakers.entries()) {
       diff = b[tiebreaker] - a[tiebreaker];
       if (diff !== 0) {
         break;
@@ -173,9 +175,9 @@ export class HomeComponent implements OnInit {
     return diff;
   }
 
-  setTiebreaker(entry: Entry, newTiebreaker: number): void {
-    if (entry.tiebreaker < newTiebreaker) {
-      entry.tiebreaker = newTiebreaker;
+  setTiebreaker(entry: Entry, nextTiebreaker: number): void {
+    if (entry.tiebreaker < nextTiebreaker) {
+      entry.tiebreaker = nextTiebreaker;
     }
   }
 }

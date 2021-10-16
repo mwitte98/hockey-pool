@@ -51,14 +51,14 @@ export class AuthComponent implements OnInit {
     if (this.authType === 'register' && credentials.password !== credentials.password_confirmation) {
       this.errorMessage = 'Passwords do not match';
     } else {
-      this.userService.auth(this.authType, credentials).subscribe(
-        () => {
+      this.userService.auth(this.authType, credentials).subscribe({
+        next: () => {
           this.router.navigateByUrl('/').catch();
         },
-        (error: HttpErrorResponse) => {
+        error: (error: HttpErrorResponse) => {
           this.errors = error.error.errors;
         }
-      );
+      });
     }
   }
 }

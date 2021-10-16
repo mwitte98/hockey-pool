@@ -65,12 +65,7 @@ export class PlayerStatsComponent implements OnInit {
           this.originalSkaters = players.filter((p) => p.position !== 'Goalie');
           this.originalGoalies = players.filter((p) => p.position === 'Goalie');
           this.teamsRemaining = response.teams.filter((t) => !t.is_eliminated).length;
-          this.selectedPlayers = new Set(
-            [].concat.apply(
-              [],
-              response.entries.map((entry) => entry.player_ids)
-            )
-          );
+          this.selectedPlayers = new Set(response.entries.flatMap((entry) => entry.player_ids));
           this.updateShownPlayers();
           this.loading = false;
         });

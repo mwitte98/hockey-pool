@@ -34,7 +34,7 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
 
   setDataSource(): void {
     this.dataSource = new MatTableDataSource(this.utilService.sortPlayersByStats(this.players, this.tiebreakers));
-    this.dataSource.sortingDataAccessor = (player: Player, sortHeader: string): string | number => {
+    this.dataSource.sortingDataAccessor = (player: Player, sortHeader: string): number | string => {
       switch (sortHeader) {
         case 'team':
           return player.team.abbr;

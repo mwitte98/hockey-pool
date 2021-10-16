@@ -73,17 +73,17 @@ export class BestEntryService {
       this.abovePositionMax(current) ||
       this.belowPositionMin(list, current)
     ) {
-      return null;
+      return;
     }
 
     if (n === list.length) {
       this.updateBestEntry(current);
     } else if (n < list.length) {
-      list[n].map((nextPlayer: Player) => {
+      for (const nextPlayer of list[n]) {
         const next = this.createNextEntry(current, nextPlayer);
         this.updateNextPositionStats(next, nextPlayer);
         this.calculateBestEntryBranch(list, n + 1, next);
-      });
+      }
     }
   }
 
@@ -101,7 +101,7 @@ export class BestEntryService {
   }
 
   abovePositionMax(current: Entry): boolean {
-    const setting = this.settingsService.setting;
+    const { setting } = this.settingsService;
     if (
       current.numGoalies > setting.max_goalies ||
       current.numCenters > setting.max_centers ||
@@ -114,7 +114,7 @@ export class BestEntryService {
   }
 
   belowPositionMin(list: Player[][], current: Entry): boolean {
-    const setting = this.settingsService.setting;
+    const { setting } = this.settingsService;
     const lengthDiff = list.length - current.players.length;
     if (
       current.numGoalies + lengthDiff < setting.min_goalies ||

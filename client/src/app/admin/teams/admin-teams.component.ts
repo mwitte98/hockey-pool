@@ -36,13 +36,13 @@ export class AdminTeamsComponent implements OnInit {
         this.loading = true;
         this.teamsService.get().subscribe((teams: Team[]) => {
           this.teams = teams;
-          this.teams.map((team: Team) => {
+          for (const team of this.teams) {
             this.createTeamForm(team);
-            team.players.map((player: Player) => {
+            for (const player of team.players) {
               this.createPlayerForm(player);
               this.createPlayerFormSubscriber(player);
-            });
-          });
+            }
+          }
           this.loading = false;
         });
       }
@@ -94,7 +94,7 @@ export class AdminTeamsComponent implements OnInit {
         for (const formKey of Object.keys(value)) {
           const formValue = value[formKey];
           if (typeof formValue === 'number') {
-            const formKeySnakeCase = formKey.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+            const formKeySnakeCase = formKey.replace(/[A-Z]/gu, (letter) => `_${letter.toLowerCase()}`);
             totalPoints += formValue * this.settingsService.setting[`points_${formKeySnakeCase}`];
           }
         }

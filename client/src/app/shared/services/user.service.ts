@@ -16,14 +16,14 @@ export class UserService {
   constructor(private apiService: ApiService) {}
 
   checkAuth(): void {
-    this.apiService.get('/auth/signed_in').subscribe(
-      (data: User) => {
+    this.apiService.get('/auth/signed_in').subscribe({
+      next: (data: User) => {
         this.setUser(data);
       },
-      () => {
+      error: () => {
         this.removeUser();
       }
-    );
+    });
   }
 
   setUser(user: User): void {
@@ -53,14 +53,14 @@ export class UserService {
   }
 
   logout(): void {
-    this.apiService.delete('/auth/logout').subscribe(
-      () => {
+    this.apiService.delete('/auth/logout').subscribe({
+      next: () => {
         this.removeUser();
       },
-      () => {
+      error: () => {
         this.removeUser();
       }
-    );
+    });
   }
 
   getCurrentUser(): User {

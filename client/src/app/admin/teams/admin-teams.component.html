@@ -84,74 +84,72 @@
               <mat-label>Assists</mat-label>
               <input matInput type="number" formControlName="assists" />
             </mat-form-field>
-            <mat-form-field class="number-input" *ngIf="player.position !== 'Goalie'">
-              <mat-label>GWG</mat-label>
-              <input matInput type="number" formControlName="gwg" />
-            </mat-form-field>
-            <mat-form-field class="number-input" *ngIf="player.position !== 'Goalie'">
-              <mat-label>SHG</mat-label>
-              <input matInput type="number" formControlName="shg" />
-            </mat-form-field>
-            <mat-form-field class="number-input" *ngIf="player.position !== 'Goalie'">
-              <mat-label>OTG</mat-label>
-              <input matInput type="number" formControlName="otg" />
-            </mat-form-field>
-            <mat-form-field class="number-input" *ngIf="player.position === 'Goalie'">
-              <mat-label>Wins</mat-label>
-              <input matInput type="number" formControlName="wins" />
-            </mat-form-field>
-            <mat-form-field class="number-input" *ngIf="player.position === 'Goalie'">
-              <mat-label>OTL</mat-label>
-              <input matInput type="number" formControlName="otl" />
-            </mat-form-field>
-            <mat-form-field class="number-input" *ngIf="player.position === 'Goalie'">
-              <mat-label>SO</mat-label>
-              <input matInput type="number" formControlName="shutouts" />
-            </mat-form-field>
-            <mat-form-field class="finals-number-input" *ngIf="player.finals_goals != null">
-              <mat-label>G (x2)</mat-label>
-              <input matInput type="number" formControlName="finalsGoals" />
-            </mat-form-field>
-            <mat-form-field class="finals-number-input" *ngIf="player.finals_assists != null">
-              <mat-label>A (x2)</mat-label>
-              <input matInput type="number" formControlName="finalsAssists" />
-            </mat-form-field>
-            <mat-form-field
-              class="finals-number-input"
-              *ngIf="player.position !== 'Goalie' && player.finals_gwg != null">
-              <mat-label>GWG (x2)</mat-label>
-              <input matInput type="number" formControlName="finalsGwg" />
-            </mat-form-field>
-            <mat-form-field
-              class="finals-number-input"
-              *ngIf="player.position !== 'Goalie' && player.finals_shg != null">
-              <mat-label>SHG (x2)</mat-label>
-              <input matInput type="number" formControlName="finalsShg" />
-            </mat-form-field>
-            <mat-form-field
-              class="finals-number-input"
-              *ngIf="player.position !== 'Goalie' && player.finals_otg != null">
-              <mat-label>OTG (x2)</mat-label>
-              <input matInput type="number" formControlName="finalsOtg" />
-            </mat-form-field>
-            <mat-form-field
-              class="finals-number-input"
-              *ngIf="player.position === 'Goalie' && player.finals_wins != null">
-              <mat-label>Wins (x2)</mat-label>
-              <input matInput type="number" formControlName="finalsWins" />
-            </mat-form-field>
-            <mat-form-field
-              class="finals-number-input"
-              *ngIf="player.position === 'Goalie' && player.finals_otl != null">
-              <mat-label>OTL (x2)</mat-label>
-              <input matInput type="number" formControlName="finalsOtl" />
-            </mat-form-field>
-            <mat-form-field
-              class="finals-number-input"
-              *ngIf="player.position === 'Goalie' && player.finals_shutouts != null">
-              <mat-label>SO (x2)</mat-label>
-              <input matInput type="number" formControlName="finalsShutouts" />
-            </mat-form-field>
+            <span *ngIf="player.position !== 'Goalie'">
+              <mat-form-field class="number-input">
+                <mat-label>GWG</mat-label>
+                <input matInput type="number" formControlName="gwg" />
+              </mat-form-field>
+              <mat-form-field class="number-input">
+                <mat-label>SHG</mat-label>
+                <input matInput type="number" formControlName="shg" />
+              </mat-form-field>
+              <mat-form-field class="number-input">
+                <mat-label>OTG</mat-label>
+                <input matInput type="number" formControlName="otg" />
+              </mat-form-field>
+            </span>
+            <span *ngIf="player.position === 'Goalie'">
+              <mat-form-field class="number-input">
+                <mat-label>Wins</mat-label>
+                <input matInput type="number" formControlName="wins" />
+              </mat-form-field>
+              <mat-form-field class="number-input">
+                <mat-label>OTL</mat-label>
+                <input matInput type="number" formControlName="otl" />
+              </mat-form-field>
+              <mat-form-field class="number-input">
+                <mat-label>SO</mat-label>
+                <input matInput type="number" formControlName="shutouts" />
+              </mat-form-field>
+            </span>
+            <span *ngIf="player.finals_goals != null">
+              <mat-form-field class="finals-number-input">
+                <mat-label>G (x2)</mat-label>
+                <input matInput type="number" formControlName="finalsGoals" />
+              </mat-form-field>
+              <mat-form-field class="finals-number-input">
+                <mat-label>A (x2)</mat-label>
+                <input matInput type="number" formControlName="finalsAssists" />
+              </mat-form-field>
+              <span *ngIf="player.position !== 'Goalie'">
+                <mat-form-field class="finals-number-input">
+                  <mat-label>GWG (x2)</mat-label>
+                  <input matInput type="number" formControlName="finalsGwg" />
+                </mat-form-field>
+                <mat-form-field class="finals-number-input">
+                  <mat-label>SHG (x2)</mat-label>
+                  <input matInput type="number" formControlName="finalsShg" />
+                </mat-form-field>
+                <mat-form-field class="finals-number-input">
+                  <mat-label>OTG (x2)</mat-label>
+                  <input matInput type="number" formControlName="finalsOtg" />
+                </mat-form-field>
+              </span>
+              <span *ngIf="player.position === 'Goalie'">
+                <mat-form-field class="finals-number-input">
+                  <mat-label>Wins (x2)</mat-label>
+                  <input matInput type="number" formControlName="finalsWins" />
+                </mat-form-field>
+                <mat-form-field class="finals-number-input">
+                  <mat-label>OTL (x2)</mat-label>
+                  <input matInput type="number" formControlName="finalsOtl" />
+                </mat-form-field>
+                <mat-form-field class="finals-number-input">
+                  <mat-label>SO (x2)</mat-label>
+                  <input matInput type="number" formControlName="finalsShutouts" />
+                </mat-form-field>
+              </span>
+            </span>
             <mat-form-field class="number-input">
               <mat-label>Points</mat-label>
               <input matInput type="number" formControlName="points" />

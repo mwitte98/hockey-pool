@@ -33,17 +33,21 @@ export class UtilService {
   ];
 
   combineApiResponseData(response: ApiResponse): Entry[] {
-    const players = response.players;
-    players.map((p) => (p.team = response.teams.find((t) => t.id === p.team_id)));
-    response.entries.map((entry: Entry) => {
+    const { players, teams, entries } = response;
+    for (const player of players) {
+      player.team = teams.find((team) => team.id === player.team_id);
+    }
+    for (const entry of entries) {
       entry.players = [];
-      entry.player_ids.map((pId) => entry.players.push(players.find((p) => p.id === pId)));
-      entry.players.map((player: Player) => {
+      for (const playerId of entry.player_ids) {
+        entry.players.push(players.find((player) => player.id === playerId));
+      }
+      for (const player of entry.players) {
         player.team.logoUrl = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${player.team.nhl_id}.svg`;
-      });
+      }
       this.sortPlayersByTeam(entry);
-    });
-    return response.entries;
+    }
+    return entries;
   }
 
   sortPlayersByTeam(entry: Entry): void {
@@ -62,10 +66,7 @@ export class UtilService {
   }
 
   sortPlayersByStats(players: Player[], tiebreakers: PlayerStatTiebreaker[], sort?: Sort): Player[] {
-    let sameDirection = true;
-    if (sort && sort.direction !== '') {
-      sameDirection = sort.direction === tiebreakers.find((t) => t.attr.includes(sort.active)).sortDirection;
-    }
+    const sameDirection = this.isSameDirection(tiebreakers, sort);
 
     return players.sort((a, b) => {
       let diff = 0;
@@ -82,7 +83,7 @@ export class UtilService {
           diff = 0;
         }
         if (!sameDirection) {
-          diff = diff * -1;
+          diff *= -1;
         }
         if (diff !== 0) {
           break;
@@ -90,6 +91,14 @@ export class UtilService {
       }
       return diff;
     });
+  }
+
+  isSameDirection(tiebreakers: PlayerStatTiebreaker[], sort?: Sort): boolean {
+    let sameDirection = true;
+    if (sort && sort.direction !== '') {
+      sameDirection = sort.direction === tiebreakers.find((t) => t.attr.includes(sort.active)).sortDirection;
+    }
+    return sameDirection;
   }
 
   getAttr(player: Player, tiebreaker: PlayerStatTiebreaker): any {
@@ -100,18 +109,18 @@ export class UtilService {
     return attr;
   }
 
-  subscribeAndUpdateStatus(updateObject: Team | Player | Entry, observable: Observable<any>): void {
-    observable.subscribe(
-      () => {
+  subscribeAndUpdateStatus(updateObject: Entry | Player | Team, observable: Observable<any>): void {
+    observable.subscribe({
+      next: () => {
         this.updateStatus(updateObject, true);
       },
-      () => {
+      error: () => {
         this.updateStatus(updateObject, false);
       }
-    );
+    });
   }
 
-  updateStatus(updateObject: Team | Player | Entry, isSuccess: boolean): void {
+  updateStatus(updateObject: Entry | Player | Team, isSuccess: boolean): void {
     updateObject.updateLoading = false;
     if (isSuccess) {
       updateObject.updateSuccess = true;

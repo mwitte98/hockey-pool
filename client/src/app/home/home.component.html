@@ -102,13 +102,13 @@
         class="entry-row"
         ngClass.xs="xs-row"
         [class.best-entry]="entry.bestEntry"
-        [class.expanded]="expandedEntries.indexOf(entry.name) > -1"
+        [class.expanded]="isExpanded(entry)"
         (click)="toggleExpansion(entry.name)"></mat-row>
       <mat-row
         *matRowDef="let entry; columns: ['playerDetails']; when: isExpansionDetailRow"
         class="expansion-row"
         ngClass.xs="xs-row"
-        [@detailExpand]="expandedEntries.indexOf(entry.name) > -1 ? 'expanded' : 'collapsed'"></mat-row>
+        [@detailExpand]="isExpanded(entry) ? 'expanded' : 'collapsed'"></mat-row>
     </mat-table>
   </div>
 </div>

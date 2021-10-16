@@ -36,7 +36,7 @@ export class AdminSettingsComponent implements OnInit {
   }
 
   createSettingForm(): void {
-    const setting = this.settingsService.setting;
+    const { setting } = this.settingsService;
     this.settingForm = this.fb.group({
       is_playoffs_started: [setting.is_playoffs_started, Validators.required],
       min_centers: [setting.min_centers, [Validators.required, Validators.min(0)]],
@@ -68,15 +68,15 @@ export class AdminSettingsComponent implements OnInit {
 
   submitForm(): void {
     this.updating = true;
-    this.settingsService.update(this.settingForm.getRawValue()).subscribe(
-      () => {
+    this.settingsService.update(this.settingForm.getRawValue()).subscribe({
+      next: () => {
         this.updating = false;
         this.updateSuccess = true;
         setTimeout(() => {
           this.updateSuccess = false;
         }, 3000);
       },
-      (error: HttpErrorResponse) => {
+      error: (error: HttpErrorResponse) => {
         this.updating = false;
         this.errors = error.error.errors;
         this.updateFailure = true;
@@ -84,6 +84,6 @@ export class AdminSettingsComponent implements OnInit {
           this.updateFailure = false;
         }, 3000);
       }
-    );
+    });
   }
 }
