@@ -8,6 +8,7 @@
 /.bundle
 
 # Ignore all logfiles and tempfiles.
+/client/.angular/cache
 /log/*
 /tmp/*
 .DS_Store

@@ -1,5 +1,5 @@
 $gray: #eee;
-$gray-border: rgba(0, 0, 0, 0.12);
+$gray-border: rgb(0 0 0 / 12%);
 $green: #008000;
 
 .header {
@@ -39,6 +39,10 @@ $green: #008000;
   width: 80px;
 }
 
+.conference-input {
+  width: 100px;
+}
+
 .mat-checkbox {
   padding-right: 16px;
 }
@@ -48,11 +52,11 @@ $green: #008000;
 }
 
 .position-input {
-  width: 40px;
+  width: 45px;
 }
 
 .number-input {
-  width: 35px;
+  width: 41px;
 }
 
 .finals-number-input {
