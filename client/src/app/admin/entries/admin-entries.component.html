@@ -29,7 +29,7 @@
                 <input matInput type="email" formControlName="email" />
               </mat-form-field>
             </div>
-            <mat-form-field *ngFor="let player of entry.players; trackBy: trackByPlayerId">
+            <mat-form-field class="player-input" *ngFor="let player of entry.players; trackBy: trackByPlayerId">
               <mat-label>{{ player.team.name }}</mat-label>
               <mat-select [formControlName]="player.team.name">
                 <mat-option

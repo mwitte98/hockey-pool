@@ -1,5 +1,5 @@
 $gray: #eee;
-$gray-border: rgba(0, 0, 0, 0.12);
+$gray-border: rgb(0 0 0 / 12%);
 $green: #008000;
 
 .header {
@@ -33,6 +33,10 @@ $green: #008000;
 
 .expansion-panel-body {
   padding-top: 16px;
+}
+
+.player-input {
+  width: 190px;
 }
 
 .mat-form-field {

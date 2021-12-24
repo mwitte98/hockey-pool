@@ -31,9 +31,10 @@ plugins:
     enabled: false
   rubocop:
     enabled: true
-    channel: rubocop-1-18-3
+    channel: rubocop-1-23-0
 exclude_patterns:
 - 'bin/**/*'
+- 'client/.angular/cache/**/*'
 - 'client/coverage/**/*'
 - 'client/dist/**/*'
 - 'client/node_modules/**/*'
