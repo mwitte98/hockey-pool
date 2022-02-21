@@ -25,7 +25,7 @@ jobs:
           PGHOST: 127.0.0.1
           PGUSER: hockey-pool
           RAILS_ENV: test
-      - image: cimg/postgres:12.4
+      - image: cimg/postgres:12.9
         environment:
           POSTGRES_USER: hockey-pool
           POSTGRES_DB: db/hockey_pool_test_db
