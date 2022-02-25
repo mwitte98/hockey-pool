@@ -6,7 +6,7 @@ class EntriesController < ApplicationController
     teams = Team.where(made_playoffs: true).order(:is_eliminated, :conference, :rank)
     players = Player.all.as_json(setting: Setting.first)
     players = filter_players_and_attrs teams, players
-    render json: { entries: entries, players: players, teams: teams }
+    render json: { entries:, players:, teams: }
   end
 
   def create

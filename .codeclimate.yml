@@ -31,7 +31,7 @@ plugins:
     enabled: false
   rubocop:
     enabled: true
-    channel: rubocop-1-23-0
+    channel: beta
 exclude_patterns:
 - 'bin/**/*'
 - 'client/.angular/cache/**/*'

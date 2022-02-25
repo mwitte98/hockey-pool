@@ -102,29 +102,23 @@ export class BestEntryService {
 
   abovePositionMax(current: Entry): boolean {
     const { setting } = this.settingsService;
-    if (
+    return (
       current.numGoalies > setting.max_goalies ||
       current.numCenters > setting.max_centers ||
       current.numWingers > setting.max_wingers ||
       current.numDefensemen > setting.max_defensemen
-    ) {
-      return true;
-    }
-    return false;
+    );
   }
 
   belowPositionMin(list: Player[][], current: Entry): boolean {
     const { setting } = this.settingsService;
     const lengthDiff = list.length - current.players.length;
-    if (
+    return (
       current.numGoalies + lengthDiff < setting.min_goalies ||
       current.numCenters + lengthDiff < setting.min_centers ||
       current.numWingers + lengthDiff < setting.min_wingers ||
       current.numDefensemen + lengthDiff < setting.min_defensemen
-    ) {
-      return true;
-    }
-    return false;
+    );
   }
 
   updateBestEntry(current: Entry): void {

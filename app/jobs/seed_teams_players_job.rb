@@ -35,7 +35,7 @@ class SeedTeamsPlayersJob
       name = player['person']['fullName'].split(' ', 2)
       position = player['position']['name']
       position = 'Winger' if ['Left Wing', 'Right Wing'].include? position
-      team.players.create(first_name: name[0], last_name: name[1], position: position, goals: 0,
+      team.players.create(first_name: name[0], last_name: name[1], position:, goals: 0,
                           assists: 0, gwg: 0, otg: 0, shg: 0, wins: 0, otl: 0, shutouts: 0)
     end
   end
