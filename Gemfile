@@ -9,9 +9,9 @@ gem 'railties', '7.0.2.2'
 
 gem 'bcrypt', '3.1.16'
 gem 'mechanize', '2.8.4'
-gem 'newrelic_rpm', '8.4.0'
-gem 'nokogiri', '1.13.1'
-gem 'pg', '1.3.2'
+gem 'newrelic_rpm', '8.5.0'
+gem 'nokogiri', '1.13.3'
+gem 'pg', '1.3.3'
 gem 'puma', '5.6.2'
 gem 'sucker_punch', '3.0.1'
 
