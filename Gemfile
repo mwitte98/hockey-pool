@@ -16,10 +16,8 @@ gem 'puma', '5.6.2'
 gem 'sucker_punch', '3.0.1'
 
 group :development do
-  gem 'debase', '0.2.5.beta2'
   gem 'reek', '6.1.0'
   gem 'rubocop', '1.25.1'
-  gem 'ruby-debug-ide', '0.7.3'
 end
 
 group :test do
