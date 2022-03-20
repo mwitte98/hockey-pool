@@ -80,12 +80,12 @@
             <div *ngFor="let player of entry.players; trackBy: trackById">
               <div
                 class="team-player-wrapper"
-                [ngClass]="{ hidden: player.team.is_eliminated && !showingEliminatedTeams }"
-                *ngIf="player.team.made_playoffs">
+                [ngClass]="{ hidden: player.team.isEliminated && !showingEliminatedTeams }"
+                *ngIf="player.team.madePlayoffs">
                 <img class="team-logo" [alt]="player.team.name + ' logo'" [src]="player.team.logoUrl" />
                 <div fxLayout="row">
-                  <div class="player-name" [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
-                    {{ player.first_name }} {{ player.last_name }} ({{ player.position | slice: 0:1 }})
+                  <div class="player-name" [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
+                    {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0:1 }})
                   </div>
                   <div class="badge">{{ player.points }}</div>
                 </div>

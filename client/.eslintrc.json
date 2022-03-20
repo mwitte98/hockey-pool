@@ -42,10 +42,6 @@
             ]
           }
         ],
-        "@typescript-eslint/naming-convention": [
-          "error",
-          { "selector": "memberLike", "format": ["camelCase", "snake_case"] }
-        ],
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-magic-numbers": "off",

@@ -53,7 +53,7 @@ export class AdminEntriesComponent implements OnInit {
   setTeamPlayers(response: ApiResponse): void {
     for (const team of response.teams) {
       team.players = response.players.filter((player: Player) => {
-        return player.team_id === team.id;
+        return player.teamId === team.id;
       });
     }
     this.teams = response.teams;
@@ -62,7 +62,7 @@ export class AdminEntriesComponent implements OnInit {
   createEntryForm(entry: Entry): void {
     entry.form = this.fb.group({
       name: [entry.name, Validators.required],
-      contestantName: [entry.contestant_name, Validators.required],
+      contestantName: [entry.contestantName, Validators.required],
       email: [entry.email, [Validators.required, Validators.email]]
     });
     for (const player of entry.players) {
@@ -79,13 +79,13 @@ export class AdminEntriesComponent implements OnInit {
     const formData = entry.form.getRawValue();
     const request: Entry = {
       name: formData.name,
-      contestant_name: formData.contestantName,
+      contestantName: formData.contestantName,
       email: formData.email,
-      player_ids: []
+      playerIds: []
     };
     for (const formField of Object.keys(formData)) {
       if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
-        request.player_ids.push(formData[formField]);
+        request.playerIds.push(formData[formField]);
       }
     }
     entry.updateLoading = true;

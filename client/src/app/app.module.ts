@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ import { PlayerStatsComponent } from './player-stats/player-stats.component';
 import { StatColumnComponent } from './player-stats/stat-column.component';
 import { DisplayErrorsComponent } from './shared/errors/display-errors.component';
 import { HeaderComponent } from './shared/header/header.component';
+import { Interceptor } from './shared/interceptors/interceptor';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { HeaderComponent } from './shared/header/header.component';
     MaterialModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

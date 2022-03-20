@@ -52,20 +52,20 @@ export class PlayerStatsComponent implements OnInit {
     this.loading = true;
 
     this.userService.currentUser.subscribe((user: User) => {
-      if (user !== undefined && !this.settingsService.setting.is_playoffs_started) {
+      if (user !== undefined && !this.settingsService.setting.isPlayoffsStarted) {
         this.router.navigateByUrl('/entry/new').catch();
         this.loading = false;
       } else if (user !== undefined) {
         this.entriesService.get().subscribe((response: ApiResponse) => {
           const players = response.players.map((player: Player) => {
-            const team = response.teams.find((t) => t.id === player.team_id);
-            player.team = { abbr: team.abbr, is_eliminated: team.is_eliminated } as any;
+            const team = response.teams.find((t) => t.id === player.teamId);
+            player.team = { abbr: team.abbr, isEliminated: team.isEliminated } as any;
             return player;
           });
           this.originalSkaters = players.filter((p) => p.position !== 'Goalie');
           this.originalGoalies = players.filter((p) => p.position === 'Goalie');
-          this.teamsRemaining = response.teams.filter((t) => !t.is_eliminated).length;
-          this.selectedPlayers = new Set(response.entries.flatMap((entry) => entry.player_ids));
+          this.teamsRemaining = response.teams.filter((t) => !t.isEliminated).length;
+          this.selectedPlayers = new Set(response.entries.flatMap((entry) => entry.playerIds));
           this.updateShownPlayers();
           this.loading = false;
         });
@@ -85,7 +85,7 @@ export class PlayerStatsComponent implements OnInit {
   applyFilters(originalPlayers: Player[]): Player[] {
     return originalPlayers
       .filter((p) => !this.showingSelectedPlayers || this.selectedPlayers.has(p.id))
-      .filter((p) => this.showingEliminatedPlayers || !p.team.is_eliminated)
+      .filter((p) => this.showingEliminatedPlayers || !p.team.isEliminated)
       .filter((p) => !this.showingPlayersWithPoints || p.points > 0);
   }
 }

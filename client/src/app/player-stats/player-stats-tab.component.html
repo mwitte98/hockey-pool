@@ -17,11 +17,11 @@
         Name
       </mat-header-cell>
       <mat-cell class="fx-flex" ngClass.gt-xs="fx-flex-158" ngClass.xs="fx-flex-95" *matCellDef="let player">
-        <span fxShow="true" fxHide.xs [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
-          {{ player.first_name }} {{ player.last_name }}
+        <span fxShow="true" fxHide.xs [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
+          {{ player.firstName }} {{ player.lastName }}
         </span>
-        <span fxHide="true" fxShow.xs [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''">
-          {{ player.first_name }} {{ player.last_name }} ({{ player.team.abbr }} - {{ player.position | slice: 0:1 }})
+        <span fxHide="true" fxShow.xs [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
+          {{ player.firstName }} {{ player.lastName }} ({{ player.team.abbr }} - {{ player.position | slice: 0:1 }})
         </span>
       </mat-cell>
     </ng-container>
@@ -33,7 +33,7 @@
         fxShow="true"
         fxHide.xs
         class="fx-flex fx-flex-38"
-        [ngClass]="player.team.is_eliminated ? 'strikethrough' : ''"
+        [ngClass]="player.team.isEliminated ? 'strikethrough' : ''"
         *matCellDef="let player">
         {{ player.team.abbr }}
       </mat-cell>

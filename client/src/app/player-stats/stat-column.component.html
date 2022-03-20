@@ -18,6 +18,6 @@
     [ngStyle.gt-xs]="{ 'min-width': (teamsRemaining === 2 ? data.finalsColWidthGtXs : data.colWidth) + 'px' }"
     *matCellDef="let player">
     {{ player[data.stat] }}
-    <ng-container *ngIf="player['finals_' + data.stat] != null">({{ player['finals_' + data.stat] }})</ng-container>
+    <ng-container *ngIf="getFinalsStat(player) != null">({{ getFinalsStat(player) }})</ng-container>
   </mat-cell>
 </ng-container>

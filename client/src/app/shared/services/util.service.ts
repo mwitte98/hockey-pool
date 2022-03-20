@@ -16,8 +16,8 @@ export class UtilService {
     { attr: 'shg', sortDirection: 'desc' },
     { attr: 'otg', sortDirection: 'desc' },
     { attr: 'team', sortDirection: 'asc', nestedAttr: 'abbr' },
-    { attr: 'last_name', sortDirection: 'asc' },
-    { attr: 'first_name', sortDirection: 'asc' },
+    { attr: 'lastName', sortDirection: 'asc' },
+    { attr: 'firstName', sortDirection: 'asc' },
     { attr: 'position', sortDirection: 'asc' }
   ];
   goalieTiebreakers: PlayerStatTiebreaker[] = [
@@ -28,22 +28,22 @@ export class UtilService {
     { attr: 'assists', sortDirection: 'desc' },
     { attr: 'goals', sortDirection: 'desc' },
     { attr: 'team', sortDirection: 'asc', nestedAttr: 'abbr' },
-    { attr: 'last_name', sortDirection: 'asc' },
-    { attr: 'first_name', sortDirection: 'asc' }
+    { attr: 'lastName', sortDirection: 'asc' },
+    { attr: 'firstName', sortDirection: 'asc' }
   ];
 
   combineApiResponseData(response: ApiResponse): Entry[] {
     const { players, teams, entries } = response;
     for (const player of players) {
-      player.team = teams.find((team) => team.id === player.team_id);
+      player.team = teams.find((team) => team.id === player.teamId);
     }
     for (const entry of entries) {
       entry.players = [];
-      for (const playerId of entry.player_ids) {
+      for (const playerId of entry.playerIds) {
         entry.players.push(players.find((player) => player.id === playerId));
       }
       for (const player of entry.players) {
-        player.team.logoUrl = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${player.team.nhl_id}.svg`;
+        player.team.logoUrl = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${player.team.nhlId}.svg`;
       }
       this.sortPlayersByTeam(entry);
     }
@@ -54,8 +54,8 @@ export class UtilService {
     entry.players.sort((a: Player, b: Player) => {
       const teamA = a.team;
       const teamB = b.team;
-      if (teamA.is_eliminated !== teamB.is_eliminated) {
-        return teamA.is_eliminated ? 1 : -1;
+      if (teamA.isEliminated !== teamB.isEliminated) {
+        return teamA.isEliminated ? 1 : -1;
       }
       const conferenceDiff = teamA.conference.localeCompare(teamB.conference);
       if (conferenceDiff !== 0) {

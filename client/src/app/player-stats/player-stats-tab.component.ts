@@ -39,7 +39,7 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
         case 'team':
           return player.team.abbr;
         case 'name':
-          return player.last_name;
+          return player.lastName;
         default:
           return player[sortHeader];
       }

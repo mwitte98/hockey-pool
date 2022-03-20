@@ -16,7 +16,7 @@
       </mat-form-field>
       <br />
       <mat-form-field color="{{ errorMessage ? 'warn' : 'primary' }}" *ngIf="authType === 'register'">
-        <input matInput formControlName="password_confirmation" placeholder="Confirm Password" type="password" />
+        <input matInput formControlName="passwordConfirmation" placeholder="Confirm Password" type="password" />
         <mat-hint *ngIf="errorMessage" [ngStyle]="{ color: '#f44336' }">
           {{ errorMessage }}
         </mat-hint>
