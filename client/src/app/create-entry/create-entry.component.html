@@ -38,7 +38,7 @@
         <mat-label>{{ team.name }}</mat-label>
         <mat-select [formControlName]="team.name">
           <mat-option [value]="player.id" *ngFor="let player of team.players; trackBy: trackByPlayerId">
-            {{ player.first_name }} {{ player.last_name }} ({{ player.position | slice: 0:1 }})
+            {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0:1 }})
           </mat-option>
         </mat-select>
       </mat-form-field>

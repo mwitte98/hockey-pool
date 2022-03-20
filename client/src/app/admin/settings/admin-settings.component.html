@@ -4,105 +4,105 @@
   <display-errors [errors]="errors"></display-errors>
   <form [formGroup]="settingForm" (ngSubmit)="submitForm()">
     <mat-card-content>
-      <mat-checkbox formControlName="is_playoffs_started" color="primary">Have Playoffs Started</mat-checkbox>
+      <mat-checkbox formControlName="isPlayoffsStarted" color="primary">Have Playoffs Started</mat-checkbox>
       <div class="settings-section-header">Number of each position per entry</div>
       <mat-form-field>
         <mat-label>Min C</mat-label>
-        <input matInput type="number" formControlName="min_centers" />
+        <input matInput type="number" formControlName="minCenters" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Max C</mat-label>
-        <input matInput type="number" formControlName="max_centers" />
+        <input matInput type="number" formControlName="maxCenters" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Min W</mat-label>
-        <input matInput type="number" formControlName="min_wingers" />
+        <input matInput type="number" formControlName="minWingers" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Max W</mat-label>
-        <input matInput type="number" formControlName="max_wingers" />
+        <input matInput type="number" formControlName="maxWingers" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Min D</mat-label>
-        <input matInput type="number" formControlName="min_defensemen" />
+        <input matInput type="number" formControlName="minDefensemen" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Max D</mat-label>
-        <input matInput type="number" formControlName="max_defensemen" />
+        <input matInput type="number" formControlName="maxDefensemen" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Min G</mat-label>
-        <input matInput type="number" formControlName="min_goalies" />
+        <input matInput type="number" formControlName="minGoalies" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Max G</mat-label>
-        <input matInput type="number" formControlName="max_goalies" />
+        <input matInput type="number" formControlName="maxGoalies" />
       </mat-form-field>
       <div class="settings-section-header">Number of points per stat</div>
       <mat-form-field>
         <mat-label>G</mat-label>
-        <input matInput type="number" formControlName="points_goals" />
+        <input matInput type="number" formControlName="pointsGoals" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>A</mat-label>
-        <input matInput type="number" formControlName="points_assists" />
+        <input matInput type="number" formControlName="pointsAssists" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>GWG</mat-label>
-        <input matInput type="number" formControlName="points_gwg" />
+        <input matInput type="number" formControlName="pointsGwg" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>SHG</mat-label>
-        <input matInput type="number" formControlName="points_shg" />
+        <input matInput type="number" formControlName="pointsShg" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>OTG</mat-label>
-        <input matInput type="number" formControlName="points_otg" />
+        <input matInput type="number" formControlName="pointsOtg" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Win</mat-label>
-        <input matInput type="number" formControlName="points_wins" />
+        <input matInput type="number" formControlName="pointsWins" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>OTL</mat-label>
-        <input matInput type="number" formControlName="points_otl" />
+        <input matInput type="number" formControlName="pointsOtl" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>SO</mat-label>
-        <input matInput type="number" formControlName="points_shutouts" />
+        <input matInput type="number" formControlName="pointsShutouts" />
       </mat-form-field>
       <div class="settings-section-header">Number of additional points per stat in finals</div>
       <mat-form-field>
         <mat-label>G</mat-label>
-        <input matInput type="number" formControlName="points_finals_goals" />
+        <input matInput type="number" formControlName="pointsFinalsGoals" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>A</mat-label>
-        <input matInput type="number" formControlName="points_finals_assists" />
+        <input matInput type="number" formControlName="pointsFinalsAssists" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>GWG</mat-label>
-        <input matInput type="number" formControlName="points_finals_gwg" />
+        <input matInput type="number" formControlName="pointsFinalsGwg" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>SHG</mat-label>
-        <input matInput type="number" formControlName="points_finals_shg" />
+        <input matInput type="number" formControlName="pointsFinalsShg" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>OTG</mat-label>
-        <input matInput type="number" formControlName="points_finals_otg" />
+        <input matInput type="number" formControlName="pointsFinalsOtg" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>Win</mat-label>
-        <input matInput type="number" formControlName="points_finals_wins" />
+        <input matInput type="number" formControlName="pointsFinalsWins" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>OTL</mat-label>
-        <input matInput type="number" formControlName="points_finals_otl" />
+        <input matInput type="number" formControlName="pointsFinalsOtl" />
       </mat-form-field>
       <mat-form-field>
         <mat-label>SO</mat-label>
-        <input matInput type="number" formControlName="points_finals_shutouts" />
+        <input matInput type="number" formControlName="pointsFinalsShutouts" />
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>

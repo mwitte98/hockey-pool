@@ -53,18 +53,18 @@ export class AdminTeamsComponent implements OnInit {
     team.form = this.fb.group({
       name: [team.name, Validators.required],
       abbr: [team.abbr, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
-      is_eliminated: [team.is_eliminated, Validators.required],
-      made_playoffs: [team.made_playoffs, Validators.required],
+      isEliminated: [team.isEliminated, Validators.required],
+      madePlayoffs: [team.madePlayoffs, Validators.required],
       conference: [team.conference, Validators.required],
       rank: [team.rank, [Validators.required, Validators.min(1)]],
-      nhl_id: [team.nhl_id, [Validators.required, Validators.min(1)]]
+      nhlId: [team.nhlId, [Validators.required, Validators.min(1)]]
     });
   }
 
   createPlayerForm(player: Player): void {
     player.form = this.fb.group({
-      firstName: [player.first_name, Validators.required],
-      lastName: [player.last_name, Validators.required],
+      firstName: [player.firstName, Validators.required],
+      lastName: [player.lastName, Validators.required],
       position: [player.position, Validators.required],
       goals: [player.goals, [Validators.required, Validators.min(0)]],
       assists: [player.assists, [Validators.required, Validators.min(0)]],
@@ -74,14 +74,14 @@ export class AdminTeamsComponent implements OnInit {
       wins: [player.wins, [Validators.required, Validators.min(0)]],
       otl: [player.otl, [Validators.required, Validators.min(0)]],
       shutouts: [player.shutouts, [Validators.required, Validators.min(0)]],
-      finalsGoals: [player.finals_goals, Validators.min(0)],
-      finalsAssists: [player.finals_assists, Validators.min(0)],
-      finalsGwg: [player.finals_gwg, Validators.min(0)],
-      finalsShg: [player.finals_shg, Validators.min(0)],
-      finalsOtg: [player.finals_otg, Validators.min(0)],
-      finalsWins: [player.finals_wins, Validators.min(0)],
-      finalsOtl: [player.finals_otl, Validators.min(0)],
-      finalsShutouts: [player.finals_shutouts, Validators.min(0)],
+      finalsGoals: [player.finalsGoals, Validators.min(0)],
+      finalsAssists: [player.finalsAssists, Validators.min(0)],
+      finalsGwg: [player.finalsGwg, Validators.min(0)],
+      finalsShg: [player.finalsShg, Validators.min(0)],
+      finalsOtg: [player.finalsOtg, Validators.min(0)],
+      finalsWins: [player.finalsWins, Validators.min(0)],
+      finalsOtl: [player.finalsOtl, Validators.min(0)],
+      finalsShutouts: [player.finalsShutouts, Validators.min(0)],
       points: [{ value: player.points, disabled: true }, [Validators.required, Validators.min(0)]]
     });
   }
@@ -94,8 +94,8 @@ export class AdminTeamsComponent implements OnInit {
         for (const formKey of Object.keys(value)) {
           const formValue = value[formKey];
           if (typeof formValue === 'number') {
-            const formKeySnakeCase = formKey.replace(/[A-Z]/gu, (letter) => `_${letter.toLowerCase()}`);
-            totalPoints += formValue * this.settingsService.setting[`points_${formKeySnakeCase}`];
+            totalPoints +=
+              formValue * this.settingsService.setting[`points${formKey.charAt(0).toUpperCase()}${formKey.slice(1)}`];
           }
         }
         player.form.patchValue({ points: totalPoints });

@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     this.loading = true;
 
     this.userService.currentUser.subscribe((user: User) => {
-      if (user !== undefined && !this.settingsService.setting.is_playoffs_started) {
+      if (user !== undefined && !this.settingsService.setting.isPlayoffsStarted) {
         this.router.navigateByUrl('/entry/new').catch();
         this.loading = false;
       } else if (user !== undefined) {

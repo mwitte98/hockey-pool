@@ -1,10 +1,10 @@
 <mat-toolbar color="primary" class="mat-elevation-z4">
   <a class="nav-logo" routerLink="/">NHL Playoff Pool</a>
   <div class="right-align"></div>
-  <a mat-button *ngIf="currentPage !== '/' && settingsService.setting?.is_playoffs_started" routerLink="/">Entries</a>
+  <a mat-button *ngIf="currentPage !== '/' && settingsService.setting?.isPlayoffsStarted" routerLink="/">Entries</a>
   <a
     mat-button
-    *ngIf="currentPage !== '/player-stats' && settingsService.setting?.is_playoffs_started"
+    *ngIf="currentPage !== '/player-stats' && settingsService.setting?.isPlayoffsStarted"
     routerLink="/player-stats">
     Player Stats
   </a>

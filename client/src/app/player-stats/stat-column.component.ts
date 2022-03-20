@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatCellDef, MatColumnDef, MatHeaderCellDef, MatTable } from '@angular/material/table';
 
-import { PlayerStatColumn } from '../shared/types/interfaces';
+import { Player, PlayerStatColumn } from '../shared/types/interfaces';
 
 @Component({
   selector: 'stat-column',
@@ -24,5 +24,10 @@ export class StatColumnComponent implements OnInit {
       this.columnDef.headerCell = this.headerCell;
       this.table.addColumnDef(this.columnDef);
     }
+  }
+
+  getFinalsStat(player: Player): number {
+    const { stat } = this.data;
+    return player[`finals${stat.charAt(0).toUpperCase()}${stat.slice(1)}`];
   }
 }

@@ -23,7 +23,7 @@ export class BestEntryService {
       name: this.bestEntryName,
       bestEntry: true,
       players: [],
-      player_ids: [],
+      playerIds: [],
       numCenters: 0,
       numWingers: 0,
       numDefensemen: 0,
@@ -44,7 +44,7 @@ export class BestEntryService {
   bestPlayers(response: ApiResponse): Player[][] {
     return response.teams
       .map((team: Team) => {
-        const players = response.players.filter((player: Player) => team.id === player.team_id);
+        const players = response.players.filter((player: Player) => team.id === player.teamId);
         return [
           this.utilService.sortPlayersByStats(
             players.filter((player: Player) => player.position === 'Center'),
@@ -103,10 +103,10 @@ export class BestEntryService {
   abovePositionMax(current: Entry): boolean {
     const { setting } = this.settingsService;
     return (
-      current.numGoalies > setting.max_goalies ||
-      current.numCenters > setting.max_centers ||
-      current.numWingers > setting.max_wingers ||
-      current.numDefensemen > setting.max_defensemen
+      current.numGoalies > setting.maxGoalies ||
+      current.numCenters > setting.maxCenters ||
+      current.numWingers > setting.maxWingers ||
+      current.numDefensemen > setting.maxDefensemen
     );
   }
 
@@ -114,10 +114,10 @@ export class BestEntryService {
     const { setting } = this.settingsService;
     const lengthDiff = list.length - current.players.length;
     return (
-      current.numGoalies + lengthDiff < setting.min_goalies ||
-      current.numCenters + lengthDiff < setting.min_centers ||
-      current.numWingers + lengthDiff < setting.min_wingers ||
-      current.numDefensemen + lengthDiff < setting.min_defensemen
+      current.numGoalies + lengthDiff < setting.minGoalies ||
+      current.numCenters + lengthDiff < setting.minCenters ||
+      current.numWingers + lengthDiff < setting.minWingers ||
+      current.numDefensemen + lengthDiff < setting.minDefensemen
     );
   }
 
@@ -144,7 +144,7 @@ export class BestEntryService {
       name: this.bestEntryName,
       bestEntry: true,
       players: [...current.players, nextPlayer],
-      player_ids: [...current.player_ids, nextPlayer.id],
+      playerIds: [...current.playerIds, nextPlayer.id],
       points: current.points + nextPlayer.points,
       numCenters: current.numCenters,
       numWingers: current.numWingers,

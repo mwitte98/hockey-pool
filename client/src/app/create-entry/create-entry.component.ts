@@ -50,17 +50,17 @@ export class CreateEntryComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.currentUser.subscribe((user: User) => {
-      if (user === null && this.settingsService.setting.is_playoffs_started) {
+      if (user === null && this.settingsService.setting.isPlayoffsStarted) {
         this.router.navigateByUrl('/').catch();
-      } else if (user != null || (user === null && !this.settingsService.setting.is_playoffs_started)) {
+      } else if (user != null || (user === null && !this.settingsService.setting.isPlayoffsStarted)) {
         this.entriesService.get().subscribe((response: ApiResponse) => {
           this.entries = response.entries;
           for (const team of response.teams) {
             team.players = response.players
-              .filter((player: Player) => team.id === player.team_id)
-              .sort((a, b) => (a.last_name > b.last_name ? 1 : -1));
+              .filter((player: Player) => team.id === player.teamId)
+              .sort((a, b) => (a.lastName > b.lastName ? 1 : -1));
           }
-          this.teams = response.teams.filter((team: Team) => team.made_playoffs);
+          this.teams = response.teams.filter((team: Team) => team.madePlayoffs);
           this.createEntryForm();
         });
       }
@@ -77,10 +77,10 @@ export class CreateEntryComponent implements OnInit {
       },
       {
         validators: [
-          this.positionsValidator('center', setting.min_centers, setting.max_centers),
-          this.positionsValidator('winger', setting.min_wingers, setting.max_wingers),
-          this.positionsValidator('defenseman', setting.min_defensemen, setting.max_defensemen),
-          this.positionsValidator('goalie', setting.min_goalies, setting.max_goalies)
+          this.positionsValidator('center', setting.minCenters, setting.maxCenters),
+          this.positionsValidator('winger', setting.minWingers, setting.maxWingers),
+          this.positionsValidator('defenseman', setting.minDefensemen, setting.maxDefensemen),
+          this.positionsValidator('goalie', setting.minGoalies, setting.maxGoalies)
         ]
       }
     );
@@ -136,11 +136,11 @@ export class CreateEntryComponent implements OnInit {
   submitForm(fgd: FormGroupDirective): void {
     this.loading = true;
     const request = this.createEntryRequest();
-    request.player_ids.sort((a, b) => a - b);
-    const requestPlayerIds = request.player_ids;
+    request.playerIds.sort((a, b) => a - b);
+    const requestPlayerIds = request.playerIds;
     const duplicateEntry = this.entries.find((e) => {
-      e.player_ids.sort((a, b) => a - b);
-      return requestPlayerIds.every((id, i) => id === e.player_ids[i]);
+      e.playerIds.sort((a, b) => a - b);
+      return requestPlayerIds.every((id, i) => id === e.playerIds[i]);
     });
     if (duplicateEntry == null) {
       this.createEntry(request, fgd);
@@ -163,13 +163,13 @@ export class CreateEntryComponent implements OnInit {
     const formData = this.entryForm.getRawValue();
     const request: Entry = {
       name: formData.name,
-      contestant_name: formData.contestantName,
+      contestantName: formData.contestantName,
       email: formData.email,
-      player_ids: []
+      playerIds: []
     };
     for (const formField of Object.keys(formData)) {
       if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
-        request.player_ids.push(formData[formField]);
+        request.playerIds.push(formData[formField]);
       }
     }
     return request;
