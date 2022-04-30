@@ -17,7 +17,7 @@ class SeedTeamsPlayersJob
   def update_teams_players(rosters, team_record)
     team_record_team = team_record['team']
     team_roster = find_roster rosters, team_record_team
-    qualified = team_record['conferenceRank'].to_i <= 12
+    qualified = team_record['conferenceRank'].to_i <= 8
     team = Team.create(
       name: team_record_team['name'], abbr: team_roster['abbreviation'], nhl_id: team_record_team['id'],
       conference: team_roster['conference']['name'], rank: team_record['conferenceRank'].to_i,
