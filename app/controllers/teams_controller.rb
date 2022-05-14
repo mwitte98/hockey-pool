@@ -34,17 +34,21 @@ class TeamsController < ApplicationController
 
   def remove_finals_attrs(teams)
     num_teams_remaining = calc_num_teams_remaining teams
-    teams.each { |team| remove_attrs team if team['is_eliminated'] || num_teams_remaining != 2 }
+    if num_teams_remaining == 2
+      teams.each { |team| team['in_finals'] = true if team['is_eliminated'] == false }
+    end
+    remove_attrs(teams)
   end
 
   def calc_num_teams_remaining(teams)
     teams.select { |team| team['is_eliminated'] == false }.length
   end
 
-  def remove_attrs(team)
-    team['players'].each do |player|
-      player.except! 'finals_goals', 'finals_assists', 'finals_gwg', 'finals_shg', 'finals_otg',
-                     'finals_wins', 'finals_otl', 'finals_shutouts'
+  def remove_attrs(teams)
+    teams.each do |team|
+      team['players'].each do |player|
+        player.delete_if { |_, value| value.is_a?(Numeric) && value.zero? }
+      end
     end
   end
 end

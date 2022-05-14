@@ -113,6 +113,7 @@ export interface Team {
   abbr: string;
   isEliminated: boolean;
   madePlayoffs: boolean;
+  inFinals?: boolean;
   conference: string;
   rank: number;
   nhlId: number;

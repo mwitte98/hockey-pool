@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { distinctUntilChanged } from 'rxjs/operators';
 
@@ -66,24 +66,20 @@ export class AdminTeamsComponent implements OnInit {
       firstName: [player.firstName, Validators.required],
       lastName: [player.lastName, Validators.required],
       position: [player.position, Validators.required],
-      goals: [player.goals, [Validators.required, Validators.min(0)]],
-      assists: [player.assists, [Validators.required, Validators.min(0)]],
-      gwg: [player.gwg, [Validators.required, Validators.min(0)]],
-      shg: [player.shg, [Validators.required, Validators.min(0)]],
-      otg: [player.otg, [Validators.required, Validators.min(0)]],
-      wins: [player.wins, [Validators.required, Validators.min(0)]],
-      otl: [player.otl, [Validators.required, Validators.min(0)]],
-      shutouts: [player.shutouts, [Validators.required, Validators.min(0)]],
-      finalsGoals: [player.finalsGoals, Validators.min(0)],
-      finalsAssists: [player.finalsAssists, Validators.min(0)],
-      finalsGwg: [player.finalsGwg, Validators.min(0)],
-      finalsShg: [player.finalsShg, Validators.min(0)],
-      finalsOtg: [player.finalsOtg, Validators.min(0)],
-      finalsWins: [player.finalsWins, Validators.min(0)],
-      finalsOtl: [player.finalsOtl, Validators.min(0)],
-      finalsShutouts: [player.finalsShutouts, Validators.min(0)],
       points: [{ value: player.points, disabled: true }, [Validators.required, Validators.min(0)]]
     });
+    this.addStatsToForm(player);
+  }
+
+  addStatsToForm(player: Player): void {
+    const stats = ['goals', 'assists', 'gwg', 'shg', 'otg', 'wins', 'shutouts', 'otl'];
+    for (const stat of stats) {
+      player.form.addControl(stat, new FormControl(player[stat] ?? 0, [Validators.required, Validators.min(0)]));
+    }
+    for (const stat of stats) {
+      const finalsStat = `finals${stat.charAt(0).toUpperCase()}${stat.slice(1)}`;
+      player.form.addControl(finalsStat, new FormControl(player[finalsStat] ?? 0, Validators.min(0)));
+    }
   }
 
   createPlayerFormSubscriber(player: Player): void {
