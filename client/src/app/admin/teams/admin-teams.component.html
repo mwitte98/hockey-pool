@@ -112,7 +112,7 @@
                 <input matInput type="number" formControlName="shutouts" />
               </mat-form-field>
             </span>
-            <span *ngIf="player.finalsGoals != null">
+            <span *ngIf="team.inFinals">
               <mat-form-field class="finals-number-input">
                 <mat-label>G (x2)</mat-label>
                 <input matInput type="number" formControlName="finalsGoals" />
