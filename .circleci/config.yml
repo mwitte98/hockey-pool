@@ -63,7 +63,7 @@ jobs:
           root: ./
           paths:
             - tmp/codeclimate.backend.json
-  frontend:
+  frontend-setup:
     docker:
       - image: cimg/ruby:3.1.2-node
     working_directory: ~/hockey-pool/client
@@ -77,13 +77,6 @@ jobs:
             - hockey-pool-frontend-{{ checksum "package-lock.json" }}
             - hockey-pool-frontend-
       - run: npm install --legacy-peer-deps
-      - run: npm run lint
-      - run:
-          name: Run frontend tests
-          command: |
-            npm run test-ci
-            ./tmp/cc-test-reporter format-coverage --add-prefix client/ -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
-      - run: npm run build-prod
       - save_cache:
           key: hockey-pool-frontend-{{ checksum "package-lock.json" }}
           paths:
@@ -91,8 +84,43 @@ jobs:
       - persist_to_workspace:
           root: ./
           paths:
+            - ./node_modules
             - dist/*
             - tmp/codeclimate.frontend.json
+  frontend-lint:
+    docker:
+      - image: cimg/ruby:3.1.2-node
+    working_directory: ~/hockey-pool/client
+    steps:
+      - checkout:
+          path: ~/hockey-pool
+      - attach_workspace:
+          at: ~/hockey-pool/client
+      - run: npm run lint
+  frontend-test:
+    docker:
+      - image: cimg/ruby:3.1.2-node
+    working_directory: ~/hockey-pool/client
+    steps:
+      - checkout:
+          path: ~/hockey-pool
+      - attach_workspace:
+          at: ~/hockey-pool/client
+      - run:
+          name: Run frontend tests
+          command: |
+            npm run test-ci
+            ./tmp/cc-test-reporter format-coverage --add-prefix client/ -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
+  frontend-build:
+    docker:
+      - image: cimg/ruby:3.1.2-node
+    working_directory: ~/hockey-pool/client
+    steps:
+      - checkout:
+          path: ~/hockey-pool
+      - attach_workspace:
+          at: ~/hockey-pool/client
+      - run: npm run build-prod
   upload-coverage:
     docker:
       - image: cimg/ruby:3.1.2-node
@@ -146,21 +174,34 @@ workflows:
       - backend:
           requires:
             - setup
-      - frontend:
+      - frontend-setup:
           requires:
             - setup
+      - frontend-lint:
+          requires:
+            - frontend-setup
+      - frontend-test:
+          requires:
+            - frontend-setup
+      - frontend-build:
+          requires:
+            - frontend-setup
       - upload-coverage:
           requires:
             - backend
-            - frontend
+            - frontend-test
       - deploy-test:
           requires:
+            - frontend-lint
+            - frontend-build
             - upload-coverage
           filters:
             branches:
               ignore: master
       - deploy-prod:
           requires:
+            - frontend-lint
+            - frontend-build
             - upload-coverage
           filters:
             branches:
