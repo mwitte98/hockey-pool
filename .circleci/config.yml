@@ -63,7 +63,7 @@ jobs:
           root: ./
           paths:
             - tmp/codeclimate.backend.json
-  frontend-setup:
+  frontend-lint:
     docker:
       - image: cimg/ruby:3.1.2-node
     working_directory: ~/hockey-pool/client
@@ -77,24 +77,11 @@ jobs:
             - hockey-pool-frontend-{{ checksum "package-lock.json" }}
             - hockey-pool-frontend-
       - run: npm install --legacy-peer-deps
+      - run: npm run lint
       - save_cache:
           key: hockey-pool-frontend-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - ./node_modules
-  frontend-lint:
-    docker:
-      - image: cimg/ruby:3.1.2-node
-    working_directory: ~/hockey-pool/client
-    steps:
-      - checkout:
-          path: ~/hockey-pool
-      - attach_workspace:
-          at: ~/hockey-pool/client
-      - run: npm run lint
   frontend-test:
     docker:
       - image: cimg/ruby:3.1.2-node
@@ -104,6 +91,11 @@ jobs:
           path: ~/hockey-pool
       - attach_workspace:
           at: ~/hockey-pool/client
+      - restore_cache:
+          keys:
+            - hockey-pool-frontend-{{ checksum "package-lock.json" }}
+            - hockey-pool-frontend-
+      - run: npm install --legacy-peer-deps
       - run:
           name: Run frontend tests
           command: |
@@ -122,6 +114,11 @@ jobs:
           path: ~/hockey-pool
       - attach_workspace:
           at: ~/hockey-pool/client
+      - restore_cache:
+          keys:
+            - hockey-pool-frontend-{{ checksum "package-lock.json" }}
+            - hockey-pool-frontend-
+      - run: npm install --legacy-peer-deps
       - run: npm run build-prod
       - persist_to_workspace:
           root: ./
@@ -180,18 +177,15 @@ workflows:
       - backend:
           requires:
             - setup
-      - frontend-setup:
-          requires:
-            - setup
       - frontend-lint:
           requires:
-            - frontend-setup
+            - setup
       - frontend-test:
           requires:
-            - frontend-setup
+            - setup
       - frontend-build:
           requires:
-            - frontend-setup
+            - setup
       - upload-coverage:
           requires:
             - backend
