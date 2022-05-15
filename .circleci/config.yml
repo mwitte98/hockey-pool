@@ -85,8 +85,6 @@ jobs:
           root: ./
           paths:
             - ./node_modules
-            - dist/*
-            - tmp/codeclimate.frontend.json
   frontend-lint:
     docker:
       - image: cimg/ruby:3.1.2-node
@@ -111,6 +109,10 @@ jobs:
           command: |
             npm run test-ci
             ./tmp/cc-test-reporter format-coverage --add-prefix client/ -t lcov -o tmp/codeclimate.frontend.json coverage/lcov.info
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - tmp/codeclimate.frontend.json
   frontend-build:
     docker:
       - image: cimg/ruby:3.1.2-node
@@ -121,6 +123,10 @@ jobs:
       - attach_workspace:
           at: ~/hockey-pool/client
       - run: npm run build-prod
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - dist/*
   upload-coverage:
     docker:
       - image: cimg/ruby:3.1.2-node
