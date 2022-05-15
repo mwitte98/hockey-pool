@@ -49,10 +49,10 @@
     <stat-column
       *ngFor="let col of playerStatColumns; trackBy: trackBy"
       [data]="col"
-      [teamsRemaining]="teamsRemaining"></stat-column>
+      [isFinals]="isFinals"></stat-column>
     <ng-container matColumnDef="points">
       <mat-header-cell class="fx-flex fx-flex-37" mat-sort-header *matHeaderCellDef>Pts</mat-header-cell>
-      <mat-cell class="fx-flex fx-flex-37" *matCellDef="let player">{{ player.points }}</mat-cell>
+      <mat-cell class="fx-flex fx-flex-37" *matCellDef="let player">{{ player.points ?? 0 }}</mat-cell>
     </ng-container>
 
     <mat-header-row ngClass.xs="xs-row" *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>

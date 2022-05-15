@@ -2,22 +2,22 @@
   <mat-header-cell
     class="fx-flex"
     [ngStyle.xs]="{ 'min-width': data.colWidth + 'px' }"
-    [ngStyle.gt-xs]="{ 'min-width': (teamsRemaining === 2 ? data.finalsColWidthGtXs : data.colWidth) + 'px' }"
+    [ngStyle.gt-xs]="{ 'min-width': (isFinals ? data.finalsColWidthGtXs : data.colWidth) + 'px' }"
     mat-sort-header
     *matHeaderCellDef>
     <span
-      [ngStyle.xs]="{ width: data.textWidth + 'px', 'text-align': teamsRemaining === 2 ? 'center' : 'left' }"
-      [ngStyle.gt-xs]="{ width: (teamsRemaining === 2 ? data.finalsTextWidthGtXs : data.textWidth) + 'px' }">
+      [ngStyle.xs]="{ width: data.textWidth + 'px', 'text-align': isFinals ? 'center' : 'left' }"
+      [ngStyle.gt-xs]="{ width: (isFinals ? data.finalsTextWidthGtXs : data.textWidth) + 'px' }">
       {{ data.header }}
-      <ng-container *ngIf="teamsRemaining === 2">(x2)</ng-container>
+      <ng-container *ngIf="isFinals">(x2)</ng-container>
     </span>
   </mat-header-cell>
   <mat-cell
     class="fx-flex"
     [ngStyle.xs]="{ 'min-width': data.colWidth + 'px' }"
-    [ngStyle.gt-xs]="{ 'min-width': (teamsRemaining === 2 ? data.finalsColWidthGtXs : data.colWidth) + 'px' }"
+    [ngStyle.gt-xs]="{ 'min-width': (isFinals ? data.finalsColWidthGtXs : data.colWidth) + 'px' }"
     *matCellDef="let player">
-    {{ player[data.stat] }}
-    <ng-container *ngIf="getFinalsStat(player) != null">({{ getFinalsStat(player) }})</ng-container>
+    {{ player[data.stat] ?? 0 }}
+    <ng-container *ngIf="player.team.inFinals">({{ getFinalsStat(player) ?? 0 }})</ng-container>
   </mat-cell>
 </ng-container>

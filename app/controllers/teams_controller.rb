@@ -2,10 +2,14 @@ class TeamsController < ApplicationController
   before_action :signed_in?, only: %i[create update destroy]
 
   def index
-    teams = Team.includes(:players).all.order(:is_eliminated, :conference, :rank).as_json(
-      include: { players: { except: %i[team_id created_at updated_at] } }, setting: Setting.first
-    )
-    teams = remove_finals_attrs teams
+    teams = query_teams
+    selected_player_ids = []
+    if params[:field_groups] == 'player_stats'
+      query = 'select distinct(player_id) from entries_players'
+      selected_player_ids = ActiveRecord::Base.connection.exec_query(query).rows.flatten
+    end
+    update_in_finals teams
+    teams = remove_attrs teams, selected_player_ids
     render json: teams
   end
 
@@ -32,22 +36,31 @@ class TeamsController < ApplicationController
     params.permit(:name, :abbr, :is_eliminated, :made_playoffs, :conference, :rank, :nhl_id)
   end
 
-  def remove_finals_attrs(teams)
-    num_teams_remaining = calc_num_teams_remaining teams
-    if num_teams_remaining == 2
-      teams.each { |team| team['in_finals'] = true if team['is_eliminated'] == false }
+  def query_teams
+    if params[:field_groups] == 'player_stats'
+      Team.includes(:players).where(made_playoffs: true).as_json(
+        only: %i[abbr is_eliminated], include: { players: { except: %i[team_id created_at updated_at] } },
+        setting: Setting.first
+      )
+    else
+      Team.includes(:players).all.order(:is_eliminated, :conference, :rank).as_json(
+        include: { players: { except: %i[team_id created_at updated_at] } }, setting: Setting.first
+      )
     end
-    remove_attrs(teams)
   end
 
-  def calc_num_teams_remaining(teams)
-    teams.select { |team| team['is_eliminated'] == false }.length
+  def update_in_finals(teams)
+    num_teams_remaining = teams.select { |team| team['is_eliminated'] == false }.length
+    return unless num_teams_remaining == 2
+
+    teams.each { |team| team['in_finals'] = true if team['is_eliminated'] == false }
   end
 
-  def remove_attrs(teams)
+  def remove_attrs(teams, selected_player_ids)
     teams.each do |team|
       team['players'].each do |player|
         player.delete_if { |_, value| value.is_a?(Numeric) && value.zero? }
+        player['is_selected'] = true if !selected_player_ids.empty? && selected_player_ids.include?(player['id'])
       end
     end
   end

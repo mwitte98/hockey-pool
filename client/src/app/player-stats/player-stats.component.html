@@ -15,7 +15,7 @@
     <mat-tab label="Skaters">
       <player-stats-tab
         [players]="shownSkaters"
-        [teamsRemaining]="teamsRemaining"
+        [isFinals]="isFinals"
         [columnsToDisplay]="skaterColumnsToDisplay"
         [tiebreakers]="utilService.skaterTiebreakers"
         [playerStatColumns]="skaterStatColumns"></player-stats-tab>
@@ -23,7 +23,7 @@
     <mat-tab label="Goalies">
       <player-stats-tab
         [players]="shownGoalies"
-        [teamsRemaining]="teamsRemaining"
+        [isFinals]="isFinals"
         [columnsToDisplay]="goalieColumnsToDisplay"
         [tiebreakers]="utilService.goalieTiebreakers"
         [playerStatColumns]="goalieStatColumns"></player-stats-tab>
