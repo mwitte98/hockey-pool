@@ -40,6 +40,7 @@ export interface Player {
   teamId: number;
   team: Team;
   position: string;
+  isSelected?: boolean;
   goals: number;
   assists: number;
   gwg: number;

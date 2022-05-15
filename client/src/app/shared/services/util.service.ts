@@ -102,9 +102,9 @@ export class UtilService {
   }
 
   getAttr(player: Player, tiebreaker: PlayerStatTiebreaker): any {
-    let attr = player[tiebreaker.attr];
+    let attr = player[tiebreaker.attr] ?? 0;
     if (tiebreaker.nestedAttr != null) {
-      attr = attr[tiebreaker.nestedAttr];
+      attr = attr[tiebreaker.nestedAttr] ?? 0;
     }
     return attr;
   }

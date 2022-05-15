@@ -9,7 +9,7 @@ import { Player, PlayerStatColumn } from '../shared/types/interfaces';
 })
 export class StatColumnComponent implements OnInit {
   @Input() data: PlayerStatColumn;
-  @Input() teamsRemaining: number;
+  @Input() isFinals: boolean;
 
   @ViewChild(MatColumnDef, { static: true }) columnDef: MatColumnDef;
   @ViewChild(MatCellDef, { static: true }) cell: MatCellDef;

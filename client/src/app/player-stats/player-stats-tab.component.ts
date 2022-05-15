@@ -12,7 +12,7 @@ import { Player, PlayerStatColumn, PlayerStatTiebreaker } from '../shared/types/
 })
 export class PlayerStatsTabComponent implements OnChanges, OnInit {
   @Input() players: Player[];
-  @Input() teamsRemaining: number;
+  @Input() isFinals: boolean;
   @Input() columnsToDisplay: string[];
   @Input() tiebreakers: PlayerStatTiebreaker[];
   @Input() playerStatColumns: PlayerStatColumn[];

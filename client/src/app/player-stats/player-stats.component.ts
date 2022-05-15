@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
+import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
-import { ApiResponse, Player, PlayerStatColumn, Team, User } from '../shared/types/interfaces';
+import { Player, PlayerStatColumn, Team, User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './player-stats.component.html',
@@ -17,8 +17,7 @@ export class PlayerStatsComponent implements OnInit {
   originalGoalies: Player[] = [];
   shownSkaters: Player[] = [];
   shownGoalies: Player[] = [];
-  selectedPlayers: Set<number>;
-  teamsRemaining = 0;
+  isFinals = false;
   showingEliminatedPlayers = false;
   showingSelectedPlayers = true;
   showingPlayersWithPoints = true;
@@ -45,7 +44,7 @@ export class PlayerStatsComponent implements OnInit {
     private settingsService: SettingsService,
     public utilService: UtilService,
     private userService: UserService,
-    private entriesService: EntriesService
+    private teamsService: TeamsService
   ) {}
 
   ngOnInit(): void {
@@ -56,17 +55,8 @@ export class PlayerStatsComponent implements OnInit {
         this.router.navigateByUrl('/entry/new').catch();
         this.loading = false;
       } else if (user !== undefined) {
-        this.entriesService.get().subscribe((response: ApiResponse) => {
-          const players = response.players.map((player: Player) => {
-            const team = response.teams.find((t) => t.id === player.teamId);
-            player.team = { abbr: team.abbr, isEliminated: team.isEliminated } as any;
-            return player;
-          });
-          this.originalSkaters = players.filter((p) => p.position !== 'Goalie');
-          this.originalGoalies = players.filter((p) => p.position === 'Goalie');
-          this.teamsRemaining = response.teams.filter((t) => !t.isEliminated).length;
-          this.selectedPlayers = new Set(response.entries.flatMap((entry) => entry.playerIds));
-          this.updateShownPlayers();
+        this.teamsService.get('player_stats').subscribe((teams: Team[]) => {
+          this.updatePlayers(teams);
           this.loading = false;
         });
       }
@@ -77,15 +67,34 @@ export class PlayerStatsComponent implements OnInit {
     return team.id;
   }
 
+  updatePlayers(teams: Team[]): void {
+    this.originalSkaters = [];
+    this.originalGoalies = [];
+    this.isFinals = teams.some((team) => team.inFinals);
+    for (const team of teams) {
+      for (const player of team.players) {
+        player.team = { abbr: team.abbr, isEliminated: team.isEliminated, inFinals: team.inFinals } as any;
+        if (player.position === 'Goalie') {
+          this.originalGoalies.push(player);
+        } else {
+          this.originalSkaters.push(player);
+        }
+      }
+    }
+    this.updateShownPlayers();
+  }
+
   updateShownPlayers(): void {
     this.shownSkaters = this.applyFilters(this.originalSkaters);
     this.shownGoalies = this.applyFilters(this.originalGoalies);
   }
 
   applyFilters(originalPlayers: Player[]): Player[] {
-    return originalPlayers
-      .filter((p) => !this.showingSelectedPlayers || this.selectedPlayers.has(p.id))
-      .filter((p) => this.showingEliminatedPlayers || !p.team.isEliminated)
-      .filter((p) => !this.showingPlayersWithPoints || p.points > 0);
+    return originalPlayers.filter(
+      (p) =>
+        (!this.showingSelectedPlayers || p.isSelected) &&
+        (this.showingEliminatedPlayers || !p.team.isEliminated) &&
+        (!this.showingPlayersWithPoints || p.points > 0)
+    );
   }
 }
