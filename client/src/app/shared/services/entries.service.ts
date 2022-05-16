@@ -15,6 +15,10 @@ export class EntriesService {
     return this.apiService.get('/entries');
   }
 
+  getPlayerIds(): Observable<number[][]> {
+    return this.apiService.get('/entries?field_groups=player_ids');
+  }
+
   create(request: Entry): Observable<any> {
     return this.apiService.post('/entries', request);
   }

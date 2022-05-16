@@ -15,8 +15,9 @@ import { distinctUntilChanged } from 'rxjs/operators';
 
 import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
+import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { ApiResponse, Entry, Player, Team, User } from '../shared/types/interfaces';
+import { CreateEntryPlayer, CreateEntryTeam, Entry, User } from '../shared/types/interfaces';
 
 import { DuplicateEntryDialogComponent } from './duplicate-entry-dialog.component';
 import { EntrySubmittedDialogComponent } from './entry-submitted-dialog.component';
@@ -28,8 +29,8 @@ import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 })
 export class CreateEntryComponent implements OnInit {
   loading = false;
-  teams: Team[];
-  entries: Entry[];
+  teams: CreateEntryTeam[];
+  entries: number[][] = [];
   errors: string[] = [];
   entryForm: FormGroup;
   numbersOfPositions = {
@@ -42,6 +43,7 @@ export class CreateEntryComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private router: Router,
+    private teamsService: TeamsService,
     private entriesService: EntriesService,
     private settingsService: SettingsService,
     private userService: UserService,
@@ -53,15 +55,12 @@ export class CreateEntryComponent implements OnInit {
       if (user === null && this.settingsService.setting.isPlayoffsStarted) {
         this.router.navigateByUrl('/').catch();
       } else if (user != null || (user === null && !this.settingsService.setting.isPlayoffsStarted)) {
-        this.entriesService.get().subscribe((response: ApiResponse) => {
-          this.entries = response.entries;
-          for (const team of response.teams) {
-            team.players = response.players
-              .filter((player: Player) => team.id === player.teamId)
-              .sort((a, b) => (a.lastName > b.lastName ? 1 : -1));
-          }
-          this.teams = response.teams.filter((team: Team) => team.madePlayoffs);
+        this.teamsService.getCreateEntry().subscribe((teams: CreateEntryTeam[]) => {
+          this.teams = teams;
           this.createEntryForm();
+          this.entriesService.getPlayerIds().subscribe((entries: number[][]) => {
+            this.entries = entries;
+          });
         });
       }
     });
@@ -105,11 +104,11 @@ export class CreateEntryComponent implements OnInit {
     };
   };
 
-  trackByTeamId(_index: number, team: Team): number {
-    return team.id;
+  trackByTeamName(_index: number, team: CreateEntryTeam): string {
+    return team.name;
   }
 
-  trackByPlayerId(_index: number, player: Player): number {
+  trackByPlayerId(_index: number, player: CreateEntryPlayer): number {
     return player.id;
   }
 
@@ -139,8 +138,8 @@ export class CreateEntryComponent implements OnInit {
     request.playerIds.sort((a, b) => a - b);
     const requestPlayerIds = request.playerIds;
     const duplicateEntry = this.entries.find((e) => {
-      e.playerIds.sort((a, b) => a - b);
-      return requestPlayerIds.every((id, i) => id === e.playerIds[i]);
+      e.sort((a, b) => a - b);
+      return requestPlayerIds.every((id, i) => id === e[i]);
     });
     if (duplicateEntry == null) {
       this.createEntry(request, fgd);
@@ -182,7 +181,7 @@ export class CreateEntryComponent implements OnInit {
           autoFocus: false
         });
         entrySubmittedDialog.afterClosed().subscribe(() => {
-          this.entries.push(request);
+          this.entries.push(request.playerIds);
           this.entryForm.reset();
           fgd.resetForm();
         });

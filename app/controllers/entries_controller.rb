@@ -2,11 +2,13 @@ class EntriesController < ApplicationController
   before_action :signed_in?, only: %i[update destroy]
 
   def index
-    entries = Entry.includes(:players).all.order(:id)
-    teams = Team.where(made_playoffs: true).order(:is_eliminated, :conference, :rank)
-    players = Player.all.as_json(setting: Setting.first)
-    players = filter_players_and_attrs teams, players
-    render json: { entries:, players:, teams: }
+    if params[:field_groups] == 'player_ids'
+      render json: Entry.includes(:players).all.as_json(only: :player_ids).map { |e| e['player_ids'] }
+    else
+      entries = Entry.includes(:players).all.order(:id)
+      teams, players = query_teams_and_players
+      render json: { entries:, players:, teams: }
+    end
   end
 
   def create
@@ -39,6 +41,13 @@ class EntriesController < ApplicationController
 
   def entry_params
     params.permit(:name, :contestant_name, :email, player_ids: [])
+  end
+
+  def query_teams_and_players
+    teams = Team.where(made_playoffs: true).order(:is_eliminated, :conference, :rank)
+    players = Player.all.as_json(setting: Setting.first)
+    players = filter_players_and_attrs teams, players
+    [teams, players]
   end
 
   def filter_players_and_attrs(teams, players)
