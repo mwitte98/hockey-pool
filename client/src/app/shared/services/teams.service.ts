@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Team } from '../types/interfaces';
+import { CreateEntryTeam, Team } from '../types/interfaces';
 
 import { ApiService } from './api.service';
 
@@ -14,6 +14,10 @@ export class TeamsService {
   get(fieldGroups?: string): Observable<Team[]> {
     const url = fieldGroups == null ? '/teams' : `/teams?field_groups=${fieldGroups}`;
     return this.apiService.get(url);
+  }
+
+  getCreateEntry(): Observable<CreateEntryTeam[]> {
+    return this.apiService.get('/teams?field_groups=create_entry');
   }
 
   update(id: number, team: Team): Observable<any> {

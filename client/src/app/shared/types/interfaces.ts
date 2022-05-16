@@ -131,3 +131,17 @@ export interface User {
   id: number;
   email: string;
 }
+
+// START - /teams?field_groups=create_entry
+export interface CreateEntryTeam {
+  name: string;
+  players: CreateEntryPlayer[];
+}
+
+export interface CreateEntryPlayer {
+  id: number;
+  firstName: string;
+  lastName: string;
+  position: string;
+}
+// END - /teams?field_groups=create_entry

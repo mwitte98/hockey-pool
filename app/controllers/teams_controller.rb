@@ -37,16 +37,33 @@ class TeamsController < ApplicationController
   end
 
   def query_teams
-    if params[:field_groups] == 'player_stats'
-      Team.includes(:players).where(made_playoffs: true).as_json(
-        only: %i[abbr is_eliminated], include: { players: { except: %i[team_id created_at updated_at] } },
-        setting: Setting.first
-      )
+    case params[:field_groups]
+    when 'player_stats'
+      query_player_stats
+    when 'create_entry'
+      query_create_entry
     else
-      Team.includes(:players).all.order(:is_eliminated, :conference, :rank).as_json(
-        include: { players: { except: %i[team_id created_at updated_at] } }, setting: Setting.first
-      )
+      query_else
     end
+  end
+
+  def query_player_stats
+    Team.includes(:players).where(made_playoffs: true).as_json(
+      only: %i[abbr is_eliminated], include: { players: { except: %i[team_id created_at updated_at] } },
+      setting: Setting.first
+    )
+  end
+
+  def query_create_entry
+    Team.includes(:players).where(made_playoffs: true).order(:conference, :rank).as_json(
+      only: %i[name], include: { players: { only: %i[id first_name last_name position] } }
+    )
+  end
+
+  def query_else
+    Team.includes(:players).all.order(:is_eliminated, :conference, :rank).as_json(
+      include: { players: { except: %i[team_id created_at updated_at] } }, setting: Setting.first
+    )
   end
 
   def update_in_finals(teams)

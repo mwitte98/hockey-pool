@@ -34,7 +34,7 @@
           Goalies: {{ numbersOfPositions.goalie }}
         </span>
       </div>
-      <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamId">
+      <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamName">
         <mat-label>{{ team.name }}</mat-label>
         <mat-select [formControlName]="team.name">
           <mat-option [value]="player.id" *ngFor="let player of team.players; trackBy: trackByPlayerId">
