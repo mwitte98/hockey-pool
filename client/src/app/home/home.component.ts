@@ -47,9 +47,9 @@ export class HomeComponent implements OnInit {
         this.router.navigateByUrl('/entry/new').catch();
         this.loading = false;
       } else if (user !== undefined) {
-        this.entriesService.get().subscribe((response: ApiResponse) => {
+        this.entriesService.getAllData().subscribe((response: ApiResponse) => {
           this.expandedEntries = [];
-          this.entries = this.utilService.combineApiResponseData(response);
+          this.entries = this.combineApiResponseData(response);
           this.calculatePoints();
           this.sortEntries();
           const bestEntry = this.bestEntryService.determineBestEntry(response);
@@ -86,6 +86,24 @@ export class HomeComponent implements OnInit {
 
   toggleAllPanels(): void {
     this.expandedEntries = this.showingAllEntries ? this.entries.map((entry) => entry.name) : [];
+  }
+
+  combineApiResponseData(response: ApiResponse): Entry[] {
+    const { players, teams, entries } = response;
+    for (const player of players) {
+      player.team = teams.find((team) => team.id === player.teamId);
+    }
+    for (const entry of entries) {
+      entry.players = [];
+      for (const playerId of entry.playerIds) {
+        entry.players.push(players.find((player) => player.id === playerId));
+      }
+      for (const player of entry.players) {
+        player.team.logoUrl = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${player.team.nhlId}.svg`;
+      }
+      this.utilService.sortPlayersByTeam(entry);
+    }
+    return entries;
   }
 
   prepareTableData(): void {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 
-import { ApiResponse, Entry, Player, PlayerStatTiebreaker, Team } from '../types/interfaces';
+import { Entry, Player, PlayerStatTiebreaker, Team } from '../types/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -31,24 +31,6 @@ export class UtilService {
     { attr: 'lastName', sortDirection: 'asc' },
     { attr: 'firstName', sortDirection: 'asc' }
   ];
-
-  combineApiResponseData(response: ApiResponse): Entry[] {
-    const { players, teams, entries } = response;
-    for (const player of players) {
-      player.team = teams.find((team) => team.id === player.teamId);
-    }
-    for (const entry of entries) {
-      entry.players = [];
-      for (const playerId of entry.playerIds) {
-        entry.players.push(players.find((player) => player.id === playerId));
-      }
-      for (const player of entry.players) {
-        player.team.logoUrl = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${player.team.nhlId}.svg`;
-      }
-      this.sortPlayersByTeam(entry);
-    }
-    return entries;
-  }
 
   sortPlayersByTeam(entry: Entry): void {
     entry.players.sort((a: Player, b: Player) => {

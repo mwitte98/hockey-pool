@@ -132,16 +132,16 @@ export interface User {
   email: string;
 }
 
-// START - /teams?field_groups=create_entry
-export interface CreateEntryTeam {
+// START - /teams?field_groups=upsert_entry
+export interface UpsertEntryTeam {
   name: string;
-  players: CreateEntryPlayer[];
+  players: UpsertEntryPlayer[];
 }
 
-export interface CreateEntryPlayer {
+export interface UpsertEntryPlayer {
   id: number;
   firstName: string;
   lastName: string;
   position: string;
 }
-// END - /teams?field_groups=create_entry
+// END - /teams?field_groups=upsert_entry

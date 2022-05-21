@@ -29,13 +29,11 @@
                 <input matInput type="email" formControlName="email" />
               </mat-form-field>
             </div>
-            <mat-form-field class="player-input" *ngFor="let player of entry.players; trackBy: trackByPlayerId">
-              <mat-label>{{ player.team.name }}</mat-label>
-              <mat-select [formControlName]="player.team.name">
-                <mat-option
-                  [value]="teamPlayer.id"
-                  *ngFor="let teamPlayer of player.team.players; trackBy: trackByPlayerId">
-                  {{ teamPlayer.firstName }} {{ teamPlayer.lastName }} ({{ teamPlayer.position | slice: 0:1 }})
+            <mat-form-field class="player-input" *ngFor="let team of teams; trackBy: trackByTeamName">
+              <mat-label>{{ team.name }}</mat-label>
+              <mat-select [formControlName]="team.name">
+                <mat-option [value]="player.id" *ngFor="let player of team.players; trackBy: trackByPlayerId">
+                  {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0:1 }})
                 </mat-option>
               </mat-select>
             </mat-form-field>

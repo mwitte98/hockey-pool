@@ -11,12 +11,16 @@ import { ApiService } from './api.service';
 export class EntriesService {
   constructor(private apiService: ApiService) {}
 
-  get(): Observable<ApiResponse> {
+  get(): Observable<Entry[]> {
     return this.apiService.get('/entries');
   }
 
   getPlayerIds(): Observable<number[][]> {
     return this.apiService.get('/entries?field_groups=player_ids');
+  }
+
+  getAllData(): Observable<ApiResponse> {
+    return this.apiService.get('/entries?field_groups=all_data');
   }
 
   create(request: Entry): Observable<any> {
