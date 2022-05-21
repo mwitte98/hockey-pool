@@ -11,13 +11,14 @@ import {
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { CreateEntryPlayer, CreateEntryTeam, Entry, User } from '../shared/types/interfaces';
+import { Entry, UpsertEntryPlayer, UpsertEntryTeam, User } from '../shared/types/interfaces';
 
 import { DuplicateEntryDialogComponent } from './duplicate-entry-dialog.component';
 import { EntrySubmittedDialogComponent } from './entry-submitted-dialog.component';
@@ -29,7 +30,7 @@ import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 })
 export class CreateEntryComponent implements OnInit {
   loading = false;
-  teams: CreateEntryTeam[];
+  teams: UpsertEntryTeam[];
   entries: number[][] = [];
   errors: string[] = [];
   entryForm: FormGroup;
@@ -55,12 +56,12 @@ export class CreateEntryComponent implements OnInit {
       if (user === null && this.settingsService.setting.isPlayoffsStarted) {
         this.router.navigateByUrl('/').catch();
       } else if (user != null || (user === null && !this.settingsService.setting.isPlayoffsStarted)) {
-        this.teamsService.getCreateEntry().subscribe((teams: CreateEntryTeam[]) => {
-          this.teams = teams;
-          this.createEntryForm();
-          this.entriesService.getPlayerIds().subscribe((entries: number[][]) => {
+        forkJoin({ teams: this.teamsService.getUpsertEntry(), entries: this.entriesService.getPlayerIds() }).subscribe({
+          next: ({ teams, entries }) => {
+            this.teams = teams;
+            this.createEntryForm();
             this.entries = entries;
-          });
+          }
         });
       }
     });
@@ -104,11 +105,11 @@ export class CreateEntryComponent implements OnInit {
     };
   };
 
-  trackByTeamName(_index: number, team: CreateEntryTeam): string {
+  trackByTeamName(_index: number, team: UpsertEntryTeam): string {
     return team.name;
   }
 
-  trackByPlayerId(_index: number, player: CreateEntryPlayer): number {
+  trackByPlayerId(_index: number, player: UpsertEntryPlayer): number {
     return player.id;
   }
 

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
 import { EntriesService } from '../../shared/services/entries.service';
+import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
-import { ApiResponse, Entry, Player, Team, User } from '../../shared/types/interfaces';
+import { Entry, UpsertEntryPlayer, UpsertEntryTeam, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-entries.component.html',
@@ -13,12 +15,13 @@ import { ApiResponse, Entry, Player, Team, User } from '../../shared/types/inter
 })
 export class AdminEntriesComponent implements OnInit {
   entries: Entry[];
-  teams: Team[];
+  teams: UpsertEntryTeam[];
   loading = false;
 
   constructor(
     private router: Router,
     private entriesService: EntriesService,
+    private teamsService: TeamsService,
     private userService: UserService,
     private utilService: UtilService,
     private fb: FormBuilder
@@ -30,13 +33,15 @@ export class AdminEntriesComponent implements OnInit {
         this.router.navigateByUrl('/').catch();
       } else if (user != null) {
         this.loading = true;
-        this.entriesService.get().subscribe((response: ApiResponse) => {
-          this.setTeamPlayers(response);
-          this.entries = this.utilService.combineApiResponseData(response);
-          for (const entry of this.entries) {
-            this.createEntryForm(entry);
+        forkJoin({ entries: this.entriesService.get(), teams: this.teamsService.getUpsertEntry() }).subscribe({
+          next: ({ entries, teams }) => {
+            this.teams = teams;
+            this.entries = entries;
+            for (const entry of this.entries) {
+              this.createEntryForm(entry);
+            }
+            this.loading = false;
           }
-          this.loading = false;
         });
       }
     });
@@ -46,17 +51,12 @@ export class AdminEntriesComponent implements OnInit {
     return entry.id;
   }
 
-  trackByPlayerId(_index: number, player: Player): number {
-    return player.id;
+  trackByTeamName(_index: number, team: UpsertEntryTeam): string {
+    return team.name;
   }
 
-  setTeamPlayers(response: ApiResponse): void {
-    for (const team of response.teams) {
-      team.players = response.players.filter((player: Player) => {
-        return player.teamId === team.id;
-      });
-    }
-    this.teams = response.teams;
+  trackByPlayerId(_index: number, player: UpsertEntryPlayer): number {
+    return player.id;
   }
 
   createEntryForm(entry: Entry): void {
@@ -65,9 +65,17 @@ export class AdminEntriesComponent implements OnInit {
       contestantName: [entry.contestantName, Validators.required],
       email: [entry.email, [Validators.required, Validators.email]]
     });
-    for (const player of entry.players) {
-      entry.form.addControl(player.team.name, new FormControl(player.id, Validators.required));
+    for (const team of this.teams) {
+      const teamPlayerIds = team.players.map((player) => player.id);
+      entry.form.addControl(
+        team.name,
+        new FormControl(this.getSelectedPlayerForTeam(entry.playerIds, teamPlayerIds), Validators.required)
+      );
     }
+  }
+
+  getSelectedPlayerForTeam(selectedPlayerIds: number[], teamPlayerIds: number[]): number {
+    return selectedPlayerIds.find((selectedPlayerId) => teamPlayerIds.includes(selectedPlayerId));
   }
 
   goToCreateEntry(): void {

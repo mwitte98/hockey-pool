@@ -2,12 +2,15 @@ class EntriesController < ApplicationController
   before_action :signed_in?, only: %i[update destroy]
 
   def index
-    if params[:field_groups] == 'player_ids'
-      render json: Entry.includes(:players).all.as_json(only: :player_ids).map { |e| e['player_ids'] }
-    else
-      entries = Entry.includes(:players).all.order(:id)
+    entries = Entry.includes(:players).all
+    case params[:field_groups]
+    when 'player_ids'
+      render json: entries.as_json(only: :player_ids).map { |e| e['player_ids'] }
+    when 'all_data'
       teams, players = query_teams_and_players
       render json: { entries:, players:, teams: }
+    else
+      render json: entries
     end
   end
 

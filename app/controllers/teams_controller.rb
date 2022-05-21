@@ -40,8 +40,8 @@ class TeamsController < ApplicationController
     case params[:field_groups]
     when 'player_stats'
       query_player_stats
-    when 'create_entry'
-      query_create_entry
+    when 'upsert_entry'
+      query_upsert_entry
     else
       query_else
     end
@@ -54,7 +54,7 @@ class TeamsController < ApplicationController
     )
   end
 
-  def query_create_entry
+  def query_upsert_entry
     Team.includes(:players).where(made_playoffs: true).order(:conference, :rank).as_json(
       only: %i[name], include: { players: { only: %i[id first_name last_name position] } }
     )

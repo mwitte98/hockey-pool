@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CreateEntryTeam, Team } from '../types/interfaces';
+import { Team, UpsertEntryTeam } from '../types/interfaces';
 
 import { ApiService } from './api.service';
 
@@ -16,8 +16,8 @@ export class TeamsService {
     return this.apiService.get(url);
   }
 
-  getCreateEntry(): Observable<CreateEntryTeam[]> {
-    return this.apiService.get('/teams?field_groups=create_entry');
+  getUpsertEntry(): Observable<UpsertEntryTeam[]> {
+    return this.apiService.get('/teams?field_groups=upsert_entry');
   }
 
   update(id: number, team: Team): Observable<any> {
