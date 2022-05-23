@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ApiResponse, Entry } from '../types/interfaces';
+import { DisplayEntry, Entry } from '../types/interfaces';
 
 import { ApiService } from './api.service';
 
@@ -19,8 +19,8 @@ export class EntriesService {
     return this.apiService.get('/entries?field_groups=player_ids');
   }
 
-  getAllData(): Observable<ApiResponse> {
-    return this.apiService.get('/entries?field_groups=all_data');
+  getDisplay(): Observable<DisplayEntry[]> {
+    return this.apiService.get('/entries?field_groups=display');
   }
 
   create(request: Entry): Observable<any> {

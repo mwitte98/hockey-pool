@@ -6,9 +6,8 @@ class EntriesController < ApplicationController
     case params[:field_groups]
     when 'player_ids'
       render json: entries.as_json(only: :player_ids).map { |e| e['player_ids'] }
-    when 'all_data'
-      teams, players = query_teams_and_players
-      render json: { entries:, players:, teams: }
+    when 'display'
+      render json: entries.as_json(only: %i[name player_ids])
     else
       render json: entries
     end

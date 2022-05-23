@@ -1,11 +1,5 @@
 import { FormGroup } from '@angular/forms';
 
-export interface ApiResponse {
-  entries: Entry[];
-  players: Player[];
-  teams: Team[];
-}
-
 export interface Entry {
   id?: number;
   name: string;
@@ -14,10 +8,10 @@ export interface Entry {
   playerIds: number[];
   players?: Player[];
   bestEntry?: boolean;
-  numCenters?: number;
-  numWingers?: number;
-  numDefensemen?: number;
-  numGoalies?: number;
+  numCenter?: number;
+  numWinger?: number;
+  numDefenseman?: number;
+  numGoalie?: number;
   points?: number;
   pointsC?: number;
   pointsW?: number;
@@ -120,7 +114,6 @@ export interface Team {
   nhlId: number;
   players: Player[];
   goalies: Player[];
-  logoUrl?: string;
   form?: FormGroup;
   updateLoading?: boolean;
   updateSuccess?: boolean;
@@ -131,6 +124,13 @@ export interface User {
   id: number;
   email: string;
 }
+
+// START - /entries?field_groups=display
+export interface DisplayEntry {
+  name: string;
+  playerIds: number[];
+}
+// END - /entries?field_groups=display
 
 // START - /teams?field_groups=upsert_entry
 export interface UpsertEntryTeam {

@@ -38,6 +38,8 @@ class TeamsController < ApplicationController
 
   def query_teams
     case params[:field_groups]
+    when 'home'
+      query_home
     when 'player_stats'
       query_player_stats
     when 'upsert_entry'
@@ -45,6 +47,13 @@ class TeamsController < ApplicationController
     else
       query_else
     end
+  end
+
+  def query_home
+    Team.includes(:players).where(made_playoffs: true).order(:is_eliminated, :conference, :rank).as_json(
+      only: %i[id name abbr is_eliminated nhl_id], include: { players: { except: %i[team_id created_at updated_at] } },
+      setting: Setting.first
+    )
   end
 
   def query_player_stats

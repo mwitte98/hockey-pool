@@ -32,21 +32,6 @@ export class UtilService {
     { attr: 'firstName', sortDirection: 'asc' }
   ];
 
-  sortPlayersByTeam(entry: Entry): void {
-    entry.players.sort((a: Player, b: Player) => {
-      const teamA = a.team;
-      const teamB = b.team;
-      if (teamA.isEliminated !== teamB.isEliminated) {
-        return teamA.isEliminated ? 1 : -1;
-      }
-      const conferenceDiff = teamA.conference.localeCompare(teamB.conference);
-      if (conferenceDiff !== 0) {
-        return conferenceDiff;
-      }
-      return teamA.rank - teamB.rank;
-    });
-  }
-
   sortPlayersByStats(players: Player[], tiebreakers: PlayerStatTiebreaker[], sort?: Sort): Player[] {
     const sameDirection = this.isSameDirection(tiebreakers, sort);
 

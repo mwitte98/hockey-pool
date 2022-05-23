@@ -77,19 +77,22 @@
       <ng-container matColumnDef="playerDetails">
         <mat-cell class="player-details" *matCellDef="let entry">
           <div fxLayout="row wrap">
-            <div *ngFor="let player of entry.players; trackBy: trackById">
-              <div
-                class="team-player-wrapper"
-                [ngClass]="{ hidden: player.team.isEliminated && !showingEliminatedTeams }"
-                *ngIf="player.team.madePlayoffs">
-                <img class="team-logo" [alt]="player.team.name + ' logo'" [src]="player.team.logoUrl" />
-                <div fxLayout="row">
-                  <div class="player-name" [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
-                    {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0:1 }})
+            <div *ngFor="let team of teams; trackBy: trackByTeamId">
+              <ng-template
+                #t
+                [ngTemplateOutlet]="t"
+                let-player
+                [ngTemplateOutletContext]="{ $implicit: getSelectedPlayerForTeam(entry.playerIds, team) }">
+                <div class="team-player-wrapper" [ngClass]="{ hidden: team.isEliminated && !showingEliminatedTeams }">
+                  <img class="team-logo" [alt]="team.name + ' logo'" [src]="getLogoUrl(team)" />
+                  <div fxLayout="row">
+                    <div class="player-name" [ngClass]="team.isEliminated ? 'strikethrough' : ''">
+                      {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0:1 }})
+                    </div>
+                    <div class="badge">{{ player.points ?? 0 }}</div>
                   </div>
-                  <div class="badge">{{ player.points }}</div>
                 </div>
-              </div>
+              </ng-template>
             </div>
           </div>
         </mat-cell>

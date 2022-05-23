@@ -63,10 +63,6 @@ export class PlayerStatsComponent implements OnInit {
     });
   }
 
-  trackById(_index: number, team: Team): number {
-    return team.id;
-  }
-
   updatePlayers(teams: Team[]): void {
     this.originalSkaters = [];
     this.originalGoalies = [];

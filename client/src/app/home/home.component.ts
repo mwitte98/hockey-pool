@@ -1,12 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
 import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
+import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { UtilService } from '../shared/services/util.service';
-import { ApiResponse, Entry, Player, User } from '../shared/types/interfaces';
+import { Entry, Player, Team, User } from '../shared/types/interfaces';
 
 import { BestEntryService } from './best-entry.service';
 
@@ -23,6 +24,7 @@ import { BestEntryService } from './best-entry.service';
 })
 export class HomeComponent implements OnInit {
   entries: Entry[];
+  teams: Team[];
   tableData: Entry[];
   columnsToDisplay = ['name', 'points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
   loading = false;
@@ -33,9 +35,9 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private entriesService: EntriesService,
+    private teamsService: TeamsService,
     private settingsService: SettingsService,
     private userService: UserService,
-    private utilService: UtilService,
     private bestEntryService: BestEntryService
   ) {}
 
@@ -47,24 +49,27 @@ export class HomeComponent implements OnInit {
         this.router.navigateByUrl('/entry/new').catch();
         this.loading = false;
       } else if (user !== undefined) {
-        this.entriesService.getAllData().subscribe((response: ApiResponse) => {
-          this.expandedEntries = [];
-          this.entries = this.combineApiResponseData(response);
-          this.calculatePoints();
-          this.sortEntries();
-          const bestEntry = this.bestEntryService.determineBestEntry(response);
-          if (bestEntry != null) {
-            this.entries.unshift(bestEntry);
+        forkJoin({ entries: this.entriesService.getDisplay(), teams: this.teamsService.get('home') }).subscribe({
+          next: ({ entries, teams }) => {
+            this.expandedEntries = [];
+            this.entries = entries;
+            this.teams = teams;
+            this.calculatePoints();
+            this.sortEntries();
+            const bestEntry = this.bestEntryService.determineBestEntry(teams);
+            if (bestEntry != null) {
+              this.entries.unshift(bestEntry);
+            }
+            this.prepareTableData();
+            this.loading = false;
           }
-          this.prepareTableData();
-          this.loading = false;
         });
       }
     });
   }
 
-  trackById(_index: number, player: Player): number {
-    return player.id;
+  trackByTeamId(_index: number, team: Team): number {
+    return team.id;
   }
 
   isExpansionDetailRow(_: any, row: any): boolean {
@@ -88,22 +93,12 @@ export class HomeComponent implements OnInit {
     this.expandedEntries = this.showingAllEntries ? this.entries.map((entry) => entry.name) : [];
   }
 
-  combineApiResponseData(response: ApiResponse): Entry[] {
-    const { players, teams, entries } = response;
-    for (const player of players) {
-      player.team = teams.find((team) => team.id === player.teamId);
-    }
-    for (const entry of entries) {
-      entry.players = [];
-      for (const playerId of entry.playerIds) {
-        entry.players.push(players.find((player) => player.id === playerId));
-      }
-      for (const player of entry.players) {
-        player.team.logoUrl = `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${player.team.nhlId}.svg`;
-      }
-      this.utilService.sortPlayersByTeam(entry);
-    }
-    return entries;
+  getLogoUrl(team: Team): string {
+    return `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.nhlId}.svg`;
+  }
+
+  getSelectedPlayerForTeam(selectedPlayerIds: number[], team: Team): Player {
+    return team.players.find((player) => selectedPlayerIds.includes(player.id));
   }
 
   prepareTableData(): void {
@@ -116,26 +111,11 @@ export class HomeComponent implements OnInit {
   calculatePoints(): void {
     for (const entry of this.entries) {
       this.resetEntryPoints(entry);
-      for (const player of entry.players) {
-        entry.points += player.points;
-        entry.totalGoals += player.goals;
-        switch (player.position) {
-          case 'Center': {
-            entry.pointsC += player.points;
-            break;
-          }
-          case 'Winger': {
-            entry.pointsW += player.points;
-            break;
-          }
-          case 'Defenseman': {
-            entry.pointsD += player.points;
-            break;
-          }
-          default: {
-            entry.pointsG += player.points;
-          }
-        }
+      for (const team of this.teams) {
+        const player = this.getSelectedPlayerForTeam(entry.playerIds, team);
+        entry.points += player.points ?? 0;
+        entry.totalGoals += player.goals ?? 0;
+        entry[`points${player.position.charAt(0)}`] += player.points ?? 0;
       }
     }
   }
