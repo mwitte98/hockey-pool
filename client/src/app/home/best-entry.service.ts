@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { SettingsService } from '../shared/services/settings.service';
 import { UtilService } from '../shared/services/util.service';
-import { ApiResponse, Entry, Player, Team } from '../shared/types/interfaces';
+import { Entry, Player, Team } from '../shared/types/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +13,8 @@ export class BestEntryService {
 
   constructor(private settingsService: SettingsService, private utilService: UtilService) {}
 
-  determineBestEntry(response: ApiResponse): Entry {
-    const bestPlayers = this.bestPlayers(response);
+  determineBestEntry(teams: Team[]): Entry {
+    const bestPlayers = this.bestPlayers(teams);
     if (bestPlayers.length === 0 || bestPlayers[bestPlayers.length - 1][0].points <= 0) {
       return null;
     }
@@ -24,10 +24,10 @@ export class BestEntryService {
       bestEntry: true,
       players: [],
       playerIds: [],
-      numCenters: 0,
-      numWingers: 0,
-      numDefensemen: 0,
-      numGoalies: 0,
+      numCenter: 0,
+      numWinger: 0,
+      numDefenseman: 0,
+      numGoalie: 0,
       points: 0,
       pointsC: 0,
       pointsW: 0,
@@ -35,31 +35,27 @@ export class BestEntryService {
       pointsG: 0,
       totalGoals: 0
     });
-    if (this.bestEntry != null) {
-      this.utilService.sortPlayersByTeam(this.bestEntry);
-    }
     return this.bestEntry;
   }
 
-  bestPlayers(response: ApiResponse): Player[][] {
-    return response.teams
+  bestPlayers(teams: Team[]): Player[][] {
+    return teams
       .map((team: Team) => {
-        const players = response.players.filter((player: Player) => team.id === player.teamId);
         return [
           this.utilService.sortPlayersByStats(
-            players.filter((player: Player) => player.position === 'Center'),
+            team.players.filter((player: Player) => player.position === 'Center'),
             this.utilService.skaterTiebreakers
           )[0],
           this.utilService.sortPlayersByStats(
-            players.filter((player: Player) => player.position === 'Winger'),
+            team.players.filter((player: Player) => player.position === 'Winger'),
             this.utilService.skaterTiebreakers
           )[0],
           this.utilService.sortPlayersByStats(
-            players.filter((player: Player) => player.position === 'Defenseman'),
+            team.players.filter((player: Player) => player.position === 'Defenseman'),
             this.utilService.skaterTiebreakers
           )[0],
           this.utilService.sortPlayersByStats(
-            players.filter((player: Player) => player.position === 'Goalie'),
+            team.players.filter((player: Player) => player.position === 'Goalie'),
             this.utilService.goalieTiebreakers
           )[0]
         ].sort((a, b) => b.points - a.points);
@@ -103,10 +99,10 @@ export class BestEntryService {
   abovePositionMax(current: Entry): boolean {
     const { setting } = this.settingsService;
     return (
-      current.numGoalies > setting.maxGoalies ||
-      current.numCenters > setting.maxCenters ||
-      current.numWingers > setting.maxWingers ||
-      current.numDefensemen > setting.maxDefensemen
+      current.numGoalie > setting.maxGoalies ||
+      current.numCenter > setting.maxCenters ||
+      current.numWinger > setting.maxWingers ||
+      current.numDefenseman > setting.maxDefensemen
     );
   }
 
@@ -114,10 +110,10 @@ export class BestEntryService {
     const { setting } = this.settingsService;
     const lengthDiff = list.length - current.players.length;
     return (
-      current.numGoalies + lengthDiff < setting.minGoalies ||
-      current.numCenters + lengthDiff < setting.minCenters ||
-      current.numWingers + lengthDiff < setting.minWingers ||
-      current.numDefensemen + lengthDiff < setting.minDefensemen
+      current.numGoalie + lengthDiff < setting.minGoalies ||
+      current.numCenter + lengthDiff < setting.minCenters ||
+      current.numWinger + lengthDiff < setting.minWingers ||
+      current.numDefenseman + lengthDiff < setting.minDefensemen
     );
   }
 
@@ -131,7 +127,7 @@ export class BestEntryService {
     const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
     let diff = 0;
     for (const tiebreaker of tiebreakers) {
-      diff = b[tiebreaker] - a[tiebreaker];
+      diff = b[tiebreaker] ?? 0 - a[tiebreaker] ?? 0;
       if (diff !== 0) {
         break;
       }
@@ -145,40 +141,21 @@ export class BestEntryService {
       bestEntry: true,
       players: [...current.players, nextPlayer],
       playerIds: [...current.playerIds, nextPlayer.id],
-      points: current.points + nextPlayer.points,
-      numCenters: current.numCenters,
-      numWingers: current.numWingers,
-      numDefensemen: current.numDefensemen,
-      numGoalies: current.numGoalies,
+      points: current.points + (nextPlayer.points ?? 0),
+      numCenter: current.numCenter,
+      numWinger: current.numWinger,
+      numDefenseman: current.numDefenseman,
+      numGoalie: current.numGoalie,
       pointsC: current.pointsC,
       pointsW: current.pointsW,
       pointsD: current.pointsD,
       pointsG: current.pointsG,
-      totalGoals: current.totalGoals + nextPlayer.goals
+      totalGoals: current.totalGoals + (nextPlayer.goals ?? 0)
     };
   }
 
   updateNextPositionStats(next: Entry, nextPlayer: Player): void {
-    switch (nextPlayer.position) {
-      case 'Center': {
-        next.numCenters += 1;
-        next.pointsC += nextPlayer.points;
-        break;
-      }
-      case 'Winger': {
-        next.numWingers += 1;
-        next.pointsW += nextPlayer.points;
-        break;
-      }
-      case 'Defenseman': {
-        next.numDefensemen += 1;
-        next.pointsD += nextPlayer.points;
-        break;
-      }
-      default: {
-        next.numGoalies += 1;
-        next.pointsG += nextPlayer.points;
-      }
-    }
+    next[`num${nextPlayer.position}`] += 1;
+    next[`points${nextPlayer.position.charAt(0)}`] += nextPlayer.points ?? 0;
   }
 }

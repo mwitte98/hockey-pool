@@ -66,7 +66,7 @@ export class AdminEntriesComponent implements OnInit {
       email: [entry.email, [Validators.required, Validators.email]]
     });
     for (const team of this.teams) {
-      const teamPlayerIds = team.players.map((player) => player.id);
+      const teamPlayerIds = new Set(team.players.map((player) => player.id));
       entry.form.addControl(
         team.name,
         new FormControl(this.getSelectedPlayerForTeam(entry.playerIds, teamPlayerIds), Validators.required)
@@ -74,8 +74,8 @@ export class AdminEntriesComponent implements OnInit {
     }
   }
 
-  getSelectedPlayerForTeam(selectedPlayerIds: number[], teamPlayerIds: number[]): number {
-    return selectedPlayerIds.find((selectedPlayerId) => teamPlayerIds.includes(selectedPlayerId));
+  getSelectedPlayerForTeam(selectedPlayerIds: number[], teamPlayerIds: Set<number>): number {
+    return selectedPlayerIds.find((selectedPlayerId) => teamPlayerIds.has(selectedPlayerId));
   }
 
   goToCreateEntry(): void {
