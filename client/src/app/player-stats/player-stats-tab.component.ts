@@ -3,7 +3,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { UtilService } from '../shared/services/util.service';
-import { Player, PlayerStatColumn, PlayerStatTiebreaker } from '../shared/types/interfaces';
+import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatTiebreaker } from '../shared/types/interfaces';
 
 @Component({
   selector: 'player-stats-tab',
@@ -11,12 +11,12 @@ import { Player, PlayerStatColumn, PlayerStatTiebreaker } from '../shared/types/
   styleUrls: ['./player-stats-tab.component.scss']
 })
 export class PlayerStatsTabComponent implements OnChanges, OnInit {
-  @Input() players: Player[];
+  @Input() players: PlayerStatsPlayer[];
   @Input() isFinals: boolean;
   @Input() columnsToDisplay: string[];
   @Input() tiebreakers: PlayerStatTiebreaker[];
   @Input() playerStatColumns: PlayerStatColumn[];
-  dataSource: MatTableDataSource<Player>;
+  dataSource: MatTableDataSource<PlayerStatsPlayer>;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -34,7 +34,7 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
 
   setDataSource(): void {
     this.dataSource = new MatTableDataSource(this.utilService.sortPlayersByStats(this.players, this.tiebreakers));
-    this.dataSource.sortingDataAccessor = (player: Player, sortHeader: string): number | string => {
+    this.dataSource.sortingDataAccessor = (player: PlayerStatsPlayer, sortHeader: string): number | string => {
       switch (sortHeader) {
         case 'team':
           return player.team.abbr;

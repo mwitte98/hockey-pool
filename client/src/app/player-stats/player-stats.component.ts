@@ -5,7 +5,7 @@ import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
-import { Player, PlayerStatColumn, Team, User } from '../shared/types/interfaces';
+import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatsTeam, User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './player-stats.component.html',
@@ -13,10 +13,10 @@ import { Player, PlayerStatColumn, Team, User } from '../shared/types/interfaces
 })
 export class PlayerStatsComponent implements OnInit {
   loading = false;
-  originalSkaters: Player[] = [];
-  originalGoalies: Player[] = [];
-  shownSkaters: Player[] = [];
-  shownGoalies: Player[] = [];
+  originalSkaters: PlayerStatsPlayer[] = [];
+  originalGoalies: PlayerStatsPlayer[] = [];
+  shownSkaters: PlayerStatsPlayer[] = [];
+  shownGoalies: PlayerStatsPlayer[] = [];
   isFinals = false;
   showingEliminatedPlayers = false;
   showingSelectedPlayers = true;
@@ -55,7 +55,7 @@ export class PlayerStatsComponent implements OnInit {
         this.router.navigateByUrl('/entry/new').catch();
         this.loading = false;
       } else if (user !== undefined) {
-        this.teamsService.get('player_stats').subscribe((teams: Team[]) => {
+        this.teamsService.getPlayerStats().subscribe((teams: PlayerStatsTeam[]) => {
           this.updatePlayers(teams);
           this.loading = false;
         });
@@ -63,7 +63,7 @@ export class PlayerStatsComponent implements OnInit {
     });
   }
 
-  updatePlayers(teams: Team[]): void {
+  updatePlayers(teams: PlayerStatsTeam[]): void {
     this.originalSkaters = [];
     this.originalGoalies = [];
     this.isFinals = teams.some((team) => team.inFinals);
@@ -85,7 +85,7 @@ export class PlayerStatsComponent implements OnInit {
     this.shownGoalies = this.applyFilters(this.originalGoalies);
   }
 
-  applyFilters(originalPlayers: Player[]): Player[] {
+  applyFilters(originalPlayers: PlayerStatsPlayer[]): PlayerStatsPlayer[] {
     return originalPlayers.filter(
       (p) =>
         (!this.showingSelectedPlayers || p.isSelected) &&

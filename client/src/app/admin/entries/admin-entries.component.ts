@@ -7,14 +7,14 @@ import { EntriesService } from '../../shared/services/entries.service';
 import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
-import { Entry, UpsertEntryPlayer, UpsertEntryTeam, User } from '../../shared/types/interfaces';
+import { AdminEntry, UpsertEntryPlayer, UpsertEntryTeam, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-entries.component.html',
   styleUrls: ['./admin-entries.component.scss']
 })
 export class AdminEntriesComponent implements OnInit {
-  entries: Entry[];
+  entries: AdminEntry[];
   teams: UpsertEntryTeam[];
   loading = false;
 
@@ -47,7 +47,7 @@ export class AdminEntriesComponent implements OnInit {
     });
   }
 
-  trackByEntryId(_index: number, entry: Entry): number {
+  trackByEntryId(_index: number, entry: AdminEntry): number {
     return entry.id;
   }
 
@@ -59,7 +59,7 @@ export class AdminEntriesComponent implements OnInit {
     return player.id;
   }
 
-  createEntryForm(entry: Entry): void {
+  createEntryForm(entry: AdminEntry): void {
     entry.form = this.fb.group({
       name: [entry.name, Validators.required],
       contestantName: [entry.contestantName, Validators.required],
@@ -83,9 +83,10 @@ export class AdminEntriesComponent implements OnInit {
   }
 
   updateEntry(id: number): void {
-    const entry = this.entries.find((e: Entry) => e.id === id);
+    const entry = this.entries.find((e: AdminEntry) => e.id === id);
     const formData = entry.form.getRawValue();
-    const request: Entry = {
+    const request: AdminEntry = {
+      id,
       name: formData.name,
       contestantName: formData.contestantName,
       email: formData.email,

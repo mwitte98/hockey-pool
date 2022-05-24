@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 
-import { Entry, Player, PlayerStatTiebreaker, Team } from '../types/interfaces';
+import { AdminEntry, AdminPlayer, AdminTeam, Player, PlayerStatTiebreaker } from '../types/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -76,7 +76,7 @@ export class UtilService {
     return attr;
   }
 
-  subscribeAndUpdateStatus(updateObject: Entry | Player | Team, observable: Observable<any>): void {
+  subscribeAndUpdateStatus(updateObject: AdminEntry | AdminPlayer | AdminTeam, observable: Observable<any>): void {
     observable.subscribe({
       next: () => {
         this.updateStatus(updateObject, true);
@@ -87,7 +87,7 @@ export class UtilService {
     });
   }
 
-  updateStatus(updateObject: Entry | Player | Team, isSuccess: boolean): void {
+  updateStatus(updateObject: AdminEntry | AdminPlayer | AdminTeam, isSuccess: boolean): void {
     updateObject.updateLoading = false;
     if (isSuccess) {
       updateObject.updateSuccess = true;

@@ -7,7 +7,7 @@ import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { Entry, Player, Team, User } from '../shared/types/interfaces';
+import { DisplayEntry, HomeTeam, Player, User } from '../shared/types/interfaces';
 
 import { BestEntryService } from './best-entry.service';
 
@@ -23,9 +23,9 @@ import { BestEntryService } from './best-entry.service';
   ]
 })
 export class HomeComponent implements OnInit {
-  entries: Entry[];
-  teams: Team[];
-  tableData: Entry[];
+  entries: DisplayEntry[];
+  teams: HomeTeam[];
+  tableData: DisplayEntry[];
   columnsToDisplay = ['name', 'points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
   loading = false;
   expandedEntries: string[];
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
         this.router.navigateByUrl('/entry/new').catch();
         this.loading = false;
       } else if (user !== undefined) {
-        forkJoin({ entries: this.entriesService.getDisplay(), teams: this.teamsService.get('home') }).subscribe({
+        forkJoin({ entries: this.entriesService.getDisplay(), teams: this.teamsService.getHome() }).subscribe({
           next: ({ entries, teams }) => {
             this.expandedEntries = [];
             this.entries = entries;
@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  trackByTeamId(_index: number, team: Team): number {
+  trackByTeamId(_index: number, team: HomeTeam): number {
     return team.id;
   }
 
@@ -85,7 +85,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  isExpanded(entry: Entry): boolean {
+  isExpanded(entry: DisplayEntry): boolean {
     return this.expandedEntries.includes(entry.name);
   }
 
@@ -93,11 +93,11 @@ export class HomeComponent implements OnInit {
     this.expandedEntries = this.showingAllEntries ? this.entries.map((entry) => entry.name) : [];
   }
 
-  getLogoUrl(team: Team): string {
+  getLogoUrl(team: HomeTeam): string {
     return `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.nhlId}.svg`;
   }
 
-  getSelectedPlayerForTeam(selectedPlayerIds: number[], team: Team): Player {
+  getSelectedPlayerForTeam(selectedPlayerIds: number[], team: HomeTeam): Player {
     return team.players.find((player) => selectedPlayerIds.includes(player.id));
   }
 
@@ -120,7 +120,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  resetEntryPoints(entry: Entry): void {
+  resetEntryPoints(entry: DisplayEntry): void {
     entry.points = 0;
     entry.pointsC = 0;
     entry.pointsW = 0;
@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit {
   }
 
   sortEntries(): void {
-    this.entries.sort((a: Entry, b: Entry) => this.compareEntries(a, b));
+    this.entries.sort((a: DisplayEntry, b: DisplayEntry) => this.compareEntries(a, b));
 
     for (const [index, entry] of this.entries.entries()) {
       if (index === 0) {
@@ -143,12 +143,12 @@ export class HomeComponent implements OnInit {
         continue;
       }
 
-      const prevEntry: Entry = this.entries[index - 1];
+      const prevEntry: DisplayEntry = this.entries[index - 1];
       entry.rank = this.equals(entry, prevEntry) ? prevEntry.rank : index + 1;
     }
   }
 
-  equals(a: Entry, b: Entry): boolean {
+  equals(a: DisplayEntry, b: DisplayEntry): boolean {
     return (
       a.points === b.points &&
       a.pointsC === b.pointsC &&
@@ -159,7 +159,7 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  compareEntries(a: Entry, b: Entry): number {
+  compareEntries(a: DisplayEntry, b: DisplayEntry): number {
     const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
     let diff = 0;
     for (const [index, tiebreaker] of tiebreakers.entries()) {
@@ -173,7 +173,7 @@ export class HomeComponent implements OnInit {
     return diff;
   }
 
-  setTiebreaker(entry: Entry, nextTiebreaker: number): void {
+  setTiebreaker(entry: DisplayEntry, nextTiebreaker: number): void {
     if (entry.tiebreaker < nextTiebreaker) {
       entry.tiebreaker = nextTiebreaker;
     }

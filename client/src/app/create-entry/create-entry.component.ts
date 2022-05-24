@@ -18,7 +18,7 @@ import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { Entry, UpsertEntryPlayer, UpsertEntryTeam, User } from '../shared/types/interfaces';
+import { AdminEntry, UpsertEntryPlayer, UpsertEntryTeam, User } from '../shared/types/interfaces';
 
 import { DuplicateEntryDialogComponent } from './duplicate-entry-dialog.component';
 import { EntrySubmittedDialogComponent } from './entry-submitted-dialog.component';
@@ -159,9 +159,9 @@ export class CreateEntryComponent implements OnInit {
     }
   }
 
-  createEntryRequest(): Entry {
+  createEntryRequest(): AdminEntry {
     const formData = this.entryForm.getRawValue();
-    const request: Entry = {
+    const request: AdminEntry = {
       name: formData.name,
       contestantName: formData.contestantName,
       email: formData.email,
@@ -175,7 +175,7 @@ export class CreateEntryComponent implements OnInit {
     return request;
   }
 
-  createEntry(request: Entry, fgd: FormGroupDirective): void {
+  createEntry(request: AdminEntry, fgd: FormGroupDirective): void {
     this.entriesService.create(request).subscribe({
       next: () => {
         const entrySubmittedDialog = this.dialog.open(EntrySubmittedDialogComponent, {
