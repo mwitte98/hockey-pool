@@ -8,14 +8,14 @@ import { SettingsService } from '../../shared/services/settings.service';
 import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
-import { Player, Team, User } from '../../shared/types/interfaces';
+import { AdminPlayer, AdminTeam, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-teams.component.html',
   styleUrls: ['./admin-teams.component.scss']
 })
 export class AdminTeamsComponent implements OnInit {
-  teams: Team[];
+  teams: AdminTeam[];
   loading = false;
 
   constructor(
@@ -34,7 +34,7 @@ export class AdminTeamsComponent implements OnInit {
         this.router.navigateByUrl('/').catch();
       } else if (user != null) {
         this.loading = true;
-        this.teamsService.get().subscribe((teams: Team[]) => {
+        this.teamsService.get().subscribe((teams: AdminTeam[]) => {
           this.teams = teams;
           for (const team of this.teams) {
             this.createTeamForm(team);
@@ -49,7 +49,7 @@ export class AdminTeamsComponent implements OnInit {
     });
   }
 
-  createTeamForm(team: Team): void {
+  createTeamForm(team: AdminTeam): void {
     team.form = this.fb.group({
       name: [team.name, Validators.required],
       abbr: [team.abbr, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
@@ -61,7 +61,7 @@ export class AdminTeamsComponent implements OnInit {
     });
   }
 
-  createPlayerForm(player: Player): void {
+  createPlayerForm(player: AdminPlayer): void {
     player.form = this.fb.group({
       firstName: [player.firstName, Validators.required],
       lastName: [player.lastName, Validators.required],
@@ -71,7 +71,7 @@ export class AdminTeamsComponent implements OnInit {
     this.addStatsToForm(player);
   }
 
-  addStatsToForm(player: Player): void {
+  addStatsToForm(player: AdminPlayer): void {
     const stats = ['goals', 'assists', 'gwg', 'shg', 'otg', 'wins', 'shutouts', 'otl'];
     for (const stat of stats) {
       player.form.addControl(stat, new FormControl(player[stat] ?? 0, [Validators.required, Validators.min(0)]));
@@ -82,7 +82,7 @@ export class AdminTeamsComponent implements OnInit {
     }
   }
 
-  createPlayerFormSubscriber(player: Player): void {
+  createPlayerFormSubscriber(player: AdminPlayer): void {
     player.form.valueChanges
       .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
       .subscribe((value: any) => {
@@ -98,11 +98,11 @@ export class AdminTeamsComponent implements OnInit {
       });
   }
 
-  trackByTeamId(_index: number, team: Team): number {
+  trackByTeamId(_index: number, team: AdminTeam): number {
     return team.id;
   }
 
-  trackByPlayerId(_index: number, player: Player): number {
+  trackByPlayerId(_index: number, player: AdminPlayer): number {
     return player.id;
   }
 

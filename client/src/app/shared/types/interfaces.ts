@@ -1,49 +1,19 @@
 import { FormGroup } from '@angular/forms';
 
-export interface Entry {
-  id?: number;
-  name: string;
-  contestantName?: string;
-  email?: string;
-  playerIds: number[];
-  players?: Player[];
-  bestEntry?: boolean;
-  numCenter?: number;
-  numWinger?: number;
-  numDefenseman?: number;
-  numGoalie?: number;
-  points?: number;
-  pointsC?: number;
-  pointsW?: number;
-  pointsD?: number;
-  pointsG?: number;
-  totalGoals?: number;
-  tiebreaker?: number;
-  rank?: number;
-  isDetailRow?: boolean;
-  form?: FormGroup;
-  updateLoading?: boolean;
-  updateSuccess?: boolean;
-  updateFailure?: boolean;
-}
-
 export interface Player {
   id: number;
   firstName: string;
   lastName: string;
-  teamId: number;
-  team: Team;
   position: string;
-  isSelected?: boolean;
-  goals: number;
-  assists: number;
-  gwg: number;
-  shg: number;
-  otg: number;
-  wins: number;
-  shutouts: number;
-  otl: number;
-  points: number;
+  goals?: number;
+  assists?: number;
+  gwg?: number;
+  shg?: number;
+  otg?: number;
+  wins?: number;
+  shutouts?: number;
+  otl?: number;
+  points?: number;
   finalsGoals?: number;
   finalsAssists?: number;
   finalsGwg?: number;
@@ -52,10 +22,6 @@ export interface Player {
   finalsWins?: number;
   finalsShutouts?: number;
   finalsOtl?: number;
-  form?: FormGroup;
-  updateLoading?: boolean;
-  updateSuccess?: boolean;
-  updateFailure?: boolean;
 }
 
 export interface PlayerStatColumn {
@@ -102,7 +68,48 @@ export interface Setting {
   pointsFinalsShutouts: number;
 }
 
-export interface Team {
+export interface User {
+  id: number;
+  email: string;
+}
+
+// START - /entries
+export interface AdminEntry {
+  id?: number;
+  name: string;
+  contestantName: string;
+  email: string;
+  playerIds: number[];
+  form?: FormGroup;
+  updateLoading?: boolean;
+  updateSuccess?: boolean;
+  updateFailure?: boolean;
+}
+// END - /entries
+
+// START - /entries?field_groups=display
+export interface DisplayEntry {
+  name: string;
+  playerIds: number[];
+  bestEntry?: boolean;
+  numCenter?: number;
+  numWinger?: number;
+  numDefenseman?: number;
+  numGoalie?: number;
+  points?: number;
+  pointsC?: number;
+  pointsW?: number;
+  pointsD?: number;
+  pointsG?: number;
+  totalGoals?: number;
+  tiebreaker?: number;
+  rank?: number;
+  isDetailRow?: boolean;
+}
+// END - /entries?field_groups=display
+
+// START - /teams
+export interface AdminTeam {
   id: number;
   name: string;
   abbr: string;
@@ -112,25 +119,45 @@ export interface Team {
   conference: string;
   rank: number;
   nhlId: number;
-  players: Player[];
-  goalies: Player[];
+  players: AdminPlayer[];
   form?: FormGroup;
   updateLoading?: boolean;
   updateSuccess?: boolean;
   updateFailure?: boolean;
 }
 
-export interface User {
+export interface AdminPlayer extends Player {
+  form?: FormGroup;
+  updateLoading?: boolean;
+  updateSuccess?: boolean;
+  updateFailure?: boolean;
+}
+// END - /teams
+
+// START - /teams?field_groups=home
+export interface HomeTeam {
   id: number;
-  email: string;
+  name: string;
+  abbr: string;
+  isEliminated: boolean;
+  nhlId: number;
+  players: Player[];
+}
+// END - /teams?field_groups=home
+
+// START - /teams?field_groups=player_stats
+export interface PlayerStatsTeam {
+  abbr: string;
+  isEliminated: boolean;
+  inFinals?: boolean;
+  players: PlayerStatsPlayer[];
 }
 
-// START - /entries?field_groups=display
-export interface DisplayEntry {
-  name: string;
-  playerIds: number[];
+export interface PlayerStatsPlayer extends Player {
+  isSelected?: boolean;
+  team?: PlayerStatsTeam;
 }
-// END - /entries?field_groups=display
+// END - /teams?field_groups=player_stats
 
 // START - /teams?field_groups=upsert_entry
 export interface UpsertEntryTeam {

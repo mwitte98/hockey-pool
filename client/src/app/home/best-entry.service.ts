@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 
 import { SettingsService } from '../shared/services/settings.service';
 import { UtilService } from '../shared/services/util.service';
-import { Entry, Player, Team } from '../shared/types/interfaces';
+import { DisplayEntry, HomeTeam, Player } from '../shared/types/interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BestEntryService {
-  private bestEntry: Entry;
+  private bestEntry: DisplayEntry;
   private bestEntryName = 'BEST POSSIBLE ENTRY';
 
   constructor(private settingsService: SettingsService, private utilService: UtilService) {}
 
-  determineBestEntry(teams: Team[]): Entry {
+  determineBestEntry(teams: HomeTeam[]): DisplayEntry {
     const bestPlayers = this.bestPlayers(teams);
     if (bestPlayers.length === 0 || bestPlayers[bestPlayers.length - 1][0].points <= 0) {
       return null;
@@ -22,7 +22,6 @@ export class BestEntryService {
     this.calculateBestEntryBranch(bestPlayers, 0, {
       name: this.bestEntryName,
       bestEntry: true,
-      players: [],
       playerIds: [],
       numCenter: 0,
       numWinger: 0,
@@ -38,9 +37,9 @@ export class BestEntryService {
     return this.bestEntry;
   }
 
-  bestPlayers(teams: Team[]): Player[][] {
+  bestPlayers(teams: HomeTeam[]): Player[][] {
     return teams
-      .map((team: Team) => {
+      .map((team: HomeTeam) => {
         return [
           this.utilService.sortPlayersByStats(
             team.players.filter((player: Player) => player.position === 'Center'),
@@ -63,7 +62,7 @@ export class BestEntryService {
       .sort((a, b) => b[0].points - a[0].points);
   }
 
-  calculateBestEntryBranch(list: Player[][], n: number, current: Entry): void {
+  calculateBestEntryBranch(list: Player[][], n: number, current: DisplayEntry): void {
     if (
       this.maxPointsBelowBest(list, n, current) ||
       this.abovePositionMax(current) ||
@@ -83,7 +82,7 @@ export class BestEntryService {
     }
   }
 
-  maxPointsBelowBest(list: Player[][], n: number, current: Entry): boolean {
+  maxPointsBelowBest(list: Player[][], n: number, current: DisplayEntry): boolean {
     if (this.bestEntry != null) {
       let maxRemainingPoints = 0;
       for (let i = n; i < list.length; i++) {
@@ -96,7 +95,7 @@ export class BestEntryService {
     return false;
   }
 
-  abovePositionMax(current: Entry): boolean {
+  abovePositionMax(current: DisplayEntry): boolean {
     const { setting } = this.settingsService;
     return (
       current.numGoalie > setting.maxGoalies ||
@@ -106,9 +105,9 @@ export class BestEntryService {
     );
   }
 
-  belowPositionMin(list: Player[][], current: Entry): boolean {
+  belowPositionMin(list: Player[][], current: DisplayEntry): boolean {
     const { setting } = this.settingsService;
-    const lengthDiff = list.length - current.players.length;
+    const lengthDiff = list.length - current.playerIds.length;
     return (
       current.numGoalie + lengthDiff < setting.minGoalies ||
       current.numCenter + lengthDiff < setting.minCenters ||
@@ -117,13 +116,13 @@ export class BestEntryService {
     );
   }
 
-  updateBestEntry(current: Entry): void {
+  updateBestEntry(current: DisplayEntry): void {
     if (this.bestEntry == null || this.compareEntries(this.bestEntry, current) > 0) {
       this.bestEntry = current;
     }
   }
 
-  compareEntries(a: Entry, b: Entry): number {
+  compareEntries(a: DisplayEntry, b: DisplayEntry): number {
     const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
     let diff = 0;
     for (const tiebreaker of tiebreakers) {
@@ -135,26 +134,16 @@ export class BestEntryService {
     return diff;
   }
 
-  createNextEntry(current: Entry, nextPlayer: Player): Entry {
+  createNextEntry(current: DisplayEntry, nextPlayer: Player): DisplayEntry {
     return {
-      name: this.bestEntryName,
-      bestEntry: true,
-      players: [...current.players, nextPlayer],
+      ...current,
       playerIds: [...current.playerIds, nextPlayer.id],
       points: current.points + (nextPlayer.points ?? 0),
-      numCenter: current.numCenter,
-      numWinger: current.numWinger,
-      numDefenseman: current.numDefenseman,
-      numGoalie: current.numGoalie,
-      pointsC: current.pointsC,
-      pointsW: current.pointsW,
-      pointsD: current.pointsD,
-      pointsG: current.pointsG,
       totalGoals: current.totalGoals + (nextPlayer.goals ?? 0)
     };
   }
 
-  updateNextPositionStats(next: Entry, nextPlayer: Player): void {
+  updateNextPositionStats(next: DisplayEntry, nextPlayer: Player): void {
     next[`num${nextPlayer.position}`] += 1;
     next[`points${nextPlayer.position.charAt(0)}`] += nextPlayer.points ?? 0;
   }
