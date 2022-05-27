@@ -6,28 +6,20 @@ module UpdateJobHelper
         include: { players: { only: %i[id first_name last_name] } }
       )
       teams.each do |team|
-        team['players'].each { |player| setup_player_hash player }
+        team['players'].each do |player|
+          player['name'] = "#{player['first_name']} #{player['last_name']}"
+          player['stats'] = []
+          player.except! 'first_name', 'last_name', 'points'
+        end
       end
-    end
-
-    def setup_player_hash(player)
-      stats = %w[goals assists gwg shg wins shutouts otl otg finals_goals finals_assists
-                 finals_gwg finals_shg finals_otg finals_wins finals_otl finals_shutouts]
-      player['name'] = "#{player['first_name']} #{player['last_name']}"
-      player.except! 'first_name', 'last_name'
-      stats.each { |stat| player[stat] = 0 }
     end
 
     def update_players(teams)
       teams.each do |team|
         team['players'].each do |player|
-          Player.update(player['id'], remove_name(player))
+          Player.update(player['id'], player.except!('name'))
         end
       end
-    end
-
-    def remove_name(player)
-      player.except!('name', 'points')
     end
   end
 end

@@ -3,7 +3,7 @@ class Team < ApplicationRecord
 
   def as_json(options = {})
     team = super(options.merge(except: %i[created_at updated_at]))
-    team['players']&.each { |player| player['points'] = PlayerHelper.calculate_points player, options[:setting] }
+    team['players']&.each { |player| PlayerHelper.set_points player, options[:setting] }
     team
   end
 end

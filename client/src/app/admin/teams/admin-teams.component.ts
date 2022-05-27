@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 import { PlayersService } from '../../shared/services/players.service';
-import { SettingsService } from '../../shared/services/settings.service';
 import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
@@ -22,7 +20,6 @@ export class AdminTeamsComponent implements OnInit {
     private router: Router,
     private teamsService: TeamsService,
     private playersService: PlayersService,
-    private settingsService: SettingsService,
     private userService: UserService,
     private utilService: UtilService,
     private fb: FormBuilder
@@ -40,7 +37,6 @@ export class AdminTeamsComponent implements OnInit {
             this.createTeamForm(team);
             for (const player of team.players) {
               this.createPlayerForm(player);
-              this.createPlayerFormSubscriber(player);
             }
           }
           this.loading = false;
@@ -65,37 +61,8 @@ export class AdminTeamsComponent implements OnInit {
     player.form = this.fb.group({
       firstName: [player.firstName, Validators.required],
       lastName: [player.lastName, Validators.required],
-      position: [player.position, Validators.required],
-      points: [{ value: player.points, disabled: true }, [Validators.required, Validators.min(0)]]
+      position: [player.position, Validators.required]
     });
-    this.addStatsToForm(player);
-  }
-
-  addStatsToForm(player: AdminPlayer): void {
-    const stats = ['goals', 'assists', 'gwg', 'shg', 'otg', 'wins', 'shutouts', 'otl'];
-    for (const stat of stats) {
-      player.form.addControl(stat, new FormControl(player[stat] ?? 0, [Validators.required, Validators.min(0)]));
-    }
-    for (const stat of stats) {
-      const finalsStat = `finals${stat.charAt(0).toUpperCase()}${stat.slice(1)}`;
-      player.form.addControl(finalsStat, new FormControl(player[finalsStat] ?? 0, Validators.min(0)));
-    }
-  }
-
-  createPlayerFormSubscriber(player: AdminPlayer): void {
-    player.form.valueChanges
-      .pipe(distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)))
-      .subscribe((value: any) => {
-        let totalPoints = 0;
-        for (const formKey of Object.keys(value)) {
-          const formValue = value[formKey];
-          if (typeof formValue === 'number') {
-            totalPoints +=
-              formValue * this.settingsService.setting[`points${formKey.charAt(0).toUpperCase()}${formKey.slice(1)}`];
-          }
-        }
-        player.form.patchValue({ points: totalPoints });
-      });
   }
 
   trackByTeamId(_index: number, team: AdminTeam): number {

@@ -126,7 +126,11 @@ export interface AdminTeam {
   updateFailure?: boolean;
 }
 
-export interface AdminPlayer extends Player {
+export interface AdminPlayer {
+  id: number;
+  firstName: string;
+  lastName: string;
+  position: string;
   form?: FormGroup;
   updateLoading?: boolean;
   updateSuccess?: boolean;

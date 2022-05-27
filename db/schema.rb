@@ -10,15 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_21_030800) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_05_27_032340) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "entries", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "contestant_name"
     t.string "email"
   end
@@ -35,24 +34,9 @@ ActiveRecord::Schema.define(version: 2020_07_21_030800) do
     t.string "first_name"
     t.string "last_name"
     t.string "position"
-    t.integer "goals"
-    t.integer "assists"
-    t.integer "gwg"
-    t.integer "shg"
-    t.integer "wins"
-    t.integer "shutouts"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "otl"
-    t.integer "otg"
-    t.integer "finals_goals", default: 0
-    t.integer "finals_assists", default: 0
-    t.integer "finals_gwg", default: 0
-    t.integer "finals_shg", default: 0
-    t.integer "finals_otg", default: 0
-    t.integer "finals_wins", default: 0
-    t.integer "finals_otl", default: 0
-    t.integer "finals_shutouts", default: 0
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.json "stats"
     t.index ["team_id"], name: "index_players_on_team_id"
   end
 
@@ -82,14 +66,14 @@ ActiveRecord::Schema.define(version: 2020_07_21_030800) do
     t.integer "points_finals_wins"
     t.integer "points_finals_otl"
     t.integer "points_finals_shutouts"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "abbr"
     t.boolean "is_eliminated", default: false
     t.integer "nhl_id"
@@ -101,8 +85,8 @@ ActiveRecord::Schema.define(version: 2020_07_21_030800) do
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
