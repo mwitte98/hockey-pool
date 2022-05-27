@@ -3,6 +3,7 @@ class UpdateJob
 
   def initialize
     @teams = nil
+    @date = nil
     @game = nil
     @is_finals = false
     @scoring_player = nil
@@ -19,23 +20,17 @@ class UpdateJob
   private
 
   def parse_date(date)
+    @date = date['date']
     date['games'].each do |game|
       @game = game
-      is_finals = @game['gamePk'].digits[2] == 4
-      parse_game false
-      @game = game
-      parse_game true if is_finals
+      @is_finals = @game['gamePk'].digits[2] == 4
+      is_game_final = @game['status']['detailedState'] == 'Final'
+      parse_scoring_plays
+      next unless is_game_final
+
+      game_teams, score_attr = check_goalie_date
+      parse_goalie_stats game_teams, score_attr
     end
-  end
-
-  def parse_game(is_finals)
-    @is_finals = is_finals
-    is_game_final = @game['status']['detailedState'] == 'Final'
-    parse_scoring_plays
-    return unless is_game_final
-
-    game_teams, score_attr = check_goalie_date
-    parse_goalie_stats game_teams, score_attr
   end
 
   def parse_scoring_plays
@@ -53,14 +48,12 @@ class UpdateJob
   def parse_scoring_play_players(scoring_play, scoring_team)
     scoring_play['players'].each do |player|
       @scoring_player = find_player scoring_team, player['player']
-      update_player_stats player, scoring_play if @scoring_player
-    end
-  end
+      next unless @scoring_player
 
-  def update_player_stats(player, scoring_play)
-    player_type = player['playerType']
-    update_offensive_stats scoring_play if player_type == 'Scorer'
-    update_stat @scoring_player, 'assists' if player_type == 'Assist'
+      player_type = player['playerType']
+      update_offensive_stats scoring_play if player_type == 'Scorer'
+      update_stat @scoring_player, 'assists' if player_type == 'Assist'
+    end
   end
 
   def update_offensive_stats(scoring_play)
@@ -95,7 +88,7 @@ class UpdateJob
   def parse_teams(game_teams, location, score_attr)
     team = game_teams[location]
     score = team[score_attr]
-    team_found = find_team team
+    team_found = @teams.find { |t| t['name'] == team['team']['name'] }
     [team_found, score]
   end
 
@@ -112,16 +105,20 @@ class UpdateJob
     update_stat loser, 'otl' if loser && @game['linescore']['periods'].count > 3
   end
 
-  def find_team(team_to_find_details)
-    @teams.find { |team| team['name'] == team_to_find_details['team']['name'] }
-  end
-
   def find_player(team, player_name)
     team['players'].find { |player| player['name'] == player_name['fullName'] }
   end
 
   def update_stat(player, stat)
-    stat = "finals_#{stat}" if @is_finals
-    player[stat] += 1
+    date_stats = player['stats'].find { |date_stat| date_stat[:date] == @date }
+    if date_stats.nil?
+      date_stat = { date: @date, is_finals: @is_finals, stat => 1 }
+      date_stat.except! :is_finals unless @is_finals
+      player['stats'] << date_stat
+    elsif date_stats[stat].nil?
+      date_stats[stat] = 1
+    else
+      date_stats[stat] += 1
+    end
   end
 end

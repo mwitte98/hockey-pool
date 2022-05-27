@@ -27,8 +27,6 @@ class PlayersController < ApplicationController
   private
 
   def player_params
-    params.permit(:first_name, :last_name, :position, :goals, :assists, :gwg, :shg, :otg, :wins, :otl, :shutouts,
-                  :finals_goals, :finals_assists, :finals_gwg, :finals_shg, :finals_otg, :finals_wins, :finals_otl,
-                  :finals_shutouts)
+    params.permit(:first_name, :last_name, :position)
   end
 end

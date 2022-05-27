@@ -9,7 +9,7 @@ class TeamsController < ApplicationController
       selected_player_ids = ActiveRecord::Base.connection.exec_query(query).rows.flatten
     end
     update_in_finals teams if params[:field_groups] != 'home'
-    teams = remove_attrs teams, selected_player_ids
+    teams = update_attrs teams, selected_player_ids
     render json: teams
   end
 
@@ -71,7 +71,7 @@ class TeamsController < ApplicationController
 
   def query_else
     Team.includes(:players).all.order(:is_eliminated, :conference, :rank).as_json(
-      include: { players: { except: %i[team_id created_at updated_at] } }, setting: Setting.first
+      include: { players: { except: %i[team_id stats created_at updated_at] } }, setting: Setting.first
     )
   end
 
@@ -82,11 +82,27 @@ class TeamsController < ApplicationController
     teams.each { |team| team['in_finals'] = true if team['is_eliminated'] == false }
   end
 
-  def remove_attrs(teams, selected_player_ids)
+  def update_attrs(teams, selected_player_ids)
     teams.each do |team|
       team['players'].each do |player|
-        player.delete_if { |_, value| value.is_a?(Numeric) && value.zero? }
+        player['stats']&.each do |date_stat|
+          flatten_player_stats player, date_stat
+        end
         player['is_selected'] = true if !selected_player_ids.empty? && selected_player_ids.include?(player['id'])
+        player.delete 'stats'
+      end
+    end
+  end
+
+  def flatten_player_stats(player, date_stat)
+    date_stat.each do |key, value|
+      next if %w[date is_finals].include?(key)
+
+      stat = date_stat['is_finals'] && key != 'points' ? "finals_#{key}" : key
+      if player[stat].nil?
+        player[stat] = value
+      else
+        player[stat] += value
       end
     end
   end

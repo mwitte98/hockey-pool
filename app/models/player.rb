@@ -5,7 +5,7 @@ class Player < ApplicationRecord
   def as_json(options = {})
     except_array = %i[created_at updated_at]
     player = super(options.merge(except: except_array))
-    player['points'] = PlayerHelper.calculate_points self, options[:setting]
+    PlayerHelper.set_points self, options[:setting]
     player
   end
 end
