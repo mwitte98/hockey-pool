@@ -53,19 +53,21 @@ export class BestEntryService {
         if (['date', 'isFinals'].includes(key)) {
           continue;
         }
-        const updatedKey = this.getUpdatedKey(key, stat.isFinals);
-        if (player[updatedKey] == null) {
-          player[updatedKey] = value;
-        } else {
-          player[updatedKey] += value;
+        this.updatePlayerStat(player, key, value);
+        if (stat.isFinals && key !== 'points') {
+          this.updatePlayerStat(player, `finals${key.charAt(0).toUpperCase()}${key.slice(1)}`, value);
         }
       }
     }
     return player;
   }
 
-  getUpdatedKey(key: string, isFinals: boolean): string {
-    return isFinals && key !== 'points' ? `finals${key.charAt(0).toUpperCase()}${key.slice(1)}` : key;
+  updatePlayerStat(player: Player, stat: string, value: number): void {
+    if (player[stat] == null) {
+      player[stat] = value;
+    } else {
+      player[stat] += value;
+    }
   }
 
   bestPlayers(players: Player[][]): Player[][] {

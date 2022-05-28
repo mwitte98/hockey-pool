@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 
 import { SettingsService } from '../shared/services/settings.service';
@@ -21,6 +22,7 @@ export class PlayerStatsComponent implements OnInit {
   showingEliminatedPlayers = false;
   showingSelectedPlayers = true;
   showingPlayersWithPoints = true;
+  @ViewChild('tabGroup', { static: false }) tabGroup: MatTabGroup;
 
   skaterColumnsToDisplay = ['name', 'team', 'position', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
   goalieColumnsToDisplay = ['name', 'team', 'position', 'goals', 'assists', 'wins', 'otl', 'shutouts', 'points'];
@@ -61,6 +63,10 @@ export class PlayerStatsComponent implements OnInit {
         });
       }
     });
+  }
+
+  realignInkBar(): void {
+    this.tabGroup.realignInkBar();
   }
 
   updatePlayers(teams: PlayerStatsTeam[]): void {
