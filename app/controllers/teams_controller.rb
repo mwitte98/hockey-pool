@@ -98,12 +98,16 @@ class TeamsController < ApplicationController
     date_stat.each do |key, value|
       next if %w[date is_finals].include?(key)
 
-      stat = date_stat['is_finals'] && key != 'points' ? "finals_#{key}" : key
-      if player[stat].nil?
-        player[stat] = value
-      else
-        player[stat] += value
-      end
+      update_player_stat player, key, value
+      update_player_stat player, "finals_#{key}", value if date_stat['is_finals'] && key != 'points'
+    end
+  end
+
+  def update_player_stat(player, stat, value)
+    if player[stat].nil?
+      player[stat] = value
+    else
+      player[stat] += value
     end
   end
 end

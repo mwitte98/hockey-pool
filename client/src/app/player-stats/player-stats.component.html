@@ -11,7 +11,7 @@
       Show Players with Points
     </mat-slide-toggle>
   </div>
-  <mat-tab-group mat-align-tabs="center" animationDuration="0ms">
+  <mat-tab-group #tabGroup mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="realignInkBar()">
     <mat-tab label="Skaters">
       <player-stats-tab
         [players]="shownSkaters"
