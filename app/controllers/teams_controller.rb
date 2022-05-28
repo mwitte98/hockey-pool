@@ -7,9 +7,9 @@ class TeamsController < ApplicationController
     if params[:field_groups] == 'player_stats'
       query = 'select distinct(player_id) from entries_players'
       selected_player_ids = ActiveRecord::Base.connection.exec_query(query).rows.flatten
+      update_in_finals teams
     end
-    update_in_finals teams if params[:field_groups] != 'home'
-    teams = update_attrs teams, selected_player_ids
+    teams = update_attrs teams, selected_player_ids if params[:field_groups] != 'home'
     render json: teams
   end
 

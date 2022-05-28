@@ -7,7 +7,7 @@ import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { DisplayEntry, HomeTeam, Player, User } from '../shared/types/interfaces';
+import { DisplayEntry, HomePlayer, HomeTeam, User } from '../shared/types/interfaces';
 
 import { BestEntryService } from './best-entry.service';
 
@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
     return `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.nhlId}.svg`;
   }
 
-  getSelectedPlayerForTeam(selectedPlayerIds: number[], team: HomeTeam): Player {
+  getSelectedPlayerForTeam(selectedPlayerIds: number[], team: HomeTeam): HomePlayer {
     return team.players.find((player) => selectedPlayerIds.includes(player.id));
   }
 
@@ -113,11 +113,22 @@ export class HomeComponent implements OnInit {
       this.resetEntryPoints(entry);
       for (const team of this.teams) {
         const player = this.getSelectedPlayerForTeam(entry.playerIds, team);
-        entry.points += player.points ?? 0;
-        entry.totalGoals += player.goals ?? 0;
-        entry[`points${player.position.charAt(0)}`] += player.points ?? 0;
+        const { goals, points } = this.getGoalsAndPoints(player);
+        entry.points += points;
+        entry.totalGoals += goals ?? 0;
+        entry[`points${player.position.charAt(0)}`] += points;
       }
     }
+  }
+
+  getGoalsAndPoints(player: HomePlayer): { goals: number; points: number } {
+    let goals = 0;
+    let points = 0;
+    for (const stat of player.stats) {
+      goals += stat.goals ?? 0;
+      points += stat.points;
+    }
+    return { goals, points };
   }
 
   resetEntryPoints(entry: DisplayEntry): void {

@@ -89,7 +89,7 @@
                     <div class="player-name" [ngClass]="team.isEliminated ? 'strikethrough' : ''">
                       {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0:1 }})
                     </div>
-                    <div class="badge">{{ player.points ?? 0 }}</div>
+                    <div class="badge">{{ getGoalsAndPoints(player).points }}</div>
                   </div>
                 </div>
               </ng-template>
