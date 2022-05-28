@@ -115,7 +115,6 @@ export interface AdminTeam {
   abbr: string;
   isEliminated: boolean;
   madePlayoffs: boolean;
-  inFinals?: boolean;
   conference: string;
   rank: number;
   nhlId: number;
@@ -145,7 +144,29 @@ export interface HomeTeam {
   abbr: string;
   isEliminated: boolean;
   nhlId: number;
-  players: Player[];
+  players: HomePlayer[];
+}
+
+export interface HomePlayer {
+  id: number;
+  firstName: string;
+  lastName: string;
+  position: string;
+  stats: Stat[];
+}
+
+export interface Stat {
+  date: string;
+  isFinals?: boolean;
+  goals?: number;
+  assists?: number;
+  gwg?: number;
+  shg?: number;
+  otg?: number;
+  wins?: number;
+  shutouts?: number;
+  otl?: number;
+  points: number;
 }
 // END - /teams?field_groups=home
 

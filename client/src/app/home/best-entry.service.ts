@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { SettingsService } from '../shared/services/settings.service';
 import { UtilService } from '../shared/services/util.service';
-import { DisplayEntry, HomeTeam, Player } from '../shared/types/interfaces';
+import { DisplayEntry, HomePlayer, HomeTeam, Player } from '../shared/types/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class BestEntryService {
   constructor(private settingsService: SettingsService, private utilService: UtilService) {}
 
   determineBestEntry(teams: HomeTeam[]): DisplayEntry {
-    const bestPlayers = this.bestPlayers(teams);
+    const bestPlayers = this.bestPlayers(this.flattenPlayerStats(teams));
     if (bestPlayers.length === 0 || bestPlayers[bestPlayers.length - 1][0].points <= 0) {
       return null;
     }
@@ -37,24 +37,55 @@ export class BestEntryService {
     return this.bestEntry;
   }
 
-  bestPlayers(teams: HomeTeam[]): Player[][] {
-    return teams
-      .map((team: HomeTeam) => {
+  flattenPlayerStats(teams: HomeTeam[]): Player[][] {
+    return teams.map((team: HomeTeam) => {
+      return team.players.map((homePlayer: HomePlayer) => {
+        const player: Player = { ...homePlayer };
+        delete (player as any).stats;
+        return this.flattenStats(player, homePlayer);
+      });
+    });
+  }
+
+  flattenStats(player: Player, homePlayer: HomePlayer): Player {
+    for (const stat of homePlayer.stats) {
+      for (const [key, value] of Object.entries(stat)) {
+        if (['date', 'isFinals'].includes(key)) {
+          continue;
+        }
+        const updatedKey = this.getUpdatedKey(key, stat.isFinals);
+        if (player[updatedKey] == null) {
+          player[updatedKey] = value;
+        } else {
+          player[updatedKey] += value;
+        }
+      }
+    }
+    return player;
+  }
+
+  getUpdatedKey(key: string, isFinals: boolean): string {
+    return isFinals && key !== 'points' ? `finals${key.charAt(0).toUpperCase()}${key.slice(1)}` : key;
+  }
+
+  bestPlayers(players: Player[][]): Player[][] {
+    return players
+      .map((teamPlayers: Player[]) => {
         return [
           this.utilService.sortPlayersByStats(
-            team.players.filter((player: Player) => player.position === 'Center'),
+            teamPlayers.filter((player: Player) => player.position === 'Center'),
             this.utilService.skaterTiebreakers
           )[0],
           this.utilService.sortPlayersByStats(
-            team.players.filter((player: Player) => player.position === 'Winger'),
+            teamPlayers.filter((player: Player) => player.position === 'Winger'),
             this.utilService.skaterTiebreakers
           )[0],
           this.utilService.sortPlayersByStats(
-            team.players.filter((player: Player) => player.position === 'Defenseman'),
+            teamPlayers.filter((player: Player) => player.position === 'Defenseman'),
             this.utilService.skaterTiebreakers
           )[0],
           this.utilService.sortPlayersByStats(
-            team.players.filter((player: Player) => player.position === 'Goalie'),
+            teamPlayers.filter((player: Player) => player.position === 'Goalie'),
             this.utilService.goalieTiebreakers
           )[0]
         ].sort((a, b) => b.points - a.points);
