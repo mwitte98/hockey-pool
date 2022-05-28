@@ -16,7 +16,6 @@ gem 'puma', '5.6.4'
 gem 'sucker_punch', '3.0.1'
 
 group :development do
-  gem 'reek', '6.1.1'
   gem 'rubocop', '1.30.0'
 end
 
