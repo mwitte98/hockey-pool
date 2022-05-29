@@ -1,5 +1,15 @@
 import { FormGroup } from '@angular/forms';
 
+export interface ChartLine {
+  name: string;
+  series: ChartPoint[];
+}
+
+export interface ChartPoint {
+  name: Date;
+  value: number;
+}
+
 export interface Player {
   id: number;
   firstName: string;
@@ -88,14 +98,7 @@ export interface AdminEntry {
 // END - /entries
 
 // START - /entries?field_groups=display
-export interface DisplayEntry {
-  name: string;
-  playerIds: number[];
-  bestEntry?: boolean;
-  numCenter?: number;
-  numWinger?: number;
-  numDefenseman?: number;
-  numGoalie?: number;
+export interface EntryStats {
   points?: number;
   pointsC?: number;
   pointsW?: number;
@@ -104,7 +107,22 @@ export interface DisplayEntry {
   totalGoals?: number;
   tiebreaker?: number;
   rank?: number;
+}
+
+export interface DisplayEntry extends EntryStats {
+  name: string;
+  playerIds: number[];
+  bestEntry?: boolean;
+  numCenter?: number;
+  numWinger?: number;
+  numDefenseman?: number;
+  numGoalie?: number;
   isDetailRow?: boolean;
+  entryDates?: EntryDate[];
+}
+
+export interface EntryDate extends EntryStats {
+  date: string;
 }
 // END - /entries?field_groups=display
 

@@ -6,7 +6,12 @@ $blue: #3f51b5;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  align-items: center;
   margin: 16px 16px 0;
+}
+
+.mat-raised-button {
+  margin-bottom: 16px;
 }
 
 .mat-slide-toggle {

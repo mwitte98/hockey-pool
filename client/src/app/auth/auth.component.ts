@@ -7,7 +7,6 @@ import { UserService } from '../shared/services/user.service';
 import { User } from '../shared/types/interfaces';
 
 @Component({
-  selector: 'auth-page',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
