@@ -16,6 +16,7 @@ import { CreateEntryComponent } from './create-entry/create-entry.component';
 import { DuplicateEntryDialogComponent } from './create-entry/duplicate-entry-dialog.component';
 import { EntrySubmittedDialogComponent } from './create-entry/entry-submitted-dialog.component';
 import { SeeRulesDialogComponent } from './create-entry/see-rules-dialog.component';
+import { HistoricalGraphComponent } from './home/historical-graph.component';
 import { HomeComponent } from './home/home.component';
 import { MaterialModule } from './material.module';
 import { PlayerStatsTabComponent } from './player-stats/player-stats-tab.component';
@@ -37,6 +38,7 @@ import { Interceptor } from './shared/interceptors/interceptor';
     DuplicateEntryDialogComponent,
     EntrySubmittedDialogComponent,
     HeaderComponent,
+    HistoricalGraphComponent,
     HomeComponent,
     PlayerStatsComponent,
     PlayerStatsTabComponent,

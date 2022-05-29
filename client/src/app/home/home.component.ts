@@ -1,5 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -7,9 +8,11 @@ import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
+import { UtilService } from '../shared/services/util.service';
 import { DisplayEntry, HomePlayer, HomeTeam, User } from '../shared/types/interfaces';
 
 import { BestEntryService } from './best-entry.service';
+import { HistoricalGraphComponent } from './historical-graph.component';
 
 @Component({
   templateUrl: './home.component.html',
@@ -34,10 +37,12 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private dialog: MatDialog,
     private entriesService: EntriesService,
     private teamsService: TeamsService,
     private settingsService: SettingsService,
     private userService: UserService,
+    private utilService: UtilService,
     private bestEntryService: BestEntryService
   ) {}
 
@@ -55,13 +60,14 @@ export class HomeComponent implements OnInit {
             this.entries = entries;
             this.teams = teams;
             this.calculatePoints();
-            this.sortEntries();
+            this.utilService.sortEntries(this.entries);
             const bestEntry = this.bestEntryService.determineBestEntry(teams);
             if (bestEntry != null) {
               this.entries.unshift(bestEntry);
             }
             this.prepareTableData();
             this.loading = false;
+            // this.openHistoricalGraph();
           }
         });
       }
@@ -91,6 +97,22 @@ export class HomeComponent implements OnInit {
 
   toggleAllPanels(): void {
     this.expandedEntries = this.showingAllEntries ? this.entries.map((entry) => entry.name) : [];
+  }
+
+  openHistoricalGraph(): void {
+    const entries: DisplayEntry[] = [];
+    for (const entry of this.entries) {
+      if (!entry.bestEntry) {
+        entries.push({ name: entry.name, playerIds: entry.playerIds });
+      }
+    }
+    this.dialog.open(HistoricalGraphComponent, {
+      autoFocus: 'dialog',
+      height: '95vh',
+      width: '95vw',
+      maxWidth: '95vw',
+      data: { entries, teams: this.teams }
+    });
   }
 
   getLogoUrl(team: HomeTeam): string {
@@ -139,54 +161,5 @@ export class HomeComponent implements OnInit {
     entry.pointsG = 0;
     entry.totalGoals = 0;
     entry.tiebreaker = 0;
-  }
-
-  sortEntries(): void {
-    this.entries.sort((a: DisplayEntry, b: DisplayEntry) => this.compareEntries(a, b));
-
-    for (const [index, entry] of this.entries.entries()) {
-      if (index === 0) {
-        entry.rank = 1;
-        continue;
-      }
-      if (entry.tiebreaker < 6) {
-        entry.rank = index + 1;
-        continue;
-      }
-
-      const prevEntry: DisplayEntry = this.entries[index - 1];
-      entry.rank = this.equals(entry, prevEntry) ? prevEntry.rank : index + 1;
-    }
-  }
-
-  equals(a: DisplayEntry, b: DisplayEntry): boolean {
-    return (
-      a.points === b.points &&
-      a.pointsC === b.pointsC &&
-      a.pointsW === b.pointsW &&
-      a.pointsD === b.pointsD &&
-      a.pointsG === b.pointsG &&
-      a.totalGoals === b.totalGoals
-    );
-  }
-
-  compareEntries(a: DisplayEntry, b: DisplayEntry): number {
-    const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
-    let diff = 0;
-    for (const [index, tiebreaker] of tiebreakers.entries()) {
-      diff = b[tiebreaker] - a[tiebreaker];
-      if (diff !== 0) {
-        break;
-      }
-      this.setTiebreaker(a, index + 1);
-      this.setTiebreaker(b, index + 1);
-    }
-    return diff;
-  }
-
-  setTiebreaker(entry: DisplayEntry, nextTiebreaker: number): void {
-    if (entry.tiebreaker < nextTiebreaker) {
-      entry.tiebreaker = nextTiebreaker;
-    }
   }
 }

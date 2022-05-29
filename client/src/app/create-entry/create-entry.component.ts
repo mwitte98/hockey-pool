@@ -178,9 +178,7 @@ export class CreateEntryComponent implements OnInit {
   createEntry(request: AdminEntry, fgd: FormGroupDirective): void {
     this.entriesService.create(request).subscribe({
       next: () => {
-        const entrySubmittedDialog = this.dialog.open(EntrySubmittedDialogComponent, {
-          autoFocus: false
-        });
+        const entrySubmittedDialog = this.dialog.open(EntrySubmittedDialogComponent, { autoFocus: 'dialog' });
         entrySubmittedDialog.afterClosed().subscribe(() => {
           this.entries.push(request.playerIds);
           this.entryForm.reset();
@@ -197,8 +195,6 @@ export class CreateEntryComponent implements OnInit {
   }
 
   seeRules(): void {
-    this.dialog.open(SeeRulesDialogComponent, {
-      autoFocus: false
-    });
+    this.dialog.open(SeeRulesDialogComponent, { autoFocus: 'dialog' });
   }
 }

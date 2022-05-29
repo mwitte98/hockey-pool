@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 
-import { AdminEntry, AdminPlayer, AdminTeam, Player, PlayerStatTiebreaker } from '../types/interfaces';
+import { AdminEntry, AdminPlayer, AdminTeam, EntryStats, Player, PlayerStatTiebreaker } from '../types/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -101,5 +101,54 @@ export class UtilService {
         updateObject.updateFailure = false;
       }
     }, 3000);
+  }
+
+  sortEntries(entries: EntryStats[]): void {
+    entries.sort((a: EntryStats, b: EntryStats) => this.compareEntries(a, b));
+
+    for (const [index, entry] of entries.entries()) {
+      if (index === 0) {
+        entry.rank = 1;
+        continue;
+      }
+      if (entry.tiebreaker < 6) {
+        entry.rank = index + 1;
+        continue;
+      }
+
+      const prevEntry: EntryStats = entries[index - 1];
+      entry.rank = this.equals(entry, prevEntry) ? prevEntry.rank : index + 1;
+    }
+  }
+
+  equals(a: EntryStats, b: EntryStats): boolean {
+    return (
+      a.points === b.points &&
+      a.pointsC === b.pointsC &&
+      a.pointsW === b.pointsW &&
+      a.pointsD === b.pointsD &&
+      a.pointsG === b.pointsG &&
+      a.totalGoals === b.totalGoals
+    );
+  }
+
+  compareEntries(a: EntryStats, b: EntryStats): number {
+    const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
+    let diff = 0;
+    for (const [index, tiebreaker] of tiebreakers.entries()) {
+      diff = b[tiebreaker] - a[tiebreaker];
+      if (diff !== 0) {
+        break;
+      }
+      this.setTiebreaker(a, index + 1);
+      this.setTiebreaker(b, index + 1);
+    }
+    return diff;
+  }
+
+  setTiebreaker(entry: EntryStats, nextTiebreaker: number): void {
+    if (entry.tiebreaker < nextTiebreaker) {
+      entry.tiebreaker = nextTiebreaker;
+    }
   }
 }

@@ -82,7 +82,10 @@
         "max-params": "off",
         "max-statements": ["error", 15],
         "multiline-comment-style": ["error", "separate-lines"],
-        "new-cap": ["error", { "capIsNewExceptions": ["Component", "Injectable", "Input", "NgModule", "ViewChild"] }],
+        "new-cap": [
+          "error",
+          { "capIsNewExceptions": ["Component", "Inject", "Injectable", "Input", "NgModule", "ViewChild"] }
+        ],
         "no-continue": "off",
         "no-eq-null": "off",
         "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
