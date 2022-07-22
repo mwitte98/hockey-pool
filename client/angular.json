@@ -76,7 +76,6 @@
       }
     }
   },
-  "defaultProject": "hockey-pool",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
