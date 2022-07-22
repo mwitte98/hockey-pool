@@ -2,7 +2,9 @@
   <h1 class="mat-h1">Admin - Entries</h1>
   <div class="right-align"></div>
   <div>
-    <button mat-raised-button class="create-entry-button" (click)="goToCreateEntry()">Create Entry</button>
+    <button mat-raised-button class="create-entry-button" type="button" (click)="goToCreateEntry()">
+      Create Entry
+    </button>
   </div>
 </div>
 <mat-spinner *ngIf="loading"></mat-spinner>
