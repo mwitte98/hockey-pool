@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
-  FormGroup,
   FormGroupDirective,
+  FormRecord,
   ValidationErrors,
   ValidatorFn,
   Validators
@@ -33,7 +33,7 @@ export class CreateEntryComponent implements OnInit {
   teams: UpsertEntryTeam[];
   entries: number[][] = [];
   errors: string[] = [];
-  entryForm: FormGroup;
+  entryForm: FormRecord<FormControl<number | string>>;
   numbersOfPositions = {
     center: 0,
     winger: 0,
@@ -69,7 +69,7 @@ export class CreateEntryComponent implements OnInit {
 
   createEntryForm(): void {
     const { setting } = this.settingsService;
-    this.entryForm = this.fb.group(
+    this.entryForm = this.fb.nonNullable.group(
       {
         name: ['', Validators.required],
         contestantName: ['', Validators.required],
@@ -162,14 +162,14 @@ export class CreateEntryComponent implements OnInit {
   createEntryRequest(): AdminEntry {
     const formData = this.entryForm.getRawValue();
     const request: AdminEntry = {
-      name: formData.name,
-      contestantName: formData.contestantName,
-      email: formData.email,
+      name: formData.name as string,
+      contestantName: formData.contestantName as string,
+      email: formData.email as string,
       playerIds: []
     };
     for (const formField of Object.keys(formData)) {
       if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
-        request.playerIds.push(formData[formField]);
+        request.playerIds.push(formData[formField] as number);
       }
     }
     return request;

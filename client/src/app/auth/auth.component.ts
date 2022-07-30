@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserService } from '../shared/services/user.service';
+import { AuthForm } from '../shared/types/forms';
 import { User } from '../shared/types/interfaces';
 
 @Component({
@@ -15,7 +16,7 @@ export class AuthComponent implements OnInit {
   authTypeCapital: string;
   errors: string[] = [];
   errorMessage: string = null;
-  authForm: FormGroup;
+  authForm: FormGroup<AuthForm>;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +30,7 @@ export class AuthComponent implements OnInit {
       if (user != null) {
         this.router.navigateByUrl('/').catch();
       } else if (user === null) {
-        this.authForm = this.fb.group({
+        this.authForm = this.fb.nonNullable.group({
           email: ['', Validators.required],
           password: ['', Validators.required]
         });
