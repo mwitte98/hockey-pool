@@ -60,7 +60,7 @@ export class AdminEntriesComponent implements OnInit {
   }
 
   createEntryForm(entry: AdminEntry): void {
-    entry.form = this.fb.group({
+    entry.form = this.fb.nonNullable.group({
       name: [entry.name, Validators.required],
       contestantName: [entry.contestantName, Validators.required],
       email: [entry.email, [Validators.required, Validators.email]]
@@ -87,14 +87,14 @@ export class AdminEntriesComponent implements OnInit {
     const formData = entry.form.getRawValue();
     const request: AdminEntry = {
       id,
-      name: formData.name,
-      contestantName: formData.contestantName,
-      email: formData.email,
+      name: formData.name as string,
+      contestantName: formData.contestantName as string,
+      email: formData.email as string,
       playerIds: []
     };
     for (const formField of Object.keys(formData)) {
       if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
-        request.playerIds.push(formData[formField]);
+        request.playerIds.push(formData[formField] as number);
       }
     }
     entry.updateLoading = true;

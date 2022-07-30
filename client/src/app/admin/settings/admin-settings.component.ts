@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { SettingsService } from '../../shared/services/settings.service';
 import { UserService } from '../../shared/services/user.service';
+import { SettingForm } from '../../shared/types/forms';
 import { User } from '../../shared/types/interfaces';
 
 @Component({
@@ -16,7 +17,7 @@ export class AdminSettingsComponent implements OnInit {
   updateSuccess = false;
   updateFailure = false;
   errors: string[] = [];
-  settingForm: FormGroup;
+  settingForm: FormGroup<SettingForm>;
 
   constructor(
     private router: Router,
@@ -37,7 +38,7 @@ export class AdminSettingsComponent implements OnInit {
 
   createSettingForm(): void {
     const { setting } = this.settingsService;
-    this.settingForm = this.fb.group({
+    this.settingForm = this.fb.nonNullable.group({
       isPlayoffsStarted: [setting.isPlayoffsStarted, Validators.required],
       minCenters: [setting.minCenters, [Validators.required, Validators.min(0)]],
       maxCenters: [setting.maxCenters, [Validators.required, Validators.min(0)]],

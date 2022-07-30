@@ -1,4 +1,6 @@
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormRecord } from '@angular/forms';
+
+import { AdminPlayerForm, AdminTeamForm } from './forms';
 
 export interface ChartLine {
   name: string;
@@ -50,7 +52,7 @@ export interface PlayerStatTiebreaker {
 }
 
 export interface Setting {
-  id: number;
+  id?: number;
   isPlayoffsStarted: boolean;
   minCenters: number;
   maxCenters: number;
@@ -90,7 +92,7 @@ export interface AdminEntry {
   contestantName: string;
   email: string;
   playerIds: number[];
-  form?: FormGroup;
+  form?: FormRecord<FormControl<number | string>>;
   updateLoading?: boolean;
   updateSuccess?: boolean;
   updateFailure?: boolean;
@@ -128,7 +130,7 @@ export interface EntryDate extends EntryStats {
 
 // START - /teams
 export interface AdminTeam {
-  id: number;
+  id?: number;
   name: string;
   abbr: string;
   isEliminated: boolean;
@@ -136,19 +138,19 @@ export interface AdminTeam {
   conference: string;
   rank: number;
   nhlId: number;
-  players: AdminPlayer[];
-  form?: FormGroup;
+  players?: AdminPlayer[];
+  form?: FormGroup<AdminTeamForm>;
   updateLoading?: boolean;
   updateSuccess?: boolean;
   updateFailure?: boolean;
 }
 
 export interface AdminPlayer {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   position: string;
-  form?: FormGroup;
+  form?: FormGroup<AdminPlayerForm>;
   updateLoading?: boolean;
   updateSuccess?: boolean;
   updateFailure?: boolean;

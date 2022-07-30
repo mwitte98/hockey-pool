@@ -46,7 +46,7 @@ export class AdminTeamsComponent implements OnInit {
   }
 
   createTeamForm(team: AdminTeam): void {
-    team.form = this.fb.group({
+    team.form = this.fb.nonNullable.group({
       name: [team.name, Validators.required],
       abbr: [team.abbr, [Validators.required, Validators.minLength(3), Validators.maxLength(3)]],
       isEliminated: [team.isEliminated, Validators.required],
@@ -58,7 +58,7 @@ export class AdminTeamsComponent implements OnInit {
   }
 
   createPlayerForm(player: AdminPlayer): void {
-    player.form = this.fb.group({
+    player.form = this.fb.nonNullable.group({
       firstName: [player.firstName, Validators.required],
       lastName: [player.lastName, Validators.required],
       position: [player.position, Validators.required]
