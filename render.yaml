@@ -8,3 +8,6 @@ services:
     region: ohio
     plan: free
     numInstances: 1
+databases:
+  - name: hockeyplayoffpool
+    databaseName: db/hockey_pool_production_db
