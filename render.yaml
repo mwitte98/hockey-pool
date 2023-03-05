@@ -10,3 +10,4 @@ services:
     numInstances: 1
 databases:
   - name: hockeyplayoffpool
+    plan: free
