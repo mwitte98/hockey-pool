@@ -14,9 +14,6 @@
 .DS_Store
 npm-debug.log
 
-# Ignore environment variables
-.env
-
 # Ignore node modules
 /client/node_modules/*
 

@@ -15,7 +15,6 @@ end
 Minitest::Reporters.use!(Minitest::Reporters::ProgressReporter.new, ENV, Minitest.backtrace_filter)
 
 SimpleCov.start 'rails' do
-  add_filter '.env'
   enable_coverage :branch
 end
 
