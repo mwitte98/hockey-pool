@@ -91,66 +91,22 @@ jobs:
             - hockey-pool-frontend-
       - run: npm install --legacy-peer-deps
       - run: npm run build-prod
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - dist/*
-  deploy-test:
-    docker:
-      - image: cimg/ruby:3.1.2-node
-    working_directory: ~/hockey-pool
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/hockey-pool/client
-      - run:
-          name: Deploy to Heroku
-          command: |
-            git config --global user.email "mcw9612@rit.edu"
-            git config --global user.name "Matthew Witte"
-            git add --force client/dist/
-            git commit --amend -m "Auto Commit $CIRCLE_SHA1"
-            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/hockeyplayoffpool-test.git HEAD:refs/heads/master
-  deploy-prod:
-    docker:
-      - image: cimg/ruby:3.1.2-node
-    working_directory: ~/hockey-pool
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/hockey-pool/client
-      - run:
-          name: Deploy to Heroku
-          command: |
-            git config --global user.email "mcw9612@rit.edu"
-            git config --global user.name "Matthew Witte"
-            git add --force client/dist/
-            git commit --amend -m "Auto Commit $CIRCLE_SHA1"
-            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/hockeyplayoffpool.git HEAD:refs/heads/master
+
+not_master: &not_master
+  filters:
+    branches:
+      ignore: master
+
 workflows:
   version: 2
 
   commit:
     jobs:
-      - backend
-      - frontend-lint
-      - frontend-test
-      - frontend-build
-      - deploy-test:
-          requires:
-            - backend
-            - frontend-lint
-            - frontend-test
-            - frontend-build
-          filters:
-            branches:
-              ignore: master
-      - deploy-prod:
-          requires:
-            - backend
-            - frontend-lint
-            - frontend-test
-            - frontend-build
-          filters:
-            branches:
-              only: master
+      - backend:
+          <<: *not_master
+      - frontend-lint:
+          <<: *not_master
+      - frontend-test:
+          <<: *not_master
+      - frontend-build:
+          <<: *not_master
