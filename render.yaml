@@ -10,4 +10,5 @@ services:
     numInstances: 1
 databases:
   - name: hockeyplayoffpool
+    region: ohio
     plan: free
