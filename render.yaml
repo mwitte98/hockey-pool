@@ -10,4 +10,4 @@ services:
     numInstances: 1
 databases:
   - name: hockeyplayoffpool
-    databaseName: db/hockey_pool_production_db
+    databaseName: hockeyplayoffpool
