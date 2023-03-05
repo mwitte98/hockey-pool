@@ -1,0 +1,14 @@
+# Schema documented at https://render.com/docs/yaml-spec
+services:
+  - type: web
+    name: hockeyplayoffpool
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    region: ohio
+    plan: free
+    numInstances: 1
+databases:
+  - name: hockeyplayoffpool
+    region: ohio
+    plan: free

@@ -16,6 +16,6 @@ test:
 
 production:
   adapter: postgresql
-  database: db/hockey_pool_production_db
+  url: <%= ENV['DATABASE_URL'] %>
   pool: 5
   timeout: 5000
