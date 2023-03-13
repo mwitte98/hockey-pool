@@ -1,5 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTabGroup } from '@angular/material/tabs';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { SettingsService } from '../shared/services/settings.service';
@@ -9,8 +8,7 @@ import { UtilService } from '../shared/services/util.service';
 import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatsTeam, User } from '../shared/types/interfaces';
 
 @Component({
-  templateUrl: './player-stats.component.html',
-  styleUrls: ['./player-stats.component.scss']
+  templateUrl: './player-stats.component.html'
 })
 export class PlayerStatsComponent implements OnInit {
   loading = false;
@@ -19,26 +17,24 @@ export class PlayerStatsComponent implements OnInit {
   shownSkaters: PlayerStatsPlayer[] = [];
   shownGoalies: PlayerStatsPlayer[] = [];
   isFinals = false;
-  showingEliminatedPlayers = false;
-  showingSelectedPlayers = true;
-  showingPlayersWithPoints = true;
-  @ViewChild('tabGroup', { static: false }) tabGroup: MatTabGroup;
+  showingEliminated = false;
+  showingSelected = true;
 
-  skaterColumnsToDisplay = ['name', 'team', 'position', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
-  goalieColumnsToDisplay = ['name', 'team', 'position', 'goals', 'assists', 'wins', 'otl', 'shutouts', 'points'];
+  skaterColumnsToDisplay = ['name', 'goals', 'assists', 'gwg', 'shg', 'otg', 'points'];
+  goalieColumnsToDisplay = ['name', 'goals', 'assists', 'wins', 'otl', 'shutouts', 'points'];
   skaterStatColumns: PlayerStatColumn[] = [
-    { stat: 'goals', header: 'G', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
-    { stat: 'assists', header: 'A', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
-    { stat: 'gwg', header: 'GWG', colWidth: 48, textWidth: 30, finalsColWidthGtXs: 66, finalsTextWidthGtXs: 53 },
-    { stat: 'shg', header: 'SHG', colWidth: 44, textWidth: 26, finalsColWidthGtXs: 62, finalsTextWidthGtXs: 49 },
-    { stat: 'otg', header: 'OTG', colWidth: 44, textWidth: 26, finalsColWidthGtXs: 62, finalsTextWidthGtXs: 49 }
+    { stat: 'goals', header: 'G' },
+    { stat: 'assists', header: 'A' },
+    { stat: 'gwg', header: 'GWG' },
+    { stat: 'shg', header: 'SHG' },
+    { stat: 'otg', header: 'OTG' }
   ];
   goalieStatColumns: PlayerStatColumn[] = [
-    { stat: 'goals', header: 'G', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
-    { stat: 'assists', header: 'A', colWidth: 38, textWidth: 20, finalsColWidthGtXs: 50, finalsTextWidthGtXs: 35 },
-    { stat: 'wins', header: 'Wins', colWidth: 48, textWidth: 28, finalsColWidthGtXs: 66, finalsTextWidthGtXs: 53 },
-    { stat: 'otl', header: 'OTL', colWidth: 44, textWidth: 24, finalsColWidthGtXs: 62, finalsTextWidthGtXs: 49 },
-    { stat: 'shutouts', header: 'SO', colWidth: 44, textWidth: 20, finalsColWidthGtXs: 62, finalsTextWidthGtXs: 42 }
+    { stat: 'goals', header: 'G' },
+    { stat: 'assists', header: 'A' },
+    { stat: 'wins', header: 'Wins' },
+    { stat: 'otl', header: 'OTL' },
+    { stat: 'shutouts', header: 'SO' }
   ];
 
   constructor(
@@ -65,10 +61,6 @@ export class PlayerStatsComponent implements OnInit {
     });
   }
 
-  realignInkBar(): void {
-    this.tabGroup.realignInkBar();
-  }
-
   updatePlayers(teams: PlayerStatsTeam[]): void {
     this.originalSkaters = [];
     this.originalGoalies = [];
@@ -83,20 +75,17 @@ export class PlayerStatsComponent implements OnInit {
         }
       }
     }
-    this.updateShownPlayers();
+    this.updateShown();
   }
 
-  updateShownPlayers(): void {
+  updateShown(): void {
     this.shownSkaters = this.applyFilters(this.originalSkaters);
     this.shownGoalies = this.applyFilters(this.originalGoalies);
   }
 
   applyFilters(originalPlayers: PlayerStatsPlayer[]): PlayerStatsPlayer[] {
     return originalPlayers.filter(
-      (p) =>
-        (!this.showingSelectedPlayers || p.isSelected) &&
-        (this.showingEliminatedPlayers || !p.team.isEliminated) &&
-        (!this.showingPlayersWithPoints || p.points > 0)
+      (p) => (!this.showingSelected || p.isSelected) && (this.showingEliminated || !p.team.isEliminated)
     );
   }
 }

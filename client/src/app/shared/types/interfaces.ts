@@ -39,10 +39,6 @@ export interface Player {
 export interface PlayerStatColumn {
   stat: string;
   header: string;
-  colWidth: number;
-  textWidth: number;
-  finalsColWidthGtXs: number;
-  finalsTextWidthGtXs: number;
 }
 
 export interface PlayerStatTiebreaker {

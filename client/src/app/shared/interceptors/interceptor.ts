@@ -29,10 +29,10 @@ export class Interceptor implements HttpInterceptor {
   }
 
   toSnake(s: string): string {
-    return s.replace(/[A-Z]/gu, (letter) => `_${letter.toLowerCase()}`);
+    return s.replaceAll(/[A-Z]/gu, (letter) => `_${letter.toLowerCase()}`);
   }
 
   toCamel(s: string): string {
-    return s.replace(/(?<case>_[a-z])/giu, ($case) => $case.toUpperCase().replace('_', ''));
+    return s.replaceAll(/(?<case>_[a-z])/giu, ($case) => $case.toUpperCase().replace('_', ''));
   }
 }

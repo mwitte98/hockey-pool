@@ -1,7 +1,3 @@
-$gray: #eee;
-$gray-border: rgb(0 0 0 / 12%);
-$green: #008000;
-
 .header {
   display: flex;
   margin: 16px;
@@ -12,7 +8,7 @@ $green: #008000;
 }
 
 .expansion-panel {
-  border-color: $gray-border;
+  border-color: var(--gray-border);
   border-radius: 0 !important;
   border-style: solid;
   border-width: 0 0 1px;
@@ -23,7 +19,7 @@ $green: #008000;
   padding: 0 16px;
 
   &:hover {
-    background: $gray !important;
+    background: var(--gray) !important;
   }
 }
 
@@ -31,36 +27,32 @@ $green: #008000;
   padding-top: 16px;
 }
 
-.mat-form-field {
+.mat-mdc-form-field {
   padding-right: 16px;
 }
 
 .abbr-input {
-  width: 80px;
+  width: 135px;
 }
 
 .conference-input {
-  width: 100px;
+  width: 125px;
 }
 
-.mat-checkbox {
+.mat-mdc-checkbox {
   padding-right: 16px;
 }
 
 .player-name-input {
-  width: 100px;
+  width: 150px;
 }
 
 .position-input {
-  width: 45px;
+  width: 105px;
 }
 
 .number-input {
-  width: 41px;
-}
-
-.finals-number-input {
-  width: 50px;
+  width: 95px;
 }
 
 .primary-button {
@@ -78,5 +70,5 @@ $green: #008000;
 }
 
 .check-icon {
-  color: $green;
+  color: var(--success);
 }

@@ -1,13 +1,11 @@
-$green: #008000;
-
-.mat-card {
+.mat-mdc-card {
   margin: 50px auto;
   padding-bottom: 8px;
   text-align: center;
   width: 90%;
 }
 
-.mat-card-actions {
+.mat-mdc-card-actions {
   margin-bottom: 0;
   padding-bottom: 0;
 }
@@ -16,9 +14,9 @@ $green: #008000;
   padding: 8px 0;
 }
 
-.mat-form-field {
-  padding-right: 16px;
-  width: 50px;
+.mat-mdc-form-field {
+  padding: 0 8px;
+  width: 95px;
 }
 
 .form-submit-status {
@@ -31,5 +29,5 @@ $green: #008000;
 }
 
 .check-icon {
-  color: $green;
+  color: var(--success);
 }

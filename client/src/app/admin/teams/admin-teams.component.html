@@ -4,8 +4,8 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div class="accordion-container">
   <mat-accordion multi [displayMode]="'flat'">
-    <mat-expansion-panel class="expansion-panel" *ngFor="let team of teams; trackBy: trackByTeamId">
-      <mat-expansion-panel-header [expandedHeight]="'48px'" class="expansion-panel-header">
+    <mat-expansion-panel *ngFor="let team of teams; trackBy: trackByTeamId" class="expansion-panel">
+      <mat-expansion-panel-header class="expansion-panel-header" [expandedHeight]="'48px'">
         <mat-panel-title>{{ team.name }}</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
@@ -50,15 +50,15 @@
               Update
             </button>
             <div class="form-submit-status">
-              <mat-spinner class="form-spinner" *ngIf="team.updateLoading" [diameter]="25"></mat-spinner>
-              <mat-icon class="check-icon" *ngIf="team.updateSuccess">check</mat-icon>
-              <mat-icon color="warn" *ngIf="team.updateFailure">clear</mat-icon>
+              <mat-spinner *ngIf="team.updateLoading" class="form-spinner" [diameter]="25"></mat-spinner>
+              <mat-icon *ngIf="team.updateSuccess" class="check-icon">check</mat-icon>
+              <mat-icon *ngIf="team.updateFailure" color="warn">clear</mat-icon>
             </div>
           </form>
           <form
+            *ngFor="let player of team.players; trackBy: trackByPlayerId"
             [formGroup]="player.form"
-            (ngSubmit)="updatePlayer(team.id, player.id)"
-            *ngFor="let player of team.players; trackBy: trackByPlayerId">
+            (ngSubmit)="updatePlayer(team.id, player.id)">
             <mat-form-field class="player-name-input">
               <mat-label>First Name</mat-label>
               <input matInput formControlName="firstName" />
@@ -85,9 +85,9 @@
               Update
             </button>
             <div class="form-submit-status">
-              <mat-spinner class="form-spinner" *ngIf="player.updateLoading" [diameter]="25"></mat-spinner>
-              <mat-icon class="check-icon" *ngIf="player.updateSuccess">check</mat-icon>
-              <mat-icon color="warn" *ngIf="player.updateFailure">clear</mat-icon>
+              <mat-spinner *ngIf="player.updateLoading" class="form-spinner" [diameter]="25"></mat-spinner>
+              <mat-icon *ngIf="player.updateSuccess" class="check-icon">check</mat-icon>
+              <mat-icon *ngIf="player.updateFailure" color="warn">clear</mat-icon>
             </div>
           </form>
         </div>
