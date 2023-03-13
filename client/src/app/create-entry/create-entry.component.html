@@ -1,10 +1,12 @@
 <mat-spinner *ngIf="!entryForm"></mat-spinner>
-<mat-card *ngIf="entryForm">
-  <mat-card-title>Create Entry</mat-card-title>
-  <button mat-raised-button class="see-rules-button" type="button" (click)="seeRules()">See rules</button>
-  <display-errors [errors]="errors"></display-errors>
-  <form [formGroup]="entryForm" (ngSubmit)="submitForm(formDirective)" #formDirective="ngForm">
+<mat-card *ngIf="entryForm" appearance="outlined" class="mat-typography">
+  <mat-card-header>
+    <mat-card-title>Create Entry</mat-card-title>
+  </mat-card-header>
+  <form #formDirective="ngForm" [formGroup]="entryForm" (ngSubmit)="submitForm(formDirective)">
     <mat-card-content>
+      <button mat-raised-button class="see-rules-button" type="button" (click)="seeRules()">See rules</button>
+      <display-errors [errors]="errors"></display-errors>
       <div>
         <mat-form-field>
           <mat-label>Entry Name</mat-label>
@@ -21,24 +23,24 @@
       </div>
       <div>Number of each position selected:</div>
       <div class="positions">
-        <span class="position" [ngStyle]="{ color: entryForm.errors?.center ? '#f44336' : '' }">
+        <span class="position" [ngClass]="entryForm.errors?.center ? 'error' : ''">
           Centers: {{ numbersOfPositions.center }}
         </span>
-        <span class="position" [ngStyle]="{ color: entryForm.errors?.winger ? '#f44336' : '' }">
+        <span class="position" [ngClass]="entryForm.errors?.winger ? 'error' : ''">
           Wingers: {{ numbersOfPositions.winger }}
         </span>
-        <span class="position" [ngStyle]="{ color: entryForm.errors?.defenseman ? '#f44336' : '' }">
+        <span class="position" [ngClass]="entryForm.errors?.defenseman ? 'error' : ''">
           Defensemen: {{ numbersOfPositions.defenseman }}
         </span>
-        <span class="position" [ngStyle]="{ color: entryForm.errors?.goalie ? '#f44336' : '' }">
+        <span class="position" [ngClass]="entryForm.errors?.goalie ? 'error' : ''">
           Goalies: {{ numbersOfPositions.goalie }}
         </span>
       </div>
       <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamName">
         <mat-label>{{ team.name }}</mat-label>
         <mat-select [formControlName]="team.name">
-          <mat-option [value]="player.id" *ngFor="let player of team.players; trackBy: trackByPlayerId">
-            {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0:1 }})
+          <mat-option *ngFor="let player of team.players; trackBy: trackByPlayerId" [value]="player.id">
+            {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice : 0 : 1 }})
           </mat-option>
         </mat-select>
       </mat-form-field>

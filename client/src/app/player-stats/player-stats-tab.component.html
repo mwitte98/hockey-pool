@@ -1,56 +1,41 @@
-<mat-table
-  matSort
-  matSortActive="points"
-  matSortDirection="desc"
-  matSortStart="desc"
-  (matSortChange)="sortChange($event)"
-  [dataSource]="dataSource">
-  <ng-container matColumnDef="name">
-    <mat-header-cell
-      class="fx-flex"
-      ngClass.gt-xs="fx-flex-158"
-      ngClass.xs="fx-flex-95"
-      mat-sort-header
-      start="asc"
-      *matHeaderCellDef>
-      Name
-    </mat-header-cell>
-    <mat-cell class="fx-flex" ngClass.gt-xs="fx-flex-158" ngClass.xs="fx-flex-95" *matCellDef="let player">
-      <span fxShow="true" fxHide.xs [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
-        {{ player.firstName }} {{ player.lastName }}
-      </span>
-      <span fxHide="true" fxShow.xs [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
-        {{ player.firstName }} {{ player.lastName }} ({{ player.team.abbr }} - {{ player.position | slice: 0:1 }})
-      </span>
-    </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="team">
-    <mat-header-cell fxShow="true" fxHide.xs class="fx-flex fx-flex-38" mat-sort-header start="asc" *matHeaderCellDef>
-      Team
-    </mat-header-cell>
-    <mat-cell
-      fxShow="true"
-      fxHide.xs
-      class="fx-flex fx-flex-38"
-      [ngClass]="player.team.isEliminated ? 'strikethrough' : ''"
-      *matCellDef="let player">
-      {{ player.team.abbr }}
-    </mat-cell>
-  </ng-container>
-  <ng-container matColumnDef="position">
-    <mat-header-cell fxShow="true" fxHide.xs class="fx-flex fx-flex-38" mat-sort-header start="asc" *matHeaderCellDef>
-      Pos
-    </mat-header-cell>
-    <mat-cell fxShow="true" fxHide.xs class="fx-flex fx-flex-38" *matCellDef="let player">
-      {{ player.position | slice: 0:1 }}
-    </mat-cell>
-  </ng-container>
-  <stat-column *ngFor="let col of playerStatColumns; trackBy: trackBy" [data]="col" [isFinals]="isFinals"></stat-column>
-  <ng-container matColumnDef="points">
-    <mat-header-cell class="fx-flex fx-flex-37" mat-sort-header *matHeaderCellDef>Pts</mat-header-cell>
-    <mat-cell class="fx-flex fx-flex-37" *matCellDef="let player">{{ player.points ?? 0 }}</mat-cell>
-  </ng-container>
+<div class="table-wrapper">
+  <table
+    mat-table
+    matSort
+    matSortActive="points"
+    matSortDirection="desc"
+    matSortStart="desc"
+    class="table"
+    [dataSource]="dataSource"
+    (matSortChange)="sortChange($event)">
+    <ng-container matColumnDef="name" sticky>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header class="name-col" start="asc">Name</th>
+      <td *matCellDef="let player" mat-cell class="name-col sticky">
+        <span [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
+          <span>{{ player.firstName }} {{ player.lastName }} ({{ player.team.abbr }}</span>
+          <span *ngIf="player.position !== 'Goalie'">-{{ player.position | slice : 0 : 1 }}</span>
+          <span>)</span>
+        </span>
+      </td>
+    </ng-container>
+    <ng-container *ngFor="let col of playerStatColumns; trackBy: trackBy" [matColumnDef]="col.stat">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>
+        <span>
+          {{ col.header }}
+          <ng-container *ngIf="isFinals">(x2)</ng-container>
+        </span>
+      </th>
+      <td *matCellDef="let player" mat-cell>
+        {{ player[col.stat] ?? 0 }}
+        <ng-container *ngIf="player.team.inFinals">({{ getFinalsStat(col, player) ?? 0 }})</ng-container>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="points" stickyEnd>
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>Points</th>
+      <td *matCellDef="let player" mat-cell class="sticky">{{ player.points ?? 0 }}</td>
+    </ng-container>
 
-  <mat-header-row ngClass.xs="xs-row" *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
-  <mat-row ngClass.xs="xs-row" *matRowDef="let player; columns: columnsToDisplay"></mat-row>
-</mat-table>
+    <tr *matHeaderRowDef="columnsToDisplay; sticky: true" mat-header-row></tr>
+    <tr *matRowDef="let player; columns: columnsToDisplay" mat-row></tr>
+  </table>
+</div>

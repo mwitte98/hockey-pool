@@ -19,8 +19,8 @@ import { HistoricalGraphComponent } from './historical-graph.component';
   styleUrls: ['./home.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-      state('expanded', style({ height: '*', visibility: 'visible' })),
+      state('collapsed', style({ height: '0px', minHeight: '0', paddingTop: '0', paddingBottom: '0' })),
+      state('expanded', style({ height: '*', paddingTop: '8px', paddingBottom: '8px' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
   ]

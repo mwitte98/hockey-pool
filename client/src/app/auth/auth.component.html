@@ -1,23 +1,25 @@
-<mat-card *ngIf="authForm">
-  <mat-card-title>{{ authTypeCapital }}</mat-card-title>
-  <display-errors [errors]="errors"></display-errors>
+<mat-card *ngIf="authForm" appearance="outlined" class="mat-typography">
+  <mat-card-header>
+    <mat-card-title>{{ authTypeCapital }}</mat-card-title>
+  </mat-card-header>
   <form [formGroup]="authForm" (ngSubmit)="submitForm()">
     <mat-card-content>
+      <display-errors [errors]="errors"></display-errors>
       <br />
       <mat-form-field>
         <input matInput formControlName="email" placeholder="Email" type="email" />
       </mat-form-field>
       <br />
-      <mat-form-field color="{{ errorMessage ? 'warn' : 'primary' }}">
+      <mat-form-field [color]="getFormColor()">
         <input matInput formControlName="password" placeholder="Password" type="password" />
-        <mat-hint *ngIf="errorMessage" [ngStyle]="{ color: '#f44336' }">
+        <mat-hint *ngIf="errorMessage" class="error">
           {{ errorMessage }}
         </mat-hint>
       </mat-form-field>
       <br />
-      <mat-form-field color="{{ errorMessage ? 'warn' : 'primary' }}" *ngIf="authType === 'register'">
+      <mat-form-field *ngIf="authType === 'register'" [color]="getFormColor()">
         <input matInput formControlName="passwordConfirmation" placeholder="Confirm Password" type="password" />
-        <mat-hint *ngIf="errorMessage" [ngStyle]="{ color: '#f44336' }">
+        <mat-hint *ngIf="errorMessage" class="error">
           {{ errorMessage }}
         </mat-hint>
       </mat-form-field>

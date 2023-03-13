@@ -1,6 +1,4 @@
-$red: #f44336;
-
 p {
-  color: $red;
+  color: var(--error);
   text-align: left;
 }

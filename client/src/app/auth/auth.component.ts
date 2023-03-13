@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserService } from '../shared/services/user.service';
@@ -44,6 +45,10 @@ export class AuthComponent implements OnInit {
         });
       }
     });
+  }
+
+  getFormColor(): ThemePalette {
+    return this.errorMessage ? 'warn' : 'primary';
   }
 
   submitForm(): void {

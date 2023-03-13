@@ -159,7 +159,7 @@ export class BestEntryService {
     const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
     let diff = 0;
     for (const tiebreaker of tiebreakers) {
-      diff = b[tiebreaker] ?? 0 - a[tiebreaker] ?? 0;
+      diff = (b[tiebreaker] ?? 0) - (a[tiebreaker] ?? 0);
       if (diff !== 0) {
         break;
       }

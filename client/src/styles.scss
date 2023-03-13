@@ -1,4 +1,11 @@
-// You can add global styles to this file, and also import other style files
+:root {
+  --primary: #3f51b5;
+  --success: #008000;
+  --error: #f44336;
+  --white: #fff;
+  --gray: #eee;
+  --gray-border: rgb(0 0 0 / 12%);
+}
 
 body {
   margin: 0;
@@ -12,32 +19,46 @@ body {
   text-decoration: line-through;
 }
 
-.fx-flex {
-  box-sizing: border-box;
-  flex: 1 1 100%;
+.error {
+  color: var(--error);
 }
 
-.fx-flex-38 {
-  min-width: 38px;
+.mat-mdc-header-row,
+.mat-mdc-row {
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.mat-tab-body-wrapper {
-  overflow: visible !important;
+.mat-mdc-header-cell,
+.mat-mdc-cell {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
 }
 
-.mat-tab-body-active {
-  overflow: visible !important;
+.mdc-form-field > label {
+  cursor: pointer;
 }
 
-.mat-tab-body-content {
-  overflow: visible !important;
+.slide-toggle-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 16px 16px 0;
 }
 
-.mat-sort-header-button {
-  margin: 0;
-  text-align: left;
+.mat-mdc-slide-toggle {
+  margin: 0 8px 16px;
 }
 
-.mat-sort-header-arrow {
-  margin: 0 !important;
+.mat-mdc-dialog-content {
+  color: black !important;
+}
+
+.mat-mdc-card-header {
+  align-self: center;
+}
+
+.mat-mdc-card-actions {
+  justify-content: center;
+  padding-bottom: 16px !important;
 }

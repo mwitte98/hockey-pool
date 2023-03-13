@@ -1,17 +1,14 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
-<div *ngIf="!loading" class="player-stats-wrapper">
+<div *ngIf="!loading">
   <div class="slide-toggle-container">
-    <mat-slide-toggle color="primary" [(ngModel)]="showingEliminatedPlayers" (change)="updateShownPlayers()">
-      Show Eliminated Players
+    <mat-slide-toggle color="primary" [(ngModel)]="showingEliminated" (change)="updateShown()">
+      Show Eliminated
     </mat-slide-toggle>
-    <mat-slide-toggle color="primary" [(ngModel)]="showingSelectedPlayers" (change)="updateShownPlayers()">
-      Show Selected Players
-    </mat-slide-toggle>
-    <mat-slide-toggle color="primary" [(ngModel)]="showingPlayersWithPoints" (change)="updateShownPlayers()">
-      Show Players with Points
+    <mat-slide-toggle color="primary" [(ngModel)]="showingSelected" (change)="updateShown()">
+      Show Selected
     </mat-slide-toggle>
   </div>
-  <mat-tab-group #tabGroup mat-align-tabs="center" animationDuration="0ms" (selectedTabChange)="realignInkBar()">
+  <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" animationDuration="0ms">
     <mat-tab label="Skaters">
       <player-stats-tab
         [players]="shownSkaters"

@@ -1,36 +1,14 @@
-$white: #fff;
-$gray: #eee;
-$blue: #3f51b5;
-
-.slide-toggle-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 16px 16px 0;
-}
-
-.mat-raised-button {
+.mat-mdc-raised-button {
   margin-bottom: 16px;
 }
 
-.mat-slide-toggle {
-  margin-bottom: 16px;
-  margin-left: 20px;
+.table-wrapper {
+  height: calc(100vh - 109px);
+  overflow: auto;
 }
 
 .bold-text {
   font-weight: bold;
-}
-
-.table-container {
-  display: flex;
-  flex-direction: column;
-  margin: 0 16px 16px;
-
-  &.xs-row {
-    margin: 0;
-  }
 }
 
 .entry-row {
@@ -42,48 +20,25 @@ $blue: #3f51b5;
   }
 
   &:hover {
-    background: $gray;
-  }
-
-  &.expanded {
-    border-bottom-color: transparent;
+    background: var(--gray) !important;
   }
 }
 
 .expansion-row {
-  overflow: hidden;
-  min-height: 0;
+  height: 0;
 }
 
-.mat-header-row,
-.mat-row {
-  padding-left: 16px;
-  padding-right: 8px;
-
-  &.xs-row {
-    padding-left: 8px;
-    padding-right: 0;
-  }
-}
-
-.mat-header-cell,
-.mat-cell {
-  padding-left: 0;
-  padding-right: 8px;
-}
-
-.player-details {
-  padding-bottom: 16px;
+.expansion-row-content {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100vw - 16px);
   padding-top: 8px;
-}
-
-.xs-row > .player-details {
   padding-bottom: 8px;
 }
 
 .team-player-wrapper {
   display: flex;
-  width: 240px;
+  width: 250px;
   padding: 1px 0;
 
   &.hidden {
@@ -95,13 +50,17 @@ $blue: #3f51b5;
   height: 20px;
 }
 
+.player-wrapper {
+  display: flex;
+}
+
 .player-name {
   padding: 2px 4px 2px 0;
 }
 
 .badge {
-  background-color: $blue;
+  background-color: var(--primary);
   border-radius: 10px;
-  color: $white;
+  color: var(--white);
   padding: 2px 5px;
 }

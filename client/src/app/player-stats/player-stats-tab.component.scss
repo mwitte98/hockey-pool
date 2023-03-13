@@ -1,28 +1,19 @@
-.mat-header-row,
-.mat-row {
-  padding-left: 16px;
-  padding-right: 8px;
-
-  &.xs-row {
-    padding-left: 8px;
-    padding-right: 0;
-  }
+.table-wrapper {
+  height: calc(100vh - 157px);
 }
 
-.mat-header-cell,
-.mat-cell {
-  padding-left: 0;
-  padding-right: 8px;
+.table {
+  min-width: unset;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.fx-flex-37 {
-  min-width: 37px;
+.name-col {
+  min-width: 127px;
 }
 
-.fx-flex-95 {
-  min-width: 95px;
-}
-
-.fx-flex-158 {
-  min-width: 158px;
+.sticky {
+  position: sticky !important;
+  left: 0;
+  right: 0;
 }

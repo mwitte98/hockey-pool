@@ -1,9 +1,11 @@
 <mat-spinner *ngIf="!settingForm"></mat-spinner>
-<mat-card *ngIf="settingForm">
-  <mat-card-title>Admin - Settings</mat-card-title>
-  <display-errors [errors]="errors"></display-errors>
+<mat-card *ngIf="settingForm" appearance="outlined" class="mat-typography">
+  <mat-card-header>
+    <mat-card-title>Admin - Settings</mat-card-title>
+  </mat-card-header>
   <form [formGroup]="settingForm" (ngSubmit)="submitForm()">
     <mat-card-content>
+      <display-errors [errors]="errors"></display-errors>
       <mat-checkbox formControlName="isPlayoffsStarted" color="primary">Have Playoffs Started</mat-checkbox>
       <div class="settings-section-header">Number of each position per entry</div>
       <mat-form-field>
@@ -110,9 +112,9 @@
         Update
       </button>
       <div class="form-submit-status">
-        <mat-spinner class="form-spinner" *ngIf="updating" [diameter]="25"></mat-spinner>
-        <mat-icon class="check-icon" *ngIf="updateSuccess">check</mat-icon>
-        <mat-icon color="warn" *ngIf="updateFailure">clear</mat-icon>
+        <mat-spinner *ngIf="updating" class="form-spinner" [diameter]="25"></mat-spinner>
+        <mat-icon *ngIf="updateSuccess" class="check-icon">check</mat-icon>
+        <mat-icon *ngIf="updateFailure" color="warn">clear</mat-icon>
       </div>
     </mat-card-actions>
   </form>

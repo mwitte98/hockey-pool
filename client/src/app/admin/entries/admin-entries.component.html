@@ -10,8 +10,8 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div class="accordion-container">
   <mat-accordion multi [displayMode]="'flat'">
-    <mat-expansion-panel class="expansion-panel" *ngFor="let entry of entries; trackBy: trackByEntryId">
-      <mat-expansion-panel-header [expandedHeight]="'48px'" class="expansion-panel-header">
+    <mat-expansion-panel *ngFor="let entry of entries; trackBy: trackByEntryId" class="expansion-panel">
+      <mat-expansion-panel-header class="expansion-panel-header" [expandedHeight]="'48px'">
         <mat-panel-title>{{ entry.name }}</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
@@ -31,11 +31,11 @@
                 <input matInput type="email" formControlName="email" />
               </mat-form-field>
             </div>
-            <mat-form-field class="player-input" *ngFor="let team of teams; trackBy: trackByTeamName">
+            <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamName" class="player-input">
               <mat-label>{{ team.name }}</mat-label>
               <mat-select [formControlName]="team.name">
-                <mat-option [value]="player.id" *ngFor="let player of team.players; trackBy: trackByPlayerId">
-                  {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0:1 }})
+                <mat-option *ngFor="let player of team.players; trackBy: trackByPlayerId" [value]="player.id">
+                  {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice : 0 : 1 }})
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -48,9 +48,9 @@
               Update
             </button>
             <div class="form-submit-status">
-              <mat-spinner class="form-spinner" *ngIf="entry.updateLoading" [diameter]="25"></mat-spinner>
-              <mat-icon class="check-icon" *ngIf="entry.updateSuccess">check</mat-icon>
-              <mat-icon color="warn" *ngIf="entry.updateFailure">clear</mat-icon>
+              <mat-spinner *ngIf="entry.updateLoading" class="form-spinner" [diameter]="25"></mat-spinner>
+              <mat-icon *ngIf="entry.updateSuccess" class="check-icon">check</mat-icon>
+              <mat-icon *ngIf="entry.updateFailure" color="warn">clear</mat-icon>
             </div>
           </form>
         </div>

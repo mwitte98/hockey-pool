@@ -35,14 +35,7 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
   setDataSource(): void {
     this.dataSource = new MatTableDataSource(this.utilService.sortPlayersByStats(this.players, this.tiebreakers));
     this.dataSource.sortingDataAccessor = (player: PlayerStatsPlayer, sortHeader: string): number | string => {
-      switch (sortHeader) {
-        case 'team':
-          return player.team.abbr;
-        case 'name':
-          return player.lastName;
-        default:
-          return player[sortHeader];
-      }
+      return sortHeader === 'name' ? player.lastName : player[sortHeader];
     };
     this.dataSource.sort = this.sort;
   }
@@ -53,5 +46,10 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
 
   sortChange(sort: Sort): void {
     this.players = this.utilService.sortPlayersByStats(this.players, this.tiebreakers, sort);
+  }
+
+  getFinalsStat(col: PlayerStatColumn, player: PlayerStatsPlayer): number {
+    const { stat } = col;
+    return player[`finals${stat.charAt(0).toUpperCase()}${stat.slice(1)}`];
   }
 }
