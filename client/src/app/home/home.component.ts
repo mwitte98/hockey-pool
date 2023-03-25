@@ -1,6 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -12,7 +11,6 @@ import { UtilService } from '../shared/services/util.service';
 import { DisplayEntry, HomePlayer, HomeTeam, User } from '../shared/types/interfaces';
 
 import { BestEntryService } from './best-entry.service';
-import { HistoricalGraphComponent } from './historical-graph.component';
 
 @Component({
   templateUrl: './home.component.html',
@@ -37,7 +35,6 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog,
     private entriesService: EntriesService,
     private teamsService: TeamsService,
     private settingsService: SettingsService,
@@ -67,7 +64,6 @@ export class HomeComponent implements OnInit {
             }
             this.prepareTableData();
             this.loading = false;
-            // this.openHistoricalGraph();
           }
         });
       }
@@ -97,22 +93,6 @@ export class HomeComponent implements OnInit {
 
   toggleAllPanels(): void {
     this.expandedEntries = this.showingAllEntries ? this.entries.map((entry) => entry.name) : [];
-  }
-
-  openHistoricalGraph(): void {
-    const entries: DisplayEntry[] = [];
-    for (const entry of this.entries) {
-      if (!entry.bestEntry) {
-        entries.push({ name: entry.name, playerIds: entry.playerIds });
-      }
-    }
-    this.dialog.open(HistoricalGraphComponent, {
-      autoFocus: 'dialog',
-      height: '95vh',
-      width: '95vw',
-      maxWidth: '95vw',
-      data: { entries, teams: this.teams }
-    });
   }
 
   getLogoUrl(team: HomeTeam): string {

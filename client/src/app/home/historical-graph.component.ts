@@ -1,38 +1,59 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 
+import { EntriesService } from '../shared/services/entries.service';
+import { TeamsService } from '../shared/services/teams.service';
+import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
-import { ChartLine, DisplayEntry, HomeTeam } from '../shared/types/interfaces';
+import { ChartLine, DisplayEntry, HomeTeam, User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './historical-graph.component.html',
   styleUrls: ['./historical-graph.component.scss']
 })
 export class HistoricalGraphComponent implements OnInit {
-  dates: string[];
-  teams: HomeTeam[];
-  entries: DisplayEntry[];
-  chartData: ChartLine[];
+  dates: string[] = [];
+  teams: HomeTeam[] = [];
+  entries: DisplayEntry[] = [];
+  chartData: ChartLine[] = [];
+  loading = false;
+  window = window;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { entries: DisplayEntry[]; teams: HomeTeam[] },
+    private router: Router,
+    private entriesService: EntriesService,
+    private teamsService: TeamsService,
+    private userService: UserService,
     private utilService: UtilService
   ) {}
 
   ngOnInit(): void {
-    this.dates = [
-      ...new Set(
-        this.data.teams.flatMap((team) => team.players.flatMap((player) => player.stats.map((stat) => stat.date)))
-      )
-    ].sort((a, b) => a.localeCompare(b));
-    this.cumulatePlayerStats();
-    this.cumulateEntryStats();
-    this.sortEntries();
-    this.setupChart();
+    this.userService.currentUser.subscribe((user: User) => {
+      if (user === null) {
+        this.router.navigateByUrl('/').catch();
+      } else if (user != null) {
+        this.loading = true;
+        forkJoin({ entries: this.entriesService.getDisplay(), teams: this.teamsService.getHome() }).subscribe({
+          next: ({ entries, teams }) => {
+            this.dates = [
+              ...new Set(
+                teams.flatMap((team) => team.players.flatMap((player) => player.stats.map((stat) => stat.date)))
+              )
+            ].sort((a, b) => a.localeCompare(b));
+            this.cumulatePlayerStats(teams);
+            this.cumulateEntryStats(entries);
+            this.sortEntries();
+            this.setupChart();
+            this.loading = false;
+          }
+        });
+      }
+    });
   }
 
-  cumulatePlayerStats(): void {
-    this.teams = this.data.teams.map((team) => {
+  cumulatePlayerStats(teams: HomeTeam[]): void {
+    this.teams = teams.map((team) => {
       return {
         ...team,
         players: team.players.map((player) => {
@@ -52,8 +73,8 @@ export class HistoricalGraphComponent implements OnInit {
     });
   }
 
-  cumulateEntryStats(): void {
-    this.entries = this.data.entries.map((entry) => {
+  cumulateEntryStats(entries: DisplayEntry[]): void {
+    this.entries = entries.map((entry) => {
       const cumulativeEntry = this.setupCumulativeEntry(entry);
       for (const team of this.teams) {
         const player = team.players.find((p) => cumulativeEntry.playerIds.includes(p.id));

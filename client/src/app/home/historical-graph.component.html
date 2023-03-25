@@ -1,6 +1,14 @@
-<mat-dialog-content class="mat-typography">
-  <div>{{ chartData | json }}</div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button type="button" mat-dialog-close>Close</button>
-</mat-dialog-actions>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<ngx-charts-line-chart
+  *ngIf="!loading && chartData.length > 0"
+  class="mat-typography"
+  [results]="chartData"
+  [view]="[window.innerWidth, window.innerHeight - 64]"
+  [xAxis]="true"
+  [yAxis]="true"
+  [yScaleMax]="1"
+  [yScaleMin]="entries.length"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
+  [xAxisLabel]="'Date of Games'"
+  [yAxisLabel]="'Rank'"></ngx-charts-line-chart>

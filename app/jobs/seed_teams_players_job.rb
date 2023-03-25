@@ -4,7 +4,7 @@ class SeedTeamsPlayersJob
   def perform
     agent = Mechanize.new
     standings = JSON.parse(agent.get('https://statsapi.web.nhl.com/api/v1/standings').body)
-    rosters = JSON.parse(agent.get('http://statsapi.web.nhl.com/api/v1/teams?expand=team.roster').body)
+    rosters = JSON.parse(agent.get('http://statsapi.web.nhl.com/api/v1/teams?hydrate=roster').body)
     standings['records'].each do |record|
       record['teamRecords'].each do |team_record|
         update_teams_players rosters, team_record
