@@ -1,7 +1,6 @@
 <mat-spinner *ngIf="loading"></mat-spinner>
 <div *ngIf="!loading">
   <div class="slide-toggle-container">
-    <!-- <button mat-raised-button type="button" (click)="openHistoricalGraph()">Historical Graph</button> -->
     <mat-slide-toggle color="primary" [(ngModel)]="showingAllEntries" (change)="toggleAllPanels()">
       Expand Entries
     </mat-slide-toggle>

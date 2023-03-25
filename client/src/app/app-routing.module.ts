@@ -6,6 +6,7 @@ import { AdminSettingsComponent } from './admin/settings/admin-settings.componen
 import { AdminTeamsComponent } from './admin/teams/admin-teams.component';
 import { AuthComponent } from './auth/auth.component';
 import { CreateEntryComponent } from './create-entry/create-entry.component';
+import { HistoricalGraphComponent } from './home/historical-graph.component';
 import { HomeComponent } from './home/home.component';
 import { PlayerStatsComponent } from './player-stats/player-stats.component';
 
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
   { path: 'login', component: AuthComponent, title: `${titlePrefix}Login` },
   { path: 'register', component: AuthComponent, title: `${titlePrefix}Register` },
   { path: 'player-stats', component: PlayerStatsComponent, title: `${titlePrefix}Player Stats` },
+  { path: 'rank-by-day', component: HistoricalGraphComponent, title: `${titlePrefix}Rank by Day` },
   { path: '', component: HomeComponent, title: `${titlePrefix}Home` },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];

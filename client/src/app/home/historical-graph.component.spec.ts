@@ -4,7 +4,7 @@ describe('HistoricalGraphComponent', () => {
   let comp: HistoricalGraphComponent;
 
   beforeEach(() => {
-    comp = new HistoricalGraphComponent({} as any, {} as any);
+    comp = new HistoricalGraphComponent({} as any, {} as any, {} as any, {} as any, {} as any);
   });
 
   it('component is created', () => {

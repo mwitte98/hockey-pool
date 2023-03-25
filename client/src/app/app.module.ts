@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AdminEntriesComponent } from './admin/entries/admin-entries.component';
 import { AdminSettingsComponent } from './admin/settings/admin-settings.component';
@@ -50,6 +51,7 @@ import { Interceptor } from './shared/interceptors/interceptor';
     FormsModule,
     HttpClientModule,
     MaterialModule,
+    NgxChartsModule,
     ReactiveFormsModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }],
