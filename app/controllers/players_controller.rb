@@ -2,7 +2,19 @@ class PlayersController < ApplicationController
   before_action :signed_in?, only: %i[create update destroy]
 
   def index
-    render json: Player.where(team_id: params[:team_id]).as_json(setting: Setting.first)
+    players = Player.joins(:team).where('teams.made_playoffs = true').as_json(
+      only: %i[id position stats], setting: Setting.first
+    )
+    players.each do |player|
+      player['stats'].each do |date_stat|
+        date_stat.each do |key, _value|
+          next if %w[date goals points].include?(key)
+
+          date_stat.delete key
+        end
+      end
+    end
+    render json: players
   end
 
   def create

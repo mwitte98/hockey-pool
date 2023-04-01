@@ -26,14 +26,6 @@ export interface Player {
   shutouts?: number;
   otl?: number;
   points?: number;
-  finalsGoals?: number;
-  finalsAssists?: number;
-  finalsGwg?: number;
-  finalsShg?: number;
-  finalsOtg?: number;
-  finalsWins?: number;
-  finalsShutouts?: number;
-  finalsOtl?: number;
 }
 
 export interface PlayerStatColumn {
@@ -66,14 +58,7 @@ export interface Setting {
   pointsWins: number;
   pointsOtl: number;
   pointsShutouts: number;
-  pointsFinalsGoals: number;
-  pointsFinalsAssists: number;
-  pointsFinalsGwg: number;
-  pointsFinalsShg: number;
-  pointsFinalsOtg: number;
-  pointsFinalsWins: number;
-  pointsFinalsOtl: number;
-  pointsFinalsShutouts: number;
+  roundMultipliers: number[];
 }
 
 export interface User {
@@ -168,12 +153,27 @@ export interface HomePlayer {
   firstName: string;
   lastName: string;
   position: string;
-  stats: Stat[];
+  goals?: number;
+  points: number;
+}
+// END - /teams?field_groups=home
+
+// START - /teams?field_groups=player_stats
+export interface PlayerStatsTeam {
+  abbr: string;
+  isEliminated: boolean;
+  players: PlayerStatsPlayer[];
 }
 
-export interface Stat {
+export interface PlayerStatsPlayer extends Player {
+  isSelected?: boolean;
+  team?: PlayerStatsTeam;
+  stats?: PlayerStatsPlayerStat[];
+}
+
+export interface PlayerStatsPlayerStat {
   date: string;
-  isFinals?: boolean;
+  round: number;
   goals?: number;
   assists?: number;
   gwg?: number;
@@ -183,20 +183,6 @@ export interface Stat {
   shutouts?: number;
   otl?: number;
   points: number;
-}
-// END - /teams?field_groups=home
-
-// START - /teams?field_groups=player_stats
-export interface PlayerStatsTeam {
-  abbr: string;
-  isEliminated: boolean;
-  inFinals?: boolean;
-  players: PlayerStatsPlayer[];
-}
-
-export interface PlayerStatsPlayer extends Player {
-  isSelected?: boolean;
-  team?: PlayerStatsTeam;
 }
 // END - /teams?field_groups=player_stats
 
@@ -213,3 +199,17 @@ export interface UpsertEntryPlayer {
   position: string;
 }
 // END - /teams?field_groups=upsert_entry
+
+// START - /players?field_groups=historical
+export interface HistoricalPlayer {
+  id: number;
+  position: string;
+  stats: HistoricalStat[];
+}
+
+export interface HistoricalStat {
+  date: string;
+  goals?: number;
+  points: number;
+}
+// END - /players?field_groups=historical

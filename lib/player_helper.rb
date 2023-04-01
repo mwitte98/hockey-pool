@@ -6,8 +6,8 @@ module PlayerHelper
         total_points = 0
         stats.each do |stat|
           unless date_stat[stat].nil?
-            total_points += date_stat[stat] * setting["points_#{stat}"]
-            total_points += date_stat[stat] * setting["points_finals_#{stat}"] if date_stat['is_finals']
+            total_points += date_stat[stat] * setting["points_#{stat}"] *
+                            setting['round_multipliers'][date_stat['round'] - 1]
           end
         end
         date_stat['points'] = total_points

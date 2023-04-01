@@ -115,22 +115,11 @@ export class HomeComponent implements OnInit {
       this.resetEntryPoints(entry);
       for (const team of this.teams) {
         const player = this.getSelectedPlayerForTeam(entry.playerIds, team);
-        const { goals, points } = this.getGoalsAndPoints(player);
-        entry.points += points;
-        entry.totalGoals += goals ?? 0;
-        entry[`points${player.position.charAt(0)}`] += points;
+        entry.points += player.points ?? 0;
+        entry.totalGoals += player.goals ?? 0;
+        entry[`points${player.position.charAt(0)}`] += player.points ?? 0;
       }
     }
-  }
-
-  getGoalsAndPoints(player: HomePlayer): { goals: number; points: number } {
-    let goals = 0;
-    let points = 0;
-    for (const stat of player.stats) {
-      goals += stat.goals ?? 0;
-      points += stat.points;
-    }
-    return { goals, points };
   }
 
   resetEntryPoints(entry: DisplayEntry): void {

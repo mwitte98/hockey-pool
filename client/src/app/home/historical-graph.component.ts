@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
 import { EntriesService } from '../shared/services/entries.service';
-import { TeamsService } from '../shared/services/teams.service';
+import { PlayersService } from '../shared/services/players.service';
 import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
-import { ChartLine, DisplayEntry, HomeTeam, User } from '../shared/types/interfaces';
+import { ChartLine, DisplayEntry, HistoricalPlayer, User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './historical-graph.component.html',
@@ -14,7 +14,7 @@ import { ChartLine, DisplayEntry, HomeTeam, User } from '../shared/types/interfa
 })
 export class HistoricalGraphComponent implements OnInit {
   dates: string[] = [];
-  teams: HomeTeam[] = [];
+  players: HistoricalPlayer[] = [];
   entries: DisplayEntry[] = [];
   chartData: ChartLine[] = [];
   loading = false;
@@ -23,7 +23,7 @@ export class HistoricalGraphComponent implements OnInit {
   constructor(
     private router: Router,
     private entriesService: EntriesService,
-    private teamsService: TeamsService,
+    private playersService: PlayersService,
     private userService: UserService,
     private utilService: UtilService
   ) {}
@@ -34,40 +34,35 @@ export class HistoricalGraphComponent implements OnInit {
         this.router.navigateByUrl('/').catch();
       } else if (user != null) {
         this.loading = true;
-        forkJoin({ entries: this.entriesService.getDisplay(), teams: this.teamsService.getHome() }).subscribe({
-          next: ({ entries, teams }) => {
-            this.dates = [
-              ...new Set(
-                teams.flatMap((team) => team.players.flatMap((player) => player.stats.map((stat) => stat.date)))
-              )
-            ].sort((a, b) => a.localeCompare(b));
-            this.cumulatePlayerStats(teams);
-            this.cumulateEntryStats(entries);
-            this.sortEntries();
-            this.setupChart();
-            this.loading = false;
+        forkJoin({ entries: this.entriesService.getDisplay(), players: this.playersService.getHistorical() }).subscribe(
+          {
+            next: ({ entries, players }) => {
+              this.dates = [...new Set(players.flatMap((player) => player.stats.map((stat) => stat.date)))].sort(
+                (a, b) => a.localeCompare(b)
+              );
+              this.cumulatePlayerStats(players);
+              this.cumulateEntryStats(entries);
+              this.sortEntries();
+              this.setupChart();
+              this.loading = false;
+            }
           }
-        });
+        );
       }
     });
   }
 
-  cumulatePlayerStats(teams: HomeTeam[]): void {
-    this.teams = teams.map((team) => {
+  cumulatePlayerStats(players: HistoricalPlayer[]): void {
+    this.players = players.map((player) => {
+      let goals = 0;
+      let points = 0;
       return {
-        ...team,
-        players: team.players.map((player) => {
-          let goals = 0;
-          let points = 0;
-          return {
-            ...player,
-            stats: this.dates.map((date) => {
-              const dateStats = player.stats.find((stat) => stat.date === date);
-              goals += dateStats?.goals ?? 0;
-              points += dateStats?.points ?? 0;
-              return { date, goals, points };
-            })
-          };
+        ...player,
+        stats: this.dates.map((date) => {
+          const dateStats = player.stats.find((stat) => stat.date === date);
+          goals += dateStats?.goals ?? 0;
+          points += dateStats?.points ?? 0;
+          return { date, goals, points };
         })
       };
     });
@@ -76,8 +71,8 @@ export class HistoricalGraphComponent implements OnInit {
   cumulateEntryStats(entries: DisplayEntry[]): void {
     this.entries = entries.map((entry) => {
       const cumulativeEntry = this.setupCumulativeEntry(entry);
-      for (const team of this.teams) {
-        const player = team.players.find((p) => cumulativeEntry.playerIds.includes(p.id));
+      for (const playerId of cumulativeEntry.playerIds) {
+        const player = this.players.find((p) => p.id === playerId);
         for (let i = 0; i < this.dates.length; i++) {
           cumulativeEntry.entryDates[i].points += player.stats[i].points;
           cumulativeEntry.entryDates[i].totalGoals += player.stats[i].goals;

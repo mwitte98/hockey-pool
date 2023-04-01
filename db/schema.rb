@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_27_032340) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_25_195622) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,16 +58,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_27_032340) do
     t.integer "points_wins"
     t.integer "points_otl"
     t.integer "points_shutouts"
-    t.integer "points_finals_goals"
-    t.integer "points_finals_assists"
-    t.integer "points_finals_gwg"
-    t.integer "points_finals_shg"
-    t.integer "points_finals_otg"
-    t.integer "points_finals_wins"
-    t.integer "points_finals_otl"
-    t.integer "points_finals_shutouts"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "round_multipliers"
   end
 
   create_table "teams", id: :serial, force: :cascade do |t|

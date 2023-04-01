@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { SettingsService } from '../shared/services/settings.service';
 import { UtilService } from '../shared/services/util.service';
-import { DisplayEntry, HomePlayer, HomeTeam, Player } from '../shared/types/interfaces';
+import { DisplayEntry, HomeTeam, Player } from '../shared/types/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class BestEntryService {
   constructor(private settingsService: SettingsService, private utilService: UtilService) {}
 
   determineBestEntry(teams: HomeTeam[]): DisplayEntry {
-    const bestPlayers = this.bestPlayers(this.flattenPlayerStats(teams));
+    const bestPlayers = this.bestPlayers(teams.map((team: HomeTeam) => team.players));
     if (bestPlayers.length === 0 || bestPlayers[bestPlayers.length - 1][0].points <= 0) {
       return null;
     }
@@ -35,31 +35,6 @@ export class BestEntryService {
       totalGoals: 0
     });
     return this.bestEntry;
-  }
-
-  flattenPlayerStats(teams: HomeTeam[]): Player[][] {
-    return teams.map((team: HomeTeam) => {
-      return team.players.map((homePlayer: HomePlayer) => {
-        const player: Player = { ...homePlayer };
-        delete (player as any).stats;
-        return this.flattenStats(player, homePlayer);
-      });
-    });
-  }
-
-  flattenStats(player: Player, homePlayer: HomePlayer): Player {
-    for (const stat of homePlayer.stats) {
-      for (const [key, value] of Object.entries(stat)) {
-        if (['date', 'isFinals'].includes(key)) {
-          continue;
-        }
-        this.updatePlayerStat(player, key, value);
-        if (stat.isFinals && key !== 'points') {
-          this.updatePlayerStat(player, `finals${key.charAt(0).toUpperCase()}${key.slice(1)}`, value);
-        }
-      }
-    }
-    return player;
   }
 
   updatePlayerStat(player: Player, stat: string, value: number): void {
