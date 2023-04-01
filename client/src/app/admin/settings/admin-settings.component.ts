@@ -36,6 +36,10 @@ export class AdminSettingsComponent implements OnInit {
     });
   }
 
+  trackByRoundMultiplier(index: number): number {
+    return index;
+  }
+
   createSettingForm(): void {
     const { setting } = this.settingsService;
     this.settingForm = this.fb.nonNullable.group({
@@ -56,14 +60,11 @@ export class AdminSettingsComponent implements OnInit {
       pointsWins: [setting.pointsWins, [Validators.required, Validators.min(0)]],
       pointsOtl: [setting.pointsOtl, [Validators.required, Validators.min(0)]],
       pointsShutouts: [setting.pointsShutouts, [Validators.required, Validators.min(0)]],
-      pointsFinalsGoals: [setting.pointsFinalsGoals, [Validators.required, Validators.min(0)]],
-      pointsFinalsAssists: [setting.pointsFinalsAssists, [Validators.required, Validators.min(0)]],
-      pointsFinalsGwg: [setting.pointsFinalsGwg, [Validators.required, Validators.min(0)]],
-      pointsFinalsShg: [setting.pointsFinalsShg, [Validators.required, Validators.min(0)]],
-      pointsFinalsOtg: [setting.pointsFinalsOtg, [Validators.required, Validators.min(0)]],
-      pointsFinalsWins: [setting.pointsFinalsWins, [Validators.required, Validators.min(0)]],
-      pointsFinalsOtl: [setting.pointsFinalsOtl, [Validators.required, Validators.min(0)]],
-      pointsFinalsShutouts: [setting.pointsFinalsShutouts, [Validators.required, Validators.min(0)]]
+      roundMultipliers: this.fb.array(
+        setting.roundMultipliers.map((roundMultiplier: number) => {
+          return this.fb.control(roundMultiplier, [Validators.required, Validators.min(0)]);
+        })
+      )
     });
   }
 

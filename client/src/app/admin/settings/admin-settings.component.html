@@ -6,7 +6,9 @@
   <form [formGroup]="settingForm" (ngSubmit)="submitForm()">
     <mat-card-content>
       <display-errors [errors]="errors"></display-errors>
+
       <mat-checkbox formControlName="isPlayoffsStarted" color="primary">Have Playoffs Started</mat-checkbox>
+
       <div class="settings-section-header">Number of each position per entry</div>
       <mat-form-field>
         <mat-label>Min C</mat-label>
@@ -40,6 +42,7 @@
         <mat-label>Max G</mat-label>
         <input matInput type="number" formControlName="maxGoalies" />
       </mat-form-field>
+
       <div class="settings-section-header">Number of points per stat</div>
       <mat-form-field>
         <mat-label>G</mat-label>
@@ -73,40 +76,21 @@
         <mat-label>SO</mat-label>
         <input matInput type="number" formControlName="pointsShutouts" />
       </mat-form-field>
-      <div class="settings-section-header">Number of additional points per stat in finals</div>
-      <mat-form-field>
-        <mat-label>G</mat-label>
-        <input matInput type="number" formControlName="pointsFinalsGoals" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>A</mat-label>
-        <input matInput type="number" formControlName="pointsFinalsAssists" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>GWG</mat-label>
-        <input matInput type="number" formControlName="pointsFinalsGwg" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>SHG</mat-label>
-        <input matInput type="number" formControlName="pointsFinalsShg" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>OTG</mat-label>
-        <input matInput type="number" formControlName="pointsFinalsOtg" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Win</mat-label>
-        <input matInput type="number" formControlName="pointsFinalsWins" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>OTL</mat-label>
-        <input matInput type="number" formControlName="pointsFinalsOtl" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>SO</mat-label>
-        <input matInput type="number" formControlName="pointsFinalsShutouts" />
-      </mat-form-field>
+
+      <div class="settings-section-header">Points multiplier</div>
+      <div formArrayName="roundMultipliers">
+        <mat-form-field
+          *ngFor="
+            let roundMultiplier of settingForm.controls.roundMultipliers.controls;
+            let i = index;
+            trackBy: trackByRoundMultiplier
+          ">
+          <mat-label>Round {{ i + 1 }}</mat-label>
+          <input matInput type="number" [formControlName]="i" />
+        </mat-form-field>
+      </div>
     </mat-card-content>
+
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit" [disabled]="!settingForm.valid || updating">
         Update

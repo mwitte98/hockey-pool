@@ -5,7 +5,6 @@ class UpdateJob
     @teams = nil
     @date = nil
     @game = nil
-    @is_finals = false
     @scoring_player = nil
   end
 
@@ -23,7 +22,6 @@ class UpdateJob
     @date = date['date']
     date['games'].each do |game|
       @game = game
-      @is_finals = @game['gamePk'].digits[2] == 4
       is_game_final = @game['status']['detailedState'] == 'Final'
       parse_scoring_plays
       next unless is_game_final
@@ -112,8 +110,7 @@ class UpdateJob
   def update_stat(player, stat)
     date_stats = player['stats'].find { |date_stat| date_stat[:date] == @date }
     if date_stats.nil?
-      date_stat = { date: @date, is_finals: @is_finals, stat => 1 }
-      date_stat.except! :is_finals unless @is_finals
+      date_stat = { date: @date, round: @game['gamePk'].digits[2], stat => 1 }
       player['stats'] << date_stat
     elsif date_stats[stat].nil?
       date_stats[stat] = 1

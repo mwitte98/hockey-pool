@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { FormArray, FormControl } from '@angular/forms';
 
 export interface AdminPlayerForm {
   firstName: FormControl<string>;
@@ -40,12 +40,5 @@ export interface SettingForm {
   pointsWins: FormControl<number>;
   pointsOtl: FormControl<number>;
   pointsShutouts: FormControl<number>;
-  pointsFinalsGoals: FormControl<number>;
-  pointsFinalsAssists: FormControl<number>;
-  pointsFinalsGwg: FormControl<number>;
-  pointsFinalsShg: FormControl<number>;
-  pointsFinalsOtg: FormControl<number>;
-  pointsFinalsWins: FormControl<number>;
-  pointsFinalsOtl: FormControl<number>;
-  pointsFinalsShutouts: FormControl<number>;
+  roundMultipliers: FormArray<FormControl<number>>;
 }

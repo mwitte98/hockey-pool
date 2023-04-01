@@ -18,17 +18,14 @@
         </span>
       </td>
     </ng-container>
-    <ng-container *ngFor="let col of playerStatColumns; trackBy: trackBy" [matColumnDef]="col.stat">
+    <ng-container *ngFor="let col of playerStatColumns; trackBy: trackByColStat" [matColumnDef]="col.stat">
       <th *matHeaderCellDef mat-header-cell mat-sort-header>
-        <span>
-          {{ col.header }}
-          <ng-container *ngIf="isFinals">(x2)</ng-container>
-        </span>
+        <span>{{ col.header }}</span>
+        <ng-container *ngFor="let multiplier of multipliersToRounds | keyvalue; trackBy: trackByMultiplier">
+          <span *ngIf="multiplier.key > 1">&nbsp;(x{{ multiplier.key }})</span>
+        </ng-container>
       </th>
-      <td *matCellDef="let player" mat-cell>
-        {{ player[col.stat] ?? 0 }}
-        <ng-container *ngIf="player.team.inFinals">({{ getFinalsStat(col, player) ?? 0 }})</ng-container>
-      </td>
+      <td *matCellDef="let player" mat-cell>{{ getPlayerStatCol(player, col.stat) }}</td>
     </ng-container>
     <ng-container matColumnDef="points" stickyEnd>
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Points</th>

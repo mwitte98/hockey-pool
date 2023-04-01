@@ -3,9 +3,8 @@ class Player < ApplicationRecord
   has_and_belongs_to_many :entries
 
   def as_json(options = {})
-    except_array = %i[created_at updated_at]
-    player = super(options.merge(except: except_array))
-    PlayerHelper.set_points self, options[:setting]
+    player = super(options.merge(except: %i[created_at updated_at]))
+    PlayerHelper.set_points player, options[:setting]
     player
   end
 end

@@ -16,7 +16,6 @@ export class PlayerStatsComponent implements OnInit {
   originalGoalies: PlayerStatsPlayer[] = [];
   shownSkaters: PlayerStatsPlayer[] = [];
   shownGoalies: PlayerStatsPlayer[] = [];
-  isFinals = false;
   showingEliminated = false;
   showingSelected = true;
 
@@ -64,10 +63,16 @@ export class PlayerStatsComponent implements OnInit {
   updatePlayers(teams: PlayerStatsTeam[]): void {
     this.originalSkaters = [];
     this.originalGoalies = [];
-    this.isFinals = teams.some((team) => team.inFinals);
     for (const team of teams) {
       for (const player of team.players) {
-        player.team = { abbr: team.abbr, isEliminated: team.isEliminated, inFinals: team.inFinals } as any;
+        player.team = { abbr: team.abbr, isEliminated: team.isEliminated } as any;
+        const stats = ['goals', 'assists', 'gwg', 'shg', 'otg', 'wins', 'otl', 'shutouts', 'points'];
+        for (const stat of stats) {
+          player[stat] = 0;
+          for (const playerStat of player.stats) {
+            player[stat] += playerStat[stat] ?? 0;
+          }
+        }
         if (player.position === 'Goalie') {
           this.originalGoalies.push(player);
         } else {
