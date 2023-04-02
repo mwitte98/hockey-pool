@@ -55,7 +55,7 @@ export class AdminEntriesComponent implements OnInit {
     return team.name;
   }
 
-  trackByPlayerId(_index: number, player: UpsertEntryPlayer): number {
+  trackByPlayerId(_index: number, player: UpsertEntryPlayer): string {
     return player.id;
   }
 
@@ -74,7 +74,7 @@ export class AdminEntriesComponent implements OnInit {
     }
   }
 
-  getSelectedPlayerForTeam(selectedPlayerIds: number[], teamPlayerIds: Set<number>): number {
+  getSelectedPlayerForTeam(selectedPlayerIds: string[], teamPlayerIds: Set<string>): string {
     return selectedPlayerIds.find((selectedPlayerId) => teamPlayerIds.has(selectedPlayerId));
   }
 
@@ -94,7 +94,7 @@ export class AdminEntriesComponent implements OnInit {
     };
     for (const formField of Object.keys(formData)) {
       if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
-        request.playerIds.push(formData[formField] as number);
+        request.playerIds.push(formData[formField] as string);
       }
     }
     entry.updateLoading = true;

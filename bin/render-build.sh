@@ -3,7 +3,7 @@
 set -o errexit
 
 bundle install
-bin/rails db:migrate
+bin/rails db:mongoid:create_indexes
 
 cd client
 npm install --legacy-peer-deps

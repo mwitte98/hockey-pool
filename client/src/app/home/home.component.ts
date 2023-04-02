@@ -70,8 +70,8 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  trackByTeamId(_index: number, team: HomeTeam): number {
-    return team.id;
+  trackByTeamAbbr(_index: number, team: HomeTeam): string {
+    return team.abbr;
   }
 
   isExpansionDetailRow(_: any, row: any): boolean {
@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit {
     return `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.nhlId}.svg`;
   }
 
-  getSelectedPlayerForTeam(selectedPlayerIds: number[], team: HomeTeam): HomePlayer {
+  getSelectedPlayerForTeam(selectedPlayerIds: string[], team: HomeTeam): HomePlayer {
     return team.players.find((player) => selectedPlayerIds.includes(player.id));
   }
 

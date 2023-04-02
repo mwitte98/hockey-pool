@@ -15,7 +15,7 @@ export class EntriesService {
     return this.apiService.get('/entries');
   }
 
-  getPlayerIds(): Observable<number[][]> {
+  getPlayerIds(): Observable<string[][]> {
     return this.apiService.get('/entries?field_groups=player_ids');
   }
 
