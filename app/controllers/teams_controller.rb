@@ -3,13 +3,8 @@ class TeamsController < ApplicationController
 
   def index
     teams = query_teams
-    selected_player_ids = []
-    if params[:field_groups] == 'player_stats'
-      query = 'select distinct(player_id) from entries_players'
-      selected_player_ids = ActiveRecord::Base.connection.exec_query(query).rows.flatten
-    end
     teams = flatten_stats teams if params[:field_groups] == 'home'
-    set_selected_players teams, selected_player_ids if params[:field_groups] != 'home'
+    players_set_selected teams if params[:field_groups] == 'player_stats'
     render json: teams
   end
 
@@ -44,44 +39,46 @@ class TeamsController < ApplicationController
       query_player_stats
     when 'upsert_entry'
       query_upsert_entry
-    when 'historical'
-      query_historical
     else
       query_else
     end
   end
 
   def query_home
-    Team.includes(:players).where(made_playoffs: true).order(:is_eliminated, :conference, :rank).as_json(
-      only: %i[id name abbr is_eliminated nhl_id], include: { players: { except: %i[team_id created_at updated_at] } },
+    Team.includes(:players).where(made_playoffs: true).order(is_eliminated: 1, conference: 1, rank: 1).as_json(
+      only: %i[name abbr is_eliminated nhl_id],
+      include: { players: { except: %i[team_id entry_ids created_at updated_at] } },
       setting: Setting.first
     )
   end
 
   def query_player_stats
     Team.includes(:players).where(made_playoffs: true).as_json(
-      only: %i[abbr is_eliminated], include: { players: { except: %i[team_id created_at updated_at] } },
+      only: %i[abbr is_eliminated], include: { players: { except: %i[team_id entry_ids created_at updated_at] } },
       setting: Setting.first
     )
   end
 
   def query_upsert_entry
-    Team.includes(:players).where(made_playoffs: true).order(:conference, :rank).as_json(
-      only: %i[name], include: { players: { only: %i[id first_name last_name position] } }
-    )
-  end
-
-  def query_historical
-    Team.includes(:players).where(made_playoffs: true).as_json(
-      only: [], include: { players: { only: %i[id position stats] } },
-      setting: Setting.first
+    Team.includes(:players).where(made_playoffs: true).order(is_eliminated: 1, conference: 1, rank: 1).as_json(
+      only: %i[name], include: { players: { only: %i[_id first_name last_name position] } }
     )
   end
 
   def query_else
-    Team.includes(:players).all.order(:is_eliminated, :conference, :rank).as_json(
-      include: { players: { except: %i[team_id stats created_at updated_at] } }, setting: Setting.first
+    Team.includes(:players).all.order(is_eliminated: 1, conference: 1, rank: 1).as_json(
+      include: { players: { except: %i[team_id entry_ids stats created_at updated_at] } }, setting: Setting.first
     )
+  end
+
+  def players_set_selected(teams)
+    selected_player_ids = Entry.distinct(:player_ids).map(&:to_s)
+    teams.each do |team|
+      team['players'].each do |player|
+        player['is_selected'] = true if !selected_player_ids.empty? && selected_player_ids.include?(player['id'])
+        player.delete 'id'
+      end
+    end
   end
 
   def flatten_stats(teams)
@@ -91,14 +88,6 @@ class TeamsController < ApplicationController
           flatten_player_stats player, date_stat
         end
         player.delete 'stats'
-      end
-    end
-  end
-
-  def set_selected_players(teams, selected_player_ids)
-    teams.each do |team|
-      team['players'].each do |player|
-        player['is_selected'] = true if !selected_player_ids.empty? && selected_player_ids.include?(player['id'])
       end
     end
   end

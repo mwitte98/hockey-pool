@@ -75,7 +75,7 @@
           [attr.colspan]="7"
           [ngClass]="isExpanded(entry) ? 'expanded' : 'collapsed'">
           <div class="expansion-row-content" [@detailExpand]="isExpanded(entry) ? 'expanded' : 'collapsed'">
-            <div *ngFor="let team of teams; trackBy: trackByTeamId">
+            <div *ngFor="let team of teams; trackBy: trackByTeamAbbr">
               <ng-template
                 #t
                 [ngTemplateOutlet]="t"

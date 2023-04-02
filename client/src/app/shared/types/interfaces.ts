@@ -13,7 +13,7 @@ export interface ChartPoint {
 }
 
 export interface Player {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   position: string;
@@ -62,7 +62,7 @@ export interface Setting {
 }
 
 export interface User {
-  id: number;
+  id: string;
   email: string;
 }
 
@@ -72,7 +72,7 @@ export interface AdminEntry {
   name: string;
   contestantName: string;
   email: string;
-  playerIds: number[];
+  playerIds: string[];
   form?: FormRecord<FormControl<number | string>>;
   updateLoading?: boolean;
   updateSuccess?: boolean;
@@ -94,7 +94,7 @@ export interface EntryStats {
 
 export interface DisplayEntry extends EntryStats {
   name: string;
-  playerIds: number[];
+  playerIds: string[];
   bestEntry?: boolean;
   numCenter?: number;
   numWinger?: number;
@@ -140,7 +140,6 @@ export interface AdminPlayer {
 
 // START - /teams?field_groups=home
 export interface HomeTeam {
-  id: number;
   name: string;
   abbr: string;
   isEliminated: boolean;
@@ -149,7 +148,7 @@ export interface HomeTeam {
 }
 
 export interface HomePlayer {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   position: string;
@@ -193,7 +192,7 @@ export interface UpsertEntryTeam {
 }
 
 export interface UpsertEntryPlayer {
-  id: number;
+  id: string;
   firstName: string;
   lastName: string;
   position: string;
@@ -202,7 +201,7 @@ export interface UpsertEntryPlayer {
 
 // START - /players?field_groups=historical
 export interface HistoricalPlayer {
-  id: number;
+  id: string;
   position: string;
   stats: HistoricalStat[];
 }

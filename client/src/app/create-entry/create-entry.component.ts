@@ -31,7 +31,7 @@ import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 export class CreateEntryComponent implements OnInit {
   loading = false;
   teams: UpsertEntryTeam[];
-  entries: number[][] = [];
+  entries: string[][] = [];
   errors: string[] = [];
   entryForm: FormRecord<FormControl<number | string>>;
   numbersOfPositions = {
@@ -109,7 +109,7 @@ export class CreateEntryComponent implements OnInit {
     return team.name;
   }
 
-  trackByPlayerId(_index: number, player: UpsertEntryPlayer): number {
+  trackByPlayerId(_index: number, player: UpsertEntryPlayer): string {
     return player.id;
   }
 
@@ -136,10 +136,10 @@ export class CreateEntryComponent implements OnInit {
   submitForm(fgd: FormGroupDirective): void {
     this.loading = true;
     const request = this.createEntryRequest();
-    request.playerIds.sort((a, b) => a - b);
+    request.playerIds.sort((a, b) => a.localeCompare(b));
     const requestPlayerIds = request.playerIds;
     const duplicateEntry = this.entries.find((e) => {
-      e.sort((a, b) => a - b);
+      e.sort((a, b) => a.localeCompare(b));
       return requestPlayerIds.every((id, i) => id === e[i]);
     });
     if (duplicateEntry == null) {
@@ -169,7 +169,7 @@ export class CreateEntryComponent implements OnInit {
     };
     for (const formField of Object.keys(formData)) {
       if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
-        request.playerIds.push(formData[formField] as number);
+        request.playerIds.push(formData[formField] as string);
       }
     }
     return request;

@@ -2,8 +2,8 @@ module UpdateJobHelper
   class << UpdateJobHelper
     def setup_teams
       teams = Team.includes(:players).all.as_json(
-        only: %i[id name],
-        include: { players: { only: %i[id first_name last_name] } }
+        only: %i[_id name],
+        include: { players: { only: %i[_id first_name last_name] } }
       )
       teams.each do |team|
         team['players'].each do |player|
@@ -17,7 +17,7 @@ module UpdateJobHelper
     def update_players(teams)
       teams.each do |team|
         team['players'].each do |player|
-          Player.update(player['id'], player.except!('name'))
+          Player.find(player['id']).update(player.except!('name'))
         end
       end
     end

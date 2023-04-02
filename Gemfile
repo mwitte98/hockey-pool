@@ -3,14 +3,13 @@ ruby '3.2.1'
 
 gem 'actionpack', '7.0.4.2'
 gem 'activemodel', '7.0.4.2'
-gem 'activerecord', '7.0.4.2'
 gem 'activesupport', '7.0.4.2'
 gem 'railties', '7.0.4.2'
 
 gem 'bcrypt', '3.1.18'
 gem 'mechanize', '2.8.5'
+gem 'mongoid', '8.0.3'
 gem 'nokogiri', '1.14.2'
-gem 'pg', '1.4.6'
 gem 'puma', '6.1.1'
 gem 'sucker_punch', '3.1.0'
 

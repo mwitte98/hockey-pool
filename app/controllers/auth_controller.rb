@@ -20,8 +20,8 @@ class AuthController < ApplicationController
 
   def signed_in
     user_id = cookies[:user_id]
-    if user_id
-      user = User.find(user_id)
+    user = User.find(user_id) if user_id
+    if user
       render json: user
     else
       cookies.delete :user_id
@@ -32,6 +32,6 @@ class AuthController < ApplicationController
   private
 
   def find_user
-    User.find_by_email(params[:email].downcase)
+    User.find_by(email: params[:email].downcase)
   end
 end
