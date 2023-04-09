@@ -24,6 +24,7 @@ import { PlayerStatsComponent } from './player-stats/player-stats.component';
 import { DisplayErrorsComponent } from './shared/errors/display-errors.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { Interceptor } from './shared/interceptors/interceptor';
+import { TelephoneInputComponent } from './shared/telephone-input/telephone-input.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { Interceptor } from './shared/interceptors/interceptor';
     HomeComponent,
     PlayerStatsComponent,
     PlayerStatsTabComponent,
-    SeeRulesDialogComponent
+    SeeRulesDialogComponent,
+    TelephoneInputComponent
   ],
   imports: [
     AppRoutingModule,

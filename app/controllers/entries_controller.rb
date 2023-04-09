@@ -42,6 +42,6 @@ class EntriesController < ApplicationController
   private
 
   def entry_params
-    params.permit(:name, :contestant_name, :email, player_ids: [])
+    params.permit(:name, :contestant_name, :email, telephone_number: {}, player_ids: [])
   end
 end

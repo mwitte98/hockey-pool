@@ -7,7 +7,7 @@ import { EntriesService } from '../../shared/services/entries.service';
 import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
-import { AdminEntry, UpsertEntryPlayer, UpsertEntryTeam, User } from '../../shared/types/interfaces';
+import { AdminEntry, TelephoneNumber, UpsertEntryPlayer, UpsertEntryTeam, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-entries.component.html',
@@ -63,7 +63,8 @@ export class AdminEntriesComponent implements OnInit {
     entry.form = this.fb.nonNullable.group({
       name: [entry.name, Validators.required],
       contestantName: [entry.contestantName, Validators.required],
-      email: [entry.email, [Validators.required, Validators.email]]
+      email: [entry.email, [Validators.required, Validators.email]],
+      telephoneNumber: [entry.telephoneNumber, Validators.required]
     });
     for (const team of this.teams) {
       const teamPlayerIds = new Set(team.players.map((player) => player.id));
@@ -90,10 +91,16 @@ export class AdminEntriesComponent implements OnInit {
       name: formData.name as string,
       contestantName: formData.contestantName as string,
       email: formData.email as string,
+      telephoneNumber: formData.telephoneNumber as TelephoneNumber,
       playerIds: []
     };
     for (const formField of Object.keys(formData)) {
-      if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
+      if (
+        formField !== 'name' &&
+        formField !== 'contestantName' &&
+        formField !== 'email' &&
+        formField !== 'telephoneNumber'
+      ) {
         request.playerIds.push(formData[formField] as string);
       }
     }

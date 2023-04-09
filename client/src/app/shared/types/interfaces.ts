@@ -61,6 +61,12 @@ export interface Setting {
   roundMultipliers: number[];
 }
 
+export interface TelephoneNumber {
+  area: string;
+  exchange: string;
+  subscriber: string;
+}
+
 export interface User {
   id: string;
   email: string;
@@ -72,8 +78,9 @@ export interface AdminEntry {
   name: string;
   contestantName: string;
   email: string;
+  telephoneNumber: TelephoneNumber;
   playerIds: string[];
-  form?: FormRecord<FormControl<number | string>>;
+  form?: FormRecord<FormControl<TelephoneNumber | number | string>>;
   updateLoading?: boolean;
   updateSuccess?: boolean;
   updateFailure?: boolean;
