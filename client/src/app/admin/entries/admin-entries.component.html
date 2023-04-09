@@ -20,15 +20,19 @@
             <div>
               <mat-form-field>
                 <mat-label>Entry Name</mat-label>
-                <input matInput formControlName="name" />
+                <input matInput type="text" formControlName="name" />
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Contestant Name</mat-label>
-                <input matInput formControlName="contestantName" />
+                <input matInput type="text" formControlName="contestantName" />
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Email</mat-label>
                 <input matInput type="email" formControlName="email" />
+              </mat-form-field>
+              <mat-form-field>
+                <mat-label>Telephone Number</mat-label>
+                <telephone-input formControlName="telephoneNumber" required></telephone-input>
               </mat-form-field>
             </div>
             <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamName" class="player-input">

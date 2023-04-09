@@ -1,0 +1,21 @@
+.telephone-input-container {
+  display: flex;
+}
+
+.telephone-input-element {
+  border: none;
+  background: none;
+  padding: 0;
+  outline: none;
+  font: inherit;
+  text-align: center;
+}
+
+.telephone-input-spacer {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+:host.floating-label .telephone-input-spacer {
+  opacity: 1;
+}

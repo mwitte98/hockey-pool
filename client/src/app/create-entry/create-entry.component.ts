@@ -18,7 +18,7 @@ import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
-import { AdminEntry, UpsertEntryPlayer, UpsertEntryTeam, User } from '../shared/types/interfaces';
+import { AdminEntry, TelephoneNumber, UpsertEntryPlayer, UpsertEntryTeam, User } from '../shared/types/interfaces';
 
 import { DuplicateEntryDialogComponent } from './duplicate-entry-dialog.component';
 import { EntrySubmittedDialogComponent } from './entry-submitted-dialog.component';
@@ -33,7 +33,7 @@ export class CreateEntryComponent implements OnInit {
   teams: UpsertEntryTeam[];
   entries: string[][] = [];
   errors: string[] = [];
-  entryForm: FormRecord<FormControl<number | string>>;
+  entryForm: FormRecord<FormControl<TelephoneNumber | number | string>>;
   numbersOfPositions = {
     center: 0,
     winger: 0,
@@ -73,7 +73,8 @@ export class CreateEntryComponent implements OnInit {
       {
         name: ['', Validators.required],
         contestantName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]]
+        email: ['', [Validators.required, Validators.email]],
+        telephoneNumber: [null, Validators.required]
       },
       {
         validators: [
@@ -122,7 +123,12 @@ export class CreateEntryComponent implements OnInit {
     };
     const formData = this.entryForm.getRawValue();
     for (const formField of Object.keys(formData)) {
-      if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
+      if (
+        formField !== 'name' &&
+        formField !== 'contestantName' &&
+        formField !== 'email' &&
+        formField !== 'telephoneNumber'
+      ) {
         const team = this.teams.find((t) => t.name === formField);
         const player = team.players.find((p) => p.id === formData[formField]);
         if (player) {
@@ -165,10 +171,16 @@ export class CreateEntryComponent implements OnInit {
       name: formData.name as string,
       contestantName: formData.contestantName as string,
       email: formData.email as string,
+      telephoneNumber: formData.telephoneNumber as TelephoneNumber,
       playerIds: []
     };
     for (const formField of Object.keys(formData)) {
-      if (formField !== 'name' && formField !== 'contestantName' && formField !== 'email') {
+      if (
+        formField !== 'name' &&
+        formField !== 'contestantName' &&
+        formField !== 'email' &&
+        formField !== 'telephoneNumber'
+      ) {
         request.playerIds.push(formData[formField] as string);
       }
     }

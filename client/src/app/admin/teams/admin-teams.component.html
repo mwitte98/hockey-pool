@@ -13,12 +13,13 @@
           <form [formGroup]="team.form" (ngSubmit)="updateTeam(team.id)">
             <mat-form-field>
               <mat-label>Team Name</mat-label>
-              <input matInput formControlName="name" />
+              <input matInput type="text" formControlName="name" />
             </mat-form-field>
             <mat-form-field class="abbr-input">
               <mat-label>Abbreviation</mat-label>
               <input
                 matInput
+                type="text"
                 formControlName="abbr"
                 minlength="3"
                 maxlength="3"
@@ -61,11 +62,11 @@
             (ngSubmit)="updatePlayer(team.id, player.id)">
             <mat-form-field class="player-name-input">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" />
+              <input matInput type="text" formControlName="firstName" />
             </mat-form-field>
             <mat-form-field class="player-name-input">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" />
+              <input matInput type="text" formControlName="lastName" />
             </mat-form-field>
             <mat-form-field class="position-input">
               <mat-label>Position</mat-label>

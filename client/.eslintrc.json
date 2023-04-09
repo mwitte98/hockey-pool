@@ -42,6 +42,7 @@
             ]
           }
         ],
+        "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-magic-numbers": "off",
@@ -51,6 +52,7 @@
         "@typescript-eslint/no-unsafe-assignment": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
         "@typescript-eslint/parameter-properties": "off",
         "@typescript-eslint/prefer-nullish-coalescing": "off",
         "@typescript-eslint/prefer-readonly": "off",
@@ -84,7 +86,19 @@
         "multiline-comment-style": ["error", "separate-lines"],
         "new-cap": [
           "error",
-          { "capIsNewExceptions": ["Component", "Inject", "Injectable", "Input", "NgModule", "ViewChild"] }
+          {
+            "capIsNewExceptions": [
+              "Component",
+              "HostBinding",
+              "Inject",
+              "Injectable",
+              "Input",
+              "NgModule",
+              "Optional",
+              "Self",
+              "ViewChild"
+            ]
+          }
         ],
         "no-continue": "off",
         "no-eq-null": "off",
