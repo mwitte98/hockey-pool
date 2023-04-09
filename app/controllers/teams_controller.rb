@@ -21,6 +21,16 @@ class TeamsController < ApplicationController
     render json: team.update(team_params)
   end
 
+  def bulk_create
+    SeedTeamsPlayersHelper.seed
+    render json: ''
+  end
+
+  def bulk_update
+    UpdateTeamsPlayersHelper.update
+    render json: ''
+  end
+
   def destroy
     render json: Team.delete(params[:id])
   end

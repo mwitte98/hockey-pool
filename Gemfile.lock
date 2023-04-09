@@ -131,8 +131,6 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    sucker_punch (3.1.0)
-      concurrent-ruby (~> 1.0)
     thor (1.2.1)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -161,7 +159,6 @@ DEPENDENCIES
   rubocop (= 1.47.0)
   shoulda (= 4.0.0)
   simplecov (= 0.22.0)
-  sucker_punch (= 3.1.0)
 
 RUBY VERSION
    ruby 3.2.1p31

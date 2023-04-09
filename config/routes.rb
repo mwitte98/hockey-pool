@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
     resources :settings, only: %i[index update]
 
-    match '/update_player_stats', to: 'entries#update_player_stats', via: 'get'
+    match '/bulk/teams', to: 'teams#bulk_create', via: 'post'
+
+    match '/bulk/teams', to: 'teams#bulk_update', via: 'put'
   end
 
   get '*path' => 'static#base'

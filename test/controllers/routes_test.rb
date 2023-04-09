@@ -20,7 +20,8 @@ class RoutesTest < ActionController::TestCase
   should route(:get, '/api/settings').to('settings#index')
   should route(:put, '/api/settings/1').to('settings#update', id: 1)
 
-  should route(:get, '/api/update_player_stats').to('entries#update_player_stats')
+  should route(:post, '/api/bulk/teams').to('teams#bulk_create')
+  should route(:put, '/api/bulk/teams').to('teams#bulk_update')
 
   should route(:get, '/a').to('static#base', path: 'a')
 end
