@@ -34,11 +34,6 @@ class EntriesController < ApplicationController
     render json: entry.delete
   end
 
-  def update_player_stats
-    UpdateJob.perform_async
-    render json: ''
-  end
-
   private
 
   def entry_params

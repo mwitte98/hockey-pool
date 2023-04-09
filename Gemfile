@@ -11,7 +11,6 @@ gem 'mechanize', '2.8.5'
 gem 'mongoid', '8.0.3'
 gem 'nokogiri', '1.14.2'
 gem 'puma', '6.1.1'
-gem 'sucker_punch', '3.1.0'
 
 group :development do
   gem 'rubocop', '1.47.0'
