@@ -18,17 +18,24 @@ module UpdateTeamsPlayersHelper
     private
 
     def setup_teams
-      @teams = Team.includes(:players).all.as_json(
-        only: %i[_id name],
-        include: { players: { only: %i[_id first_name last_name] } }
-      )
+      query_teams
       @teams.each do |team|
         team['players'].each do |player|
           player['name'] = "#{player['first_name']} #{player['last_name']}"
+          player['previous_stats'] = player['stats'].clone
           player['stats'] = []
           player.except! 'first_name', 'last_name', 'points'
         end
       end
+    end
+
+    def query_teams
+      @teams = Team.includes(:players).where(made_playoffs: true).all.as_json(
+        only: %i[_id name],
+        include: { players: { only: %i[_id first_name last_name stats] } },
+        setting: Setting.first,
+        set_player_points: false
+      )
     end
 
     def parse_date(date)
@@ -121,9 +128,9 @@ module UpdateTeamsPlayersHelper
     end
 
     def update_stat(player, stat)
-      date_stats = player['stats'].find { |date_stat| date_stat[:date] == @date }
+      date_stats = player['stats'].find { |date_stat| date_stat['date'] == @date }
       if date_stats.nil?
-        date_stat = { date: @date, round: @game['gamePk'].digits[2], stat => 1 }
+        date_stat = { date: @date, round: @game['gamePk'].digits[2], stat => 1 }.stringify_keys!
         player['stats'] << date_stat
       elsif date_stats[stat].nil?
         date_stats[stat] = 1
@@ -135,7 +142,9 @@ module UpdateTeamsPlayersHelper
     def update_players
       @teams.each do |team|
         team['players'].each do |player|
-          Player.find(player['id']).update(player.except!('name'))
+          next if player['previous_stats'] == player['stats']
+
+          Player.where(id: player['id']).update(player.except!('name', 'previous_stats'))
         end
       end
     end
