@@ -36,6 +36,7 @@ export class AdminEntriesComponent implements OnInit {
         forkJoin({ entries: this.entriesService.get(), teams: this.teamsService.getUpsertEntry() }).subscribe({
           next: ({ entries, teams }) => {
             this.teams = teams;
+            this.utilService.sortPlayersAlphabeticallyGoaliesFirst(this.teams);
             this.entries = entries;
             for (const entry of this.entries) {
               this.createEntryForm(entry);

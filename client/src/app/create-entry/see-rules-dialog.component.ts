@@ -6,5 +6,7 @@ import { SettingsService } from '../shared/services/settings.service';
   templateUrl: './see-rules-dialog.component.html'
 })
 export class SeeRulesDialogComponent {
+  numTeams = 16;
+
   constructor(public settingsService: SettingsService) {}
 }

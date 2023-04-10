@@ -71,7 +71,7 @@ class TeamsController < ApplicationController
 
   def query_upsert_entry
     Team.includes(:players).where(made_playoffs: true).order(is_eliminated: 1, conference: 1, rank: 1).as_json(
-      only: %i[name], include: { players: { only: %i[_id first_name last_name position] } }
+      only: %i[name abbr], include: { players: { only: %i[_id first_name last_name position] } }
     )
   end
 

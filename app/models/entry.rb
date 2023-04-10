@@ -5,7 +5,6 @@ class Entry
 
   has_and_belongs_to_many :players, inverse_of: nil
 
-  # distinct player_ids
   index({ player_ids: 1 })
 
   def as_json(options = {})

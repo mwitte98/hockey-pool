@@ -23,6 +23,7 @@ module SeedTeamsPlayersHelper
         is_eliminated: !qualified, made_playoffs: qualified
       )
       create_players team, team_roster
+      create_team_goalie team
     end
 
     def find_roster(rosters, team_record_team)
@@ -34,8 +35,12 @@ module SeedTeamsPlayersHelper
         name = player['person']['fullName'].split(' ', 2)
         position = player['position']['name']
         position = 'Winger' if ['Left Wing', 'Right Wing'].include? position
-        team.players.create(first_name: name[0], last_name: name[1], position:, stats: [])
+        team.players.create(first_name: name[0], last_name: name[1], position:, stats: []) if position != 'Goalie'
       end
+    end
+
+    def create_team_goalie(team)
+      team.players.create(first_name: team.name, last_name: team.abbr, position: 'Goalie', stats: [])
     end
   end
 end

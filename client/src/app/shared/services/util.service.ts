@@ -2,7 +2,16 @@ import { Injectable } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 
-import { AdminEntry, AdminPlayer, AdminTeam, EntryStats, Player, PlayerStatTiebreaker } from '../types/interfaces';
+import {
+  AdminEntry,
+  AdminPlayer,
+  AdminTeam,
+  EntryStats,
+  Player,
+  PlayerStatTiebreaker,
+  UpsertEntryPlayer,
+  UpsertEntryTeam
+} from '../types/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -149,6 +158,17 @@ export class UtilService {
   setTiebreaker(entry: EntryStats, nextTiebreaker: number): void {
     if (entry.tiebreaker < nextTiebreaker) {
       entry.tiebreaker = nextTiebreaker;
+    }
+  }
+
+  sortPlayersAlphabeticallyGoaliesFirst(teams: AdminTeam[] | UpsertEntryTeam[]): void {
+    for (const team of teams) {
+      team.players.sort((a: AdminPlayer | UpsertEntryPlayer, b: AdminPlayer | UpsertEntryPlayer) => {
+        if (a.position === 'Goalie' && b.position !== 'Goalie') return -1;
+        if (a.position !== 'Goalie' && b.position === 'Goalie') return 1;
+        const lastNameCompare = a.lastName.localeCompare(b.lastName);
+        return lastNameCompare === 0 ? a.firstName.localeCompare(b.firstName) : lastNameCompare;
+      });
     }
   }
 }

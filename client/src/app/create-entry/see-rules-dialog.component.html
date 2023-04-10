@@ -1,27 +1,36 @@
 <h2 mat-dialog-title>Rules</h2>
 <mat-dialog-content>
   <ul>
-    <li>Entries must be submitted by Monday, May 2nd 7pm ET</li>
+    <li>Entries must be submitted by Monday, April 17th 7pm ET</li>
     <li>After the entry submission deadline, if a player misses a game for any reason, they cannot be substituted</li>
     <li>Entry fee: $20 per entry</li>
     <li>Unlimited number of entries</li>
     <li>Payment can be sent through Venmo or PayPal to Al Kurek</li>
+    <li>If payment is not received by the end of round 1, those entries will be disqualified</li>
     <li>
       Payouts: 25% to 1st place, 15% to 2nd place, and remaining 60% will be determined based on the number of entries
     </li>
     <br />
-    <li>Entries will consist of 16 players; 1 from each team</li>
-    <li>16 players will be broken down into the following positions:</li>
+    <li>
+      Entries will consist of {{ numTeams - settingsService.setting.minGoalies }} skaters and 2 team goalies; 1
+      selection from each team
+    </li>
+    <li>The 16 selections will be broken down into the following positions:</li>
     <ul>
       <li>{{ settingsService.setting.minCenters }} centers</li>
       <li>{{ settingsService.setting.minWingers }} wingers</li>
       <li>{{ settingsService.setting.minDefensemen }} defensemen</li>
-      <li>{{ settingsService.setting.minGoalies }} goalies</li>
+      <li>{{ settingsService.setting.minGoalies }} team goalies</li>
       <li>1 flex center OR winger OR defenseman</li>
     </ul>
     <br />
     <li>Scoring:</li>
     <ul>
+      <li>
+        <b>NEW!</b>
+        Team goalies - Points from all goalies on the {{ settingsService.setting.minGoalies }} teams selected will count
+        towards that selection
+      </li>
       <li>Goal: {{ settingsService.setting.pointsGoals }} points</li>
       <li>Assist: {{ settingsService.setting.pointsAssists }} point</li>
       <li>Game Winning Goal: {{ settingsService.setting.pointsGwg }} point</li>
@@ -32,7 +41,7 @@
       <li>Goalie Shutout: {{ settingsService.setting.pointsShutouts }} points</li>
     </ul>
     <li>Points in the Stanley Cup Final are doubled</li>
-    <li>Points are updated on this website in real time every 10 minutes</li>
+    <li>Points are updated on this website in real time every 5 minutes</li>
     <br />
     <li>Tiebreakers:</li>
     <ol>
