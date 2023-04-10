@@ -33,7 +33,7 @@ module UpdateTeamsPlayersHelper
     def query_teams
       @teams = Team.includes(:players).where(made_playoffs: true).all.as_json(
         only: %i[_id name abbr stats], include: { players: { only: %i[_id first_name last_name stats] } },
-        setting: Setting.first, set_points: false
+        set_player_points: false
       )
     end
 
