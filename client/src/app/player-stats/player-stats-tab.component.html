@@ -12,9 +12,10 @@
       <th *matHeaderCellDef mat-header-cell mat-sort-header class="name-col" start="asc">Name</th>
       <td *matCellDef="let player" mat-cell class="name-col sticky">
         <span [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
-          <span>{{ player.firstName }} {{ player.lastName }} ({{ player.team.abbr }}</span>
-          <span *ngIf="player.position !== 'Goalie'">-{{ player.position | slice : 0 : 1 }}</span>
-          <span>)</span>
+          <span>{{ player.firstName }}</span>
+          <span *ngIf="player.position !== 'Goalie'">
+            {{ player.lastName }} ({{ player.team.abbr }}-{{ player.position | slice : 0 : 1 }})
+          </span>
         </span>
       </td>
     </ng-container>

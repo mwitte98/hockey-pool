@@ -18,6 +18,7 @@ import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
+import { UtilService } from '../shared/services/util.service';
 import { AdminEntry, TelephoneNumber, UpsertEntryPlayer, UpsertEntryTeam, User } from '../shared/types/interfaces';
 
 import { DuplicateEntryDialogComponent } from './duplicate-entry-dialog.component';
@@ -48,6 +49,7 @@ export class CreateEntryComponent implements OnInit {
     private entriesService: EntriesService,
     private settingsService: SettingsService,
     private userService: UserService,
+    private utilService: UtilService,
     private fb: FormBuilder
   ) {}
 
@@ -59,6 +61,7 @@ export class CreateEntryComponent implements OnInit {
         forkJoin({ teams: this.teamsService.getUpsertEntry(), entries: this.entriesService.getPlayerIds() }).subscribe({
           next: ({ teams, entries }) => {
             this.teams = teams;
+            this.utilService.sortPlayersAlphabeticallyGoaliesFirst(this.teams);
             this.createEntryForm();
             this.entries = entries;
           }

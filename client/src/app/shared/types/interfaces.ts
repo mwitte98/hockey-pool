@@ -195,6 +195,7 @@ export interface PlayerStatsPlayerStat {
 // START - /teams?field_groups=upsert_entry
 export interface UpsertEntryTeam {
   name: string;
+  abbr: string;
   players: UpsertEntryPlayer[];
 }
 

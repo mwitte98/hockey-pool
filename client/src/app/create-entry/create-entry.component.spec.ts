@@ -4,7 +4,16 @@ describe('CreateEntryComponent', () => {
   let comp: CreateEntryComponent;
 
   beforeEach(() => {
-    comp = new CreateEntryComponent({} as any, {} as any, {} as any, {} as any, {} as any, {} as any, {} as any);
+    comp = new CreateEntryComponent(
+      {} as any,
+      {} as any,
+      {} as any,
+      {} as any,
+      {} as any,
+      {} as any,
+      {} as any,
+      {} as any
+    );
   });
 
   it('component is created', () => {

@@ -33,6 +33,7 @@ export class AdminTeamsComponent implements OnInit {
         this.loading = true;
         this.teamsService.get().subscribe((teams: AdminTeam[]) => {
           this.teams = teams;
+          this.utilService.sortPlayersAlphabeticallyGoaliesFirst(this.teams);
           for (const team of this.teams) {
             this.createTeamForm(team);
             for (const player of team.players) {
