@@ -11,7 +11,7 @@ class Player
   def as_json(options = {})
     player = super(options.merge(except: %i[entry_ids created_at updated_at]))
     IdHelper.to_s player
-    PlayerHelper.set_points player, options[:setting]
+    PlayerHelper.set_points player, options[:setting] if options[:set_player_points] != false
     player
   end
 end
