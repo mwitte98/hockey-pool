@@ -15,7 +15,7 @@ export class BestEntryService {
 
   determineBestEntry(teams: HomeTeam[]): DisplayEntry {
     const bestPlayers = this.bestPlayers(teams.map((team: HomeTeam) => team.players));
-    if (bestPlayers.length === 0 || bestPlayers[bestPlayers.length - 1][0].points <= 0) {
+    if (bestPlayers.length === 0 || (bestPlayers[bestPlayers.length - 1][0].points ?? 0) <= 0) {
       return null;
     }
 
