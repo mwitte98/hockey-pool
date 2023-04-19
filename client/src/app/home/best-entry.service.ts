@@ -65,9 +65,9 @@ export class BestEntryService {
             teamPlayers.filter((player: Player) => player.position === 'Goalie'),
             this.utilService.goalieTiebreakers
           )[0]
-        ].sort((a, b) => b.points - a.points);
+        ].sort((a, b) => (b.points ?? 0) - (a.points ?? 0));
       })
-      .sort((a, b) => b[0].points - a[0].points);
+      .sort((a, b) => (b[0].points ?? 0) - (a[0].points ?? 0));
   }
 
   calculateBestEntryBranch(list: Player[][], n: number, current: DisplayEntry): void {
@@ -94,7 +94,7 @@ export class BestEntryService {
     if (this.bestEntry != null) {
       let maxRemainingPoints = 0;
       for (let i = n; i < list.length; i++) {
-        maxRemainingPoints += list[i][0].points;
+        maxRemainingPoints += list[i][0].points ?? 0;
       }
       if (current.points + maxRemainingPoints < this.bestEntry.points) {
         return true;
