@@ -10,7 +10,7 @@ module UpdateTeamsPlayersHelper
       agent = Mechanize.new
       roster_response = JSON.parse(agent.get('http://statsapi.web.nhl.com/api/v1/teams?hydrate=roster&season=20222023').body)
       setup_teams roster_response
-      response = JSON.parse(agent.get('https://statsapi.web.nhl.com/api/v1/schedule?gameType=P&startDate=2023-01-31&endDate=2023-12-31&hydrate=linescore,scoringplays,decisions,game(seriesSummary)').body)
+      response = JSON.parse(agent.get('https://statsapi.web.nhl.com/api/v1/schedule?gameType=P&startDate=2023-01-01&endDate=2023-12-31&hydrate=linescore,scoringplays,decisions,game(seriesSummary)').body)
       response['dates'].each { |date| parse_date date }
       update_stats
     end
