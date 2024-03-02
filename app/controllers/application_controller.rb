@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
 
   def signed_in?
     user_id = cookies[:user_id]
-    return if user_id && User.find(user_id)
+    return false if user_id && User.find(user_id)
 
     cookies.delete :user_id
     render json: { errors: ['Unauthorized'], error_message: 'Unauthorized' }, status: :unauthorized # 401

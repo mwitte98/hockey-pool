@@ -8,7 +8,7 @@ class PlayersController < ApplicationController
     end
     players.each do |player|
       player['stats'].each do |date_stat|
-        date_stat.each do |key, _value|
+        date_stat.each_key do |key|
           next if %w[date goals points].include?(key)
 
           date_stat.delete key
