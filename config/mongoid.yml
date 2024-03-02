@@ -159,11 +159,6 @@ development:
     # existing method. (default: false)
     # scope_overwrite_exception: false
 
-    # Use ActiveSupport's time zone in time operations instead of
-    # the Ruby default time zone. See the time zone section below for
-    # further information. (default: true)
-    # use_activesupport_time_zone: true
-
     # Return stored times as UTC. See the time zone section below for
     # further information. Most applications should not use this option.
     # (default: false)
