@@ -32,6 +32,12 @@ pidfile ENV.fetch('PIDFILE', 'tmp/pids/server.pid')
 #
 workers ENV.fetch('WEB_CONCURRENCY', 2)
 
+# Verifies that all workers have checked in to the master process within the given timeout.
+# This timeout is to protect against dead or hung processes.
+# Setting this value will not protect against slow requests.
+# The minimum value is 6 seconds, the default value is 60 seconds.
+worker_timeout 300
+
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
 # before forking the application. This takes advantage of Copy On Write
