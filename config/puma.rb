@@ -3,22 +3,18 @@
 # Any libraries that use thread pools should be configured to match
 # the maximum value specified for Puma. Default is set to 5 threads for
 # minimum and maximum.
-#
 max_threads_count = ENV.fetch('RAILS_MAX_THREADS', 2)
 min_threads_count = ENV.fetch('RAILS_MIN_THREADS', max_threads_count)
 threads min_threads_count, max_threads_count
 
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
 # terminating a worker in development environments.
-#
 worker_timeout 3600 if ENV.fetch('RAILS_ENV', 'development') == 'development'
 
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
-#
 port        ENV.fetch('PORT', 3000)
 
 # Specifies the `environment` that Puma will run in.
-#
 environment ENV.fetch('RAILS_ENV', 'development')
 
 # Specifies the `pidfile` that Puma will use.
@@ -29,8 +25,17 @@ pidfile ENV.fetch('PIDFILE', 'tmp/pids/server.pid')
 # the concurrency of the application would be max `threads` * `workers`.
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
-#
 workers ENV.fetch('WEB_CONCURRENCY', 2)
+
+# Verifies that all workers have checked in to the master process within the given timeout.
+# This timeout is to protect against dead or hung processes.
+# Setting this value will not protect against slow requests.
+# The minimum value is 6 seconds, the default value is 60 seconds.
+worker_timeout 300
+
+# Change the default worker timeout for booting.
+# If unspecified - it will default to the value of worker_timeout.
+worker_boot_timeout 300
 
 # Use the `preload_app!` method when specifying a `workers` number.
 # This directive tells Puma to first boot the application and load code
