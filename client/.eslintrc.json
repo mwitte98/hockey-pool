@@ -17,16 +17,20 @@
       ],
       "rules": {
         "@angular-eslint/component-selector": ["error", { "prefix": "", "style": "kebab-case", "type": "element" }],
+        "@angular-eslint/consistent-component-styles": "off", // TODO: turn on
         "@angular-eslint/directive-selector": ["error", { "prefix": "", "style": "camelCase", "type": "attribute" }],
         "@angular-eslint/prefer-on-push-component-change-detection": "off",
+        "@angular-eslint/prefer-standalone": "off", // TODO: turn on
         "@angular-eslint/prefer-standalone-component": "off", // TODO: turn on
         "@angular-eslint/use-component-selector": "off",
+        "@typescript-eslint/class-methods-use-this": "off",
         "@typescript-eslint/consistent-type-imports": ["error", { "prefer": "no-type-imports" }],
         "@typescript-eslint/explicit-member-accessibility": ["error", { "accessibility": "no-public" }],
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-extraneous-class": ["error", { "allowEmpty": true }],
         "@typescript-eslint/init-declarations": "off",
-        "@typescript-eslint/lines-between-class-members": ["error", { "exceptAfterSingleLine": true }],
+        "@typescript-eslint/lines-between-class-members": "off",
+        "@typescript-eslint/max-params": ["error", { "max": 8 }],
         "@typescript-eslint/member-ordering": [
           "error",
           {
@@ -132,6 +136,7 @@
         "@angular-eslint/template/i18n": "off",
         "@angular-eslint/template/interactive-supports-focus": "off",
         "@angular-eslint/template/no-call-expression": "off",
+        "@angular-eslint/template/prefer-control-flow": "off", // TODO: turn on
         "@angular-eslint/template/prefer-ngsrc": "off", // TODO: turn on
         "@angular-eslint/template/prefer-self-closing-tags": "off" // TODO: turn on
       }
