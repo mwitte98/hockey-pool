@@ -13,7 +13,6 @@ export interface AdminTeamForm {
   madePlayoffs: FormControl<boolean>;
   conference: FormControl<string>;
   rank: FormControl<number>;
-  nhlId: FormControl<number>;
 }
 
 export interface AuthForm {

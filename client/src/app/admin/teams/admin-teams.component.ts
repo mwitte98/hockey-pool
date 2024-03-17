@@ -53,8 +53,7 @@ export class AdminTeamsComponent implements OnInit {
       isEliminated: [team.isEliminated, Validators.required],
       madePlayoffs: [team.madePlayoffs, Validators.required],
       conference: [team.conference, Validators.required],
-      rank: [team.rank, [Validators.required, Validators.min(1)]],
-      nhlId: [team.nhlId, [Validators.required, Validators.min(1)]]
+      rank: [team.rank, [Validators.required, Validators.min(1)]]
     });
   }
 

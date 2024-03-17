@@ -38,7 +38,7 @@ class TeamsController < ApplicationController
   private
 
   def team_params
-    params.permit(:name, :abbr, :is_eliminated, :made_playoffs, :conference, :rank, :nhl_id)
+    params.permit(:name, :abbr, :is_eliminated, :made_playoffs, :conference, :rank)
   end
 
   def query_teams
@@ -56,7 +56,7 @@ class TeamsController < ApplicationController
 
   def query_home
     Team.includes(:players).where(made_playoffs: true).order(is_eliminated: 1, conference: 1, rank: 1).as_json(
-      only: %i[name abbr is_eliminated nhl_id],
+      only: %i[name abbr is_eliminated],
       include: { players: { except: %i[team_id entry_ids created_at updated_at] } },
       setting: Setting.first
     )

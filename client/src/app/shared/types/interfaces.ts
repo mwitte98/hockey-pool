@@ -125,7 +125,6 @@ export interface AdminTeam {
   madePlayoffs: boolean;
   conference: string;
   rank: number;
-  nhlId: number;
   players?: AdminPlayer[];
   form?: FormGroup<AdminTeamForm>;
   updateLoading?: boolean;
@@ -150,7 +149,6 @@ export interface HomeTeam {
   name: string;
   abbr: string;
   isEliminated: boolean;
-  nhlId: number;
   players: HomePlayer[];
 }
 
