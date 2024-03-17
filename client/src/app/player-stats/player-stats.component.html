@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-spinner *ngIf="loading" />
 <div *ngIf="!loading">
   <div class="slide-toggle-container">
     <mat-slide-toggle color="primary" [(ngModel)]="showingEliminated" (change)="updateShown()">
@@ -14,14 +14,14 @@
         [players]="shownSkaters"
         [columnsToDisplay]="skaterColumnsToDisplay"
         [tiebreakers]="utilService.skaterTiebreakers"
-        [playerStatColumns]="skaterStatColumns"></player-stats-tab>
+        [playerStatColumns]="skaterStatColumns" />
     </mat-tab>
     <mat-tab label="Goalies">
       <player-stats-tab
         [players]="shownGoalies"
         [columnsToDisplay]="goalieColumnsToDisplay"
         [tiebreakers]="utilService.goalieTiebreakers"
-        [playerStatColumns]="goalieStatColumns"></player-stats-tab>
+        [playerStatColumns]="goalieStatColumns" />
     </mat-tab>
   </mat-tab-group>
 </div>

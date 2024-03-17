@@ -8,7 +8,7 @@ import { User } from '../types/interfaces';
 @Component({
   selector: 'layout-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
   currentPage: string;

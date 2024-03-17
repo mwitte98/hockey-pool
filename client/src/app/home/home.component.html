@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-spinner *ngIf="loading" />
 <div *ngIf="!loading">
   <div class="slide-toggle-container">
     <mat-slide-toggle color="primary" [(ngModel)]="showingAllEntries" (change)="toggleAllPanels()">
@@ -82,7 +82,7 @@
                 [ngTemplateOutlet]="t"
                 [ngTemplateOutletContext]="{ $implicit: getSelectedPlayerForTeam(entry.playerIds, team) }">
                 <div class="team-player-wrapper" [ngClass]="{ hidden: team.isEliminated && !showingEliminatedTeams }">
-                  <img class="team-logo" [alt]="team.name + ' logo'" [src]="getLogoUrl(team)" />
+                  <img [alt]="team.name + ' logo'" [ngSrc]="getLogoUrl(team)" [height]="20" [width]="30" />
                   <div class="player-wrapper">
                     <div class="player-name" [ngClass]="team.isEliminated ? 'strikethrough' : ''">
                       <span *ngIf="player.position === 'Goalie'">{{ team.abbr }} Goalies</span>

@@ -10,7 +10,7 @@ import { ChartLine, DisplayEntry, HistoricalPlayer, User } from '../shared/types
 
 @Component({
   templateUrl: './historical-graph.component.html',
-  styleUrls: ['./historical-graph.component.scss'],
+  styleUrl: './historical-graph.component.scss',
 })
 export class HistoricalGraphComponent implements OnInit {
   dates: string[] = [];

@@ -10,7 +10,7 @@ import { User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-settings.component.html',
-  styleUrls: ['./admin-settings.component.scss'],
+  styleUrl: './admin-settings.component.scss',
 })
 export class AdminSettingsComponent implements OnInit {
   updating = false;

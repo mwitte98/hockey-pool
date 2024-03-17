@@ -1,7 +1,7 @@
 <div class="header">
   <h1 class="mat-h1">Admin - Teams</h1>
 </div>
-<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-spinner *ngIf="loading" />
 <div class="accordion-container">
   <mat-accordion multi [displayMode]="'flat'">
     <mat-expansion-panel *ngFor="let team of teams; trackBy: trackByTeamId" class="expansion-panel">
@@ -47,7 +47,7 @@
               Update
             </button>
             <div class="form-submit-status">
-              <mat-spinner *ngIf="team.updateLoading" class="form-spinner" [diameter]="25"></mat-spinner>
+              <mat-spinner *ngIf="team.updateLoading" class="form-spinner" [diameter]="25" />
               <mat-icon *ngIf="team.updateSuccess" class="check-icon">check</mat-icon>
               <mat-icon *ngIf="team.updateFailure" color="warn">clear</mat-icon>
             </div>
@@ -82,7 +82,7 @@
               Update
             </button>
             <div class="form-submit-status">
-              <mat-spinner *ngIf="player.updateLoading" class="form-spinner" [diameter]="25"></mat-spinner>
+              <mat-spinner *ngIf="player.updateLoading" class="form-spinner" [diameter]="25" />
               <mat-icon *ngIf="player.updateSuccess" class="check-icon">check</mat-icon>
               <mat-icon *ngIf="player.updateFailure" color="warn">clear</mat-icon>
             </div>

@@ -9,7 +9,7 @@ import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatTiebreaker } from '../sh
 @Component({
   selector: 'player-stats-tab',
   templateUrl: './player-stats-tab.component.html',
-  styleUrls: ['./player-stats-tab.component.scss'],
+  styleUrl: './player-stats-tab.component.scss',
 })
 export class PlayerStatsTabComponent implements OnChanges, OnInit {
   @Input() players: PlayerStatsPlayer[];

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -53,6 +53,7 @@ import { TelephoneInputComponent } from './shared/telephone-input/telephone-inpu
     FormsModule,
     HttpClientModule,
     MaterialModule,
+    NgOptimizedImage,
     NgxChartsModule,
     ReactiveFormsModule,
   ],
