@@ -7,7 +7,7 @@
     </button>
   </div>
 </div>
-<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-spinner *ngIf="loading" />
 <div class="accordion-container">
   <mat-accordion multi [displayMode]="'flat'">
     <mat-expansion-panel *ngFor="let entry of entries; trackBy: trackByEntryId" class="expansion-panel">
@@ -32,7 +32,7 @@
               </mat-form-field>
               <mat-form-field>
                 <mat-label>Telephone Number</mat-label>
-                <telephone-input formControlName="telephoneNumber" required></telephone-input>
+                <telephone-input formControlName="telephoneNumber" required />
               </mat-form-field>
             </div>
             <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamName" class="player-input">
@@ -55,7 +55,7 @@
               Update
             </button>
             <div class="form-submit-status">
-              <mat-spinner *ngIf="entry.updateLoading" class="form-spinner" [diameter]="25"></mat-spinner>
+              <mat-spinner *ngIf="entry.updateLoading" class="form-spinner" [diameter]="25" />
               <mat-icon *ngIf="entry.updateSuccess" class="check-icon">check</mat-icon>
               <mat-icon *ngIf="entry.updateFailure" color="warn">clear</mat-icon>
             </div>

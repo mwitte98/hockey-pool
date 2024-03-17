@@ -4,7 +4,7 @@
   </mat-card-header>
   <form [formGroup]="authForm" (ngSubmit)="submitForm()">
     <mat-card-content>
-      <display-errors [errors]="errors"></display-errors>
+      <display-errors [errors]="errors" />
       <br />
       <mat-form-field>
         <input matInput formControlName="email" placeholder="Email" type="email" />

@@ -17,7 +17,6 @@
       ],
       "rules": {
         "@angular-eslint/component-selector": ["error", { "prefix": "", "style": "kebab-case", "type": "element" }],
-        "@angular-eslint/consistent-component-styles": "off", // TODO: turn on
         "@angular-eslint/directive-selector": ["error", { "prefix": "", "style": "camelCase", "type": "attribute" }],
         "@angular-eslint/prefer-on-push-component-change-detection": "off",
         "@angular-eslint/prefer-standalone": "off", // TODO: turn on
@@ -136,9 +135,7 @@
         "@angular-eslint/template/i18n": "off",
         "@angular-eslint/template/interactive-supports-focus": "off",
         "@angular-eslint/template/no-call-expression": "off",
-        "@angular-eslint/template/prefer-control-flow": "off", // TODO: turn on
-        "@angular-eslint/template/prefer-ngsrc": "off", // TODO: turn on
-        "@angular-eslint/template/prefer-self-closing-tags": "off" // TODO: turn on
+        "@angular-eslint/template/prefer-control-flow": "off" // TODO: turn on
       }
     },
     {

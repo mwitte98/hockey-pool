@@ -21,7 +21,7 @@ import { TelephoneNumber } from '../types/interfaces';
 @Component({
   selector: 'telephone-input',
   templateUrl: './telephone-input.component.html',
-  styleUrls: ['./telephone-input.component.scss'],
+  styleUrl: './telephone-input.component.scss',
   providers: [{ provide: MatFormFieldControl, useExisting: TelephoneInputComponent }],
 })
 export class TelephoneInputComponent

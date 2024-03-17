@@ -1,11 +1,11 @@
-<mat-spinner *ngIf="!settingForm"></mat-spinner>
+<mat-spinner *ngIf="!settingForm" />
 <mat-card *ngIf="settingForm" appearance="outlined" class="mat-typography">
   <mat-card-header>
     <mat-card-title>Admin - Settings</mat-card-title>
   </mat-card-header>
   <form [formGroup]="settingForm" (ngSubmit)="submitForm()">
     <mat-card-content>
-      <display-errors [errors]="errors"></display-errors>
+      <display-errors [errors]="errors" />
 
       <mat-checkbox formControlName="isPlayoffsStarted" color="primary">Have Playoffs Started</mat-checkbox>
 
@@ -96,7 +96,7 @@
         Update
       </button>
       <div class="form-submit-status">
-        <mat-spinner *ngIf="updating" class="form-spinner" [diameter]="25"></mat-spinner>
+        <mat-spinner *ngIf="updating" class="form-spinner" [diameter]="25" />
         <mat-icon *ngIf="updateSuccess" class="check-icon">check</mat-icon>
         <mat-icon *ngIf="updateFailure" color="warn">clear</mat-icon>
       </div>

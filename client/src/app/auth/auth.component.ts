@@ -10,7 +10,7 @@ import { User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss'],
+  styleUrl: './auth.component.scss',
 })
 export class AuthComponent implements OnInit {
   authType: string;

@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<mat-spinner *ngIf="loading" />
 <ngx-charts-line-chart
   *ngIf="!loading && chartData.length > 0"
   class="mat-typography"
@@ -11,4 +11,4 @@
   [showXAxisLabel]="true"
   [showYAxisLabel]="true"
   [xAxisLabel]="'Date of Games'"
-  [yAxisLabel]="'Rank'"></ngx-charts-line-chart>
+  [yAxisLabel]="'Rank'" />

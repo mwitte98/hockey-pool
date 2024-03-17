@@ -10,7 +10,7 @@ import { AdminPlayer, AdminTeam, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-teams.component.html',
-  styleUrls: ['./admin-teams.component.scss'],
+  styleUrl: './admin-teams.component.scss',
 })
 export class AdminTeamsComponent implements OnInit {
   teams: AdminTeam[];

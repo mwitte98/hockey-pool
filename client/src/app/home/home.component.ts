@@ -14,7 +14,7 @@ import { BestEntryService } from './best-entry.service';
 
 @Component({
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrl: './home.component.scss',
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0', paddingTop: '0', paddingBottom: '0' })),

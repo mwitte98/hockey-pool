@@ -27,7 +27,7 @@ import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 
 @Component({
   templateUrl: './create-entry.component.html',
-  styleUrls: ['./create-entry.component.scss'],
+  styleUrl: './create-entry.component.scss',
 })
 export class CreateEntryComponent implements OnInit {
   loading = false;

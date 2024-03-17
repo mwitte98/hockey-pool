@@ -11,7 +11,7 @@ import { AdminEntry, TelephoneNumber, UpsertEntryPlayer, UpsertEntryTeam, User }
 
 @Component({
   templateUrl: './admin-entries.component.html',
-  styleUrls: ['./admin-entries.component.scss'],
+  styleUrl: './admin-entries.component.scss',
 })
 export class AdminEntriesComponent implements OnInit {
   entries: AdminEntry[];

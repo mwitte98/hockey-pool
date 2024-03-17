@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="!entryForm"></mat-spinner>
+<mat-spinner *ngIf="!entryForm" />
 <mat-card *ngIf="entryForm" appearance="outlined" class="mat-typography">
   <mat-card-header>
     <mat-card-title>Create Entry</mat-card-title>
@@ -6,7 +6,7 @@
   <form #formDirective="ngForm" [formGroup]="entryForm" (ngSubmit)="submitForm(formDirective)">
     <mat-card-content>
       <button mat-raised-button class="see-rules-button" type="button" (click)="seeRules()">See rules</button>
-      <display-errors [errors]="errors"></display-errors>
+      <display-errors [errors]="errors" />
       <div>
         <mat-form-field>
           <mat-label>Entry Name</mat-label>
@@ -22,7 +22,7 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Telephone Number</mat-label>
-          <telephone-input formControlName="telephoneNumber" required></telephone-input>
+          <telephone-input formControlName="telephoneNumber" required />
         </mat-form-field>
       </div>
       <div>Number of each position selected:</div>
