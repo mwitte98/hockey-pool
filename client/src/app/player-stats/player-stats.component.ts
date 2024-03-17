@@ -8,7 +8,7 @@ import { UtilService } from '../shared/services/util.service';
 import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatsTeam, User } from '../shared/types/interfaces';
 
 @Component({
-  templateUrl: './player-stats.component.html'
+  templateUrl: './player-stats.component.html',
 })
 export class PlayerStatsComponent implements OnInit {
   loading = false;
@@ -26,14 +26,14 @@ export class PlayerStatsComponent implements OnInit {
     { stat: 'assists', header: 'A' },
     { stat: 'gwg', header: 'GWG' },
     { stat: 'shg', header: 'SHG' },
-    { stat: 'otg', header: 'OTG' }
+    { stat: 'otg', header: 'OTG' },
   ];
   goalieStatColumns: PlayerStatColumn[] = [
     { stat: 'goals', header: 'G' },
     { stat: 'assists', header: 'A' },
     { stat: 'wins', header: 'Wins' },
     { stat: 'otl', header: 'OTL' },
-    { stat: 'shutouts', header: 'SO' }
+    { stat: 'shutouts', header: 'SO' },
   ];
 
   constructor(
@@ -41,7 +41,7 @@ export class PlayerStatsComponent implements OnInit {
     private settingsService: SettingsService,
     public utilService: UtilService,
     private userService: UserService,
-    private teamsService: TeamsService
+    private teamsService: TeamsService,
   ) {}
 
   ngOnInit(): void {
@@ -90,7 +90,7 @@ export class PlayerStatsComponent implements OnInit {
 
   applyFilters(originalPlayers: PlayerStatsPlayer[]): PlayerStatsPlayer[] {
     return originalPlayers.filter(
-      (p) => (!this.showingSelected || p.isSelected) && (this.showingEliminated || !p.team.isEliminated)
+      (p) => (!this.showingSelected || p.isSelected) && (this.showingEliminated || !p.team.isEliminated),
     );
   }
 }

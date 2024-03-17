@@ -12,10 +12,10 @@
     "target": "es2022",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2022", "dom"],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
   },
   "angularCompilerOptions": {
     "strictTemplates": true,
-    "strictInjectionParameters": true
-  }
+    "strictInjectionParameters": true,
+  },
 }

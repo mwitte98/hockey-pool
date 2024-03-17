@@ -43,7 +43,7 @@ import { TelephoneInputComponent } from './shared/telephone-input/telephone-inpu
     PlayerStatsComponent,
     PlayerStatsTabComponent,
     SeeRulesDialogComponent,
-    TelephoneInputComponent
+    TelephoneInputComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -54,9 +54,9 @@ import { TelephoneInputComponent } from './shared/telephone-input/telephone-inpu
     HttpClientModule,
     MaterialModule,
     NgxChartsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -19,9 +19,9 @@ import { BestEntryService } from './best-entry.service';
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0', paddingTop: '0', paddingBottom: '0' })),
       state('expanded', style({ height: '*', paddingTop: '8px', paddingBottom: '8px' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
-    ])
-  ]
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class HomeComponent implements OnInit {
   entries: DisplayEntry[];
@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
     private settingsService: SettingsService,
     private userService: UserService,
     private utilService: UtilService,
-    private bestEntryService: BestEntryService
+    private bestEntryService: BestEntryService,
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class HomeComponent implements OnInit {
             }
             this.prepareTableData();
             this.loading = false;
-          }
+          },
         });
       }
     });

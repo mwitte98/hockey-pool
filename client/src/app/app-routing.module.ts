@@ -22,11 +22,11 @@ const appRoutes: Routes = [
   { path: 'player-stats', component: PlayerStatsComponent, title: `${titlePrefix}Player Stats` },
   { path: 'rank-by-day', component: HistoricalGraphComponent, title: `${titlePrefix}Rank by Day` },
   { path: '', component: HomeComponent, title: `${titlePrefix}Home` },
-  { path: '**', redirectTo: '/', pathMatch: 'full' }
+  { path: '**', redirectTo: '/', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

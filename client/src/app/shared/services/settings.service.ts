@@ -7,7 +7,7 @@ import { Setting } from '../types/interfaces';
 import { ApiService } from './api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SettingsService {
   setting: Setting;
@@ -19,7 +19,7 @@ export class SettingsService {
       map((setting: Setting) => {
         this.setting = setting;
         return setting;
-      })
+      }),
     );
   }
 
@@ -30,7 +30,7 @@ export class SettingsService {
         this.setting = updatedSetting;
         this.setting.id = settingId;
         return updatedSetting;
-      })
+      }),
     );
   }
 }

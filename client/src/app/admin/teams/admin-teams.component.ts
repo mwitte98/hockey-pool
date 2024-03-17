@@ -10,7 +10,7 @@ import { AdminPlayer, AdminTeam, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-teams.component.html',
-  styleUrls: ['./admin-teams.component.scss']
+  styleUrls: ['./admin-teams.component.scss'],
 })
 export class AdminTeamsComponent implements OnInit {
   teams: AdminTeam[];
@@ -22,7 +22,7 @@ export class AdminTeamsComponent implements OnInit {
     private playersService: PlayersService,
     private userService: UserService,
     private utilService: UtilService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class AdminTeamsComponent implements OnInit {
       isEliminated: [team.isEliminated, Validators.required],
       madePlayoffs: [team.madePlayoffs, Validators.required],
       conference: [team.conference, Validators.required],
-      rank: [team.rank, [Validators.required, Validators.min(1)]]
+      rank: [team.rank, [Validators.required, Validators.min(1)]],
     });
   }
 
@@ -61,7 +61,7 @@ export class AdminTeamsComponent implements OnInit {
     player.form = this.fb.nonNullable.group({
       firstName: [player.firstName, Validators.required],
       lastName: [player.lastName, Validators.required],
-      position: [player.position, Validators.required]
+      position: [player.position, Validators.required],
     });
   }
 

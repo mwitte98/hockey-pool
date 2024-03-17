@@ -12,7 +12,7 @@ describe('CreateEntryComponent', () => {
       {} as any,
       {} as any,
       {} as any,
-      {} as any
+      {} as any,
     );
   });
 

@@ -11,7 +11,7 @@ import { AdminEntry, TelephoneNumber, UpsertEntryPlayer, UpsertEntryTeam, User }
 
 @Component({
   templateUrl: './admin-entries.component.html',
-  styleUrls: ['./admin-entries.component.scss']
+  styleUrls: ['./admin-entries.component.scss'],
 })
 export class AdminEntriesComponent implements OnInit {
   entries: AdminEntry[];
@@ -24,7 +24,7 @@ export class AdminEntriesComponent implements OnInit {
     private teamsService: TeamsService,
     private userService: UserService,
     private utilService: UtilService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class AdminEntriesComponent implements OnInit {
               this.createEntryForm(entry);
             }
             this.loading = false;
-          }
+          },
         });
       }
     });
@@ -65,13 +65,13 @@ export class AdminEntriesComponent implements OnInit {
       name: [entry.name, Validators.required],
       contestantName: [entry.contestantName, Validators.required],
       email: [entry.email, [Validators.required, Validators.email]],
-      telephoneNumber: [entry.telephoneNumber, Validators.required]
+      telephoneNumber: [entry.telephoneNumber, Validators.required],
     });
     for (const team of this.teams) {
       const teamPlayerIds = new Set(team.players.map((player) => player.id));
       entry.form.addControl(
         team.name,
-        new FormControl(this.getSelectedPlayerForTeam(entry.playerIds, teamPlayerIds), Validators.required)
+        new FormControl(this.getSelectedPlayerForTeam(entry.playerIds, teamPlayerIds), Validators.required),
       );
     }
   }
@@ -93,7 +93,7 @@ export class AdminEntriesComponent implements OnInit {
       contestantName: formData.contestantName as string,
       email: formData.email as string,
       telephoneNumber: formData.telephoneNumber as TelephoneNumber,
-      playerIds: []
+      playerIds: [],
     };
     for (const formField of Object.keys(formData)) {
       if (

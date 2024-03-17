@@ -6,7 +6,7 @@ import { AdminTeam, HomeTeam, PlayerStatsTeam, UpsertEntryTeam } from '../types/
 import { ApiService } from './api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TeamsService {
   constructor(private apiService: ApiService) {}

@@ -10,11 +10,11 @@ import {
   Player,
   PlayerStatTiebreaker,
   UpsertEntryPlayer,
-  UpsertEntryTeam
+  UpsertEntryTeam,
 } from '../types/interfaces';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UtilService {
   skaterTiebreakers: PlayerStatTiebreaker[] = [
@@ -27,7 +27,7 @@ export class UtilService {
     { attr: 'team', sortDirection: 'asc', nestedAttr: 'abbr' },
     { attr: 'lastName', sortDirection: 'asc' },
     { attr: 'firstName', sortDirection: 'asc' },
-    { attr: 'position', sortDirection: 'asc' }
+    { attr: 'position', sortDirection: 'asc' },
   ];
   goalieTiebreakers: PlayerStatTiebreaker[] = [
     { attr: 'points', sortDirection: 'desc' },
@@ -38,7 +38,7 @@ export class UtilService {
     { attr: 'goals', sortDirection: 'desc' },
     { attr: 'team', sortDirection: 'asc', nestedAttr: 'abbr' },
     { attr: 'lastName', sortDirection: 'asc' },
-    { attr: 'firstName', sortDirection: 'asc' }
+    { attr: 'firstName', sortDirection: 'asc' },
   ];
 
   sortPlayersByStats(players: Player[], tiebreakers: PlayerStatTiebreaker[], sort?: Sort): Player[] {
@@ -92,7 +92,7 @@ export class UtilService {
       },
       error: () => {
         this.updateStatus(updateObject, false);
-      }
+      },
     });
   }
 

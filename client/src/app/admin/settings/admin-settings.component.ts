@@ -10,7 +10,7 @@ import { User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-settings.component.html',
-  styleUrls: ['./admin-settings.component.scss']
+  styleUrls: ['./admin-settings.component.scss'],
 })
 export class AdminSettingsComponent implements OnInit {
   updating = false;
@@ -23,7 +23,7 @@ export class AdminSettingsComponent implements OnInit {
     private router: Router,
     private settingsService: SettingsService,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -63,8 +63,8 @@ export class AdminSettingsComponent implements OnInit {
       roundMultipliers: this.fb.array(
         setting.roundMultipliers.map((roundMultiplier: number) => {
           return this.fb.control(roundMultiplier, [Validators.required, Validators.min(0)]);
-        })
-      )
+        }),
+      ),
     });
   }
 
@@ -85,7 +85,7 @@ export class AdminSettingsComponent implements OnInit {
         setTimeout(() => {
           this.updateFailure = false;
         }, 3000);
-      }
+      },
     });
   }
 }

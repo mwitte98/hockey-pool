@@ -5,10 +5,13 @@ import { UserService } from './shared/services/user.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  constructor(private settingsService: SettingsService, private userService: UserService) {}
+  constructor(
+    private settingsService: SettingsService,
+    private userService: UserService,
+  ) {}
 
   ngOnInit(): void {
     this.settingsService.get().subscribe(() => {
