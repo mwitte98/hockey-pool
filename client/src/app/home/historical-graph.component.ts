@@ -10,7 +10,7 @@ import { ChartLine, DisplayEntry, HistoricalPlayer, User } from '../shared/types
 
 @Component({
   templateUrl: './historical-graph.component.html',
-  styleUrls: ['./historical-graph.component.scss']
+  styleUrls: ['./historical-graph.component.scss'],
 })
 export class HistoricalGraphComponent implements OnInit {
   dates: string[] = [];
@@ -25,7 +25,7 @@ export class HistoricalGraphComponent implements OnInit {
     private entriesService: EntriesService,
     private playersService: PlayersService,
     private userService: UserService,
-    private utilService: UtilService
+    private utilService: UtilService,
   ) {}
 
   ngOnInit(): void {
@@ -38,15 +38,15 @@ export class HistoricalGraphComponent implements OnInit {
           {
             next: ({ entries, players }) => {
               this.dates = [...new Set(players.flatMap((player) => player.stats.map((stat) => stat.date)))].sort(
-                (a, b) => a.localeCompare(b)
+                (a, b) => a.localeCompare(b),
               );
               this.cumulatePlayerStats(players);
               this.cumulateEntryStats(entries);
               this.sortEntries();
               this.setupChart();
               this.loading = false;
-            }
-          }
+            },
+          },
         );
       }
     });
@@ -63,7 +63,7 @@ export class HistoricalGraphComponent implements OnInit {
           goals += dateStats?.goals ?? 0;
           points += dateStats?.points ?? 0;
           return { date, goals, points };
-        })
+        }),
       };
     });
   }
@@ -94,8 +94,8 @@ export class HistoricalGraphComponent implements OnInit {
         pointsD: 0,
         pointsG: 0,
         totalGoals: 0,
-        tiebreaker: 0
-      }))
+        tiebreaker: 0,
+      })),
     };
   }
 
@@ -110,7 +110,7 @@ export class HistoricalGraphComponent implements OnInit {
     this.chartData = this.entries.map((entry) => {
       return {
         name: entry.name,
-        series: entry.entryDates.map((entryDate) => ({ name: new Date(entryDate.date), value: entryDate.rank }))
+        series: entry.entryDates.map((entryDate) => ({ name: new Date(entryDate.date), value: entryDate.rank })),
       };
     });
   }

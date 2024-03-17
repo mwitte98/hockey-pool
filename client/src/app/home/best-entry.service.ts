@@ -5,13 +5,16 @@ import { UtilService } from '../shared/services/util.service';
 import { DisplayEntry, HomeTeam, Player } from '../shared/types/interfaces';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BestEntryService {
   private bestEntry: DisplayEntry;
   private bestEntryName = 'BEST POSSIBLE ENTRY';
 
-  constructor(private settingsService: SettingsService, private utilService: UtilService) {}
+  constructor(
+    private settingsService: SettingsService,
+    private utilService: UtilService,
+  ) {}
 
   determineBestEntry(teams: HomeTeam[]): DisplayEntry {
     const bestPlayers = this.bestPlayers(teams.map((team: HomeTeam) => team.players));
@@ -32,7 +35,7 @@ export class BestEntryService {
       pointsW: 0,
       pointsD: 0,
       pointsG: 0,
-      totalGoals: 0
+      totalGoals: 0,
     });
     return this.bestEntry;
   }
@@ -51,20 +54,20 @@ export class BestEntryService {
         return [
           this.utilService.sortPlayersByStats(
             teamPlayers.filter((player: Player) => player.position === 'Center'),
-            this.utilService.skaterTiebreakers
+            this.utilService.skaterTiebreakers,
           )[0],
           this.utilService.sortPlayersByStats(
             teamPlayers.filter((player: Player) => player.position === 'Winger'),
-            this.utilService.skaterTiebreakers
+            this.utilService.skaterTiebreakers,
           )[0],
           this.utilService.sortPlayersByStats(
             teamPlayers.filter((player: Player) => player.position === 'Defenseman'),
-            this.utilService.skaterTiebreakers
+            this.utilService.skaterTiebreakers,
           )[0],
           this.utilService.sortPlayersByStats(
             teamPlayers.filter((player: Player) => player.position === 'Goalie'),
-            this.utilService.goalieTiebreakers
-          )[0]
+            this.utilService.goalieTiebreakers,
+          )[0],
         ].sort((a, b) => (b.points ?? 0) - (a.points ?? 0));
       })
       .sort((a, b) => (b[0].points ?? 0) - (a[0].points ?? 0));
@@ -147,7 +150,7 @@ export class BestEntryService {
       ...current,
       playerIds: [...current.playerIds, nextPlayer.id],
       points: current.points + (nextPlayer.points ?? 0),
-      totalGoals: current.totalGoals + (nextPlayer.goals ?? 0)
+      totalGoals: current.totalGoals + (nextPlayer.goals ?? 0),
     };
   }
 

@@ -8,13 +8,17 @@ import { User } from '../types/interfaces';
 @Component({
   selector: 'layout-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   currentPage: string;
   currentUser: User;
 
-  constructor(private router: Router, public settingsService: SettingsService, private userService: UserService) {}
+  constructor(
+    private router: Router,
+    public settingsService: SettingsService,
+    private userService: UserService,
+  ) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((event) => {

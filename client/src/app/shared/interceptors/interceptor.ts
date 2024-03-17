@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class Interceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -13,7 +13,7 @@ export class Interceptor implements HttpInterceptor {
           return event.clone({ body: this.convertCase(event.body, this.toCamel) });
         }
         return event;
-      })
+      }),
     );
   }
 
@@ -22,7 +22,7 @@ export class Interceptor implements HttpInterceptor {
       return obj.map((elem) => this.convertCase(elem, convertFunction));
     } else if (obj === Object(obj)) {
       return Object.fromEntries(
-        Object.entries(obj).map(([k, v]) => [convertFunction(k), this.convertCase(v, convertFunction)])
+        Object.entries(obj).map(([k, v]) => [convertFunction(k), this.convertCase(v, convertFunction)]),
       );
     }
     return obj;

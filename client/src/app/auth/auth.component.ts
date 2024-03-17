@@ -10,7 +10,7 @@ import { User } from '../shared/types/interfaces';
 
 @Component({
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.scss']
+  styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
   authType: string;
@@ -23,7 +23,7 @@ export class AuthComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +33,7 @@ export class AuthComponent implements OnInit {
       } else if (user === null) {
         this.authForm = this.fb.nonNullable.group({
           email: ['', Validators.required],
-          password: ['', Validators.required]
+          password: ['', Validators.required],
         });
 
         this.route.url.subscribe((data) => {
@@ -62,7 +62,7 @@ export class AuthComponent implements OnInit {
         },
         error: (error: HttpErrorResponse) => {
           this.errors = error.error.errors;
-        }
+        },
       });
     }
   }

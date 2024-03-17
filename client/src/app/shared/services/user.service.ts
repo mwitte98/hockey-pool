@@ -7,7 +7,7 @@ import { User } from '../types/interfaces';
 import { ApiService } from './api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private currentUserSubject = new BehaviorSubject<User>(undefined);
@@ -22,7 +22,7 @@ export class UserService {
       },
       error: () => {
         this.removeUser();
-      }
+      },
     });
   }
 
@@ -48,7 +48,7 @@ export class UserService {
       map((user: User) => {
         this.setUser(user);
         return user;
-      })
+      }),
     );
   }
 
@@ -59,7 +59,7 @@ export class UserService {
       },
       error: () => {
         this.removeUser();
-      }
+      },
     });
   }
 

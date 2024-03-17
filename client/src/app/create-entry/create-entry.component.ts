@@ -7,7 +7,7 @@ import {
   FormRecord,
   ValidationErrors,
   ValidatorFn,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -27,7 +27,7 @@ import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 
 @Component({
   templateUrl: './create-entry.component.html',
-  styleUrls: ['./create-entry.component.scss']
+  styleUrls: ['./create-entry.component.scss'],
 })
 export class CreateEntryComponent implements OnInit {
   loading = false;
@@ -39,7 +39,7 @@ export class CreateEntryComponent implements OnInit {
     center: 0,
     winger: 0,
     defenseman: 0,
-    goalie: 0
+    goalie: 0,
   };
 
   constructor(
@@ -50,7 +50,7 @@ export class CreateEntryComponent implements OnInit {
     private settingsService: SettingsService,
     private userService: UserService,
     private utilService: UtilService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +64,7 @@ export class CreateEntryComponent implements OnInit {
             this.utilService.sortPlayersAlphabeticallyGoaliesFirst(this.teams);
             this.createEntryForm();
             this.entries = entries;
-          }
+          },
         });
       }
     });
@@ -77,16 +77,16 @@ export class CreateEntryComponent implements OnInit {
         name: ['', Validators.required],
         contestantName: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        telephoneNumber: [null, Validators.required]
+        telephoneNumber: [null, Validators.required],
       },
       {
         validators: [
           this.positionsValidator('center', setting.minCenters, setting.maxCenters),
           this.positionsValidator('winger', setting.minWingers, setting.maxWingers),
           this.positionsValidator('defenseman', setting.minDefensemen, setting.maxDefensemen),
-          this.positionsValidator('goalie', setting.minGoalies, setting.maxGoalies)
-        ]
-      }
+          this.positionsValidator('goalie', setting.minGoalies, setting.maxGoalies),
+        ],
+      },
     );
     for (const team of this.teams) {
       this.entryForm.addControl(team.name, new FormControl('', Validators.required));
@@ -122,7 +122,7 @@ export class CreateEntryComponent implements OnInit {
       center: 0,
       winger: 0,
       defenseman: 0,
-      goalie: 0
+      goalie: 0,
     };
     const formData = this.entryForm.getRawValue();
     for (const formField of Object.keys(formData)) {
@@ -156,7 +156,7 @@ export class CreateEntryComponent implements OnInit {
     } else {
       const duplicateEntryDialog = this.dialog.open(DuplicateEntryDialogComponent, {
         autoFocus: false,
-        disableClose: true
+        disableClose: true,
       });
       duplicateEntryDialog.afterClosed().subscribe((buttonClicked: string) => {
         if (buttonClicked === 'submit') {
@@ -175,7 +175,7 @@ export class CreateEntryComponent implements OnInit {
       contestantName: formData.contestantName as string,
       email: formData.email as string,
       telephoneNumber: formData.telephoneNumber as TelephoneNumber,
-      playerIds: []
+      playerIds: [],
     };
     for (const formField of Object.keys(formData)) {
       if (
@@ -205,7 +205,7 @@ export class CreateEntryComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         this.errors = error.error.errors;
         this.loading = false;
-      }
+      },
     });
   }
 

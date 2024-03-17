@@ -9,7 +9,7 @@ import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatTiebreaker } from '../sh
 @Component({
   selector: 'player-stats-tab',
   templateUrl: './player-stats-tab.component.html',
-  styleUrls: ['./player-stats-tab.component.scss']
+  styleUrls: ['./player-stats-tab.component.scss'],
 })
 export class PlayerStatsTabComponent implements OnChanges, OnInit {
   @Input() players: PlayerStatsPlayer[];
@@ -21,7 +21,10 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private settingsService: SettingsService, private utilService: UtilService) {}
+  constructor(
+    private settingsService: SettingsService,
+    private utilService: UtilService,
+  ) {}
 
   ngOnChanges(change: SimpleChanges): void {
     if (!change.firstChange) {
@@ -32,7 +35,7 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
   ngOnInit(): void {
     this.setDataSource();
     const roundsPlayed = [
-      ...new Set(this.players.flatMap((player) => player.stats.map((dateStat) => dateStat.round)))
+      ...new Set(this.players.flatMap((player) => player.stats.map((dateStat) => dateStat.round))),
     ].sort((a, b) => a - b);
     this.multipliersToRounds = new Map<number, number[]>();
     for (const round of roundsPlayed) {

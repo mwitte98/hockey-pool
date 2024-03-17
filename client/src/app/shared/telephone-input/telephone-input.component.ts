@@ -10,7 +10,7 @@ import {
   OnInit,
   Optional,
   Self,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NgControl, Validators } from '@angular/forms';
 import { MAT_FORM_FIELD, MatFormField, MatFormFieldControl } from '@angular/material/form-field';
@@ -22,7 +22,7 @@ import { TelephoneNumber } from '../types/interfaces';
   selector: 'telephone-input',
   templateUrl: './telephone-input.component.html',
   styleUrls: ['./telephone-input.component.scss'],
-  providers: [{ provide: MatFormFieldControl, useExisting: TelephoneInputComponent }]
+  providers: [{ provide: MatFormFieldControl, useExisting: TelephoneInputComponent }],
 })
 export class TelephoneInputComponent
   implements ControlValueAccessor, MatFormFieldControl<TelephoneNumber>, OnInit, OnDestroy
@@ -32,16 +32,16 @@ export class TelephoneInputComponent
   form = this.fb.group({
     area: [
       '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern(this.digitsOnly)]
+      [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern(this.digitsOnly)],
     ],
     exchange: [
       '',
-      [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern(this.digitsOnly)]
+      [Validators.required, Validators.minLength(3), Validators.maxLength(3), Validators.pattern(this.digitsOnly)],
     ],
     subscriber: [
       '',
-      [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern(this.digitsOnly)]
-    ]
+      [Validators.required, Validators.minLength(4), Validators.maxLength(4), Validators.pattern(this.digitsOnly)],
+    ],
   });
   stateChanges = new Subject<void>();
   focused = false;
@@ -92,7 +92,7 @@ export class TelephoneInputComponent
     private focusMonitor: FocusMonitor,
     private elementRef: ElementRef<HTMLElement>,
     @Optional() @Inject(MAT_FORM_FIELD) public _formField: MatFormField,
-    @Optional() @Self() public ngControl: NgControl
+    @Optional() @Self() public ngControl: NgControl,
   ) {
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
@@ -119,7 +119,7 @@ export class TelephoneInputComponent
           if (element.nativeElement.oldSelectionStart !== null && element.nativeElement.oldSelectionEnd !== null) {
             (element.nativeElement as HTMLInputElement).setSelectionRange(
               element.nativeElement.oldSelectionStart,
-              element.nativeElement.oldSelectionEnd
+              element.nativeElement.oldSelectionEnd,
             );
           }
         } else {
@@ -134,7 +134,7 @@ export class TelephoneInputComponent
 
   get empty(): boolean {
     const {
-      value: { area, exchange, subscriber }
+      value: { area, exchange, subscriber },
     } = this.form;
 
     return !area && !exchange && !subscriber;

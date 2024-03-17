@@ -6,7 +6,7 @@ import { AdminPlayer, HistoricalPlayer } from '../types/interfaces';
 import { ApiService } from './api.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PlayersService {
   constructor(private apiService: ApiService) {}
