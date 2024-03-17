@@ -18,7 +18,7 @@
             "polyfills": "src/polyfills.ts",
             "styles": ["node_modules/@angular/material/prebuilt-themes/indigo-pink.css", "src/styles.scss"],
             "scripts": [],
-            "allowedCommonJsDependencies": ["clone-deep"],
+            "allowedCommonJsDependencies": ["clone-deep", "rfdc"],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
