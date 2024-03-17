@@ -2,45 +2,51 @@ module SeedTeamsPlayersHelper
   class << SeedTeamsPlayersHelper
     def seed
       agent = Mechanize.new
-      standings = JSON.parse(agent.get('https://statsapi.web.nhl.com/api/v1/standings').body)
-      rosters = JSON.parse(agent.get('http://statsapi.web.nhl.com/api/v1/teams?hydrate=roster').body)
-      standings['records'].each do |record|
-        record['teamRecords'].each do |team_record|
-          update_teams_players rosters, team_record
-        end
+      standings = JSON.parse(agent.get('https://api-web.nhle.com/v1/standings/now').body)
+      standings['standings'].each do |team_standing|
+        team = create_team team_standing
+        roster = JSON.parse(agent.get("https://api-web.nhle.com/v1/roster/#{team.abbr}/now").body)
+        create_players team, roster
+        create_team_goalie team, roster
       end
     end
 
     private
 
-    def update_teams_players(rosters, team_record)
-      team_record_team = team_record['team']
-      team_roster = find_roster rosters, team_record_team
-      qualified = team_record['conferenceRank'].to_i <= 8
-      team = Team.create(
-        name: team_record_team['name'], abbr: team_roster['abbreviation'], nhl_id: team_record_team['id'],
-        conference: team_roster['conference']['name'], rank: team_record['conferenceRank'].to_i,
+    def create_team(team_standing)
+      qualified = team_standing['wildcardSequence'].to_i <= 2
+      Team.create(
+        name: team_standing['teamName']['default'], abbr: team_standing['teamAbbrev']['default'],
+        conference: team_standing['conferenceName'], rank: team_standing['conferenceSequence'].to_i,
         is_eliminated: !qualified, made_playoffs: qualified
       )
-      create_players team, team_roster
-      create_team_goalie team
     end
 
-    def find_roster(rosters, team_record_team)
-      rosters['teams'].find { |roster| roster['id'] == team_record_team['id'] }
-    end
-
-    def create_players(team, team_roster)
-      team_roster['roster']['roster'].each do |player|
-        name = player['person']['fullName'].split(' ', 2)
-        position = player['position']['name']
-        position = 'Winger' if ['Left Wing', 'Right Wing'].include? position
-        team.players.create(first_name: name[0], last_name: name[1], position:, stats: []) if position != 'Goalie'
+    def create_players(team, roster)
+      players = roster['forwards'] + roster['defensemen']
+      players.each do |player|
+        team.players.create(
+          player_id: player['id'], first_name: player['firstName']['default'], last_name: player['lastName']['default'],
+          position: get_position(player['positionCode']), stats: []
+        )
       end
     end
 
-    def create_team_goalie(team)
-      team.players.create(first_name: team.name, last_name: team.abbr, position: 'Goalie', stats: [])
+    def get_position(position_code)
+      if position_code == 'C'
+        'Center'
+      elsif position_code == 'D'
+        'Defenseman'
+      else
+        'Winger'
+      end
+    end
+
+    def create_team_goalie(team, roster)
+      team.players.create(
+        player_ids: roster['goalies'].map { |goalie| goalie['id'] }, first_name: team.name, last_name: team.abbr,
+        position: 'Goalie', stats: []
+      )
     end
   end
 end

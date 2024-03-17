@@ -96,7 +96,7 @@ export class HomeComponent implements OnInit {
   }
 
   getLogoUrl(team: HomeTeam): string {
-    return `https://www-league.nhlstatic.com/images/logos/teams-current-primary-light/${team.nhlId}.svg`;
+    return `https://assets.nhle.com/logos/nhl/svg/${team.abbr}_light.svg`;
   }
 
   getSelectedPlayerForTeam(selectedPlayerIds: string[], team: HomeTeam): HomePlayer {

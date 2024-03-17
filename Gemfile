@@ -13,6 +13,7 @@ gem 'nokogiri', '1.16.2'
 gem 'puma', '6.4.2'
 
 group :development do
+  gem 'debug', '1.9.1'
   gem 'rubocop', '1.61.0'
 end
 
