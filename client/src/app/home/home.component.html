@@ -78,8 +78,8 @@
             <div *ngFor="let team of teams; trackBy: trackByTeamAbbr">
               <ng-template
                 #t
-                [ngTemplateOutlet]="t"
                 let-player
+                [ngTemplateOutlet]="t"
                 [ngTemplateOutletContext]="{ $implicit: getSelectedPlayerForTeam(entry.playerIds, team) }">
                 <div class="team-player-wrapper" [ngClass]="{ hidden: team.isEliminated && !showingEliminatedTeams }">
                   <img class="team-logo" [alt]="team.name + ' logo'" [src]="getLogoUrl(team)" />

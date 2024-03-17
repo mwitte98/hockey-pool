@@ -3,10 +3,7 @@
   "overrides": [
     {
       "files": ["*.ts"],
-      "parserOptions": {
-        "project": ["tsconfig.json"],
-        "createDefaultProgram": true
-      },
+      "parserOptions": { "project": ["tsconfig.json"], "createDefaultProgram": true },
       "plugins": ["deprecation", "import"],
       "extends": [
         "eslint:all",
@@ -22,6 +19,7 @@
         "@angular-eslint/component-selector": ["error", { "prefix": "", "style": "kebab-case", "type": "element" }],
         "@angular-eslint/directive-selector": ["error", { "prefix": "", "style": "camelCase", "type": "attribute" }],
         "@angular-eslint/prefer-on-push-component-change-detection": "off",
+        "@angular-eslint/prefer-standalone-component": "off", // TODO: turn on
         "@angular-eslint/use-component-selector": "off",
         "@typescript-eslint/consistent-type-imports": ["error", { "prefer": "no-type-imports" }],
         "@typescript-eslint/explicit-member-accessibility": ["error", { "accessibility": "no-public" }],
@@ -106,25 +104,14 @@
         "no-ternary": "off",
         "no-undefined": "off",
         "one-var": "off",
-        "sort-imports": [
-          "error",
-          {
-            "ignoreCase": true,
-            "allowSeparatedGroups": true,
-            "ignoreDeclarationSort": true
-          }
-        ],
+        "sort-imports": ["error", { "ignoreCase": true, "allowSeparatedGroups": true, "ignoreDeclarationSort": true }],
         "sort-keys": "off",
         "unicorn/no-null": "off",
         "unicorn/prefer-at": "off",
         "unicorn/prefer-top-level-await": "off",
         "unicorn/prevent-abbreviations": "off"
       },
-      "settings": {
-        "import/resolver": {
-          "typescript": {}
-        }
-      }
+      "settings": { "import/resolver": { "typescript": {} } }
     },
     {
       "files": ["*.spec.ts"],
@@ -139,21 +126,21 @@
       "files": ["*.html"],
       "extends": ["plugin:@angular-eslint/template/all"],
       "rules": {
-        "@angular-eslint/template/accessibility-interactive-supports-focus": "off",
         "@angular-eslint/template/click-events-have-key-events": "off",
         "@angular-eslint/template/cyclomatic-complexity": ["error", { "maxComplexity": 15 }],
         "@angular-eslint/template/eqeqeq": ["error", { "allowNullOrUndefined": true }],
         "@angular-eslint/template/i18n": "off",
-        "@angular-eslint/template/no-call-expression": "off"
+        "@angular-eslint/template/interactive-supports-focus": "off",
+        "@angular-eslint/template/no-call-expression": "off",
+        "@angular-eslint/template/prefer-ngsrc": "off", // TODO: turn on
+        "@angular-eslint/template/prefer-self-closing-tags": "off" // TODO: turn on
       }
     },
     {
       "files": ["*.html"],
       "excludedFiles": ["*inline-template-*.component.html"],
       "extends": ["plugin:prettier/recommended"],
-      "rules": {
-        "prettier/prettier": ["error", { "parser": "angular" }]
-      }
+      "rules": { "prettier/prettier": ["error", { "parser": "angular" }] }
     }
   ]
 }

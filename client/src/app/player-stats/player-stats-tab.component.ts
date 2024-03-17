@@ -23,6 +23,12 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
 
   constructor(private settingsService: SettingsService, private utilService: UtilService) {}
 
+  ngOnChanges(change: SimpleChanges): void {
+    if (!change.firstChange) {
+      this.setDataSource();
+    }
+  }
+
   ngOnInit(): void {
     this.setDataSource();
     const roundsPlayed = [
@@ -36,12 +42,6 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
       } else {
         this.multipliersToRounds.set(multiplier, [round]);
       }
-    }
-  }
-
-  ngOnChanges(change: SimpleChanges): void {
-    if (!change.firstChange) {
-      this.setDataSource();
     }
   }
 
