@@ -80,10 +80,10 @@ jobs:
       - run: npm install --legacy-peer-deps
       - run: npm run build-prod
 
-not_master: &not_master
+not_main: &not_main
   filters:
     branches:
-      ignore: master
+      ignore: main
 
 workflows:
   version: 2
@@ -91,10 +91,10 @@ workflows:
   commit:
     jobs:
       - backend:
-          <<: *not_master
+          <<: *not_main
       - frontend-lint:
-          <<: *not_master
+          <<: *not_main
       - frontend-test:
-          <<: *not_master
+          <<: *not_main
       - frontend-build:
-          <<: *not_master
+          <<: *not_main
