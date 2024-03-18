@@ -1,9 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
 import { ThemePalette } from '@angular/material/core';
+import { MatFormField, MatHint } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { DisplayErrorsComponent } from '../shared/errors/display-errors.component';
 import { UserService } from '../shared/services/user.service';
 import { AuthForm } from '../shared/types/forms';
 import { User } from '../shared/types/interfaces';
@@ -11,6 +16,20 @@ import { User } from '../shared/types/interfaces';
 @Component({
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
+  standalone: true,
+  imports: [
+    DisplayErrorsComponent,
+    MatButton,
+    MatCard,
+    MatCardActions,
+    MatCardContent,
+    MatCardHeader,
+    MatCardTitle,
+    MatFormField,
+    MatHint,
+    MatInput,
+    ReactiveFormsModule,
+  ],
 })
 export class AuthComponent implements OnInit {
   authType: string;

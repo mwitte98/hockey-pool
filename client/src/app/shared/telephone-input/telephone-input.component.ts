@@ -12,7 +12,14 @@ import {
   Self,
   ViewChild,
 } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, NgControl, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormBuilder,
+  NgControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MAT_FORM_FIELD, MatFormField, MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 
@@ -23,6 +30,8 @@ import { TelephoneNumber } from '../types/interfaces';
   templateUrl: './telephone-input.component.html',
   styleUrl: './telephone-input.component.scss',
   providers: [{ provide: MatFormFieldControl, useExisting: TelephoneInputComponent }],
+  standalone: true,
+  imports: [ReactiveFormsModule],
 })
 export class TelephoneInputComponent
   implements ControlValueAccessor, MatFormFieldControl<TelephoneNumber>, OnInit, OnDestroy

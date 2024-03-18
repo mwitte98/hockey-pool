@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { Router } from '@angular/router';
 
 import { SettingsService } from '../shared/services/settings.service';
@@ -7,8 +11,12 @@ import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
 import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatsTeam, User } from '../shared/types/interfaces';
 
+import { PlayerStatsTabComponent } from './player-stats-tab.component';
+
 @Component({
   templateUrl: './player-stats.component.html',
+  standalone: true,
+  imports: [FormsModule, MatProgressSpinner, MatSlideToggle, MatTab, MatTabGroup, PlayerStatsTabComponent],
 })
 export class PlayerStatsComponent implements OnInit {
   loading = false;

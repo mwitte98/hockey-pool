@@ -1,5 +1,10 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { NgClass, NgOptimizedImage, NgTemplateOutlet, SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -21,6 +26,17 @@ import { BestEntryService } from './best-entry.service';
       state('expanded', style({ height: '*', paddingTop: '8px', paddingBottom: '8px' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
+  ],
+  standalone: true,
+  imports: [
+    FormsModule,
+    MatProgressSpinner,
+    MatSlideToggle,
+    MatTableModule,
+    NgClass,
+    NgOptimizedImage,
+    NgTemplateOutlet,
+    SlicePipe,
   ],
 })
 export class HomeComponent implements OnInit {

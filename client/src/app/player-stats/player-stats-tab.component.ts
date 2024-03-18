@@ -1,6 +1,7 @@
+import { KeyValuePipe, NgClass, SlicePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortHeader, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { SettingsService } from '../shared/services/settings.service';
 import { UtilService } from '../shared/services/util.service';
@@ -10,6 +11,8 @@ import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatTiebreaker } from '../sh
   selector: 'player-stats-tab',
   templateUrl: './player-stats-tab.component.html',
   styleUrl: './player-stats-tab.component.scss',
+  standalone: true,
+  imports: [KeyValuePipe, MatSort, MatSortHeader, MatTableModule, NgClass, SlicePipe],
 })
 export class PlayerStatsTabComponent implements OnChanges, OnInit {
   @Input() players: PlayerStatsPlayer[];
