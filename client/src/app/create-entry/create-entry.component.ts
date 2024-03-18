@@ -1,3 +1,4 @@
+import { NgClass, SlicePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -5,20 +6,30 @@ import {
   FormControl,
   FormGroupDirective,
   FormRecord,
+  ReactiveFormsModule,
   ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
+import { DisplayErrorsComponent } from '../shared/errors/display-errors.component';
 import { EntriesService } from '../shared/services/entries.service';
 import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
+import { TelephoneInputComponent } from '../shared/telephone-input/telephone-input.component';
 import { AdminEntry, TelephoneNumber, UpsertEntryTeam, User } from '../shared/types/interfaces';
 
 import { DuplicateEntryDialogComponent } from './duplicate-entry-dialog.component';
@@ -28,6 +39,26 @@ import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 @Component({
   templateUrl: './create-entry.component.html',
   styleUrl: './create-entry.component.scss',
+  standalone: true,
+  imports: [
+    DisplayErrorsComponent,
+    MatButton,
+    MatCard,
+    MatCardActions,
+    MatCardContent,
+    MatCardHeader,
+    MatCardTitle,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatOption,
+    MatProgressSpinner,
+    MatSelect,
+    NgClass,
+    ReactiveFormsModule,
+    SlicePipe,
+    TelephoneInputComponent,
+  ],
 })
 export class CreateEntryComponent implements OnInit {
   loading = false;

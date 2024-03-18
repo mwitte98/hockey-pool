@@ -1,8 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 
+import { DisplayErrorsComponent } from '../../shared/errors/display-errors.component';
 import { SettingsService } from '../../shared/services/settings.service';
 import { UserService } from '../../shared/services/user.service';
 import { SettingForm } from '../../shared/types/forms';
@@ -11,6 +19,23 @@ import { User } from '../../shared/types/interfaces';
 @Component({
   templateUrl: './admin-settings.component.html',
   styleUrl: './admin-settings.component.scss',
+  standalone: true,
+  imports: [
+    DisplayErrorsComponent,
+    MatButton,
+    MatCard,
+    MatCardActions,
+    MatCardContent,
+    MatCardHeader,
+    MatCardTitle,
+    MatCheckbox,
+    MatFormField,
+    MatIcon,
+    MatInput,
+    MatLabel,
+    MatProgressSpinner,
+    ReactiveFormsModule,
+  ],
 })
 export class AdminSettingsComponent implements OnInit {
   updating = false;

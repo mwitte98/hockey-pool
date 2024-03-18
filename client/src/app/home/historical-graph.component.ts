@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import { LineChartModule } from '@swimlane/ngx-charts';
 import { forkJoin } from 'rxjs';
 
 import { EntriesService } from '../shared/services/entries.service';
@@ -11,6 +13,8 @@ import { ChartLine, DisplayEntry, HistoricalPlayer, User } from '../shared/types
 @Component({
   templateUrl: './historical-graph.component.html',
   styleUrl: './historical-graph.component.scss',
+  standalone: true,
+  imports: [LineChartModule, MatProgressSpinner],
 })
 export class HistoricalGraphComponent implements OnInit {
   dates: string[] = [];

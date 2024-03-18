@@ -1,5 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatOption } from '@angular/material/core';
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelContent,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle,
+} from '@angular/material/expansion';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 
 import { PlayersService } from '../../shared/services/players.service';
@@ -11,6 +26,24 @@ import { AdminPlayer, AdminTeam, User } from '../../shared/types/interfaces';
 @Component({
   templateUrl: './admin-teams.component.html',
   styleUrl: './admin-teams.component.scss',
+  standalone: true,
+  imports: [
+    MatAccordion,
+    MatButton,
+    MatCheckbox,
+    MatExpansionPanel,
+    MatExpansionPanelContent,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatFormField,
+    MatIcon,
+    MatInput,
+    MatLabel,
+    MatOption,
+    MatSelect,
+    MatProgressSpinner,
+    ReactiveFormsModule,
+  ],
 })
 export class AdminTeamsComponent implements OnInit {
   teams: AdminTeam[];

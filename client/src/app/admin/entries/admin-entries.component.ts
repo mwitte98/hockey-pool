@@ -1,5 +1,20 @@
+import { SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatOption } from '@angular/material/core';
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelContent,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle,
+} from '@angular/material/expansion';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 
@@ -7,11 +22,31 @@ import { EntriesService } from '../../shared/services/entries.service';
 import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
+import { TelephoneInputComponent } from '../../shared/telephone-input/telephone-input.component';
 import { AdminEntry, TelephoneNumber, UpsertEntryTeam, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-entries.component.html',
   styleUrl: './admin-entries.component.scss',
+  standalone: true,
+  imports: [
+    MatAccordion,
+    MatButton,
+    MatExpansionPanel,
+    MatExpansionPanelContent,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatFormField,
+    MatIcon,
+    MatInput,
+    MatLabel,
+    MatOption,
+    MatProgressSpinner,
+    MatSelect,
+    ReactiveFormsModule,
+    SlicePipe,
+    TelephoneInputComponent,
+  ],
 })
 export class AdminEntriesComponent implements OnInit {
   entries: AdminEntry[];
