@@ -70,10 +70,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  trackByTeamAbbr(_index: number, team: HomeTeam): string {
-    return team.abbr;
-  }
-
   isExpansionDetailRow(_: any, row: any): boolean {
     return row.isDetailRow;
   }

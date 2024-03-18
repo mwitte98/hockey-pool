@@ -1,94 +1,109 @@
 <div class="header">
   <h1 class="mat-h1">Admin - Teams</h1>
 </div>
-<mat-spinner *ngIf="loading" />
+@if (loading) {
+  <mat-spinner />
+}
 <div class="accordion-container">
   <mat-accordion multi [displayMode]="'flat'">
-    <mat-expansion-panel *ngFor="let team of teams; trackBy: trackByTeamId" class="expansion-panel">
-      <mat-expansion-panel-header class="expansion-panel-header" [expandedHeight]="'48px'">
-        <mat-panel-title>{{ team.name }}</mat-panel-title>
-      </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
-        <div class="expansion-panel-body">
-          <form [formGroup]="team.form" (ngSubmit)="updateTeam(team.id)">
-            <mat-form-field>
-              <mat-label>Team Name</mat-label>
-              <input matInput type="text" formControlName="name" />
-            </mat-form-field>
-            <mat-form-field class="abbr-input">
-              <mat-label>Abbreviation</mat-label>
-              <input
-                matInput
-                type="text"
-                formControlName="abbr"
-                minlength="3"
-                maxlength="3"
-                oninput="let p=this.selectionStart; this.value=this.value.toUpperCase(); this.setSelectionRange(p, p);" />
-            </mat-form-field>
-            <mat-checkbox formControlName="isEliminated" color="primary">Eliminated</mat-checkbox>
-            <mat-checkbox formControlName="madePlayoffs" color="primary">Made Playoffs</mat-checkbox>
-            <mat-form-field class="conference-input">
-              <mat-label>Conference</mat-label>
-              <mat-select formControlName="conference">
-                <mat-option value="Eastern">Eastern</mat-option>
-                <mat-option value="Western">Western</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="number-input">
-              <mat-label>Rank</mat-label>
-              <input matInput type="number" formControlName="rank" />
-            </mat-form-field>
-            <button
-              mat-raised-button
-              class="primary-button"
-              color="primary"
-              type="submit"
-              [disabled]="!team.form.valid || team.updateLoading">
-              Update
-            </button>
-            <div class="form-submit-status">
-              <mat-spinner *ngIf="team.updateLoading" class="form-spinner" [diameter]="25" />
-              <mat-icon *ngIf="team.updateSuccess" class="check-icon">check</mat-icon>
-              <mat-icon *ngIf="team.updateFailure" color="warn">clear</mat-icon>
-            </div>
-          </form>
-          <form
-            *ngFor="let player of team.players; trackBy: trackByPlayerId"
-            [formGroup]="player.form"
-            (ngSubmit)="updatePlayer(team.id, player.id)">
-            <mat-form-field class="player-name-input">
-              <mat-label>First Name</mat-label>
-              <input matInput type="text" formControlName="firstName" />
-            </mat-form-field>
-            <mat-form-field class="player-name-input">
-              <mat-label>Last Name</mat-label>
-              <input matInput type="text" formControlName="lastName" />
-            </mat-form-field>
-            <mat-form-field class="position-input">
-              <mat-label>Position</mat-label>
-              <mat-select formControlName="position">
-                <mat-option value="Center">C</mat-option>
-                <mat-option value="Winger">W</mat-option>
-                <mat-option value="Defenseman">D</mat-option>
-                <mat-option value="Goalie">G</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <button
-              mat-raised-button
-              class="primary-button"
-              color="primary"
-              type="submit"
-              [disabled]="!player.form.valid || player.updateLoading">
-              Update
-            </button>
-            <div class="form-submit-status">
-              <mat-spinner *ngIf="player.updateLoading" class="form-spinner" [diameter]="25" />
-              <mat-icon *ngIf="player.updateSuccess" class="check-icon">check</mat-icon>
-              <mat-icon *ngIf="player.updateFailure" color="warn">clear</mat-icon>
-            </div>
-          </form>
-        </div>
-      </ng-template>
-    </mat-expansion-panel>
+    @for (team of teams; track team.abbr) {
+      <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header class="expansion-panel-header" [expandedHeight]="'48px'">
+          <mat-panel-title>{{ team.name }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <div class="expansion-panel-body">
+            <form [formGroup]="team.form" (ngSubmit)="updateTeam(team.id)">
+              <mat-form-field>
+                <mat-label>Team Name</mat-label>
+                <input matInput type="text" formControlName="name" />
+              </mat-form-field>
+              <mat-form-field class="abbr-input">
+                <mat-label>Abbreviation</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  formControlName="abbr"
+                  minlength="3"
+                  maxlength="3"
+                  oninput="let p=this.selectionStart; this.value=this.value.toUpperCase(); this.setSelectionRange(p, p);" />
+              </mat-form-field>
+              <mat-checkbox formControlName="isEliminated" color="primary">Eliminated</mat-checkbox>
+              <mat-checkbox formControlName="madePlayoffs" color="primary">Made Playoffs</mat-checkbox>
+              <mat-form-field class="conference-input">
+                <mat-label>Conference</mat-label>
+                <mat-select formControlName="conference">
+                  <mat-option value="Eastern">Eastern</mat-option>
+                  <mat-option value="Western">Western</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="number-input">
+                <mat-label>Rank</mat-label>
+                <input matInput type="number" formControlName="rank" />
+              </mat-form-field>
+              <button
+                mat-raised-button
+                class="primary-button"
+                color="primary"
+                type="submit"
+                [disabled]="!team.form.valid || team.updateLoading">
+                Update
+              </button>
+              <div class="form-submit-status">
+                @if (team.updateLoading) {
+                  <mat-spinner class="form-spinner" [diameter]="25" />
+                }
+                @if (team.updateSuccess) {
+                  <mat-icon class="check-icon">check</mat-icon>
+                }
+                @if (team.updateFailure) {
+                  <mat-icon color="warn">clear</mat-icon>
+                }
+              </div>
+            </form>
+            @for (player of team.players; track player.id) {
+              <form [formGroup]="player.form" (ngSubmit)="updatePlayer(team.id, player.id)">
+                <mat-form-field class="player-name-input">
+                  <mat-label>First Name</mat-label>
+                  <input matInput type="text" formControlName="firstName" />
+                </mat-form-field>
+                <mat-form-field class="player-name-input">
+                  <mat-label>Last Name</mat-label>
+                  <input matInput type="text" formControlName="lastName" />
+                </mat-form-field>
+                <mat-form-field class="position-input">
+                  <mat-label>Position</mat-label>
+                  <mat-select formControlName="position">
+                    <mat-option value="Center">C</mat-option>
+                    <mat-option value="Winger">W</mat-option>
+                    <mat-option value="Defenseman">D</mat-option>
+                    <mat-option value="Goalie">G</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <button
+                  mat-raised-button
+                  class="primary-button"
+                  color="primary"
+                  type="submit"
+                  [disabled]="!player.form.valid || player.updateLoading">
+                  Update
+                </button>
+                <div class="form-submit-status">
+                  @if (player.updateLoading) {
+                    <mat-spinner class="form-spinner" [diameter]="25" />
+                  }
+                  @if (player.updateSuccess) {
+                    <mat-icon class="check-icon">check</mat-icon>
+                  }
+                  @if (player.updateFailure) {
+                    <mat-icon color="warn">clear</mat-icon>
+                  }
+                </div>
+              </form>
+            }
+          </div>
+        </ng-template>
+      </mat-expansion-panel>
+    }
   </mat-accordion>
 </div>

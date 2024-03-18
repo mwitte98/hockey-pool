@@ -7,8 +7,4 @@ import { Component, Input } from '@angular/core';
 })
 export class DisplayErrorsComponent {
   @Input() errors: string[];
-
-  trackBy(_index: number, error: string): string {
-    return error;
-  }
 }

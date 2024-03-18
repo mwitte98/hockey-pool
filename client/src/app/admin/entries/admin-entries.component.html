@@ -7,61 +7,76 @@
     </button>
   </div>
 </div>
-<mat-spinner *ngIf="loading" />
+@if (loading) {
+  <mat-spinner />
+}
 <div class="accordion-container">
   <mat-accordion multi [displayMode]="'flat'">
-    <mat-expansion-panel *ngFor="let entry of entries; trackBy: trackByEntryId" class="expansion-panel">
-      <mat-expansion-panel-header class="expansion-panel-header" [expandedHeight]="'48px'">
-        <mat-panel-title>{{ entry.name }}</mat-panel-title>
-      </mat-expansion-panel-header>
-      <ng-template matExpansionPanelContent>
-        <div class="expansion-panel-body">
-          <form [formGroup]="entry.form" (ngSubmit)="updateEntry(entry.id)">
-            <div>
-              <mat-form-field>
-                <mat-label>Entry Name</mat-label>
-                <input matInput type="text" formControlName="name" />
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Contestant Name</mat-label>
-                <input matInput type="text" formControlName="contestantName" />
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="email" />
-              </mat-form-field>
-              <mat-form-field>
-                <mat-label>Telephone Number</mat-label>
-                <telephone-input formControlName="telephoneNumber" required />
-              </mat-form-field>
-            </div>
-            <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamName" class="player-input">
-              <mat-label>{{ team.name }}</mat-label>
-              <mat-select [formControlName]="team.name">
-                <mat-option *ngFor="let player of team.players; trackBy: trackByPlayerId" [value]="player.id">
-                  <span *ngIf="player.position === 'Goalie'">{{ team.abbr }} Goalies</span>
-                  <span *ngIf="player.position !== 'Goalie'">
-                    {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0 : 1 }})
-                  </span>
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <button
-              mat-raised-button
-              class="primary-button"
-              color="primary"
-              type="submit"
-              [disabled]="!entry.form.valid || entry.updateLoading">
-              Update
-            </button>
-            <div class="form-submit-status">
-              <mat-spinner *ngIf="entry.updateLoading" class="form-spinner" [diameter]="25" />
-              <mat-icon *ngIf="entry.updateSuccess" class="check-icon">check</mat-icon>
-              <mat-icon *ngIf="entry.updateFailure" color="warn">clear</mat-icon>
-            </div>
-          </form>
-        </div>
-      </ng-template>
-    </mat-expansion-panel>
+    @for (entry of entries; track entry.id) {
+      <mat-expansion-panel class="expansion-panel">
+        <mat-expansion-panel-header class="expansion-panel-header" [expandedHeight]="'48px'">
+          <mat-panel-title>{{ entry.name }}</mat-panel-title>
+        </mat-expansion-panel-header>
+        <ng-template matExpansionPanelContent>
+          <div class="expansion-panel-body">
+            <form [formGroup]="entry.form" (ngSubmit)="updateEntry(entry.id)">
+              <div>
+                <mat-form-field>
+                  <mat-label>Entry Name</mat-label>
+                  <input matInput type="text" formControlName="name" />
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Contestant Name</mat-label>
+                  <input matInput type="text" formControlName="contestantName" />
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Email</mat-label>
+                  <input matInput type="email" formControlName="email" />
+                </mat-form-field>
+                <mat-form-field>
+                  <mat-label>Telephone Number</mat-label>
+                  <telephone-input formControlName="telephoneNumber" required />
+                </mat-form-field>
+              </div>
+              @for (team of teams; track team.abbr) {
+                <mat-form-field class="player-input">
+                  <mat-label>{{ team.name }}</mat-label>
+                  <mat-select [formControlName]="team.name">
+                    @for (player of team.players; track player.id) {
+                      <mat-option [value]="player.id">
+                        @if (player.position === 'Goalie') {
+                          {{ team.abbr }} Goalies
+                        } @else {
+                          {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0 : 1 }})
+                        }
+                      </mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              }
+              <button
+                mat-raised-button
+                class="primary-button"
+                color="primary"
+                type="submit"
+                [disabled]="!entry.form.valid || entry.updateLoading">
+                Update
+              </button>
+              <div class="form-submit-status">
+                @if (entry.updateLoading) {
+                  <mat-spinner class="form-spinner" [diameter]="25" />
+                }
+                @if (entry.updateSuccess) {
+                  <mat-icon class="check-icon">check</mat-icon>
+                }
+                @if (entry.updateFailure) {
+                  <mat-icon color="warn">clear</mat-icon>
+                }
+              </div>
+            </form>
+          </div>
+        </ng-template>
+      </mat-expansion-panel>
+    }
   </mat-accordion>
 </div>

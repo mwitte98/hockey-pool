@@ -36,10 +36,6 @@ export class AdminSettingsComponent implements OnInit {
     });
   }
 
-  trackByRoundMultiplier(index: number): number {
-    return index;
-  }
-
   createSettingForm(): void {
     const { setting } = this.settingsService;
     this.settingForm = this.fb.nonNullable.group({

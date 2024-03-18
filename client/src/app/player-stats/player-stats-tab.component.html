@@ -12,22 +12,26 @@
       <th *matHeaderCellDef mat-header-cell mat-sort-header class="name-col" start="asc">Name</th>
       <td *matCellDef="let player" mat-cell class="name-col sticky">
         <span [ngClass]="player.team.isEliminated ? 'strikethrough' : ''">
-          <span>{{ player.firstName }}</span>
-          <span *ngIf="player.position !== 'Goalie'">
+          {{ player.firstName }}
+          @if (player.position !== 'Goalie') {
             {{ player.lastName }} ({{ player.team.abbr }}-{{ player.position | slice: 0 : 1 }})
-          </span>
+          }
         </span>
       </td>
     </ng-container>
-    <ng-container *ngFor="let col of playerStatColumns; trackBy: trackByColStat" [matColumnDef]="col.stat">
-      <th *matHeaderCellDef mat-header-cell mat-sort-header>
-        <span>{{ col.header }}</span>
-        <ng-container *ngFor="let multiplier of multipliersToRounds | keyvalue; trackBy: trackByMultiplier">
-          <span *ngIf="multiplier.key > 1">&nbsp;(x{{ multiplier.key }})</span>
-        </ng-container>
-      </th>
-      <td *matCellDef="let player" mat-cell>{{ getPlayerStatCol(player, col.stat) }}</td>
-    </ng-container>
+    @for (col of playerStatColumns; track col.stat) {
+      <ng-container [matColumnDef]="col.stat">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>
+          {{ col.header }}
+          @for (multiplier of multipliersToRounds | keyvalue; track multiplier.key) {
+            @if (multiplier.key > 1) {
+              (x{{ multiplier.key }})
+            }
+          }
+        </th>
+        <td *matCellDef="let player" mat-cell>{{ getPlayerStatCol(player, col.stat) }}</td>
+      </ng-container>
+    }
     <ng-container matColumnDef="points" stickyEnd>
       <th *matHeaderCellDef mat-header-cell mat-sort-header>Points</th>
       <td *matCellDef="let player" mat-cell class="sticky">{{ player.points ?? 0 }}</td>
