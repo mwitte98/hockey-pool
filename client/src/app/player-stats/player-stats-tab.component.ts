@@ -56,14 +56,6 @@ export class PlayerStatsTabComponent implements OnChanges, OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  trackByColStat(_index: number, col: PlayerStatColumn): string {
-    return col.stat;
-  }
-
-  trackByMultiplier(index: number): number {
-    return index;
-  }
-
   sortChange(sort: Sort): void {
     this.players = this.utilService.sortPlayersByStats(this.players, this.tiebreakers, sort);
   }

@@ -1,105 +1,112 @@
-<mat-spinner *ngIf="!settingForm" />
-<mat-card *ngIf="settingForm" appearance="outlined" class="mat-typography">
-  <mat-card-header>
-    <mat-card-title>Admin - Settings</mat-card-title>
-  </mat-card-header>
-  <form [formGroup]="settingForm" (ngSubmit)="submitForm()">
-    <mat-card-content>
-      <display-errors [errors]="errors" />
+@if (!settingForm) {
+  <mat-spinner />
+}
+@if (settingForm) {
+  <mat-card appearance="outlined" class="mat-typography">
+    <mat-card-header>
+      <mat-card-title>Admin - Settings</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="settingForm" (ngSubmit)="submitForm()">
+      <mat-card-content>
+        <display-errors [errors]="errors" />
 
-      <mat-checkbox formControlName="isPlayoffsStarted" color="primary">Have Playoffs Started</mat-checkbox>
+        <mat-checkbox formControlName="isPlayoffsStarted" color="primary">Have Playoffs Started</mat-checkbox>
 
-      <div class="settings-section-header">Number of each position per entry</div>
-      <mat-form-field>
-        <mat-label>Min C</mat-label>
-        <input matInput type="number" formControlName="minCenters" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Max C</mat-label>
-        <input matInput type="number" formControlName="maxCenters" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Min W</mat-label>
-        <input matInput type="number" formControlName="minWingers" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Max W</mat-label>
-        <input matInput type="number" formControlName="maxWingers" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Min D</mat-label>
-        <input matInput type="number" formControlName="minDefensemen" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Max D</mat-label>
-        <input matInput type="number" formControlName="maxDefensemen" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Min G</mat-label>
-        <input matInput type="number" formControlName="minGoalies" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Max G</mat-label>
-        <input matInput type="number" formControlName="maxGoalies" />
-      </mat-form-field>
-
-      <div class="settings-section-header">Number of points per stat</div>
-      <mat-form-field>
-        <mat-label>G</mat-label>
-        <input matInput type="number" formControlName="pointsGoals" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>A</mat-label>
-        <input matInput type="number" formControlName="pointsAssists" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>GWG</mat-label>
-        <input matInput type="number" formControlName="pointsGwg" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>SHG</mat-label>
-        <input matInput type="number" formControlName="pointsShg" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>OTG</mat-label>
-        <input matInput type="number" formControlName="pointsOtg" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Win</mat-label>
-        <input matInput type="number" formControlName="pointsWins" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>OTL</mat-label>
-        <input matInput type="number" formControlName="pointsOtl" />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>SO</mat-label>
-        <input matInput type="number" formControlName="pointsShutouts" />
-      </mat-form-field>
-
-      <div class="settings-section-header">Points multiplier</div>
-      <div formArrayName="roundMultipliers">
-        <mat-form-field
-          *ngFor="
-            let roundMultiplier of settingForm.controls.roundMultipliers.controls;
-            let i = index;
-            trackBy: trackByRoundMultiplier
-          ">
-          <mat-label>Round {{ i + 1 }}</mat-label>
-          <input matInput type="number" [formControlName]="i" />
+        <div class="settings-section-header">Number of each position per entry</div>
+        <mat-form-field>
+          <mat-label>Min C</mat-label>
+          <input matInput type="number" formControlName="minCenters" />
         </mat-form-field>
-      </div>
-    </mat-card-content>
+        <mat-form-field>
+          <mat-label>Max C</mat-label>
+          <input matInput type="number" formControlName="maxCenters" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Min W</mat-label>
+          <input matInput type="number" formControlName="minWingers" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Max W</mat-label>
+          <input matInput type="number" formControlName="maxWingers" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Min D</mat-label>
+          <input matInput type="number" formControlName="minDefensemen" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Max D</mat-label>
+          <input matInput type="number" formControlName="maxDefensemen" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Min G</mat-label>
+          <input matInput type="number" formControlName="minGoalies" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Max G</mat-label>
+          <input matInput type="number" formControlName="maxGoalies" />
+        </mat-form-field>
 
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!settingForm.valid || updating">
-        Update
-      </button>
-      <div class="form-submit-status">
-        <mat-spinner *ngIf="updating" class="form-spinner" [diameter]="25" />
-        <mat-icon *ngIf="updateSuccess" class="check-icon">check</mat-icon>
-        <mat-icon *ngIf="updateFailure" color="warn">clear</mat-icon>
-      </div>
-    </mat-card-actions>
-  </form>
-</mat-card>
+        <div class="settings-section-header">Number of points per stat</div>
+        <mat-form-field>
+          <mat-label>G</mat-label>
+          <input matInput type="number" formControlName="pointsGoals" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>A</mat-label>
+          <input matInput type="number" formControlName="pointsAssists" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>GWG</mat-label>
+          <input matInput type="number" formControlName="pointsGwg" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>SHG</mat-label>
+          <input matInput type="number" formControlName="pointsShg" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>OTG</mat-label>
+          <input matInput type="number" formControlName="pointsOtg" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Win</mat-label>
+          <input matInput type="number" formControlName="pointsWins" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>OTL</mat-label>
+          <input matInput type="number" formControlName="pointsOtl" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>SO</mat-label>
+          <input matInput type="number" formControlName="pointsShutouts" />
+        </mat-form-field>
+
+        <div class="settings-section-header">Points multiplier</div>
+        <div formArrayName="roundMultipliers">
+          @for (roundMultiplier of settingForm.controls.roundMultipliers.controls; track $index) {
+            <mat-form-field>
+              <mat-label>Round {{ $index + 1 }}</mat-label>
+              <input matInput type="number" [formControlName]="$index" />
+            </mat-form-field>
+          }
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!settingForm.valid || updating">
+          Update
+        </button>
+        <div class="form-submit-status">
+          @if (updating) {
+            <mat-spinner class="form-spinner" [diameter]="25" />
+          }
+          @if (updateSuccess) {
+            <mat-icon class="check-icon">check</mat-icon>
+          }
+          @if (updateFailure) {
+            <mat-icon color="warn">clear</mat-icon>
+          }
+        </div>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+}

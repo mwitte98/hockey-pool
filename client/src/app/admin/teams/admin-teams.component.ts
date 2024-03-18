@@ -65,14 +65,6 @@ export class AdminTeamsComponent implements OnInit {
     });
   }
 
-  trackByTeamId(_index: number, team: AdminTeam): number {
-    return team.id;
-  }
-
-  trackByPlayerId(_index: number, player: AdminPlayer): number {
-    return player.id;
-  }
-
   updateTeam(id: number): void {
     const team = this.teams.find((t) => t.id === id);
     team.updateLoading = true;

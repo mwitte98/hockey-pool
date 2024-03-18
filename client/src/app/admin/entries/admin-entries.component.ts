@@ -7,7 +7,7 @@ import { EntriesService } from '../../shared/services/entries.service';
 import { TeamsService } from '../../shared/services/teams.service';
 import { UserService } from '../../shared/services/user.service';
 import { UtilService } from '../../shared/services/util.service';
-import { AdminEntry, TelephoneNumber, UpsertEntryPlayer, UpsertEntryTeam, User } from '../../shared/types/interfaces';
+import { AdminEntry, TelephoneNumber, UpsertEntryTeam, User } from '../../shared/types/interfaces';
 
 @Component({
   templateUrl: './admin-entries.component.html',
@@ -46,18 +46,6 @@ export class AdminEntriesComponent implements OnInit {
         });
       }
     });
-  }
-
-  trackByEntryId(_index: number, entry: AdminEntry): number {
-    return entry.id;
-  }
-
-  trackByTeamName(_index: number, team: UpsertEntryTeam): string {
-    return team.name;
-  }
-
-  trackByPlayerId(_index: number, player: UpsertEntryPlayer): string {
-    return player.id;
   }
 
   createEntryForm(entry: AdminEntry): void {

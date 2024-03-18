@@ -1,59 +1,68 @@
-<mat-spinner *ngIf="!entryForm" />
-<mat-card *ngIf="entryForm" appearance="outlined" class="mat-typography">
-  <mat-card-header>
-    <mat-card-title>Create Entry</mat-card-title>
-  </mat-card-header>
-  <form #formDirective="ngForm" [formGroup]="entryForm" (ngSubmit)="submitForm(formDirective)">
-    <mat-card-content>
-      <button mat-raised-button class="see-rules-button" type="button" (click)="seeRules()">See rules</button>
-      <display-errors [errors]="errors" />
-      <div>
-        <mat-form-field>
-          <mat-label>Entry Name</mat-label>
-          <input matInput type="text" formControlName="name" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Contestant Name</mat-label>
-          <input matInput type="text" formControlName="contestantName" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput type="email" formControlName="email" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Telephone Number</mat-label>
-          <telephone-input formControlName="telephoneNumber" required />
-        </mat-form-field>
-      </div>
-      <div>Number of each position selected:</div>
-      <div class="positions">
-        <span class="position" [ngClass]="entryForm.errors?.center ? 'error' : ''">
-          Centers: {{ numbersOfPositions.center }}
-        </span>
-        <span class="position" [ngClass]="entryForm.errors?.winger ? 'error' : ''">
-          Wingers: {{ numbersOfPositions.winger }}
-        </span>
-        <span class="position" [ngClass]="entryForm.errors?.defenseman ? 'error' : ''">
-          Defensemen: {{ numbersOfPositions.defenseman }}
-        </span>
-        <span class="position" [ngClass]="entryForm.errors?.goalie ? 'error' : ''">
-          Goalies: {{ numbersOfPositions.goalie }}
-        </span>
-      </div>
-      <mat-form-field *ngFor="let team of teams; trackBy: trackByTeamName">
-        <mat-label>{{ team.name }}</mat-label>
-        <mat-select [formControlName]="team.name">
-          <mat-option *ngFor="let player of team.players; trackBy: trackByPlayerId" [value]="player.id">
-            <span *ngIf="player.position === 'Goalie'">{{ team.abbr }} Goalies</span>
-            <span *ngIf="player.position !== 'Goalie'">
-              {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0 : 1 }})
-            </span>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!entryForm.valid || loading">Submit</button>
-    </mat-card-actions>
-  </form>
-</mat-card>
+@if (!entryForm) {
+  <mat-spinner />
+}
+@if (entryForm) {
+  <mat-card appearance="outlined" class="mat-typography">
+    <mat-card-header>
+      <mat-card-title>Create Entry</mat-card-title>
+    </mat-card-header>
+    <form #formDirective="ngForm" [formGroup]="entryForm" (ngSubmit)="submitForm(formDirective)">
+      <mat-card-content>
+        <button mat-raised-button class="see-rules-button" type="button" (click)="seeRules()">See rules</button>
+        <display-errors [errors]="errors" />
+        <div>
+          <mat-form-field>
+            <mat-label>Entry Name</mat-label>
+            <input matInput type="text" formControlName="name" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Contestant Name</mat-label>
+            <input matInput type="text" formControlName="contestantName" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Telephone Number</mat-label>
+            <telephone-input formControlName="telephoneNumber" required />
+          </mat-form-field>
+        </div>
+        <div>Number of each position selected:</div>
+        <div class="positions">
+          <span class="position" [ngClass]="entryForm.errors?.center ? 'error' : ''">
+            Centers: {{ numbersOfPositions.center }}
+          </span>
+          <span class="position" [ngClass]="entryForm.errors?.winger ? 'error' : ''">
+            Wingers: {{ numbersOfPositions.winger }}
+          </span>
+          <span class="position" [ngClass]="entryForm.errors?.defenseman ? 'error' : ''">
+            Defensemen: {{ numbersOfPositions.defenseman }}
+          </span>
+          <span class="position" [ngClass]="entryForm.errors?.goalie ? 'error' : ''">
+            Goalies: {{ numbersOfPositions.goalie }}
+          </span>
+        </div>
+        @for (team of teams; track team.abbr) {
+          <mat-form-field>
+            <mat-label>{{ team.name }}</mat-label>
+            <mat-select [formControlName]="team.name">
+              @for (player of team.players; track player.id) {
+                <mat-option [value]="player.id">
+                  @if (player.position === 'Goalie') {
+                    {{ team.abbr }} Goalies
+                  } @else {
+                    {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0 : 1 }})
+                  }
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!entryForm.valid || loading">Submit</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+}

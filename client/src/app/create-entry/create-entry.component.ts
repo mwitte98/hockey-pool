@@ -19,7 +19,7 @@ import { SettingsService } from '../shared/services/settings.service';
 import { TeamsService } from '../shared/services/teams.service';
 import { UserService } from '../shared/services/user.service';
 import { UtilService } from '../shared/services/util.service';
-import { AdminEntry, TelephoneNumber, UpsertEntryPlayer, UpsertEntryTeam, User } from '../shared/types/interfaces';
+import { AdminEntry, TelephoneNumber, UpsertEntryTeam, User } from '../shared/types/interfaces';
 
 import { DuplicateEntryDialogComponent } from './duplicate-entry-dialog.component';
 import { EntrySubmittedDialogComponent } from './entry-submitted-dialog.component';
@@ -108,14 +108,6 @@ export class CreateEntryComponent implements OnInit {
       return null;
     };
   };
-
-  trackByTeamName(_index: number, team: UpsertEntryTeam): string {
-    return team.name;
-  }
-
-  trackByPlayerId(_index: number, player: UpsertEntryPlayer): string {
-    return player.id;
-  }
 
   setNumbersOfPositions(): void {
     const numbersOfPositions = {

@@ -1,14 +1,17 @@
-<mat-spinner *ngIf="loading" />
-<ngx-charts-line-chart
-  *ngIf="!loading && chartData.length > 0"
-  class="mat-typography"
-  [results]="chartData"
-  [view]="[window.innerWidth, window.innerHeight - 64]"
-  [xAxis]="true"
-  [yAxis]="true"
-  [yScaleMax]="1"
-  [yScaleMin]="entries.length"
-  [showXAxisLabel]="true"
-  [showYAxisLabel]="true"
-  [xAxisLabel]="'Date of Games'"
-  [yAxisLabel]="'Rank'" />
+@if (loading) {
+  <mat-spinner />
+}
+@if (!loading && chartData.length > 0) {
+  <ngx-charts-line-chart
+    class="mat-typography"
+    [results]="chartData"
+    [view]="[window.innerWidth, window.innerHeight - 64]"
+    [xAxis]="true"
+    [yAxis]="true"
+    [yScaleMax]="1"
+    [yScaleMin]="entries.length"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxisLabel]="'Date of Games'"
+    [yAxisLabel]="'Rank'" />
+}
