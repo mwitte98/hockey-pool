@@ -93,10 +93,10 @@ export class HistoricalGraphComponent implements OnInit {
       entryDates: this.dates.map((date) => ({
         date,
         points: 0,
-        pointsC: 0,
-        pointsW: 0,
         pointsD: 0,
         pointsG: 0,
+        pointsC: 0,
+        pointsW: 0,
         totalGoals: 0,
         tiebreaker: 0,
       })),

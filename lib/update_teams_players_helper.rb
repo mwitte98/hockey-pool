@@ -3,8 +3,8 @@ module UpdateTeamsPlayersHelper
     def update
       agent = Mechanize.new
       setup_teams
-      valid_months = %w[2023-04 2023-05 2023-06]
-      @current_date = '2023-04-17'
+      valid_months = %w[2024-04 2024-05 2024-06]
+      @current_date = '2024-04-20'
       while valid_months.include? @current_date[0...7]
         response = JSON.parse(agent.get("https://api-web.nhle.com/v1/score/#{@current_date}").body)
         parse_date response

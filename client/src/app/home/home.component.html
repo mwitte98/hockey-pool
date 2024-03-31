@@ -31,28 +31,28 @@
             {{ entry.points }}
           </td>
         </ng-container>
-        <ng-container matColumnDef="pointsC">
-          <th *matHeaderCellDef mat-header-cell>Points-C</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 1 ? 'bold-text' : ''">
-            {{ entry.pointsC }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="pointsW">
-          <th *matHeaderCellDef mat-header-cell>Points-W</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 2 ? 'bold-text' : ''">
-            {{ entry.pointsW }}
-          </td>
-        </ng-container>
         <ng-container matColumnDef="pointsD">
           <th *matHeaderCellDef mat-header-cell>Points-D</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 3 ? 'bold-text' : ''">
+          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 1 ? 'bold-text' : ''">
             {{ entry.pointsD }}
           </td>
         </ng-container>
         <ng-container matColumnDef="pointsG">
           <th *matHeaderCellDef mat-header-cell>Points-G</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 4 ? 'bold-text' : ''">
+          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 2 ? 'bold-text' : ''">
             {{ entry.pointsG }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="pointsC">
+          <th *matHeaderCellDef mat-header-cell>Points-C</th>
+          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 3 ? 'bold-text' : ''">
+            {{ entry.pointsC }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="pointsW">
+          <th *matHeaderCellDef mat-header-cell>Points-W</th>
+          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 4 ? 'bold-text' : ''">
+            {{ entry.pointsW }}
           </td>
         </ng-container>
         <ng-container matColumnDef="totalGoals">

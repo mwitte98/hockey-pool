@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
   entries: DisplayEntry[];
   teams: HomeTeam[];
   tableData: DisplayEntry[];
-  columnsToDisplay = ['name', 'points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
+  columnsToDisplay = ['name', 'points', 'pointsD', 'pointsG', 'pointsC', 'pointsW', 'totalGoals'];
   loading = false;
   expandedEntries: string[];
   showingAllEntries = false;
@@ -136,10 +136,10 @@ export class HomeComponent implements OnInit {
 
   resetEntryPoints(entry: DisplayEntry): void {
     entry.points = 0;
-    entry.pointsC = 0;
-    entry.pointsW = 0;
     entry.pointsD = 0;
     entry.pointsG = 0;
+    entry.pointsC = 0;
+    entry.pointsW = 0;
     entry.totalGoals = 0;
     entry.tiebreaker = 0;
   }

@@ -133,16 +133,16 @@ export class UtilService {
   equals(a: EntryStats, b: EntryStats): boolean {
     return (
       a.points === b.points &&
-      a.pointsC === b.pointsC &&
-      a.pointsW === b.pointsW &&
       a.pointsD === b.pointsD &&
       a.pointsG === b.pointsG &&
+      a.pointsC === b.pointsC &&
+      a.pointsW === b.pointsW &&
       a.totalGoals === b.totalGoals
     );
   }
 
   compareEntries(a: EntryStats, b: EntryStats): number {
-    const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
+    const tiebreakers = ['points', 'pointsD', 'pointsG', 'pointsC', 'pointsW', 'totalGoals'];
     let diff = 0;
     for (const [index, tiebreaker] of tiebreakers.entries()) {
       diff = b[tiebreaker] - a[tiebreaker];

@@ -31,10 +31,10 @@ export class BestEntryService {
       numDefenseman: 0,
       numGoalie: 0,
       points: 0,
-      pointsC: 0,
-      pointsW: 0,
       pointsD: 0,
       pointsG: 0,
+      pointsC: 0,
+      pointsW: 0,
       totalGoals: 0,
     });
     return this.bestEntry;
@@ -134,7 +134,7 @@ export class BestEntryService {
   }
 
   compareEntries(a: DisplayEntry, b: DisplayEntry): number {
-    const tiebreakers = ['points', 'pointsC', 'pointsW', 'pointsD', 'pointsG', 'totalGoals'];
+    const tiebreakers = ['points', 'pointsD', 'pointsG', 'pointsC', 'pointsW', 'totalGoals'];
     let diff = 0;
     for (const tiebreaker of tiebreakers) {
       diff = (b[tiebreaker] ?? 0) - (a[tiebreaker] ?? 0);

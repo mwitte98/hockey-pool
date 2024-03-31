@@ -90,10 +90,10 @@ export interface AdminEntry {
 // START - /entries?field_groups=display
 export interface EntryStats {
   points?: number;
-  pointsC?: number;
-  pointsW?: number;
   pointsD?: number;
   pointsG?: number;
+  pointsC?: number;
+  pointsW?: number;
   totalGoals?: number;
   tiebreaker?: number;
   rank?: number;
