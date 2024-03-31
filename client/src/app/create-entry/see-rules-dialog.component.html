@@ -1,19 +1,19 @@
 <h2 mat-dialog-title>Rules</h2>
 <mat-dialog-content>
   <ul>
-    <li>Entries must be submitted by Monday, April 17th 7pm ET</li>
+    <li>Entries must be submitted by Saturday, April 20th 1pm ET</li>
     <li>After the entry submission deadline, if a player misses a game for any reason, they cannot be substituted</li>
     <li>Entry fee: $20 per entry</li>
     <li>Unlimited number of entries</li>
     <li>Payment can be sent to Alan Kurek through Venmo &#64;Alan-Kurek or PayPal &#64;alankurek</li>
-    <li>If payment is not received by Monday, April 24th, those entries will be disqualified</li>
+    <li>If payment is not received by Saturday, April 27th, those entries will be disqualified</li>
     <li>
       Payouts: 25% to 1st place, 15% to 2nd place, and remaining 60% will be determined based on the number of entries
     </li>
     <br />
     <li>
-      Entries will consist of {{ numTeams - settingsService.setting.minGoalies }} skaters and 2 team goalies; 1
-      selection from each team
+      Entries will consist of {{ numTeams - settingsService.setting.minGoalies }} skaters and
+      {{ settingsService.setting.minGoalies }} team goalies; 1 selection from each team
     </li>
     <li>The 16 selections will be broken down into the following positions:</li>
     <ul>
@@ -21,16 +21,17 @@
       <li>{{ settingsService.setting.minWingers }} wingers</li>
       <li>{{ settingsService.setting.minDefensemen }} defensemen</li>
       <li>{{ settingsService.setting.minGoalies }} team goalies</li>
+      <ul>
+        <li>
+          Points from all goalies on the {{ settingsService.setting.minGoalies }} teams selected will count towards that
+          selection
+        </li>
+      </ul>
       <li>1 flex center OR winger OR defenseman</li>
     </ul>
     <br />
     <li>Scoring:</li>
     <ul>
-      <li>
-        <b>NEW!</b>
-        Team goalies - Points from all goalies on the {{ settingsService.setting.minGoalies }} teams selected will count
-        towards that selection
-      </li>
       <li>Goal: {{ settingsService.setting.pointsGoals }} points</li>
       <li>Assist: {{ settingsService.setting.pointsAssists }} point</li>
       <li>Game Winning Goal: {{ settingsService.setting.pointsGwg }} point</li>
@@ -46,10 +47,10 @@
     <li>Tiebreakers:</li>
     <ol>
       <li>Total Points</li>
-      <li>Total Points from Centers</li>
-      <li>Total Points from Wingers</li>
       <li>Total Points from Defensemen</li>
       <li>Total Points from Goalies</li>
+      <li>Total Points from Centers</li>
+      <li>Total Points from Wingers</li>
       <li>Total Overall Goals</li>
       <li>Split Money</li>
     </ol>
