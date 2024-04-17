@@ -5,7 +5,7 @@ module SeedTeamsPlayersHelper
       standings = JSON.parse(agent.get('https://api-web.nhle.com/v1/standings/now').body)
       standings['standings'].each do |team_standing|
         team = create_team team_standing
-        roster = JSON.parse(agent.get("https://api-web.nhle.com/v1/roster/#{team.abbr}/now").body)
+        roster = JSON.parse(agent.get("https://api-web.nhle.com/v1/roster/#{team.abbr}/current").body)
         create_players team, roster
         create_team_goalie team, roster
       end
