@@ -15,11 +15,12 @@
           <th *matHeaderCellDef mat-header-cell>Entry Name</th>
           <td *matCellDef="let entry" mat-cell>
             <div>
-              @if (entry.tiebreaker === 6) {
-                T
-              }
               @if (!entry.bestEntry) {
-                {{ entry.rank }}.
+                @if (entry.tiebreaker === 6) {
+                  T{{ entry.rank }}.
+                } @else {
+                  {{ entry.rank }}.
+                }
               }
               {{ entry.name }}
             </div>
