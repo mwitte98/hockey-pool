@@ -47,7 +47,7 @@ module UpdateTeamsPlayersHelper
     end
 
     def parse_goals
-      @game['goals'].each do |goal|
+      @game['goals']&.each do |goal|
         scoring_team = @teams[goal['teamAbbrev']]
         parse_goal_players goal, scoring_team
       end
