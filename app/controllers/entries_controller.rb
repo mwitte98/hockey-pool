@@ -7,7 +7,7 @@ class EntriesController < ApplicationController
     when 'player_ids'
       render json: entries.as_json(only: :player_ids).map { |e| e['player_ids'] }
     when 'display'
-      render json: entries.as_json(only: %i[name player_ids])
+      render json: entries.as_json(only: %i[name contestant_name player_ids])
     else
       render json: entries
     end

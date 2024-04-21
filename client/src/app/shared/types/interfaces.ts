@@ -101,6 +101,7 @@ export interface EntryStats {
 
 export interface DisplayEntry extends EntryStats {
   name: string;
+  contestantName?: string;
   playerIds: string[];
   bestEntry?: boolean;
   numCenter?: number;
