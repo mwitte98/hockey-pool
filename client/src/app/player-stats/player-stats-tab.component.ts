@@ -15,10 +15,10 @@ import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatTiebreaker } from '../sh
   imports: [KeyValuePipe, MatSort, MatSortHeader, MatTableModule, NgClass, SlicePipe],
 })
 export class PlayerStatsTabComponent implements OnChanges, OnInit {
-  @Input() players: PlayerStatsPlayer[];
-  @Input() columnsToDisplay: string[];
-  @Input() tiebreakers: PlayerStatTiebreaker[];
-  @Input() playerStatColumns: PlayerStatColumn[];
+  @Input({ required: true }) players: PlayerStatsPlayer[];
+  @Input({ required: true }) columnsToDisplay: string[];
+  @Input({ required: true }) tiebreakers: PlayerStatTiebreaker[];
+  @Input({ required: true }) playerStatColumns: PlayerStatColumn[];
   dataSource: MatTableDataSource<PlayerStatsPlayer>;
   multipliersToRounds: Map<number, number[]>;
 
