@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
   standalone: true,
 })
 export class DisplayErrorsComponent {
-  @Input() errors: string[];
+  @Input({ required: true }) errors: string[];
 }
