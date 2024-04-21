@@ -29,11 +29,18 @@
 }
 
 .expansion-row-content {
-  display: flex;
-  flex-wrap: wrap;
   width: calc(100vw - 16px);
   padding-top: 8px;
   padding-bottom: 8px;
+}
+
+.contestant-name {
+  padding-bottom: 8px;
+}
+
+.entry-players {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .team-player-wrapper {
