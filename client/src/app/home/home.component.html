@@ -1,123 +1,129 @@
 @if (loading) {
   <mat-spinner />
 } @else {
-  <div>
-    <div class="slide-toggle-container">
-      <mat-slide-toggle color="primary" [(ngModel)]="showingAllEntries" (change)="toggleAllPanels()">
-        Expand Entries
-      </mat-slide-toggle>
-      <mat-slide-toggle color="primary" [(ngModel)]="showingEliminatedTeams">Show Eliminated</mat-slide-toggle>
-    </div>
+  <div class="slide-toggle-container">
+    <mat-slide-toggle color="primary" [(ngModel)]="showingAllEntries" (change)="toggleAllPanels()">
+      Expand Entries
+    </mat-slide-toggle>
+    <mat-slide-toggle color="primary" [(ngModel)]="showingEliminatedTeams">Show Eliminated</mat-slide-toggle>
+  </div>
 
-    <div class="table-wrapper">
-      <table mat-table [dataSource]="tableData">
-        <ng-container matColumnDef="name" sticky>
-          <th *matHeaderCellDef mat-header-cell>Entry Name</th>
-          <td *matCellDef="let entry" mat-cell>
-            <div>
-              @if (!entry.bestEntry) {
-                @if (entry.tiebreaker === 6) {
-                  T{{ entry.rank }}.
-                } @else {
-                  {{ entry.rank }}.
-                }
-              }
-              {{ entry.name }}
-            </div>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="points" sticky>
-          <th *matHeaderCellDef mat-header-cell>Points</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 0 ? 'bold-text' : ''">
-            {{ entry.points }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="pointsD">
-          <th *matHeaderCellDef mat-header-cell>Points-D</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 1 ? 'bold-text' : ''">
-            {{ entry.pointsD }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="pointsG">
-          <th *matHeaderCellDef mat-header-cell>Points-G</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 2 ? 'bold-text' : ''">
-            {{ entry.pointsG }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="pointsC">
-          <th *matHeaderCellDef mat-header-cell>Points-C</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 3 ? 'bold-text' : ''">
-            {{ entry.pointsC }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="pointsW">
-          <th *matHeaderCellDef mat-header-cell>Points-W</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 4 ? 'bold-text' : ''">
-            {{ entry.pointsW }}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="totalGoals">
-          <th *matHeaderCellDef mat-header-cell>Total Goals</th>
-          <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 5 ? 'bold-text' : ''">
-            {{ entry.totalGoals }}
-          </td>
-        </ng-container>
+  <div class="name-filter-wrapper">
+    <mat-form-field class="name-filter">
+      <mat-label>Filter by entry/player name</mat-label>
+      <input matInput (keyup)="prepareTableData($event)" />
+      <mat-hint>{{ tableData.length / 2 }} of {{ entries.length }} shown</mat-hint>
+    </mat-form-field>
+  </div>
 
-        <ng-container matColumnDef="playerDetails">
-          <td
-            *matCellDef="let entry"
-            mat-cell
-            [attr.colspan]="7"
-            [ngClass]="isExpanded(entry) ? 'expanded' : 'collapsed'">
-            <div class="expansion-row-content" [@detailExpand]="isExpanded(entry) ? 'expanded' : 'collapsed'">
-              @if (entry.contestantName) {
-                <div class="contestant-name">Contestant Name: {{ entry.contestantName }}</div>
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="tableData">
+      <ng-container matColumnDef="name">
+        <th *matHeaderCellDef mat-header-cell>Entry Name</th>
+        <td *matCellDef="let entry" mat-cell>
+          <div>
+            @if (!entry.bestEntry) {
+              @if (entry.tiebreaker === 6) {
+                T{{ entry.rank }}.
+              } @else {
+                {{ entry.rank }}.
               }
-              <div class="entry-players">
-                @for (team of teams; track team.abbr) {
-                  <div>
-                    <ng-template
-                      #t
-                      let-player
-                      [ngTemplateOutlet]="t"
-                      [ngTemplateOutletContext]="{ $implicit: getSelectedPlayerForTeam(entry.playerIds, team) }">
-                      <div
-                        class="team-player-wrapper"
-                        [ngClass]="{ hidden: team.isEliminated && !showingEliminatedTeams }">
-                        <img [alt]="team.name + ' logo'" [ngSrc]="getLogoUrl(team)" [height]="20" [width]="30" />
-                        <div class="player-wrapper">
-                          <div class="player-name" [ngClass]="team.isEliminated ? 'strikethrough' : ''">
-                            @if (player.position === 'Goalie') {
-                              {{ team.abbr }} Goalies
-                            } @else {
-                              {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0 : 1 }})
-                            }
-                          </div>
-                          <div class="badge">{{ player.points ?? 0 }}</div>
+            }
+            {{ entry.name }}
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="points">
+        <th *matHeaderCellDef mat-header-cell>Points</th>
+        <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 0 ? 'bold-text' : ''">
+          {{ entry.points }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="pointsD">
+        <th *matHeaderCellDef mat-header-cell>Points-D</th>
+        <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 1 ? 'bold-text' : ''">
+          {{ entry.pointsD }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="pointsG">
+        <th *matHeaderCellDef mat-header-cell>Points-G</th>
+        <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 2 ? 'bold-text' : ''">
+          {{ entry.pointsG }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="pointsC">
+        <th *matHeaderCellDef mat-header-cell>Points-C</th>
+        <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 3 ? 'bold-text' : ''">
+          {{ entry.pointsC }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="pointsW">
+        <th *matHeaderCellDef mat-header-cell>Points-W</th>
+        <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 4 ? 'bold-text' : ''">
+          {{ entry.pointsW }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="totalGoals">
+        <th *matHeaderCellDef mat-header-cell>Total Goals</th>
+        <td *matCellDef="let entry" mat-cell [ngClass]="entry.tiebreaker === 5 ? 'bold-text' : ''">
+          {{ entry.totalGoals }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="playerDetails">
+        <td
+          *matCellDef="let entry"
+          mat-cell
+          [attr.colspan]="7"
+          [ngClass]="isExpanded(entry) ? 'expanded' : 'collapsed'">
+          <div class="expansion-row-content" [@detailExpand]="isExpanded(entry) ? 'expanded' : 'collapsed'">
+            @if (entry.contestantName) {
+              <div class="contestant-name">Contestant Name: {{ entry.contestantName }}</div>
+            }
+            <div class="entry-players">
+              @for (team of teams; track team.abbr) {
+                <div>
+                  <ng-template
+                    #t
+                    let-player
+                    [ngTemplateOutlet]="t"
+                    [ngTemplateOutletContext]="{ $implicit: getSelectedPlayerForTeam(entry.playerIds, team) }">
+                    <div
+                      class="team-player-wrapper"
+                      [ngClass]="{ hidden: team.isEliminated && !showingEliminatedTeams }">
+                      <img [alt]="team.name + ' logo'" [ngSrc]="getLogoUrl(team)" [height]="20" [width]="30" />
+                      <div class="player-wrapper">
+                        <div class="player-name" [ngClass]="team.isEliminated ? 'strikethrough' : ''">
+                          @if (player.position === 'Goalie') {
+                            {{ team.abbr }} Goalies
+                          } @else {
+                            {{ player.firstName }} {{ player.lastName }} ({{ player.position | slice: 0 : 1 }})
+                          }
                         </div>
+                        <div class="badge">{{ player.points ?? 0 }}</div>
                       </div>
-                    </ng-template>
-                  </div>
-                }
-              </div>
+                    </div>
+                  </ng-template>
+                </div>
+              }
             </div>
-          </td>
-        </ng-container>
+          </div>
+        </td>
+      </ng-container>
 
-        <tr *matHeaderRowDef="columnsToDisplay; sticky: true" mat-header-row></tr>
-        <tr
-          *matRowDef="let entry; columns: columnsToDisplay"
-          mat-row
-          matRipple
-          class="entry-row"
-          [class.best-entry]="entry.bestEntry"
-          [class.expanded]="isExpanded(entry)"
-          (click)="toggleExpansion(entry.name)"></tr>
-        <tr
-          *matRowDef="let entry; columns: ['playerDetails']; when: isExpansionDetailRow"
-          mat-row
-          class="expansion-row"></tr>
-      </table>
-    </div>
+      <tr *matHeaderRowDef="columnsToDisplay; sticky: true" mat-header-row></tr>
+      <tr
+        *matRowDef="let entry; columns: columnsToDisplay"
+        mat-row
+        matRipple
+        class="entry-row"
+        [class.best-entry]="entry.bestEntry"
+        [class.expanded]="isExpanded(entry)"
+        (click)="toggleExpansion(entry.name)"></tr>
+      <tr
+        *matRowDef="let entry; columns: ['playerDetails']; when: isExpansionDetailRow"
+        mat-row
+        class="expansion-row"></tr>
+    </table>
   </div>
 }
