@@ -137,7 +137,10 @@ export class HomeComponent implements OnInit {
       if (!displayEntry) {
         const playerFiltered = entry.playerIds.some((playerId) => {
           const player = this.players[playerId];
-          return player.firstName.toLowerCase().includes(filter) || player.lastName.toLowerCase().includes(filter);
+          const firstName = player.firstName.toLowerCase();
+          const lastName = player.lastName.toLowerCase();
+          const fullName = `${firstName} ${lastName}`;
+          return firstName.includes(filter) || lastName.includes(filter) || fullName.includes(filter);
         });
         if (playerFiltered) displayEntry = true;
       }
