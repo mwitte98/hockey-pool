@@ -2,6 +2,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { NgClass, NgOptimizedImage, NgTemplateOutlet, SlicePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
@@ -30,6 +32,8 @@ import { BestEntryService } from './best-entry.service';
   standalone: true,
   imports: [
     FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatProgressSpinner,
     MatSlideToggle,
     MatTableModule,
@@ -42,6 +46,7 @@ import { BestEntryService } from './best-entry.service';
 export class HomeComponent implements OnInit {
   entries: DisplayEntry[];
   teams: HomeTeam[];
+  players: Record<string, HomePlayer>;
   tableData: DisplayEntry[];
   columnsToDisplay = ['name', 'points', 'pointsD', 'pointsG', 'pointsC', 'pointsW', 'totalGoals'];
   loading = false;
@@ -72,6 +77,12 @@ export class HomeComponent implements OnInit {
             this.expandedEntries = [];
             this.entries = entries;
             this.teams = teams;
+            this.players = {};
+            for (const team of teams) {
+              for (const player of team.players) {
+                this.players[player.id] = player;
+              }
+            }
             this.calculatePoints();
             this.utilService.sortEntries(this.entries);
             const bestEntry = this.bestEntryService.determineBestEntry(teams);
@@ -115,10 +126,24 @@ export class HomeComponent implements OnInit {
     return team.players.find((player) => selectedPlayerIds.includes(player.id));
   }
 
-  prepareTableData(): void {
+  prepareTableData(event?: KeyboardEvent): void {
+    const filter = event == null ? '' : (event.target as HTMLInputElement).value.toLowerCase();
     this.tableData = [];
     for (const entry of this.entries) {
-      this.tableData.push(entry, { isDetailRow: true, ...entry });
+      let displayEntry = false;
+      if (entry.name.toLowerCase().includes(filter) || entry.contestantName.toLowerCase().includes(filter)) {
+        displayEntry = true;
+      }
+      if (!displayEntry) {
+        const playerFiltered = entry.playerIds.some((playerId) => {
+          const player = this.players[playerId];
+          return player.firstName.toLowerCase().includes(filter) || player.lastName.toLowerCase().includes(filter);
+        });
+        if (playerFiltered) displayEntry = true;
+      }
+      if (displayEntry) {
+        this.tableData.push(entry, { isDetailRow: true, ...entry });
+      }
     }
   }
 

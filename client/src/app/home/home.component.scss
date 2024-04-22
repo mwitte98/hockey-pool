@@ -1,9 +1,14 @@
-.mat-mdc-raised-button {
-  margin-bottom: 16px;
+.name-filter-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.name-filter {
+  width: 235px;
 }
 
 .table-wrapper {
-  height: calc(100vh - 117px);
+  height: calc(100vh - 195px);
   overflow: auto;
 }
 
