@@ -24,6 +24,7 @@ export class BestEntryService {
 
     this.calculateBestEntryBranch(bestPlayers, 0, {
       name: this.bestEntryName,
+      contestantName: this.bestEntryName,
       bestEntry: true,
       playerIds: [],
       numCenter: 0,
