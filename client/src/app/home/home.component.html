@@ -77,7 +77,7 @@
           [attr.colspan]="7"
           [ngClass]="isExpanded(entry) ? 'expanded' : 'collapsed'">
           <div class="expansion-row-content" [@detailExpand]="isExpanded(entry) ? 'expanded' : 'collapsed'">
-            @if (entry.contestantName) {
+            @if (!entry.bestEntry) {
               <div class="contestant-name">Contestant Name: {{ entry.contestantName }}</div>
             }
             <div class="entry-players">
