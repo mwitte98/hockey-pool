@@ -101,7 +101,7 @@ module UpdateTeamsPlayersHelper
     def update_game_winning_goal(scoring_team, score_location, opponent_score)
       winning_goal = @game['goals'].find { |goal| goal[score_location] > opponent_score }
       winning_goal_scorer = find_player scoring_team, winning_goal['playerId']
-      update_stat winning_goal_scorer, 'gwg'
+      update_stat winning_goal_scorer, 'gwg' if winning_goal_scorer
     end
 
     def update_winning_goalie(winning_team_goalie, opponent_score)
