@@ -1,7 +1,7 @@
 # Schema documented at https://render.com/docs/yaml-spec
 services:
   - type: web
-    name: hockeyplayoffpool
+    name: hockeyplayoffpool-backup
     env: ruby
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
