@@ -2,7 +2,7 @@ version: 2
 jobs:
   backend:
     docker:
-      - image: cimg/ruby:3.3.0-node
+      - image: cimg/ruby:3.3.4-node
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -32,7 +32,7 @@ jobs:
       - run: bundle exec rubocop
   frontend-lint:
     docker:
-      - image: cimg/ruby:3.3.0-node
+      - image: cimg/ruby:3.3.4-node
     working_directory: ~/hockey-pool/client
     steps:
       - checkout:
@@ -51,7 +51,7 @@ jobs:
             - ./node_modules
   frontend-test:
     docker:
-      - image: cimg/ruby:3.3.0-node
+      - image: cimg/ruby:3.3.4-node
     working_directory: ~/hockey-pool/client
     steps:
       - checkout:
@@ -66,7 +66,7 @@ jobs:
       - run: npm run test-ci
   frontend-build:
     docker:
-      - image: cimg/ruby:3.3.0-node
+      - image: cimg/ruby:3.3.4-node
     working_directory: ~/hockey-pool/client
     steps:
       - checkout:
