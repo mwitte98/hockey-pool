@@ -36,7 +36,7 @@ import { TelephoneNumber } from '../types/interfaces';
 export class TelephoneInputComponent
   implements ControlValueAccessor, MatFormFieldControl<TelephoneNumber>, OnInit, OnDestroy
 {
-  static nextId = 0;
+  private static nextId = 0;
   digitsOnly = /^\d*$/u;
   form = this.fb.group({
     area: [
@@ -59,6 +59,7 @@ export class TelephoneInputComponent
   @ViewChild('area', { static: true }) areaInput: HTMLInputElement;
   @ViewChild('exchange', { static: true }) exchangeInput: HTMLInputElement;
   @ViewChild('subscriber', { static: true }) subscriberInput: HTMLInputElement;
+  // eslint-disable-next-line sonarjs/no-nested-assignment
   @HostBinding('id') id = `telephone-input-${(TelephoneInputComponent.nextId += 1)}`;
 
   @Input()
@@ -200,7 +201,6 @@ export class TelephoneInputComponent
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setDescribedByIds(): void {}
 
   onContainerClick(): void {

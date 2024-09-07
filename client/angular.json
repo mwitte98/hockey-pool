@@ -80,9 +80,9 @@
     },
     "@schematics/angular:directive": {
       "prefix": "app"
-    },
-    "@angular-eslint/schematics:application": {
-      "setParserOptionsProject": true
     }
+  },
+  "cli": {
+    "schematicCollections": ["@angular-eslint/schematics"]
   }
 }
