@@ -56,7 +56,7 @@ export class AuthComponent implements OnInit {
         });
 
         this.route.url.subscribe((data) => {
-          this.authType = data[data.length - 1].path;
+          this.authType = data.at(-1).path;
           this.authTypeCapital = this.authType.charAt(0).toUpperCase() + this.authType.slice(1);
           if (this.authType === 'register') {
             this.authForm.addControl('passwordConfirmation', new FormControl('', Validators.required));

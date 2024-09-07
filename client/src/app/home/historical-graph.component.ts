@@ -41,6 +41,7 @@ export class HistoricalGraphComponent implements OnInit {
         forkJoin({ entries: this.entriesService.getDisplay(), players: this.playersService.getHistorical() }).subscribe(
           {
             next: ({ entries, players }) => {
+              // eslint-disable-next-line sonarjs/no-nested-functions
               this.dates = [...new Set(players.flatMap((player) => player.stats.map((stat) => stat.date)))].sort(
                 (a, b) => a.localeCompare(b),
               );
