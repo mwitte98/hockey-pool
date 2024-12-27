@@ -22,7 +22,8 @@ export class HistoricalGraphComponent implements OnInit {
   entries: DisplayEntry[] = [];
   chartData: ChartLine[] = [];
   loading = false;
-  window = window;
+  windowInnerWidth = window.innerWidth;
+  windowInnerHeight = window.innerHeight;
 
   constructor(
     private router: Router,
