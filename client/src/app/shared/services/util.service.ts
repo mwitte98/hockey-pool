@@ -88,28 +88,16 @@ export class UtilService {
   subscribeAndUpdateStatus(updateObject: AdminEntry | AdminPlayer | AdminTeam, observable: Observable<any>): void {
     observable.subscribe({
       next: () => {
-        this.updateStatus(updateObject, true);
+        updateObject.updateLoading = false;
+        updateObject.updateSuccess = true;
+        setTimeout(() => (updateObject.updateSuccess = false), 3000);
       },
       error: () => {
-        this.updateStatus(updateObject, false);
+        updateObject.updateLoading = false;
+        updateObject.updateFailure = true;
+        setTimeout(() => (updateObject.updateFailure = false), 3000);
       },
     });
-  }
-
-  updateStatus(updateObject: AdminEntry | AdminPlayer | AdminTeam, isSuccess: boolean): void {
-    updateObject.updateLoading = false;
-    if (isSuccess) {
-      updateObject.updateSuccess = true;
-    } else {
-      updateObject.updateFailure = true;
-    }
-    setTimeout(() => {
-      if (isSuccess) {
-        updateObject.updateSuccess = false;
-      } else {
-        updateObject.updateFailure = false;
-      }
-    }, 3000);
   }
 
   sortEntries(entries: EntryStats[]): void {

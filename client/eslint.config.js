@@ -1,101 +1,27 @@
 // @ts-check
-/* eslint-disable import/no-nodejs-modules */
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-import { fixupPluginRules } from '@eslint/compat';
-import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
 import angularEslint from 'angular-eslint';
+// @ts-ignore
+import importPlugin from 'eslint-plugin-import';
 import jest from 'eslint-plugin-jest';
 import prettier from 'eslint-plugin-prettier/recommended';
 import sonarjs from 'eslint-plugin-sonarjs';
 import unicorn from 'eslint-plugin-unicorn';
-import { config as tsEslintConfig, configs as tsEslintConfigs, parser as tsEslintParser } from 'typescript-eslint';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: eslint.configs.recommended,
-  allConfig: eslint.configs.all,
-});
-function legacyPlugin(name, alias = name) {
-  const plugin = compat.plugins(name)[0].plugins?.[alias];
-
-  if (!plugin) {
-    throw new Error(`Unable to resolve plugin ${name} and/or alias ${alias}`);
-  }
-
-  return fixupPluginRules(plugin);
-}
+import { config as tsEslintConfig, configs as tsEslintConfigs } from 'typescript-eslint';
 
 export default tsEslintConfig(
   { linterOptions: { reportUnusedDisableDirectives: 'error' } },
-  ...compat.extends('plugin:import/typescript'),
-  {
-    languageOptions: {
-      parser: tsEslintParser,
-      parserOptions: { project: './tsconfig.json', tsconfigRootDir: import.meta.dirname },
-    },
-    settings: { 'import/resolver': { typescript: {} } },
-    plugins: {
-      import: legacyPlugin('eslint-plugin-import', 'import'),
-    },
-    rules: {
-      'import/consistent-type-specifier-style': 'error',
-      'import/default': 'error',
-      'import/dynamic-import-chunkname': 'error',
-      'import/export': 'error',
-      'import/extensions': 'error',
-      'import/first': 'error',
-      'import/max-dependencies': ['error', { max: 30 }],
-      'import/newline-after-import': 'error',
-      'import/no-absolute-path': 'error',
-      'import/no-amd': 'error',
-      'import/no-anonymous-default-export': 'error',
-      'import/no-commonjs': 'error',
-      'import/no-cycle': 'error',
-      'import/no-default-export': 'error',
-      'import/no-duplicates': 'error',
-      'import/no-dynamic-require': 'error',
-      'import/no-empty-named-blocks': 'error',
-      'import/no-extraneous-dependencies': 'error',
-      'import/no-import-module-exports': 'error',
-      'import/no-mutable-exports': 'error',
-      'import/no-named-as-default': 'error',
-      'import/no-named-as-default-member': 'error',
-      'import/no-named-default': 'error',
-      'import/no-named-export': 'error',
-      'import/no-namespace': 'error',
-      'import/no-nodejs-modules': 'error',
-      'import/no-relative-packages': 'error',
-      'import/no-restricted-paths': 'error',
-      'import/no-self-import': 'error',
-      'import/no-unassigned-import': 'error',
-      'import/no-unresolved': 'error',
-      'import/no-useless-path-segments': 'error',
-      'import/no-webpack-loader-syntax': 'error',
-      'import/order': [
-        'error',
-        {
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type', 'unknown'],
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-        },
-      ],
-      'import/unambiguous': 'error',
-    },
-  },
   {
     files: ['**/*.ts'],
     languageOptions: { parserOptions: { project: ['tsconfig.json'] } },
+    settings: { 'import/resolver': { typescript: {} } },
     extends: [
       eslint.configs.all,
       ...tsEslintConfigs.all,
       ...angularEslint.configs.tsAll,
       sonarjs.configs.recommended,
       unicorn.configs['flat/all'],
+      importPlugin.flatConfigs.recommended,
       prettier,
     ],
     processor: angularEslint.processInlineTemplates,
@@ -133,6 +59,7 @@ export default tsEslintConfig(
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/no-unsafe-type-assertion': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/parameter-properties': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
@@ -145,6 +72,43 @@ export default tsEslintConfig(
       'class-methods-use-this': 'off',
       eqeqeq: ['error', 'smart'],
       'id-length': 'off',
+      'import/consistent-type-specifier-style': 'error',
+      'import/dynamic-import-chunkname': 'error',
+      'import/extensions': 'error',
+      'import/first': 'error',
+      'import/max-dependencies': ['error', { max: 30 }],
+      'import/newline-after-import': 'error',
+      'import/no-absolute-path': 'error',
+      'import/no-amd': 'error',
+      'import/no-anonymous-default-export': 'error',
+      'import/no-commonjs': 'error',
+      'import/no-cycle': 'error',
+      'import/no-default-export': 'error',
+      'import/no-duplicates': 'error',
+      'import/no-dynamic-require': 'error',
+      'import/no-empty-named-blocks': 'error',
+      'import/no-extraneous-dependencies': 'error',
+      'import/no-import-module-exports': 'error',
+      'import/no-mutable-exports': 'error',
+      'import/no-named-as-default': 'error',
+      'import/no-named-as-default-member': 'error',
+      'import/no-named-default': 'error',
+      'import/no-nodejs-modules': 'error',
+      'import/no-relative-packages': 'error',
+      'import/no-restricted-paths': 'error',
+      'import/no-self-import': 'error',
+      'import/no-unassigned-import': 'error',
+      'import/no-useless-path-segments': 'error',
+      'import/no-webpack-loader-syntax': 'error',
+      'import/order': [
+        'error',
+        {
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'object', 'type', 'unknown'],
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+      'import/unambiguous': 'error',
       'max-params': 'off',
       'max-statements': ['error', 15],
       'multiline-comment-style': ['error', 'separate-lines'],
