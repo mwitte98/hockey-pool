@@ -11,7 +11,6 @@ import { PlayerStatColumn, PlayerStatsPlayer, PlayerStatTiebreaker } from '../sh
   selector: 'player-stats-tab',
   templateUrl: './player-stats-tab.component.html',
   styleUrl: './player-stats-tab.component.scss',
-  standalone: true,
   imports: [KeyValuePipe, MatSort, MatSortHeader, MatTableModule, NgClass, SlicePipe],
 })
 export class PlayerStatsTabComponent implements OnChanges, OnInit {

@@ -15,7 +15,6 @@ import { PlayerStatsTabComponent } from './player-stats-tab.component';
 
 @Component({
   templateUrl: './player-stats.component.html',
-  standalone: true,
   imports: [FormsModule, MatProgressSpinner, MatSlideToggle, MatTab, MatTabGroup, PlayerStatsTabComponent],
 })
 export class PlayerStatsComponent implements OnInit {

@@ -39,7 +39,6 @@ import { SeeRulesDialogComponent } from './see-rules-dialog.component';
 @Component({
   templateUrl: './create-entry.component.html',
   styleUrl: './create-entry.component.scss',
-  standalone: true,
   imports: [
     DisplayErrorsComponent,
     MatButton,

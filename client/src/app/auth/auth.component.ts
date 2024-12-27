@@ -16,7 +16,6 @@ import { User } from '../shared/types/interfaces';
 @Component({
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
-  standalone: true,
   imports: [
     DisplayErrorsComponent,
     MatButton,

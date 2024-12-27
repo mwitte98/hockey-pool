@@ -12,7 +12,6 @@ import { User } from '../types/interfaces';
   selector: 'layout-header',
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
-  standalone: true,
   imports: [MatAnchor, MatButton, MatMenu, MatMenuItem, MatMenuTrigger, MatToolbar, RouterLink],
 })
 export class HeaderComponent implements OnInit {

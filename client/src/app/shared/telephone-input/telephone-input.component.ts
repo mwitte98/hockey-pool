@@ -30,7 +30,6 @@ import { TelephoneNumber } from '../types/interfaces';
   templateUrl: './telephone-input.component.html',
   styleUrl: './telephone-input.component.scss',
   providers: [{ provide: MatFormFieldControl, useExisting: TelephoneInputComponent }],
-  standalone: true,
   imports: [ReactiveFormsModule],
 })
 export class TelephoneInputComponent
