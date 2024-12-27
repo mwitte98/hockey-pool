@@ -28,7 +28,6 @@ import { AdminEntry, TelephoneNumber, UpsertEntryTeam, User } from '../../shared
 @Component({
   templateUrl: './admin-entries.component.html',
   styleUrl: './admin-entries.component.scss',
-  standalone: true,
   imports: [
     MatAccordion,
     MatButton,

@@ -19,7 +19,6 @@ import { User } from '../../shared/types/interfaces';
 @Component({
   templateUrl: './admin-settings.component.html',
   styleUrl: './admin-settings.component.scss',
-  standalone: true,
   imports: [
     DisplayErrorsComponent,
     MatButton,

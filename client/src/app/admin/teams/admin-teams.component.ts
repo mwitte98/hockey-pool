@@ -26,7 +26,6 @@ import { AdminPlayer, AdminTeam, User } from '../../shared/types/interfaces';
 @Component({
   templateUrl: './admin-teams.component.html',
   styleUrl: './admin-teams.component.scss',
-  standalone: true,
   imports: [
     MatAccordion,
     MatButton,

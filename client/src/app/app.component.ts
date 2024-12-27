@@ -8,7 +8,6 @@ import { UserService } from './shared/services/user.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: true,
   imports: [HeaderComponent, RouterOutlet],
 })
 export class AppComponent implements OnInit {

@@ -4,7 +4,6 @@ import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } fr
 
 @Component({
   templateUrl: './entry-submitted-dialog.component.html',
-  standalone: true,
   imports: [MatButton, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle],
 })
 export class EntrySubmittedDialogComponent {}

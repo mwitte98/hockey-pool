@@ -29,6 +29,7 @@ export default tsEslintConfig(
       '@angular-eslint/component-selector': ['error', { prefix: '', style: 'kebab-case', type: 'element' }],
       '@angular-eslint/directive-selector': ['error', { prefix: '', style: 'camelCase', type: 'attribute' }],
       '@angular-eslint/prefer-on-push-component-change-detection': 'off',
+      '@angular-eslint/prefer-signals': 'off', // TODO: turn on
       '@angular-eslint/use-component-selector': 'off',
       '@typescript-eslint/class-methods-use-this': 'off',
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'no-type-imports' }],

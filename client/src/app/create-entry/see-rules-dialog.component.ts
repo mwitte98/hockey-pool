@@ -6,7 +6,6 @@ import { SettingsService } from '../shared/services/settings.service';
 
 @Component({
   templateUrl: './see-rules-dialog.component.html',
-  standalone: true,
   imports: [MatButton, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle],
 })
 export class SeeRulesDialogComponent {
