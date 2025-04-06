@@ -4,6 +4,8 @@
 @if (!loading && chartData.length > 0) {
   <ngx-charts-line-chart
     class="mat-typography"
+    xAxisLabel="Date of Games"
+    yAxisLabel="Rank"
     [results]="chartData"
     [view]="[windowInnerWidth, windowInnerHeight - 64]"
     [xAxis]="true"
@@ -11,7 +13,5 @@
     [yScaleMax]="1"
     [yScaleMin]="entries.length"
     [showXAxisLabel]="true"
-    [showYAxisLabel]="true"
-    [xAxisLabel]="'Date of Games'"
-    [yAxisLabel]="'Rank'" />
+    [showYAxisLabel]="true" />
 }

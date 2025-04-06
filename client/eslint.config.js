@@ -10,7 +10,7 @@ import unicorn from 'eslint-plugin-unicorn';
 import { config as tsEslintConfig, configs as tsEslintConfigs } from 'typescript-eslint';
 
 export default tsEslintConfig(
-  { linterOptions: { reportUnusedDisableDirectives: 'error' } },
+  { linterOptions: { reportUnusedDisableDirectives: 'error', reportUnusedInlineConfigs: 'error' } },
   {
     files: ['**/*.ts'],
     languageOptions: { parserOptions: { project: ['tsconfig.json'] } },
@@ -20,7 +20,7 @@ export default tsEslintConfig(
       ...tsEslintConfigs.all,
       ...angularEslint.configs.tsAll,
       sonarjs.configs.recommended,
-      unicorn.configs['flat/all'],
+      unicorn.configs.all,
       importPlugin.flatConfigs.recommended,
       prettier,
     ],
@@ -55,6 +55,7 @@ export default tsEslintConfig(
       '@typescript-eslint/no-extraneous-class': ['error', { allowEmpty: true }],
       '@typescript-eslint/no-floating-promises': 'off',
       '@typescript-eslint/no-magic-numbers': 'off',
+      '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off',
       '@typescript-eslint/no-unnecessary-condition': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
