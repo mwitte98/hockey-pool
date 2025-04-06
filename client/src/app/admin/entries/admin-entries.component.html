@@ -11,10 +11,10 @@
   <mat-spinner />
 }
 <div class="accordion-container">
-  <mat-accordion multi [displayMode]="'flat'">
+  <mat-accordion multi displayMode="flat">
     @for (entry of entries; track entry.id) {
       <mat-expansion-panel class="expansion-panel">
-        <mat-expansion-panel-header class="expansion-panel-header" [expandedHeight]="'48px'">
+        <mat-expansion-panel-header class="expansion-panel-header" expandedHeight="48px">
           <mat-panel-title>{{ entry.name }}</mat-panel-title>
         </mat-expansion-panel-header>
         <ng-template matExpansionPanelContent>
