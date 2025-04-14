@@ -1,10 +1,23 @@
 module UpdateTeamsPlayersHelper
   class << UpdateTeamsPlayersHelper
-    def update
+    def update_today
+      return unless Time.current >= Time.parse('2025-04-19')
+
       agent = Mechanize.new
-      setup_teams
-      valid_months = %w[2024-04 2024-05 2024-06]
-      @current_date = '2024-04-20'
+      response = JSON.parse(agent.get('https://api-web.nhle.com/v1/score/now').body)
+      @current_date = response['currentDate']
+      setup_teams true
+      parse_date response
+      update_stats
+    end
+
+    def update_all_days
+      @current_date = '2025-04-19'
+      return unless Time.current >= Time.parse(@current_date)
+
+      agent = Mechanize.new
+      setup_teams false
+      valid_months = %w[2025-04 2025-05 2025-06]
       while !@current_date.nil? && valid_months.include?(@current_date[0...7])
         response = JSON.parse(agent.get("https://api-web.nhle.com/v1/score/#{@current_date}").body)
         parse_date response
@@ -15,24 +28,32 @@ module UpdateTeamsPlayersHelper
 
     private
 
-    def setup_teams
+    def setup_teams(update_today)
       teams = Team.includes(:players).where(made_playoffs: true).all.as_json(
         only: %i[_id name abbr], include: { players: { only: %i[_id player_id player_ids position stats] } },
         set_player_points: false
       )
-      teams.each { |team| setup_team team }
+      teams.each { |team| setup_team team, update_today }
       @teams = teams.to_h { |team| [team['abbr'], team] }
     end
 
-    def setup_team(team)
+    def setup_team(team, update_today)
       players = team['players']
       players.each do |player|
         player['previous_stats'] = player['stats'].clone
-        player['stats'] = []
+        remove_stats_not_updating player, update_today
       end
       players, goalies = players.partition { |player| player['position'] != 'Goalie' }
       team['players'] = players.to_h { |player| [player['player_id'], player] }
       team['goalie'] = goalies[0]
+    end
+
+    def remove_stats_not_updating(player, update_today)
+      player['stats'] = if update_today
+                          player['stats'].reject { |date_stat| date_stat['date'] == @current_date }
+                        else
+                          []
+                        end
     end
 
     def parse_date(date)
@@ -127,12 +148,15 @@ module UpdateTeamsPlayersHelper
 
     def update_stats
       @teams.each_value do |team|
-        team['players'].values.append(team['goalie']).each do |player|
-          next if player['previous_stats'] == player['stats']
-
-          Player.where(id: player['id']).update(stats: player['stats'])
-        end
+        team['players'].values.append(team['goalie']).each { |player| update_db player }
       end
+    end
+
+    def update_db(player)
+      player['stats'] = player['stats'].sort_by { |date_stat| date_stat['date'] }
+      return if player['previous_stats'] == player['stats']
+
+      Player.where(id: player['id']).update(stats: player['stats'])
     end
   end
 end

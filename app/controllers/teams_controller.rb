@@ -27,7 +27,12 @@ class TeamsController < ApplicationController
   end
 
   def bulk_update
-    UpdateTeamsPlayersHelper.update
+    case params[:days_to_update]
+    when 'today'
+      UpdateTeamsPlayersHelper.update_today
+    when 'all'
+      UpdateTeamsPlayersHelper.update_all_days
+    end
     render json: ''
   end
 
