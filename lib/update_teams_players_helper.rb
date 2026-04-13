@@ -1,7 +1,7 @@
 module UpdateTeamsPlayersHelper
   class << UpdateTeamsPlayersHelper
     def update_today
-      return unless Time.current >= Time.parse('2025-04-19')
+      return unless Time.current >= Time.parse('2026-04-18')
 
       agent = Mechanize.new
       response = JSON.parse(agent.get('https://api-web.nhle.com/v1/score/now').body)
@@ -12,12 +12,12 @@ module UpdateTeamsPlayersHelper
     end
 
     def update_all_days
-      @current_date = '2025-04-19'
+      @current_date = '2026-04-18'
       return unless Time.current >= Time.parse(@current_date)
 
       agent = Mechanize.new
       setup_teams false
-      valid_months = %w[2025-04 2025-05 2025-06]
+      valid_months = %w[2026-04 2026-05 2026-06]
       while !@current_date.nil? && valid_months.include?(@current_date[0...7])
         response = JSON.parse(agent.get("https://api-web.nhle.com/v1/score/#{@current_date}").body)
         parse_date response
